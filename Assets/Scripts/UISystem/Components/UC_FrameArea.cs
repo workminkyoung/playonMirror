@@ -1,0 +1,658 @@
+using Klak.Ndi.Interop;
+using RotaryHeart.Lib.SerializableDictionary;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+using Vivestudios.UI;
+
+public class UC_FrameArea : UC_BaseComponent
+{
+    [SerializeField]
+    private FRAME_TYPE _frameType;
+    [SerializeField]
+    private FRAME_COLOR_TYPE _frameColor;
+    [SerializeField]
+    private bool _isFilterOn;
+
+    [SerializeField]
+    private Image[] _masks;
+    [SerializeField]
+    private Button[] _frameBtns;
+    [SerializeField]
+    private RawImage[] _VerticalPics;
+    [SerializeField]
+    private RawImage[] _HorizontalPics;
+    [SerializeField]
+    private TextMeshProUGUI[] _dateTexts;
+    [SerializeField]
+    private Image[] _logoImgs;
+    [SerializeField]
+    private Image _splitLine;
+
+    //##############################크리스마스 이벤트####################################
+    [SerializeField]
+    private Image _upperLayers;
+    [SerializeField]
+    private ColorTypeTransformDicBase _dateTextTransformDic;
+    [SerializeField]
+    private ColorTypeTransformDicBase _qrTransformDic;
+
+    [Serializable]
+    private class ColorTypeImageDicBase : SerializableDictionaryBase<FRAME_COLOR_TYPE, Sprite> { }
+    [Serializable]
+    private class ColorTypeTransformDicBase : SerializableDictionaryBase<FRAME_COLOR_TYPE, RectTransform> { }
+    //##############################크리스마스 이벤트####################################
+
+    [SerializeField]
+    private FRAME_RATIO_TYPE _ratioType;
+
+    [SerializeField]
+    private List<Texture2D> _photos = new List<Texture2D>();
+    private List<RenderTexture> _renderTextures = new List<RenderTexture>();
+    [SerializeField]
+    private List<PHOTO_TYPE> _types = new List<PHOTO_TYPE>();
+    //[SerializeField]
+    //private List<Texture2D> _skinFilterPhotos = new List<Texture2D>();
+
+    private Texture2D _lutTex;
+
+    public Action<int> OnClickFrameAction;
+
+    public override void InitComponent()
+    {
+        for (int i = 0; i < _frameBtns.Length; i++)
+        {
+            int index = i;
+            _frameBtns[i].onClick.AddListener(() => { OnClickFrameAction?.Invoke(index); });
+        }
+    }
+
+    private void Start()
+    {
+    }
+
+    //private void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.F))
+    //    {
+    //        UpdateFrame();
+    //    }
+    //}
+
+    public List<Texture2D> GetResultPics()
+    {
+        List<Texture2D> result = new List<Texture2D>();
+
+        if (_ratioType == FRAME_RATIO_TYPE.HORIZONTAL)
+        {
+            for (int i = 0; i < _HorizontalPics.Length; i++)
+            {
+                result.Add(ApplyMaterialToTexture(_HorizontalPics[i].texture as Texture2D, _HorizontalPics[i].material));
+            }
+        }
+        else
+        {
+            for (int i = 0; i < _VerticalPics.Length; i++)
+            {
+                result.Add(ApplyMaterialToTexture(_VerticalPics[i].texture as Texture2D, _VerticalPics[i].material));
+            }
+        }
+
+        return result;
+    }
+
+    private Texture2D ApplyMaterialToTexture(Texture2D tex, Material mat, int channel = -1)
+    {
+        //Create new texture and render texture:
+        Texture2D newTex = new Texture2D(tex.width, tex.height, TextureFormat.ARGB32, false, true);
+        RenderTexture rendTex = new RenderTexture(tex.width, tex.height, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Linear);
+        rendTex.DiscardContents();
+
+        //Set the materials channel and blit the material to the source texture:
+        if (channel >= 0)
+        {
+            mat.SetInt("_Channel", channel);
+        }
+        GL.sRGBWrite = (QualitySettings.activeColorSpace == ColorSpace.Linear);
+        //GL.Clear(true, true, Color.black);
+        Graphics.Blit(tex, rendTex, mat, channel);
+        GL.sRGBWrite = false;
+
+        //Read out the render texure's pixels back to the source texture and release the render texture from memory:
+        RenderTexture.active = rendTex;
+        newTex.ReadPixels(new Rect(0, 0, rendTex.width, rendTex.height), 0, 0, false);
+        newTex.Apply();
+        RenderTexture.active = null;
+        rendTex.Release();
+        return newTex;
+    }
+
+    public void UpdateFrame()
+    {
+        UpdateSkinFilter();
+        UpdatePhotos();
+        UpdateDateText();
+        UpdateFrameColor();
+        UpdateLutEffect();
+    }
+
+    public void SetPics(List<Texture2D> pics, List<PHOTO_TYPE> types = null)
+    {
+        if (types == null || types.Count == 0)
+        {
+            types = new List<PHOTO_TYPE>();
+            for (int i = 0; i < _photos.Count; i++)
+            {
+                types.Add(PHOTO_TYPE.NONE);
+            }
+        }
+        _photos = pics;
+        _types = types;
+    }
+
+    public void SetRenderTexture(List<RenderTexture> renderTextures)
+    {
+        _renderTextures = renderTextures;
+    }
+
+    public void SetFrameColor(FRAME_COLOR_TYPE type)
+    {
+        _frameColor = type;
+    }
+
+    public void SetLutEffect(Texture2D lutTex)
+    {
+        _lutTex = lutTex;
+    }
+
+    public void SetLutEffect(LUT_EFFECT_TYPE type)
+    {
+        _lutTex = ResourceCacheManager.inst.GetLutTexture(type);
+    }
+
+    public void SetFilterOn(bool isOn)
+    {
+        _isFilterOn = isOn;
+    }
+
+    public void SetRatioType(FRAME_RATIO_TYPE ratioType)
+    {
+        _ratioType = ratioType;
+    }
+
+    public void SetSkinFilterOn(bool isOn)
+    {
+        _isFilterOn = isOn;
+    }
+
+    public void UpdatePhotos()
+    {
+        if (_photos.Count == 0 || _photos == null)
+        {
+            foreach (var elem in _VerticalPics)
+            {
+                elem.texture = null;
+                elem.gameObject.SetActive(false);
+            }
+
+            foreach (var elem in _HorizontalPics)
+            {
+                elem.texture = null;
+                elem.gameObject.SetActive(false);
+            }
+        }
+
+        if (_frameType == FRAME_TYPE.FRAME_8)
+        {
+            for (int i = 0; i < _VerticalPics.Length / 2; i++)
+            {
+                if (_photos.Count > i)
+                {
+                    if (_ratioType == FRAME_RATIO_TYPE.VERTICAL)
+                    {
+                        _VerticalPics[i].texture = _photos[i]; // _skinFilterPhotos[i];
+                        _VerticalPics[_VerticalPics.Length / 2 + i].texture = _photos[i]; //_skinFilterPhotos[i];
+                        _VerticalPics[i].gameObject.SetActive(_photos[i] != null);
+                        _VerticalPics[_VerticalPics.Length / 2 + i].gameObject.SetActive(_photos[i] != null);
+                    }
+                    else
+                    {
+                        _HorizontalPics[i].texture = _photos[i]; //_skinFilterPhotos[i];
+                        _HorizontalPics[_VerticalPics.Length / 2 + i].texture = _photos[i]; //_skinFilterPhotos[i];
+                        _HorizontalPics[i].gameObject.SetActive(_photos[i] != null);
+                        _HorizontalPics[_VerticalPics.Length / 2 + i].gameObject.SetActive(_photos[i] != null);
+                    }
+                }
+                else if (_renderTextures.Count > i)
+                {
+                    if (_ratioType == FRAME_RATIO_TYPE.VERTICAL)
+                    {
+                        _VerticalPics[i].texture = _renderTextures[i];
+                        _VerticalPics[_VerticalPics.Length / 2 + i].texture = _renderTextures[i];
+                        _VerticalPics[i].gameObject.SetActive(_renderTextures[i] != null);
+                        _VerticalPics[_VerticalPics.Length / 2 + i].gameObject.SetActive(_renderTextures[i] != null);
+                    }
+                    else
+                    {
+                        _HorizontalPics[i].texture = _renderTextures[i];
+                        _HorizontalPics[_VerticalPics.Length / 2 + i].texture = _renderTextures[i];
+                        _HorizontalPics[i].gameObject.SetActive(_renderTextures[i] != null);
+                        _HorizontalPics[_VerticalPics.Length / 2 + i].gameObject.SetActive(_renderTextures[i] != null);
+                    }
+                }
+                else
+                {
+                    if (_ratioType == FRAME_RATIO_TYPE.VERTICAL)
+                    {
+                        _VerticalPics[i].gameObject.SetActive(false);
+                        _VerticalPics[_VerticalPics.Length / 2 + i].gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        _HorizontalPics[i].gameObject.SetActive(false);
+                        _HorizontalPics[_VerticalPics.Length / 2 + i].gameObject.SetActive(false);
+                    }
+                }
+            }
+        }
+        else
+        {
+            for (int i = 0; i < _VerticalPics.Length; i++)
+            {
+                if (_photos.Count > i)
+                {
+                    if (_ratioType == FRAME_RATIO_TYPE.VERTICAL)
+                    {
+                        _VerticalPics[i].texture = _photos[i]; //_skinFilterPhotos[i];
+                        _VerticalPics[i].gameObject.SetActive(_photos[i] != null);
+                    }
+                    else
+                    {
+                        _HorizontalPics[i].texture = _photos[i]; //_skinFilterPhotos[i];
+                        _HorizontalPics[i].gameObject.SetActive(_photos[i] != null);
+                    }
+
+
+                    if (_frameType == FRAME_TYPE.FRAME_2_2)
+                    {
+                        //_frameImgs[i].color = _photos[i] == null ? Color.white : Color.clear;
+                        //_masks[i].color = _photos[i] == null ? Color.white : Color.clear;
+                    }
+                }
+                else if (_renderTextures.Count > i)
+                {
+                    if (_ratioType == FRAME_RATIO_TYPE.VERTICAL)
+                    {
+                        _VerticalPics[i].texture = _renderTextures[i];
+                        _VerticalPics[i].gameObject.SetActive(_renderTextures[i] != null);
+                    }
+                    else
+                    {
+                        _HorizontalPics[i].texture = _renderTextures[i];
+                        _HorizontalPics[i].gameObject.SetActive(_renderTextures[i] != null);
+                    }
+                }
+                else
+                {
+                    if (_ratioType == FRAME_RATIO_TYPE.VERTICAL)
+                    {
+                        _VerticalPics[i].gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        _HorizontalPics[i].gameObject.SetActive(false);
+                    }
+                }
+            }
+        }
+    }
+
+    private void UpdateDateText()
+    {
+        foreach (var elem in _dateTexts)
+        {
+            elem.text = DateTime.Now.ToString("yyyy.MM.dd");
+        }
+    }
+
+    private void UpdateFrameColor()
+    {
+        _upperLayers.sprite = ResourceCacheManager.inst.GetFrameSprite(_frameColor, _frameType);
+        _upperLayers.color = ResourceCacheManager.inst.GetFrameColor(_frameColor);
+
+        foreach (Image logo in _logoImgs)
+        {
+            logo.color = Color.black;
+        }
+
+        switch (_frameColor)
+        {
+            case FRAME_COLOR_TYPE.FRAME_WHITE:
+                foreach (var elem in _dateTexts)
+                {
+                    elem.color = Color.black;
+                    elem.font = ResourceCacheManager.inst.GetFrameFont(_frameColor);
+                    elem.alignment = TextAlignmentOptions.MidlineLeft;
+                    elem.characterSpacing = 6;
+                }
+
+                if (_splitLine)
+                {
+                    _splitLine.color = Color.black;
+                    foreach (var elem in _dateTexts)
+                    {
+                        elem.alignment = TextAlignmentOptions.Center;
+                    }
+                }
+                break;
+            case FRAME_COLOR_TYPE.FRAME_BLACK:
+                foreach (var elem in _dateTexts)
+                {
+                    elem.color = Color.white;
+                    elem.font = ResourceCacheManager.inst.GetFrameFont(_frameColor);
+                    elem.alignment = TextAlignmentOptions.MidlineLeft;
+                    elem.characterSpacing = 6;
+                }
+                foreach (Image logo in _logoImgs)
+                {
+                    logo.color = Color.white;
+                }
+
+                if (_splitLine)
+                {
+                    _splitLine.color = Color.white;
+                    foreach (var elem in _dateTexts)
+                    {
+                        elem.alignment = TextAlignmentOptions.Center;
+                    }
+                }
+                break;
+            case FRAME_COLOR_TYPE.FRAME_GREENNIT:
+
+                foreach (var elem in _dateTexts)
+                {
+                    elem.color = Color.white;
+                    elem.font = ResourceCacheManager.inst.GetFrameFont(_frameColor);
+                    elem.alignment = TextAlignmentOptions.MidlineLeft;
+                    elem.characterSpacing = 6;
+                }
+
+                if (_splitLine)
+                {
+                    _splitLine.color = Color.white;
+                }
+                break;
+            case FRAME_COLOR_TYPE.FRAME_RED:
+                foreach (var elem in _dateTexts)
+                {
+                    elem.color = Color.white;
+                    elem.alignment = TextAlignmentOptions.Center;
+                    elem.characterSpacing = 6;
+                }
+
+                if (_splitLine)
+                {
+                    _splitLine.color = Color.white;
+                    foreach (var elem in _dateTexts)
+                    {
+                        elem.alignment = TextAlignmentOptions.MidlineLeft;
+                    }
+                }
+                break;
+            case FRAME_COLOR_TYPE.FRAME_SNOW:
+                foreach (var elem in _dateTexts)
+                {
+                    elem.color = Color.black;
+                    elem.font = ResourceCacheManager.inst.GetFrameFont(_frameColor);
+                    elem.alignment = TextAlignmentOptions.Center;
+                    elem.characterSpacing = 6;
+                }
+
+                if (_splitLine)
+                {
+                    _splitLine.color = Color.white;
+                    foreach (var elem in _dateTexts)
+                    {
+                        elem.alignment = TextAlignmentOptions.MidlineLeft;
+                    }
+                }
+                break;
+            case FRAME_COLOR_TYPE.FRAME_INK:
+                foreach (var elem in _dateTexts)
+                {
+                    elem.color = Color.black;
+                    elem.font = ResourceCacheManager.inst.GetFrameFont(_frameColor);
+                    elem.alignment = TextAlignmentOptions.MidlineRight;
+                    elem.characterSpacing = 0;
+                }
+
+                if (_splitLine)
+                {
+                    _splitLine.color = Color.black;
+                    foreach (var elem in _dateTexts)
+                    {
+                        elem.alignment = TextAlignmentOptions.Center;
+                    }
+                }
+                break;
+            case FRAME_COLOR_TYPE.FRAME_LIMEYELLOW:
+                foreach (var elem in _dateTexts)
+                {
+                    elem.color = Color.black;
+                    elem.font = ResourceCacheManager.inst.GetFrameFont(_frameColor);
+                    elem.alignment = TextAlignmentOptions.MidlineLeft;
+                    elem.characterSpacing = 6;
+                }
+
+                if (_splitLine)
+                {
+                    _splitLine.color = Color.black;
+                    foreach (var elem in _dateTexts)
+                    {
+                        elem.alignment = TextAlignmentOptions.Center;
+                    }
+                }
+                break;
+            case FRAME_COLOR_TYPE.FRAME_SKYBLUE:
+                foreach (var elem in _dateTexts)
+                {
+                    elem.color = Color.black;
+                    elem.font = ResourceCacheManager.inst.GetFrameFont(_frameColor);
+                    elem.alignment = TextAlignmentOptions.MidlineLeft;
+                    elem.characterSpacing = 6;
+                }
+
+                if (_splitLine)
+                {
+                    _splitLine.color = Color.black;
+                    foreach (var elem in _dateTexts)
+                    {
+                        elem.alignment = TextAlignmentOptions.Center;
+                    }
+                }
+                break;
+            case FRAME_COLOR_TYPE.FRAME_GREEN:
+                foreach (var elem in _dateTexts)
+                {
+                    elem.color = Color.white;
+                    elem.font = ResourceCacheManager.inst.GetFrameFont(_frameColor);
+                    elem.alignment = TextAlignmentOptions.MidlineLeft;
+                    elem.characterSpacing = 6;
+                }
+                foreach (var logo in _logoImgs)
+                {
+                    logo.color = Color.clear;
+                }
+
+                if (_splitLine)
+                {
+                    _splitLine.color = Color.black;
+                    foreach (var elem in _dateTexts)
+                    {
+                        elem.alignment = TextAlignmentOptions.Center;
+                    }
+                }
+                break;
+            case FRAME_COLOR_TYPE.FRAME_JTBC_WH:
+                foreach (var elem in _dateTexts)
+                {
+                    elem.color = Color.clear;
+                }
+                foreach (var logo in _logoImgs)
+                {
+                    logo.color = Color.clear;
+                }
+
+                if (_splitLine)
+                {
+                    _splitLine.color = Color.clear;
+                }
+                break;
+            case FRAME_COLOR_TYPE.FRAME_JTBC_BL:
+                foreach (var elem in _dateTexts)
+                {
+                    elem.color = Color.clear;
+                }
+                foreach (var logo in _logoImgs)
+                {
+                    logo.color = Color.clear;
+                }
+
+                if (_splitLine)
+                {
+                    _splitLine.color = Color.clear;
+                }
+                break;
+            case FRAME_COLOR_TYPE.FRAME_JTBC_SI:
+                foreach (var elem in _dateTexts)
+                {
+                    elem.color = Color.clear;
+                }
+                foreach (var logo in _logoImgs)
+                {
+                    logo.color = Color.clear;
+                }
+
+                if (_splitLine)
+                {
+                    _splitLine.color = Color.clear;
+                }
+                break;
+        }
+        //TODO : 프레임 하나씩 인스펙터 적용하기
+
+        foreach (var elem in _dateTexts)
+        {
+            if (_dateTextTransformDic.ContainsKey(_frameColor))
+            {
+                elem.rectTransform.anchorMin = _dateTextTransformDic[_frameColor].anchorMin;
+                elem.rectTransform.anchorMax = _dateTextTransformDic[_frameColor].anchorMax;
+
+                elem.rectTransform.offsetMin = _dateTextTransformDic[_frameColor].offsetMin;
+                elem.rectTransform.offsetMax = _dateTextTransformDic[_frameColor].offsetMax;
+            }
+        }
+    }
+
+    private void UpdateLutEffect()
+    {
+        foreach (var elem in _VerticalPics)
+        {
+            if (_lutTex != null)
+            {
+                if (elem.material.shader != Shader.Find("Nexweron/Builtin/Lut/Unlit_Lut2D"))
+                {
+                    elem.material = new Material(Shader.Find("Nexweron/Builtin/Lut/Unlit_Lut2D"));
+                }
+                elem.material.mainTexture = elem.texture;
+                elem.material.SetTexture("_LutTex", _lutTex);
+            }
+            elem.gameObject.SetActive(false);
+            if (elem.texture != null && _ratioType == FRAME_RATIO_TYPE.VERTICAL)
+            {
+                elem.gameObject.SetActive(true);
+            }
+        }
+
+        foreach (var elem in _HorizontalPics)
+        {
+            if (_lutTex != null)
+            {
+                if (elem.material.shader != Shader.Find("Nexweron/Builtin/Lut/Unlit_Lut2D"))
+                {
+                    elem.material = new Material(Shader.Find("Nexweron/Builtin/Lut/Unlit_Lut2D"));
+                }
+                elem.material.mainTexture = elem.texture;
+                elem.material.SetTexture("_LutTex", _lutTex);
+            }
+            elem.gameObject.SetActive(false);
+            if (elem.texture != null && _ratioType == FRAME_RATIO_TYPE.HORIZONTAL)
+            {
+                elem.gameObject.SetActive(true);
+            }
+
+        }
+    }
+
+    private void UpdateSkinFilter()
+    {
+
+        if (_types == null || _types.Count == 0)
+        {
+            _types = new List<PHOTO_TYPE>();
+            for (int i = 0; i < _photos.Count; i++)
+            {
+                _types.Add(PHOTO_TYPE.NONE);
+            }
+        }
+
+        for (int i = 0; i < _photos.Count; i++)
+        {
+            if (_types[i] == PHOTO_TYPE.REAL && _isFilterOn)
+            {
+
+                switch (_ratioType)
+                {
+                    case FRAME_RATIO_TYPE.VERTICAL:
+                        _VerticalPics[i].material.SetFloat("_Enable", 1);
+                        if (_frameType == FRAME_TYPE.FRAME_8)
+                        {
+                            _VerticalPics[4 + i].material.SetFloat("_Enable", 1);
+                        }
+                        break;
+                    case FRAME_RATIO_TYPE.HORIZONTAL:
+                        _HorizontalPics[i].material.SetFloat("_Enable", 1);
+                        if (_frameType == FRAME_TYPE.FRAME_8)
+                        {
+                            _HorizontalPics[4 + i].material.SetFloat("_Enable", 1);
+                        }
+                        break;
+                }
+            }
+            else
+            {
+                switch (_ratioType)
+                {
+                    case FRAME_RATIO_TYPE.VERTICAL:
+                        _VerticalPics[i].material.SetFloat("_Enable", 0);
+                        if (_frameType == FRAME_TYPE.FRAME_8)
+                        {
+                            _VerticalPics[4 + i].material.SetFloat("_Enable", 0);
+                        }
+                        break;
+                    case FRAME_RATIO_TYPE.HORIZONTAL:
+                        _HorizontalPics[i].material.SetFloat("_Enable", 0);
+                        if (_frameType == FRAME_TYPE.FRAME_8)
+                        {
+                            _HorizontalPics[4 + i].material.SetFloat("_Enable", 0);
+                        }
+                        break;
+                }
+            }
+        }
+    }
+}

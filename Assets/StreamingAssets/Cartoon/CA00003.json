@@ -1,0 +1,54 @@
+{
+    "width": "TextReplace_width",
+    "height": "TextReplace_height",
+    "steps": 20,
+    "sampler_name": "DPM++ 2M SDE",
+    "scheduler": "Karras",
+    "cfg_scale": 7,
+    "init_images": [ "TextReplace_target" ],
+    "denoising_strength": 0.85,
+    "clip_skip": 2,
+    "resize_mode": 2,
+    "override_settings": {
+        "sd_model_checkpoint": "AnythingV5Ink_ink.safetensors",
+        "img2img_color_correction": false
+    },
+    "prompt": "<lora:CA00003_000030:0.8> vivestudios, TextReplace_tagger",
+    "negative_prompt": "( easynegative:1.0) (badhandv4:1.0), nsfw, naked, nude, (no watermark:1.4), (no text:1.4)",
+    "alwayson_scripts": {
+        "ControlNet": {
+            "args": [
+                {
+                    "module": "softedge_pidinet",
+                    "model": "control_v11p_sd15_softedge",
+                    "pixel_perfect": true,
+                    "weight": 0.4,
+                    "control_mode": 0,
+                    "resize_mode": 2,
+                    "threshold_a": 64,
+                    "threshold_b": 64
+                },
+                {
+                    "module": "dw_openpose_full",
+                    "model": "control_v11p_sd15_openpose",
+                    "pixel_perfect": true,
+                    "weight": 1,
+                    "control_mode": 0,
+                    "resize_mode": 2,
+                    "threshold_a": 64,
+                    "threshold_b": 64
+                },
+                {
+                    "module": "tile_resample",
+                    "model": "control_v11f1e_sd15_tile",
+                    "pixel_perfect": true,
+                    "weight": 0.8,
+                    "control_mode": 0,
+                    "resize_mode": 2,
+                    "threshold_a": 8,
+                    "threshold_b": 64
+                }
+            ]
+        }
+    }
+}

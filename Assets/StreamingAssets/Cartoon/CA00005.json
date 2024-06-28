@@ -1,0 +1,54 @@
+{
+    "width": "TextReplace_width",
+    "height": "TextReplace_height",
+    "steps": 20,
+    "sampler_name": "DPM++ 2M SDE",
+    "scheduler": "Karras",
+    "cfg_scale": 7.0,
+    "init_images": [ "TextReplace_target" ],
+    "denoising_strength": 0.4,
+    "save_images": true,
+    "restore_faces": false,
+    "clip_skip": 2,
+    "alwayson_scripts": {
+        "ControlNet": {
+            "args": [
+                {
+                    "module": "softedge_pidinet",
+                    "model": "control_v11p_sd15_softedge",
+                    "pixel_perfect": true,
+                    "weight": 1,
+                    "control_mode": 2,
+                    "resize_mode": 2,
+                    "processor_res": 512,
+                    "threshold_a": 64,
+                    "threshold_b": 64
+                },
+                {
+                    "module": "openpose_hand",
+                    "model": "control_v11p_sd15_openpose",
+                    "pixel_perfect": true,
+                    "weight": 1,
+                    "control_mode": 2,
+                    "resize_mode": 2,
+                    "processor_res": 512,
+                    "threshold_a": 64,
+                    "threshold_b": 64
+                },
+                {
+                    "module": "tile_resample",
+                    "model": "control_v11f1e_sd15_tile",
+                    "pixel_perfect": true,
+                    "weight": 0.4,
+                    "control_mode": 2,
+                    "resize_mode": 2,
+                    "processor_res": -1,
+                    "threshold_a": 8,
+                    "threshold_b": 64
+                }
+            ]
+        }
+    },
+    "prompt": "TextReplace_tagger",
+    "negative_prompt": "bad_prompt_version2, EasyNegative, nsfw, naked, nude, badhandv4 easynegative (no watermark:1.4), (no text:1.4)"
+}

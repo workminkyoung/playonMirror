@@ -1,0 +1,29 @@
+{
+  "init_images": ["base64_encoded_target_image"],
+  "resize_mode": 2,
+  "prompt": "",
+  "width": 600,
+  "height": 800,
+  "steps": 20,
+  "sampler_name": "Euler a",
+  "cfg_scale": 1,
+  "seed": 2366544102,
+  "denoising_strength": 0,
+  "alwayson_scripts": {
+    "roop": {
+      "args": [
+        "base64_encoded_source_image",
+        true,
+        "0",
+        "inswapper_128.onnx",
+        "CodeFormer",
+        1,
+        "None",
+        1,
+        1,
+        false,
+        true
+      ]
+    }
+  }
+}

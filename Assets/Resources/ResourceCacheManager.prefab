@@ -1,0 +1,440 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5165119084303345804
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6959743205972831369}
+  - component: {fileID: 2165359710613699836}
+  m_Layer: 0
+  m_Name: ResourceCacheManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6959743205972831369
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5165119084303345804}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2165359710613699836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5165119084303345804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9195ba10a7cc12c49a0b23c2f720badd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lutTexDic:
+    reorderableList:
+      canAdd: 1
+      canRemove: 1
+      draggable: 1
+      expandable: 1
+      multipleSelection: 1
+      isExpanded: 1
+      label:
+        m_Text: Keys
+        m_Image: {fileID: 0}
+        m_Tooltip: 
+      headerHeight: 18
+      footerHeight: 13
+      slideEasing: 0.15
+      verticalSpacing: 2
+      showDefaultBackground: 1
+      elementDisplayType: 0
+      elementNameProperty: 
+      elementNameOverride: 
+      elementIcon: {fileID: 0}
+    reqReferences: {fileID: 0}
+    isExpanded: 1
+    _keyValues: 00000000010000000200000003000000
+    _keys: 00000000010000000200000003000000
+    _values:
+    - {fileID: 2800000, guid: a5c95a15f23765c41a01aced749369e7, type: 3}
+    - {fileID: 2800000, guid: 6e278354de4c76840bf69d071219d60e, type: 3}
+    - {fileID: 2800000, guid: 8fe4214476666894185b32f882760f8f, type: 3}
+    - {fileID: 2800000, guid: a3be243fe7bf0224e9b9090ec906478a, type: 3}
+  _cartoonPopupThumbnailSprite: {fileID: 21300000, guid: b3d9c9f1ba6b33b428037cf5cafbd438, type: 3}
+  _cartoonThumbnailDic:
+    reorderableList:
+      canAdd: 1
+      canRemove: 1
+      draggable: 1
+      expandable: 1
+      multipleSelection: 1
+      isExpanded: 1
+      label:
+        m_Text: Keys
+        m_Image: {fileID: 0}
+        m_Tooltip: 
+      headerHeight: 18
+      footerHeight: 13
+      slideEasing: 0.15
+      verticalSpacing: 2
+      showDefaultBackground: 1
+      elementDisplayType: 0
+      elementNameProperty: 
+      elementNameOverride: 
+      elementIcon: {fileID: 0}
+    reqReferences: {fileID: 0}
+    isExpanded: 1
+    _keyValues: 0000000001000000020000000300000004000000
+    _keys: 0000000001000000020000000300000004000000
+    _values:
+    - {fileID: 21300000, guid: 06066bdc02a5ec44598b39aca303d0b4, type: 3}
+    - {fileID: 21300000, guid: 07f295f8a5c603f419d68700b6e34ca5, type: 3}
+    - {fileID: 21300000, guid: 86afec3574fc5d04a826bb8f88787228, type: 3}
+    - {fileID: 21300000, guid: bd36b746d064b4f408d30ecb9e08cfec, type: 3}
+    - {fileID: 21300000, guid: f1b33bed1f7f68848b5c9242651d307f, type: 3}
+  _profilePopupThumbnailSprite: {fileID: 21300000, guid: 08013a1bef92c3d44aa73b439a961713, type: 3}
+  _profileThumbnailSprites:
+    reorderableList:
+      canAdd: 1
+      canRemove: 1
+      draggable: 1
+      expandable: 1
+      multipleSelection: 1
+      isExpanded: 1
+      label:
+        m_Text: Keys
+        m_Image: {fileID: 0}
+        m_Tooltip: 
+      headerHeight: 18
+      footerHeight: 13
+      slideEasing: 0.15
+      verticalSpacing: 2
+      showDefaultBackground: 1
+      elementDisplayType: 0
+      elementNameProperty: 
+      elementNameOverride: 
+      elementIcon: {fileID: 0}
+    reqReferences: {fileID: 0}
+    isExpanded: 1
+    _keyValues: 000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d000000
+    _keys: 000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d000000
+    _values:
+    - {fileID: 21300000, guid: 8c1baa6c60fd36941a9152976dea711a, type: 3}
+    - {fileID: 21300000, guid: b260e48bdc63ce84e9e15dad26b5f1d7, type: 3}
+    - {fileID: 21300000, guid: b9af11d4a1c072e44b2742d9525aa2bc, type: 3}
+    - {fileID: 21300000, guid: 272db392fefa6e94b86147176d638adb, type: 3}
+    - {fileID: 21300000, guid: 6b2d6d7c9e398a44bb03c9b09efe04e4, type: 3}
+    - {fileID: 21300000, guid: 596ed73f2b166034f8b8e1fc0499668c, type: 3}
+    - {fileID: 21300000, guid: b0779bdeb2fef7b42805c332aed960af, type: 3}
+    - {fileID: 21300000, guid: db2290924f8114741b3e7ab1bc5c6742, type: 3}
+    - {fileID: 21300000, guid: 0a239fb0dbd13e346bcc81b77d99effd, type: 3}
+    - {fileID: 21300000, guid: 809e8249e965fd14ea9d25f871896e4e, type: 3}
+    - {fileID: 21300000, guid: dfd7ca7b3f06ce446a0a61639c7428b0, type: 3}
+    - {fileID: 21300000, guid: 9afe79dda305e12459d0b8ffd1baeabc, type: 3}
+    - {fileID: 21300000, guid: 290525c4a1bbbed41960d28f1f41ddec, type: 3}
+    - {fileID: 21300000, guid: cba56013baa4e3d488bda767ad065804, type: 3}
+  _profileGenderDic:
+    reorderableList:
+      canAdd: 1
+      canRemove: 1
+      draggable: 1
+      expandable: 1
+      multipleSelection: 1
+      isExpanded: 1
+      label:
+        m_Text: Keys
+        m_Image: {fileID: 0}
+        m_Tooltip: 
+      headerHeight: 18
+      footerHeight: 13
+      slideEasing: 0.15
+      verticalSpacing: 2
+      showDefaultBackground: 1
+      elementDisplayType: 0
+      elementNameProperty: 
+      elementNameOverride: 
+      elementIcon: {fileID: 0}
+    reqReferences: {fileID: 0}
+    isExpanded: 1
+    _keyValues: 000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d000000
+    _keys: 000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d000000
+    _values: 0100000001000000010000000100000000000000010000000000000000000000000000000100000001000000000000000100000000000000
+  _genderStickerSprites:
+    reorderableList:
+      canAdd: 1
+      canRemove: 1
+      draggable: 1
+      expandable: 1
+      multipleSelection: 1
+      isExpanded: 1
+      label:
+        m_Text: Keys
+        m_Image: {fileID: 0}
+        m_Tooltip: 
+      headerHeight: 18
+      footerHeight: 13
+      slideEasing: 0.15
+      verticalSpacing: 2
+      showDefaultBackground: 1
+      elementDisplayType: 0
+      elementNameProperty: 
+      elementNameOverride: 
+      elementIcon: {fileID: 0}
+    reqReferences: {fileID: 0}
+    isExpanded: 1
+    _keyValues: 0000000001000000
+    _keys: 0000000001000000
+    _values:
+    - {fileID: 21300000, guid: 78cbbad8e7e117f4a92eb9907d29e362, type: 3}
+    - {fileID: 21300000, guid: 1bfe555beb76886408b9575517787297, type: 3}
+  _videoDict:
+    reorderableList:
+      canAdd: 1
+      canRemove: 1
+      draggable: 1
+      expandable: 1
+      multipleSelection: 1
+      isExpanded: 1
+      label:
+        m_Text: Keys
+        m_Image: {fileID: 0}
+        m_Tooltip: 
+      headerHeight: 18
+      footerHeight: 13
+      slideEasing: 0.15
+      verticalSpacing: 2
+      showDefaultBackground: 1
+      elementDisplayType: 0
+      elementNameProperty: 
+      elementNameOverride: 
+      elementIcon: {fileID: 0}
+    reqReferences: {fileID: 0}
+    isExpanded: 1
+    _keyValues: 01000000000000000400000003000000
+    _keys: 01000000000000000400000003000000
+    _values:
+    - {fileID: 32900000, guid: 93bc26a6472b4e14196692e3ff8bf6ce, type: 3}
+    - {fileID: 32900000, guid: a25681d4b93a23149a3df1447c3b9551, type: 3}
+    - {fileID: 32900000, guid: 3506328b0742169418d5b9d20121073b, type: 3}
+    - {fileID: 32900000, guid: b8837ce118bb01a44a3e39392bd5a50d, type: 3}
+  _whiteFrame:
+    reorderableList:
+      canAdd: 1
+      canRemove: 1
+      draggable: 1
+      expandable: 1
+      multipleSelection: 1
+      isExpanded: 1
+      label:
+        m_Text: Keys
+        m_Image: {fileID: 0}
+        m_Tooltip: 
+      headerHeight: 18
+      footerHeight: 13
+      slideEasing: 0.15
+      verticalSpacing: 2
+      showDefaultBackground: 1
+      elementDisplayType: 0
+      elementNameProperty: 
+      elementNameOverride: 
+      elementIcon: {fileID: 0}
+    reqReferences: {fileID: 0}
+    isExpanded: 1
+    _keyValues: 01000000000000000200000003000000
+    _keys: 01000000000000000200000003000000
+    _values:
+    - {fileID: 21300000, guid: 127d5b60199341946821823cd571bffd, type: 3}
+    - {fileID: 21300000, guid: a90e48f6430652246b8e6b202fe68ff9, type: 3}
+    - {fileID: 21300000, guid: 9e90309964dd8844ea89a7b420ac29de, type: 3}
+    - {fileID: 21300000, guid: 282130189ea740141b6eb3ea955b4f93, type: 3}
+  _greenFrame:
+    reorderableList:
+      canAdd: 1
+      canRemove: 1
+      draggable: 1
+      expandable: 1
+      multipleSelection: 1
+      isExpanded: 1
+      label:
+        m_Text: Keys
+        m_Image: {fileID: 0}
+        m_Tooltip: 
+      headerHeight: 18
+      footerHeight: 13
+      slideEasing: 0.15
+      verticalSpacing: 2
+      showDefaultBackground: 1
+      elementDisplayType: 0
+      elementNameProperty: 
+      elementNameOverride: 
+      elementIcon: {fileID: 0}
+    reqReferences: {fileID: 0}
+    isExpanded: 1
+    _keyValues: 01000000000000000200000003000000
+    _keys: 01000000000000000200000003000000
+    _values:
+    - {fileID: 21300000, guid: 67b33104230b00347a495f6f1f7b5bc4, type: 3}
+    - {fileID: 21300000, guid: 06209a66c99f25f4a96dbd78d6d4aa73, type: 3}
+    - {fileID: 21300000, guid: e7fac0ac2a0e39f4886ab50339abac11, type: 3}
+    - {fileID: 21300000, guid: cfa594a22d35611409f4b3b9ffae6247, type: 3}
+  _jtncWhFrame:
+    reorderableList:
+      canAdd: 1
+      canRemove: 1
+      draggable: 1
+      expandable: 1
+      multipleSelection: 1
+      isExpanded: 1
+      label:
+        m_Text: Keys
+        m_Image: {fileID: 0}
+        m_Tooltip: 
+      headerHeight: 18
+      footerHeight: 13
+      slideEasing: 0.15
+      verticalSpacing: 2
+      showDefaultBackground: 1
+      elementDisplayType: 0
+      elementNameProperty: 
+      elementNameOverride: 
+      elementIcon: {fileID: 0}
+    reqReferences: {fileID: 0}
+    isExpanded: 1
+    _keyValues: 01000000000000000200000003000000
+    _keys: 01000000000000000200000003000000
+    _values:
+    - {fileID: 21300000, guid: 254a017bee5708a43bfb897183925746, type: 3}
+    - {fileID: 21300000, guid: fc6b27d29adeeeb4183541fb320f1385, type: 3}
+    - {fileID: 21300000, guid: 88e4e5833030e8a4aba956dcd314150c, type: 3}
+    - {fileID: 21300000, guid: 4b9e918d505be68409bb1038ce03c670, type: 3}
+  _jtncBlFrame:
+    reorderableList:
+      canAdd: 1
+      canRemove: 1
+      draggable: 1
+      expandable: 1
+      multipleSelection: 1
+      isExpanded: 1
+      label:
+        m_Text: Keys
+        m_Image: {fileID: 0}
+        m_Tooltip: 
+      headerHeight: 18
+      footerHeight: 13
+      slideEasing: 0.15
+      verticalSpacing: 2
+      showDefaultBackground: 1
+      elementDisplayType: 0
+      elementNameProperty: 
+      elementNameOverride: 
+      elementIcon: {fileID: 0}
+    reqReferences: {fileID: 0}
+    isExpanded: 1
+    _keyValues: 01000000000000000200000003000000
+    _keys: 01000000000000000200000003000000
+    _values:
+    - {fileID: 21300000, guid: c05bf1295a544b84eb9379daefb22818, type: 3}
+    - {fileID: 21300000, guid: 15004ebbe116dbf4db9d32fbdc693b6f, type: 3}
+    - {fileID: 21300000, guid: 7904aba70ebefac4c9f9904820d12e4d, type: 3}
+    - {fileID: 21300000, guid: 6d3b2e7df6fc0624bb873eeaf13277eb, type: 3}
+  _jtncSiFrame:
+    reorderableList:
+      canAdd: 1
+      canRemove: 1
+      draggable: 1
+      expandable: 1
+      multipleSelection: 1
+      isExpanded: 1
+      label:
+        m_Text: Keys
+        m_Image: {fileID: 0}
+        m_Tooltip: 
+      headerHeight: 18
+      footerHeight: 13
+      slideEasing: 0.15
+      verticalSpacing: 2
+      showDefaultBackground: 1
+      elementDisplayType: 0
+      elementNameProperty: 
+      elementNameOverride: 
+      elementIcon: {fileID: 0}
+    reqReferences: {fileID: 0}
+    isExpanded: 1
+    _keyValues: 01000000000000000200000003000000
+    _keys: 01000000000000000200000003000000
+    _values:
+    - {fileID: 21300000, guid: 0ad5baab10155b74cb014a78d6e5f537, type: 3}
+    - {fileID: 21300000, guid: 35dc451c2fbd3234fbba1cb2ed6804ab, type: 3}
+    - {fileID: 21300000, guid: 889c8f2ce6b6a544e93c0b688de355c1, type: 3}
+    - {fileID: 21300000, guid: b7a984308c5ee734c90f179292de36f9, type: 3}
+  _frameColorCode:
+    reorderableList:
+      canAdd: 1
+      canRemove: 1
+      draggable: 1
+      expandable: 1
+      multipleSelection: 1
+      isExpanded: 1
+      label:
+        m_Text: Keys
+        m_Image: {fileID: 0}
+        m_Tooltip: 
+      headerHeight: 18
+      footerHeight: 13
+      slideEasing: 0.15
+      verticalSpacing: 2
+      showDefaultBackground: 1
+      elementDisplayType: 0
+      elementNameProperty: 
+      elementNameOverride: 
+      elementIcon: {fileID: 0}
+    reqReferences: {fileID: 0}
+    isExpanded: 1
+    _keyValues: 01000000000000000600000007000000
+    _keys: 01000000000000000600000007000000
+    _values:
+    - '#000000'
+    - '#FFFFFF'
+    - FAF8CB
+    - CFEFFF
+  _fontDic:
+    reorderableList:
+      canAdd: 1
+      canRemove: 1
+      draggable: 1
+      expandable: 1
+      multipleSelection: 1
+      isExpanded: 1
+      label:
+        m_Text: Keys
+        m_Image: {fileID: 0}
+        m_Tooltip: 
+      headerHeight: 18
+      footerHeight: 13
+      slideEasing: 0.15
+      verticalSpacing: 2
+      showDefaultBackground: 1
+      elementDisplayType: 0
+      elementNameProperty: 
+      elementNameOverride: 
+      elementIcon: {fileID: 0}
+    reqReferences: {fileID: 0}
+    isExpanded: 1
+    _keyValues: 
+    _keys: 
+    _values: []
+  _defaultFont: {fileID: 11400000, guid: 060a13bd43021b6448ad1b3564ac3eba, type: 2}

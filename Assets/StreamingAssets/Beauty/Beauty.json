@@ -1,0 +1,9 @@
+{
+        "width": "TextReplace_width",
+        "height": "TextReplace_height",
+        "sampler_name": "DPM++ 3M SDE Exponential",
+        "steps": "20",
+        "save_images": "true",
+        "denoising_strength": 0.15,
+        "init_images": [ "TextReplace_target" ]
+}

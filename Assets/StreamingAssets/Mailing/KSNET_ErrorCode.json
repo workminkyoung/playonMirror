@@ -1,0 +1,392 @@
+{
+    "1000": {
+        "content": "거래 취소됨",
+        "note": "[ 취소 ] 버튼 눌림",
+        "sendMail": "FALSE"
+    },
+    "1001": {
+        "content": "전문 오류",
+        "note": 0,
+        "sendMail": "FALSE"
+    },
+    "1002": {
+        "content": "로그생성 실패",
+        "note": 0,
+        "sendMail": "FALSE"
+    },
+    "1003": {
+        "content": "이전거래 미완료",
+        "note": 0,
+        "sendMail": "FALSE"
+    },
+    "1004": {
+        "content": "시간 초과",
+        "note": 0,
+        "sendMail": "FALSE"
+    },
+    "1005": {
+        "content": "현금IC 결제 필요",
+        "note": 0,
+        "sendMail": "FALSE"
+    },
+    "1006": {
+        "content": "카드BIN 확인 오류",
+        "note": "오프라인 PG기능",
+        "sendMail": "FALSE"
+    },
+    "1099": {
+        "content": "기타 오류",
+        "note": 0,
+        "sendMail": "FALSE"
+    },
+    "2001": {
+        "content": "암호화 리더기 - 포트 오픈 실패",
+        "note": 0,
+        "sendMail": "TRUE"
+    },
+    "2002": {
+        "content": "암호화 리더기 – 연결/초기화 실패",
+        "note": 0,
+        "sendMail": "TRUE"
+    },
+    "2003": {
+        "content": "암호화 리더기 – 무결성 점검 실패",
+        "note": "거래불가 상태",
+        "sendMail": "TRUE"
+    },
+    "2004": {
+        "content": "암호화 리더기 – 카드입력 요청 실패",
+        "note": 0,
+        "sendMail": "TRUE"
+    },
+    "2005": {
+        "content": "암호화 리더기 – 카드입력 요청 실패 (fall-back)",
+        "note": 0,
+        "sendMail": "TRUE"
+    },
+    "2006": {
+        "content": "암호화 리더기 – 수신 데이터 오류",
+        "note": 0,
+        "sendMail": "TRUE"
+    },
+    "2007": {
+        "content": "암호화 리더기 – 2nd Generate 오류 (망취소)",
+        "note": 0,
+        "sendMail": "TRUE"
+    },
+    "2008": {
+        "content": "암호화 리더기 – 2nd Generate 오류 (망취소 실패)",
+        "note": 0,
+        "sendMail": "TRUE"
+    },
+    "2009": {
+        "content": "암호화 리더기 – 현금IC카드 아님",
+        "note": 0,
+        "sendMail": "TRUE"
+    },
+    "2010": {
+        "content": "암호화 리더기 – 계좌정보 없음",
+        "note": 0,
+        "sendMail": "TRUE"
+    },
+    "2011": {
+        "content": "암호화 리더기 – 카드정보 오류",
+        "note": 0,
+        "sendMail": "TRUE"
+    },
+    "2012": {
+        "content": "암호화 리더기 – 복수계좌 카드",
+        "note": 0,
+        "sendMail": "TRUE"
+    },
+    "2013": {
+        "content": "암호화 리더기 – 미지원 기능",
+        "note": 0,
+        "sendMail": "TRUE"
+    },
+    "2014": {
+        "content": "암호화 리더기 – 키 공유 실패",
+        "note": 0,
+        "sendMail": "TRUE"
+    },
+    "2015": {
+        "content": "암호화 리더기 – IC 카드 미 삽입",
+        "note": 0,
+        "sendMail": "TRUE"
+    },
+    "2016": {
+        "content": "암호화 리더기 – MS Read 실패",
+        "note": 0,
+        "sendMail": "TRUE"
+    },
+    "2099": {
+        "content": "암호화 리더기 – 기타 오류",
+        "note": 0,
+        "sendMail": "TRUE"
+    },
+    "2101": {
+        "content": "사인패드 – 포트 오픈 실패",
+        "note": 0,
+        "sendMail": "FALSE"
+    },
+    "2102": {
+        "content": "사인패드 – 연결/초기화 실패",
+        "note": 0,
+        "sendMail": "FALSE"
+    },
+    "2103": {
+        "content": "사인패드 – 서명입력 요청 실패",
+        "note": 0,
+        "sendMail": "FALSE"
+    },
+    "2104": {
+        "content": "사인패드 – 서명 데이터 요청 실패",
+        "note": 0,
+        "sendMail": "FALSE"
+    },
+    "2105": {
+        "content": "사인패드 – 서명 데이터 오류",
+        "note": 0,
+        "sendMail": "FALSE"
+    },
+    "2106": {
+        "content": "사인패드 – PIN입력 요청 실패",
+        "note": 0,
+        "sendMail": "FALSE"
+    },
+    "2107": {
+        "content": "사인패드 – PIN 데이터 오류",
+        "note": 0,
+        "sendMail": "FALSE"
+    },
+    "2108": {
+        "content": "사인패드 – 키 공유 실패",
+        "note": 0,
+        "sendMail": "FALSE"
+    },
+    "2199": {
+        "content": "사인패드 – 기타 오류",
+        "note": 0,
+        "sendMail": "FALSE"
+    },
+    "2201": {
+        "content": "포트열기 실패",
+        "note": 0,
+        "sendMail": "TRUE"
+    },
+    "2202": {
+        "content": "연결/초기화 실패",
+        "note": 0,
+        "sendMail": "TRUE"
+    },
+    "2203": {
+        "content": "통신확인 실패",
+        "note": 0,
+        "sendMail": "TRUE"
+    },
+    "2204": {
+        "content": "데이터전송 실패",
+        "note": 0,
+        "sendMail": "TRUE"
+    },
+    "2205": {
+        "content": "출력 길이 오류",
+        "note": 0,
+        "sendMail": "FALSE"
+    },
+    "2206": {
+        "content": "전표 출력 오류",
+        "note": 0,
+        "sendMail": "FALSE"
+    },
+    "2299": {
+        "content": "기타 오류",
+        "note": 0,
+        "sendMail": "FALSE"
+    },
+    "2301": {
+        "content": "포트열기 실패",
+        "note": 0,
+        "sendMail": "TRUE"
+    },
+    "2302": {
+        "content": "연결/초기화 실패",
+        "note": 0,
+        "sendMail": "TRUE"
+    },
+    "2303": {
+        "content": "요청 실패",
+        "note": 0,
+        "sendMail": "TRUE"
+    },
+    "2304": {
+        "content": "데이터 수신 실패",
+        "note": 0,
+        "sendMail": "TRUE"
+    },
+    "2305": {
+        "content": "수신 데이터 오류",
+        "note": 0,
+        "sendMail": "TRUE"
+    },
+    "2306": {
+        "content": "사용불가 카드",
+        "note": 0,
+        "sendMail": "FALSE"
+    },
+    "2307": {
+        "content": "거래 조건 상이",
+        "note": 0,
+        "sendMail": "FALSE"
+    },
+    "2308": {
+        "content": "재거래 요청",
+        "note": 0,
+        "sendMail": "FALSE"
+    },
+    "2309": {
+        "content": "취소 (복구)요청",
+        "note": 0,
+        "sendMail": "FALSE"
+    },
+    "2310": {
+        "content": "거래불가 발행사",
+        "note": 0,
+        "sendMail": "FALSE"
+    },
+    "2311": {
+        "content": "명령 오류",
+        "note": 0,
+        "sendMail": "FALSE"
+    },
+    "2312": {
+        "content": "지원 불가 카드",
+        "note": 0,
+        "sendMail": "FALSE"
+    },
+    "2313": {
+        "content": "동일한 카드 아님",
+        "note": 0,
+        "sendMail": "FALSE"
+    },
+    "2314": {
+        "content": "카드 잔액 이상",
+        "note": 0,
+        "sendMail": "FALSE"
+    },
+    "2315": {
+        "content": "SAM 잔액 부족",
+        "note": 0,
+        "sendMail": "FALSE"
+    },
+    "2316": {
+        "content": "카드 잔액 부족",
+        "note": 0,
+        "sendMail": "FALSE"
+    },
+    "2317": {
+        "content": "카드 인식 오류",
+        "note": 0,
+        "sendMail": "FALSE"
+    },
+    "2318": {
+        "content": "마지막 거래 없음",
+        "note": 0,
+        "sendMail": "FALSE"
+    },
+    "2319": {
+        "content": "SAM 응답 오류",
+        "note": 0,
+        "sendMail": "FALSE"
+    },
+    "2320": {
+        "content": "내역 / 개수 오류",
+        "note": 0,
+        "sendMail": "FALSE"
+    },
+    "2321": {
+        "content": "미정의 거래",
+        "note": 0,
+        "sendMail": "FALSE"
+    },
+    "2322": {
+        "content": "거래 가능 카드 X",
+        "note": 0,
+        "sendMail": "FALSE"
+    },
+    "2323": {
+        "content": "사용 카드 선택 X",
+        "note": 0,
+        "sendMail": "FALSE"
+    },
+    "2324": {
+        "content": "Terminal Cancel",
+        "note": 0,
+        "sendMail": "FALSE"
+    },
+    "2325": {
+        "content": "서명값 미 존재",
+        "note": 0,
+        "sendMail": "FALSE"
+    },
+    "2326": {
+        "content": "다른 APP 카드",
+        "note": 0,
+        "sendMail": "FALSE"
+    },
+    "2327": {
+        "content": "카드 미 존재",
+        "note": 0,
+        "sendMail": "FALSE"
+    },
+    "2328": {
+        "content": "여러장 카드 입력",
+        "note": 0,
+        "sendMail": "FALSE"
+    },
+    "2329": {
+        "content": "미 지원 카드",
+        "note": 0,
+        "sendMail": "FALSE"
+    },
+    "2330": {
+        "content": "SAM 없음",
+        "note": 0,
+        "sendMail": "FALSE"
+    },
+    "2331": {
+        "content": "요청 데이터 오류",
+        "note": 0,
+        "sendMail": "FALSE"
+    },
+    "2332": {
+        "content": "처리 실패",
+        "note": 0,
+        "sendMail": "TRUE"
+    },
+    "2399": {
+        "content": "기타 오류",
+        "note": 0,
+        "sendMail": "FALSE"
+    },
+    "3001": {
+        "content": "VAN 서버 – 통신 오류",
+        "note": 0,
+        "sendMail": "TRUE"
+    },
+    "3002": {
+        "content": "VAN 서버 – 통신 오류 (망취소)",
+        "note": "승인번호 존재",
+        "sendMail": "FALSE"
+    },
+    "3003": {
+        "content": "VAN 서버 – 통신 오류 (망취소 실패)",
+        "note": "승인번호 존재",
+        "sendMail": "FALSE"
+    },
+    "3099": {
+        "content": "VAN 서버 – 기타 오류",
+        "note": 0,
+        "sendMail": "FALSE"
+    }
+}
