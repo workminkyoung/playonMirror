@@ -47,7 +47,6 @@ ExportedObj/
 *.mdb
 *.opendb
 *.VC.db
-*.exe
 
 # Unity3D generated meta files
 *.pidb.meta
@@ -75,6 +74,8 @@ crashlytics-build.properties
 
 # 촬영 원본 데이터 사진 폴더
 /savePic/*
+/*.jpg
+/*.png
 
 # 프린트 및 큐알 저장용 사진 폴더
 /Storage/*
