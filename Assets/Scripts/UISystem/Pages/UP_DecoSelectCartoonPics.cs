@@ -73,14 +73,14 @@ public class UP_DecoSelectCartoonPics : UP_DecoSelectPicsBase
             {
                 if (_selectedPhotoIndexDic[index] == -1)
                 {
-                    ForceAddPicture(index);
+                    ForceAddPictureAuto(index);
                     yield return new WaitForSecondsRealtime(1);
                 }
                 else if (PhotoDataManager.inst.selectedPicDic[index] == _originalContents[index])
                 {
                     if(!_selectedPhotoIndexDic.Values.Contains(index))
                     {
-                        ForceAddPicture(index);
+                        ForceAddPictureAuto(index);
                         yield return new WaitForSecondsRealtime(1);
                     }
                 }
@@ -92,7 +92,7 @@ public class UP_DecoSelectCartoonPics : UP_DecoSelectPicsBase
                     int indexJ = j;
                     if (!_selectedPhotoIndexDic.Values.Contains(indexJ))
                     {
-                        ForceAddPicture(indexJ);
+                        ForceAddPictureAuto(indexJ);
                         yield return new WaitForSecondsRealtime(1);
                         break;
                     }

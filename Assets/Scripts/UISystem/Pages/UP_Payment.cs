@@ -140,6 +140,7 @@ public class UP_Payment : UP_BasePage
         (_pageController as PC_Main).globalPage.OpenDim(false);
         (_pageController as PC_Main).globalPage.CloseAlertPopup();
         (_pageController as PC_Main)?.globalPage?.CloseToast();
+        (_pageController as PC_Main).globalPage.ClosePrivacyPopup();
     }
 
     private void OnChildToggleChanged(bool isSelected)

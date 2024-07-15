@@ -9,6 +9,7 @@ using System.IO;
 using sdimage = System.Drawing.Imaging;
 using UnityEngine.UI;
 using ZXing.QrCode.Internal;
+using System;
 
 public class UP_Complete : UP_BasePage
 {
@@ -41,6 +42,7 @@ public class UP_Complete : UP_BasePage
             TimeLimitCoroutine = null;
         }
 
+        Debug.Log(StringCacheManager.inst.DividerLine + DateTime.Now.ToString("HH:mm:ss.fff") + " Session Closing " + StringCacheManager.inst.DividerLine);
         (_pageController as PC_Main).UpdatePhotoPaper();
         GameManager.inst.ResetGame();
     }

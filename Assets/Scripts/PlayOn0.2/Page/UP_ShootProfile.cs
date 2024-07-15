@@ -25,6 +25,8 @@ public class UP_ShootProfile : UP_Shoot
                 OnPageEnable();
             }
         };
+
+        _photoCountMax = 3;
     }
 
     public override void BindDelegates()

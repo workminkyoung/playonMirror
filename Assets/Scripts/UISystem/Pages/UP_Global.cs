@@ -111,6 +111,12 @@ public class UP_Global : UP_BasePage
         _privacyPopup.OpenPopup(true);
     }
 
+    public void ClosePrivacyPopup()
+    {
+        _privacyPopup.gameObject.SetActive(false);
+        _privacyPopup.OpenPopup(false);
+    }
+
     public void CloseConfirmPopup()
     {
         _confirmPopup.OpenPopup(false);

@@ -452,13 +452,16 @@ public class EosLoader : MonoBehaviour
         //UnityEngine.Debug.Log("Set to Auto focus : ");
 
         uint err = EDSDK.EdsSetPropertyData(eosCamera, EDSDK.PropID_AFMode, 0, sizeof(uint), key);
-        if(err != EDSDK.EDS_ERR_OK)
+        Debug.Log(DateTime.Now.ToString("HH:mm:ss.fff") + " Try To Change Focus to Auto");
+
+        if (err != EDSDK.EDS_ERR_OK)
         {
             Debug.Log("EOS SET FOCUS ERROR");
         }
         else
         {
             CheckCameraFocusMode();
+            Debug.Log(DateTime.Now.ToString("HH:mm:ss.fff") + " Successfuly Changed Focus to Auto");
         }
     }
 
@@ -472,6 +475,8 @@ public class EosLoader : MonoBehaviour
         //CheckCameraFocusMode();
 
         uint err = EDSDK.EdsSetPropertyData(eosCamera, EDSDK.PropID_AFMode, 0, sizeof(uint), key);
+        Debug.Log(DateTime.Now.ToString("HH:mm:ss.fff") + " Try To Change Focus to Manual");
+
         if (err != EDSDK.EDS_ERR_OK)
         {
             Debug.Log("EOS SET FOCUS ERROR");
@@ -479,6 +484,7 @@ public class EosLoader : MonoBehaviour
         else
         {
             CheckCameraFocusMode();
+            Debug.Log(DateTime.Now.ToString("HH:mm:ss.fff") + " Successfuly Changed Focus to Manual");
         }
     }
 
@@ -531,27 +537,36 @@ public class EosLoader : MonoBehaviour
 
     IEnumerator ShutterRoutine(Action OnEndShoot = null)
     {
+        Debug.Log(StringCacheManager.inst.PointLine + DateTime.Now.ToString("HH:mm:ss.fff") + " Start of Shooting");
         CameraAutoFocusON();
         uint err = EDSDK.EdsSendCommand(eosCamera, EDSDK.CameraCommand_PressShutterButton, (int)EDSDK.EdsShutterButton.CameraCommand_ShutterButton_Halfway);
-
-        //EDSDK.EdsFocusInfo focusInfo;
-        //uint err = EDSDK.EdsGetPropertyData(eosCamera, EDSDK.PropID_FocusInfo, 0, out focusInfo);
-
 
         if(err == EDSDKLib.EDSDK.EDS_ERR_TAKE_PICTURE_AF_NG)
         {
             Debug.Log("FOCUS FAIL!");
             CameraManualON();
+
+            yield return new WaitForSecondsRealtime(0.2f);
+            uint shootErr = EDSDK.EdsSendCommand(eosCamera, EDSDK.CameraCommand_PressShutterButton, (int)EDSDK.EdsShutterButton.CameraCommand_ShutterButton_Completely_NonAF);
+            if(shootErr != EDSDK.EDS_ERR_OK)
+            {
+                Debug.Log("Manual Shooting Error : " +  shootErr);
+            }
+            yield return new WaitForSecondsRealtime(0.2f);
+            EDSDK.EdsSendCommand(eosCamera, EDSDK.CameraCommand_PressShutterButton, (int)EDSDK.EdsShutterButton.CameraCommand_ShutterButton_OFF);
+            Debug.Log(StringCacheManager.inst.PointLine + DateTime.Now.ToString("HH:mm:ss.fff") + " End of Shooting");
         }
         else
         {
             Debug.Log("FOCUS SUCCESS");
+
+            yield return new WaitForSecondsRealtime(0.2f);
+            EDSDK.EdsSendCommand(eosCamera, EDSDK.CameraCommand_PressShutterButton, (int)EDSDK.EdsShutterButton.CameraCommand_ShutterButton_Completely);
+            yield return new WaitForSecondsRealtime(0.2f);
+            EDSDK.EdsSendCommand(eosCamera, EDSDK.CameraCommand_PressShutterButton, (int)EDSDK.EdsShutterButton.CameraCommand_ShutterButton_OFF);
+            Debug.Log(StringCacheManager.inst.PointLine + DateTime.Now.ToString("HH:mm:ss.fff") + " End of Shooting");
         }
 
-        yield return new WaitForSecondsRealtime(0.2f);
-        EDSDK.EdsSendCommand(eosCamera, EDSDK.CameraCommand_PressShutterButton, (int)EDSDK.EdsShutterButton.CameraCommand_ShutterButton_Completely);
-        yield return new WaitForSecondsRealtime(0.2f);
-        EDSDK.EdsSendCommand(eosCamera, EDSDK.CameraCommand_PressShutterButton, (int)EDSDK.EdsShutterButton.CameraCommand_ShutterButton_OFF);
         OnEndShoot?.Invoke(); 
     }
 

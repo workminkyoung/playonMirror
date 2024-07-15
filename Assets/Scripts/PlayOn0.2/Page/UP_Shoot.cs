@@ -19,6 +19,8 @@ public class UP_Shoot : UP_BasePage
     protected Action<Texture2D> SaveCapturePhoto;
     protected Action NextPage;
     protected Coroutine _takeshootCoroutine = null;
+    private int _checkCountMax = 3;
+    protected int _photoCountMax = 8;
 
     private RenderTexture _clearTexture;
 
@@ -254,8 +256,35 @@ public class UP_Shoot : UP_BasePage
 
     IEnumerator WaitSecToNext()
     {
-        yield return new WaitForSeconds(1);
-        NextPage();
+        yield return new WaitForSeconds(3);
+
+        int checkCount = 0;
+        int photoCount = 0;
+        while (checkCount < _checkCountMax)
+        {
+            photoCount = DSLRManager.inst.LoadPhotoCounts();
+            if (photoCount == _photoCountMax)
+            {
+                Debug.Log("Loaded All Photo list, Page will be change");
+                break;
+            }
+            else
+            {
+                Debug.Log("Not Loaded All Photo list, Check Count : " + checkCount + ", File Loaded : " + photoCount);
+                checkCount++;
+            }
+            yield return null;
+        }
+
+        if (photoCount == _photoCountMax)
+        {
+            NextPage();
+        }
+        else
+        {
+            DSLRManager.inst.ErrorOnCamera();
+            Debug.Log("Failed to Loaded All Photo list");
+        }
     }
 
     protected Texture2D CropTexture(Texture2D sourceTexture, Rect cropRect, bool flip)

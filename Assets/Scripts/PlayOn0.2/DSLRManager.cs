@@ -216,6 +216,12 @@ public class DSLRManager : SingletonBehaviour<DSLRManager>
         OnEndLoadAllTexture?.Invoke();
     }
 
+    public int LoadPhotoCounts()
+    {
+        string[] files = Directory.EnumerateFiles(TextData.dslrPhotoPath, "*.jpg").ToArray();
+        return files.Length;
+    }
+
     public bool CheckConnected()
     {
         if(_eosLoader)

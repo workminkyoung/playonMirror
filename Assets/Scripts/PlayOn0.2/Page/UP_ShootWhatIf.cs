@@ -17,6 +17,8 @@ public class UP_ShootWhatIf : UP_Shoot
                 OnPageEnable();
             }
         };
+
+        _photoCountMax = 3;
     }
 
     public override void BindDelegates()

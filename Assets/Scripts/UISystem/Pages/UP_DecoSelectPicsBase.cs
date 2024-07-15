@@ -66,6 +66,7 @@ public class UP_DecoSelectPicsBase : UP_DecoratePageBase
             }
         }
     }
+
     protected void SelectPic(UC_SelectablePic content, int photoIndex = 0, PHOTO_TYPE type = PHOTO_TYPE.CONVERTED)
     {//content 2, photo 0
         if (PhotoDataManager.inst.selectedPicDic.ContainsValue(content))
@@ -150,6 +151,11 @@ public class UP_DecoSelectPicsBase : UP_DecoratePageBase
                 PhotoDataManager.inst.RemoveSelectedPhoto(PhotoDataManager.inst.selectedPicDic[index].thumbnailTex);
                 PhotoDataManager.inst.selectedPicDic[index] = null;
 
+                if (_selectedPhotoIndexDic.Keys.Contains(index))
+                {
+                    _selectedPhotoIndexDic[index] = -1;
+                }
+
                 SetSelectNumText();
                 NextBtnUpdate();
 
@@ -233,10 +239,10 @@ public class UP_DecoSelectPicsBase : UP_DecoratePageBase
         _touchIgnoreArea.SetActive(false);
     }
 
-    protected void ForceAddPicture(int index)
-    {
-        SelectPic(_contents[index], index);
-    }
+    //protected void ForceAddPicture(int index)
+    //{
+    //    SelectPic(_contents[index], index);
+    //}
 
     protected void ForceAddPictureAuto(int index)
     {

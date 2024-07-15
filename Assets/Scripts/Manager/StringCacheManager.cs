@@ -30,10 +30,14 @@ public class StringCacheManager : SingletonBehaviour<StringCacheManager>
     private ContentStringDicBase _contentPlayerNums;
     [SerializeField]
     private FilterStringDicBase _filterDescriptions;
+    private string _dividerLine = "-----------------------------------------";
+    private string _pointLine = "##### ";
 
     public string[] loadingTexts => _loadingTexts;
     public string[] loadingTextsWhatIf => _loadingTextsWhatIf;
     public List<string> ProfileWhatIfName => _profileWhatIfName;
+    public string DividerLine => _dividerLine;
+    public string PointLine => _pointLine;
 
     public string GetCartoonTitle(CARTOON_TYPE type)
     {

@@ -90,13 +90,6 @@ public class UP_SelectProfilePic : UP_BasePage
             _selectableContents[i]?.SetThumbnailClear(Color.clear);
             _selectableContents[i].Select(false);
         }
-
-        UserDataManager.inst.SelectProfilePic(0);
-        if (_selectableContents[0].thumbnailImg.sprite != null)
-        {
-            PhotoDataManager.inst.SetSelectedAIProfile(_selectableContents[0].thumbnailImg.sprite.texture);
-        }
-
     }
 
     void FindCaptureSize()
@@ -159,8 +152,9 @@ public class UP_SelectProfilePic : UP_BasePage
             };
             DSLRManager.Instance.OnEndLoadAllTexture = () =>
             {
-                Debug.Log("Try To Load Photo" + _loadCount);
                 //전부다 로드 완료했을때
+
+                Debug.Log("Try To Load Photo" + _loadCount);
                 if(PhotoDataManager.inst.photoOrigin.Count < 3)
                 {
                     PhotoDataManager.inst.SetPhotoOrigin(new List<Texture2D>());
@@ -175,6 +169,14 @@ public class UP_SelectProfilePic : UP_BasePage
                 {
                     _selectableContents[i]?.SetThumbnailClear(Color.white);
                     _selectableContents[i]?.SetThumbnail(TextureToSprite(originalPics[i]));
+                }
+
+                Debug.Log("select default image");
+                _selectableContents[0].Select(true);
+                UserDataManager.inst.SelectProfilePic(0);
+                if (_selectableContents[0].thumbnailImg.sprite != null)
+                {
+                    PhotoDataManager.inst.SetSelectedAIProfile(_selectableContents[0].thumbnailImg.sprite.texture);
                 }
             };
             DSLRManager.Instance.LoadPhotoAll();

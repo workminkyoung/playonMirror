@@ -41,14 +41,14 @@ public class UP_DecoSelectBeautyPics : UP_DecoSelectPicsBase
             {
                 if (_selectedPhotoIndexDic[index] == -1)
                 {
-                    ForceAddPictureOrigin(index);
+                    ForceAddPictureOriginAuto(index);
                     yield return new WaitForSecondsRealtime(1);
                 }
                 else if (PhotoDataManager.inst.selectedPicDic[index] == _originalContents[index])
                 {
                     if (!_selectedPhotoIndexDic.Values.Contains(index))
                     {
-                        ForceAddPictureOrigin(index);
+                        ForceAddPictureOriginAuto(index);
                         yield return new WaitForSecondsRealtime(1);
                     }
                 }
@@ -60,7 +60,7 @@ public class UP_DecoSelectBeautyPics : UP_DecoSelectPicsBase
                     int indexJ = j;
                     if (!_selectedPhotoIndexDic.Values.Contains(indexJ))
                     {
-                        ForceAddPictureOrigin(indexJ);
+                        ForceAddPictureOriginAuto(indexJ);
                         yield return new WaitForSecondsRealtime(1);
                         break;
                     }
@@ -101,8 +101,22 @@ public class UP_DecoSelectBeautyPics : UP_DecoSelectPicsBase
     }
 
 
-    protected void ForceAddPictureOrigin(int index)
+    //protected void ForceAddPictureOrigin(int index)
+    //{
+    //    SelectPic(_originalContents[index], index);
+    //}
+
+    protected void ForceAddPictureOriginAuto(int index)
     {
-        SelectPic(_originalContents[index], index);
+        for (int i = 0; i < _originalContents.Count; i++)
+        {
+            int selectablePhotoIndex = i;
+            if (!PhotoDataManager.inst.selectedPicDic.ContainsValue(_originalContents[i]))
+            {
+                //선택순서, 선택한 사진 인덱스
+                SelectPic(_originalContents[selectablePhotoIndex], selectablePhotoIndex);
+                break;
+            }
+        }
     }
 }

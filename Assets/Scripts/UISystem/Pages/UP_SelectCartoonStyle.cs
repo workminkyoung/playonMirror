@@ -90,6 +90,7 @@ public class UP_SelectCartoonStyle : UP_BaseSelectContent, IPageTimeLimit
 
     public override void OnPageDisable()
     {
+        (_pageController as PC_Main).globalPage.CloseConfirmPopup();
     }
 
     protected override void OnPageReset()
