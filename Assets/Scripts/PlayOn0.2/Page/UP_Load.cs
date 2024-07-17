@@ -81,7 +81,7 @@ public class UP_Load : UP_BasePage
                                             UserDataManager.inst.selectedProfileType,
                                             (value) =>
                                             {
-                                                Debug.Log("complet ai");
+                                                CustomLogger.Log("complet ai");
                                                 PhotoDataManager.inst.SetPhotoConverted(value);
                                                 _isReady = true;
                                             });
@@ -93,7 +93,7 @@ public class UP_Load : UP_BasePage
                                             UserDataManager.inst.selectedProfileType,
                                             (value) =>
                                             {
-                                                Debug.Log("complet ai");
+                                                CustomLogger.Log("complet ai");
                                                 PhotoDataManager.inst.SetPhotoConverted(value);
                                                 _isReady = true;
                                             });
@@ -207,7 +207,7 @@ public class UP_Load : UP_BasePage
 
             if (t >= 600)
             {
-                Debug.LogFormat("[Content : {0}] Get Converted files too long", UserDataManager.inst.selectedContent);
+                CustomLogger.Log($"[Content : {UserDataManager.inst.selectedContent}] Get Converted files too long");
                 GameManager.inst.SetDiffusionState(false);
                 yield break;
             }

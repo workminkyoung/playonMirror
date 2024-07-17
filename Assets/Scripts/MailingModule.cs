@@ -55,7 +55,7 @@ public class MailingModule : SingletonBehaviour<MailingModule>
         }
         catch (Exception ex)
         {
-            Debug.LogError(ex.Message);
+            CustomLogger.LogError(ex.Message);
         }
     }
 

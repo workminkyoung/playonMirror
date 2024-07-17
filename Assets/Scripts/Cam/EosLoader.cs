@@ -55,7 +55,7 @@ public class EosLoader : MonoBehaviour
                 break;
             }
             checkCount++;
-            UnityEngine.Debug.Log("Currently Checking Fail.. : " + checkCount);
+            CustomLogger.Log("Currently Checking Fail.. : " + checkCount);
             FreeSDK();
 
             yield return new WaitForSeconds(1);
@@ -64,12 +64,12 @@ public class EosLoader : MonoBehaviour
 
         if (isChecked)
         {
-            UnityEngine.Debug.Log("SDK Checked!");
+            CustomLogger.Log("SDK Checked!");
             AfterLoadSDK();
         }
         else
         {
-            UnityEngine.Debug.Log("SDK Check fail");
+            CustomLogger.Log("SDK Check fail");
             GameManager.inst.SetCameraConnected(false);
         }
     }
@@ -85,7 +85,7 @@ public class EosLoader : MonoBehaviour
         else
         {
             //
-            UnityEngine.Debug.Log("Failed to load SDK");
+            CustomLogger.Log("Failed to load SDK");
             return false;
         }
 
@@ -99,14 +99,14 @@ public class EosLoader : MonoBehaviour
             if (count == 0)
             {
                 err = EDSDK.EDS_ERR_DEVICE_NOT_FOUND;
-                UnityEngine.Debug.Log("device not found");
+                CustomLogger.Log("device not found");
                 return false;
             }
 
         }
         else
         {
-            UnityEngine.Debug.Log("Failed to load camera list");
+            CustomLogger.Log("Failed to load camera list");
             return false;
         }
         // Get first camera
@@ -129,7 +129,7 @@ public class EosLoader : MonoBehaviour
 
         if (err != EDSDK.EDS_ERR_OK)
         {
-            UnityEngine.Debug.Log("Cannot detect camera");
+            CustomLogger.Log("Cannot detect camera");
             return false;
         }
 
@@ -165,7 +165,7 @@ public class EosLoader : MonoBehaviour
             //open session
             //cameraController.Run();
             OpenSession();
-            UnityEngine.Debug.Log("Camera connected");
+            CustomLogger.Log("Camera connected");
             GameManager.inst.SetCameraConnected(true);
             isSDKLoaded = true;
         }
@@ -187,14 +187,14 @@ public class EosLoader : MonoBehaviour
             if (count == 0)
             {
                 err = EDSDK.EDS_ERR_DEVICE_NOT_FOUND;
-                UnityEngine.Debug.Log("device not found");
+                CustomLogger.Log("device not found");
                 return false;
             }
 
         }
         else
         {
-            UnityEngine.Debug.Log("Failed to load camera list");
+            CustomLogger.Log("Failed to load camera list");
             return false;
         }
         // Get first camera
@@ -217,7 +217,7 @@ public class EosLoader : MonoBehaviour
 
         if (err != EDSDK.EDS_ERR_OK)
         {
-            UnityEngine.Debug.Log("Cannot detect camera");
+            CustomLogger.Log("Cannot detect camera");
             return false;
         }
 
@@ -247,7 +247,7 @@ public class EosLoader : MonoBehaviour
             //open session
             //cameraController.Run();
             OpenSession();
-            UnityEngine.Debug.Log("Camera connected");
+            CustomLogger.Log("Camera connected");
             GameManager.inst.SetCameraTempConnected(true);
             GameManager.inst.SetCameraConnected(true);
             isSDKLoaded = true;
@@ -297,11 +297,11 @@ public class EosLoader : MonoBehaviour
         uint err = EDSDK.EdsGetVolumeInfo(eosCamera, out outVolumeInfo);
         if (outVolumeInfo.StorageType != (uint)EDSDK.EdsStorageType.Non)
         {
-            UnityEngine.Debug.Log("Camera has storage");
+            CustomLogger.Log("Camera has storage");
         }
         else
         {
-            UnityEngine.Debug.Log("Camera has no storage");
+            CustomLogger.Log("Camera has no storage");
         }
 
         _actionListenerList.Add((ActionListener)cameraController);
@@ -327,7 +327,7 @@ public class EosLoader : MonoBehaviour
         previewViewer.SetActionSource(ref _actionSource);
         observerConnection.Reconnection = () =>
         {
-            Debug.Log("[ ERROR ][reconnection] 임시 카메라 끊김");
+            CustomLogger.LogError("[reconnection] 임시 카메라 끊김");
             GameManager.inst.SetCameraTempConnected(false);
             //GameManager.inst.SetCameraConnected(false);
 
@@ -378,7 +378,7 @@ public class EosLoader : MonoBehaviour
                 break;
             }
             checkCount++;
-            UnityEngine.Debug.Log("[ ERROR ][reconnection] Currently Checking Fail.. : " + checkCount);
+            CustomLogger.LogError("[reconnection] Currently Checking Fail.. : " + checkCount);
             FreeSDKNotTerminate();
 
             yield return new WaitForSeconds(3);
@@ -387,13 +387,13 @@ public class EosLoader : MonoBehaviour
 
         if (isChecked)
         {
-            UnityEngine.Debug.Log("[ ERROR FIX ][reconnection] SDK Checked!");
+            CustomLogger.Log("[reconnection] SDK Checked!");
             AfterLoadSDK();
             GameManager.inst.SetCameraTempConnected(true);
         }
         else
         {
-            UnityEngine.Debug.Log("[ ERROR ][reconnection] SDK Check fail");
+            CustomLogger.Log("[reconnection] SDK Check fail");
             GameManager.inst.SetCameraConnected(false);
         }
     }
@@ -412,11 +412,11 @@ public class EosLoader : MonoBehaviour
 
     public void OpenSession()
     {
-        Debug.Log(DateTime.Now.ToString("HH:mm:ss.fff") + " CALL OPEN SESSION");
+        CustomLogger.Log(DateTime.Now.ToString("HH:mm:ss.fff") + " CALL OPEN SESSION");
         cameraController.Run();
         //cameraController.OpenSession();
-        //Debug.Log("EOS OPEN SESSION");
-        Debug.Log(DateTime.Now.ToString("HH:mm:ss.fff") + " OPEN SESSION");
+        //CustomLogger.Log("EOS OPEN SESSION");
+        CustomLogger.Log(DateTime.Now.ToString("HH:mm:ss.fff") + " OPEN SESSION");
 
         CameraAutoFocusON();
     }
@@ -424,7 +424,7 @@ public class EosLoader : MonoBehaviour
     public void CloseSession()
     {
         _actionSource.FireEvent(ActionEvent.Command.CLOSING, IntPtr.Zero);
-        Debug.Log("EOS CLOSE SESSION");
+        CustomLogger.Log("EOS CLOSE SESSION");
     }
 
     public void CameraEVFOn()
@@ -432,14 +432,14 @@ public class EosLoader : MonoBehaviour
         //_actionSource.FireEvent(ActionEvent.Command.EVF_AF_ON, IntPtr.Zero);
         _actionSource.FireEvent(ActionEvent.Command.START_EVF, IntPtr.Zero);
         //_actionSource.FireEvent(ActionEvent.Command.EVF_AF_ON, IntPtr.Zero);
-        Debug.Log("EOS START EVF");
+        CustomLogger.Log("EOS START EVF");
     }
 
     public void CameraEVFOff()
     {
         _actionSource.FireEvent(ActionEvent.Command.END_EVF, IntPtr.Zero);
         //_actionSource.FireEvent(ActionEvent.Command.EVF_AF_OFF, IntPtr.Zero);
-        Debug.Log("EOS STOP EVF");
+        CustomLogger.Log("EOS STOP EVF");
     }
     /**/
 
@@ -449,19 +449,19 @@ public class EosLoader : MonoBehaviour
         //ActionEvent e = new ActionEvent(ActionEvent.Command.SET_AF_MODE, (IntPtr)key);
         //cameraController.ActionPerformed(e);
 
-        //UnityEngine.Debug.Log("Set to Auto focus : ");
+        //CustomLogger.Log("Set to Auto focus : ");
 
         uint err = EDSDK.EdsSetPropertyData(eosCamera, EDSDK.PropID_AFMode, 0, sizeof(uint), key);
-        Debug.Log(DateTime.Now.ToString("HH:mm:ss.fff") + " Try To Change Focus to Auto");
+        CustomLogger.Log(" Try To Change Focus to Auto");
 
         if (err != EDSDK.EDS_ERR_OK)
         {
-            Debug.Log("EOS SET FOCUS ERROR");
+            CustomLogger.Log("EOS SET FOCUS ERROR");
         }
         else
         {
             CheckCameraFocusMode();
-            Debug.Log(DateTime.Now.ToString("HH:mm:ss.fff") + " Successfuly Changed Focus to Auto");
+            CustomLogger.Log(" Successfuly Changed Focus to Auto");
         }
     }
 
@@ -471,20 +471,20 @@ public class EosLoader : MonoBehaviour
         //ActionEvent e = new ActionEvent(ActionEvent.Command.SET_AF_MODE, (IntPtr)key);
         //cameraController.ActionPerformed(e);
 
-        //UnityEngine.Debug.Log("Set to Manual focus : ");
+        //CustomLogger.Log("Set to Manual focus : ");
         //CheckCameraFocusMode();
 
         uint err = EDSDK.EdsSetPropertyData(eosCamera, EDSDK.PropID_AFMode, 0, sizeof(uint), key);
-        Debug.Log(DateTime.Now.ToString("HH:mm:ss.fff") + " Try To Change Focus to Manual");
+        CustomLogger.Log(" Try To Change Focus to Manual");
 
         if (err != EDSDK.EDS_ERR_OK)
         {
-            Debug.Log("EOS SET FOCUS ERROR");
+            CustomLogger.Log("EOS SET FOCUS ERROR");
         }
         else
         {
             CheckCameraFocusMode();
-            Debug.Log(DateTime.Now.ToString("HH:mm:ss.fff") + " Successfuly Changed Focus to Manual");
+            CustomLogger.Log("Successfuly Changed Focus to Manual");
         }
     }
 
@@ -495,11 +495,11 @@ public class EosLoader : MonoBehaviour
 
         if(err == EDSDKLib.EDSDK.EDS_ERR_OK)
         {
-            Debug.Log("FOCUS MODE : " + data);
+            CustomLogger.Log("FOCUS MODE : " + data);
         }
         else
         {
-            Debug.Log("Error Get FOCUS MODE");
+            CustomLogger.Log("Error Get FOCUS MODE");
         }
     }
 
@@ -537,34 +537,34 @@ public class EosLoader : MonoBehaviour
 
     IEnumerator ShutterRoutine(Action OnEndShoot = null)
     {
-        Debug.Log(StringCacheManager.inst.PointLine + DateTime.Now.ToString("HH:mm:ss.fff") + " Start of Shooting");
+        CustomLogger.Log(StringCacheManager.inst.PointLine + " Start of Shooting");
         CameraAutoFocusON();
         uint err = EDSDK.EdsSendCommand(eosCamera, EDSDK.CameraCommand_PressShutterButton, (int)EDSDK.EdsShutterButton.CameraCommand_ShutterButton_Halfway);
 
         if(err == EDSDKLib.EDSDK.EDS_ERR_TAKE_PICTURE_AF_NG)
         {
-            Debug.Log("FOCUS FAIL!");
+            CustomLogger.Log("FOCUS FAIL!");
             CameraManualON();
 
             yield return new WaitForSecondsRealtime(0.2f);
             uint shootErr = EDSDK.EdsSendCommand(eosCamera, EDSDK.CameraCommand_PressShutterButton, (int)EDSDK.EdsShutterButton.CameraCommand_ShutterButton_Completely_NonAF);
             if(shootErr != EDSDK.EDS_ERR_OK)
             {
-                Debug.Log("Manual Shooting Error : " +  shootErr);
+                CustomLogger.Log("Manual Shooting Error : " +  shootErr);
             }
             yield return new WaitForSecondsRealtime(0.2f);
             EDSDK.EdsSendCommand(eosCamera, EDSDK.CameraCommand_PressShutterButton, (int)EDSDK.EdsShutterButton.CameraCommand_ShutterButton_OFF);
-            Debug.Log(StringCacheManager.inst.PointLine + DateTime.Now.ToString("HH:mm:ss.fff") + " End of Shooting");
+            CustomLogger.Log(StringCacheManager.inst.PointLine + DateTime.Now.ToString("HH:mm:ss.fff") + " End of Shooting");
         }
         else
         {
-            Debug.Log("FOCUS SUCCESS");
+            CustomLogger.Log("FOCUS SUCCESS");
 
             yield return new WaitForSecondsRealtime(0.2f);
             EDSDK.EdsSendCommand(eosCamera, EDSDK.CameraCommand_PressShutterButton, (int)EDSDK.EdsShutterButton.CameraCommand_ShutterButton_Completely);
             yield return new WaitForSecondsRealtime(0.2f);
             EDSDK.EdsSendCommand(eosCamera, EDSDK.CameraCommand_PressShutterButton, (int)EDSDK.EdsShutterButton.CameraCommand_ShutterButton_OFF);
-            Debug.Log(StringCacheManager.inst.PointLine + DateTime.Now.ToString("HH:mm:ss.fff") + " End of Shooting");
+            CustomLogger.Log(StringCacheManager.inst.PointLine + " End of Shooting");
         }
 
         OnEndShoot?.Invoke(); 
@@ -603,7 +603,7 @@ public class EosLoader : MonoBehaviour
 
         cameraController.ActionPerformed(e);
 
-        UnityEngine.Debug.Log("Set WHITE BALANCE : ");
+        CustomLogger.Log("Set WHITE BALANCE : ");
     }
 
     //ISO
@@ -616,7 +616,7 @@ public class EosLoader : MonoBehaviour
 
         cameraController.ActionPerformed(e);
 
-        UnityEngine.Debug.Log("Set iso speed ");
+        CustomLogger.Log("Set iso speed ");
     }
 
     //조리개
@@ -629,7 +629,7 @@ public class EosLoader : MonoBehaviour
 
         cameraController.ActionPerformed(e);
 
-        UnityEngine.Debug.Log("Set iso speed ");
+        CustomLogger.Log("Set iso speed ");
     }
 
     //셔터스피드
@@ -642,7 +642,7 @@ public class EosLoader : MonoBehaviour
 
         cameraController.ActionPerformed(e);
 
-        UnityEngine.Debug.Log("Set shutter speed ");
+        CustomLogger.Log("Set shutter speed ");
     }
 
     void DestroyCameraAction()

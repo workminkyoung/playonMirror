@@ -53,7 +53,7 @@ public class KiccModule : PaymentModule
 
         if (_response.Contains("Error: ConnectFailure"))
         {
-            //Debug.Log("프로그램 없음");
+            //CustomLogger.Log("프로그램 없음");
             OnResponse?.Invoke(false, "프로그램 미실행", true);
             return;
         }
@@ -61,7 +61,7 @@ public class KiccModule : PaymentModule
         Regex reg = new Regex(@"\{.*\}");
         Match match = reg.Match(_response);
 
-        Debug.Log(match);
+        CustomLogger.Log(match);
 
         JObject root = new JObject();
         try
@@ -72,31 +72,31 @@ public class KiccModule : PaymentModule
 
             if (token.ToString() == SUCCEED_VALUE)
             {
-                //Debug.Log("결제성공 -> 승인확인");
+                //CustomLogger.Log("결제성공 -> 승인확인");
 
                 JToken approveToken = root.GetValue(APPROVE_CHECK_KEY);
                 if (approveToken.ToString() == APPROVE_SUCCEED_VALUE)
                 {
-                    //Debug.Log("승인성공");
+                    //CustomLogger.Log("승인성공");
                     OnResponse?.Invoke(true, null, false);
                 }
                 else
                 {
                     JToken approveFailToken = root.GetValue(APPROVE_FAIL_KEY);
-                    //Debug.Log("승인실패 : " + approveFailToken.ToString());
+                    //CustomLogger.Log("승인실패 : " + approveFailToken.ToString());
                     OnResponse?.Invoke(false, approveFailToken.ToString(), false);
                 }
             }
             else
             {
                 JToken failToken = root.GetValue(MSG_KEY);
-                //Debug.Log("결제실패 : " + failToken.ToString());
+                //CustomLogger.Log("결제실패 : " + failToken.ToString());
                 OnResponse?.Invoke(false, failToken.ToString(), false);
             }
         }
         catch (Exception e)
         {
-            Debug.Log(e);
+            CustomLogger.Log(e);
             OnResponse?.Invoke(false, "통신 실패", true);
             return;
         }

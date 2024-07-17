@@ -218,7 +218,7 @@ public class UP_Payment : UP_BasePage
                 StartTimer();
                 if (showErrorPage)
                 {
-                    Debug.Log("[ ERROR ][ payment ] 카드 결제 실패");
+                    CustomLogger.LogError("[ payment ] 카드 결제 실패");
                     GameManager.inst.SetPaymentReaderConnected(false);
                 }
             });

@@ -16,7 +16,7 @@ public abstract class SingletonBehaviour<T> : MonoBehaviour where T : SingletonB
         }
         else
         {
-            Debug.LogError(string.Format("{0} is already exist. Destroy {0}.", name));
+            CustomLogger.LogError($"{name} is already exist. Destroy {name}.");
             Destroy(inst.gameObject);
         }
     }

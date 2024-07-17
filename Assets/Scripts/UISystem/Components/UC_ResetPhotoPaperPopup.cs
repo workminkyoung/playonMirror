@@ -72,7 +72,7 @@ public class UC_ResetPhotoPaperPopup : UC_BaseComponent
 
     private void SetResetPhotopaperNum(int num)
     {
-        Debug.Log($"Photo Paper Remain Will Set : {num}");
+        CustomLogger.Log($"Photo Paper Remain Will Set : {num}");
         _selectedPhotopaperNum = num;
     }
 }

@@ -780,7 +780,7 @@ namespace RotaryHeart.Lib.SerializableDictionary
                     obj = GetTargetObjectOfProperty(prop);
                     break;
                 default:
-                    Debug.LogError("Key Type not implemented: " + prop.propertyType);
+                    CustomLogger.LogError("Key Type not implemented: " + prop.propertyType);
                     break;
             }
 
@@ -852,7 +852,7 @@ namespace RotaryHeart.Lib.SerializableDictionary
                     SetTargetObjectOfProperty(prop, null);
                     break;
                 default:
-                    Debug.Log("Type not implemented: " + prop.propertyType);
+                    CustomLogger.Log("Type not implemented: " + prop.propertyType);
                     break;
             }
         }
@@ -909,7 +909,7 @@ namespace RotaryHeart.Lib.SerializableDictionary
 
             if (id == null)
             {
-                Debug.LogError("Couldn't find any id field with name '" + attribute.Id + "' on field: " + fieldInfo.Name);
+                CustomLogger.LogError("Couldn't find any id field with name '" + attribute.Id + "' on field: " + fieldInfo.Name);
                 return;
             }
 
@@ -1026,7 +1026,7 @@ namespace RotaryHeart.Lib.SerializableDictionary
                     prop.quaternionValue = Quaternion.identity;
                     break;
                 default:
-                    Debug.Log("Type not implemented: " + prop.propertyType);
+                    CustomLogger.Log("Type not implemented: " + prop.propertyType);
                     break;
             }
         }

@@ -27,7 +27,7 @@ public class MainThreadDispatcher : MonoBehaviour
         if (instance == null)
         {
             //throw new Exception("MainThreadDispatcher instance has not been created yet.");
-            Debug.Log("MainThreadDispatcher instance has not been created yet.");
+            CustomLogger.Log("MainThreadDispatcher instance has not been created yet.");
             return;
         }
 

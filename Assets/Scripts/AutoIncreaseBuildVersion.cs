@@ -22,7 +22,7 @@ public class AutoIncreaseBuildVersion : MonoBehaviour
     {
         _autoIncrease = !_autoIncrease;
         EditorPrefs.SetBool(_autoIncreaseMenuName, _autoIncrease);
-        Debug.Log("Auto Increase : " + _autoIncrease);
+        CustomLogger.Log("Auto Increase : " + _autoIncrease);
     }
 
     [MenuItem(_autoIncreaseMenuName, true)]
@@ -35,7 +35,7 @@ public class AutoIncreaseBuildVersion : MonoBehaviour
     [MenuItem(_checkVersionMenuName, false, 2)]
     private static void CheckCurrentVersion()
     {
-        Debug.Log("Build v" + PlayerSettings.bundleVersion +
+        CustomLogger.Log("Build v" + PlayerSettings.bundleVersion +
              " (" + PlayerSettings.Android.bundleVersionCode + ")"); //현재 버전 표시
     }
 
@@ -116,7 +116,7 @@ public class AutoIncreaseBuildVersion : MonoBehaviour
 
             //숫자
             result[2] = match.Groups[3].Value;
-            //Debug.Log(result[1]);
+            //CustomLogger.Log(result[1]);
         }
         else
         {

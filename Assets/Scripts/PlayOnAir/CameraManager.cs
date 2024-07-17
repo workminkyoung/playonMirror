@@ -18,15 +18,15 @@ public class CameraManager : SingletonBehaviour<CameraManager>
         _devices = WebCamTexture.devices;
         if (_devices.Length <= 0)
         {
-            Debug.Log("There is no connected webcam..");
+            CustomLogger.Log("There is no connected webcam..");
         }
         else
         {
-            Debug.Log("webcam is available");
+            CustomLogger.Log("webcam is available");
 
             for (int i = 0; i < _devices.Length; i++)
             {
-                Debug.Log(i + ", " + _devices[i].name + " can available");
+                CustomLogger.Log(i + ", " + _devices[i].name + " can available");
             }
             if (_webCamTexture == null)
             {

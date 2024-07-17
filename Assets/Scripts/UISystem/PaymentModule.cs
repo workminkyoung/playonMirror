@@ -82,7 +82,7 @@ public abstract class PaymentModule : SingletonBehaviour<PaymentModule>
             yield return null;
         }
 
-        //Debug.Log(_response);
+        //CustomLogger.Log(_response);
 
         SuccessCheck(OnResponse);
     }
@@ -100,7 +100,7 @@ public abstract class PaymentModule : SingletonBehaviour<PaymentModule>
     //    {
     //        StartCoroutine(PaymentRoutine(100, (isSuccess, msg) =>
     //        {
-    //            Debug.Log($"[결제테스트] : \n    결제성공 : [{isSuccess}]\n  메시지 : {msg}");
+    //            CustomLogger.Log($"[결제테스트] : \n    결제성공 : [{isSuccess}]\n  메시지 : {msg}");
     //        }));
     //    }
     //}
@@ -123,13 +123,13 @@ public abstract class PaymentModule : SingletonBehaviour<PaymentModule>
                 if (isSend.ToString().ToLower() == "true")
                 {
                     _errorCodeDict.Add(pair.Key, pair.Value);
-                    //Debug.LogFormat("Key : {0}, Value : {1}", pair.Key, pair.Value);
+                    //CustomLogger.LogFormat("Key : {0}, Value : {1}", pair.Key, pair.Value);
                 }
             }
         }
         else
         {
-            Debug.Log("No Error Code File");
+            CustomLogger.Log("No Error Code File");
         }
     }
 

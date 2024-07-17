@@ -163,12 +163,12 @@ public class UC_SynchFrame : MonoBehaviour //SingletonBehaviour<UC_SynchFrame>
         if (isSavePrint)
         {
             System.IO.File.WriteAllBytes(TextData.printPath, bytes);
-            Debug.Log("Saved to " + TextData.printPath);
+            CustomLogger.Log("Saved to " + TextData.printPath);
         }
         else
         {
             System.IO.File.WriteAllBytes(TextData.imagePath, bytes);
-            Debug.Log("Saved to " + TextData.imagePath);
+            CustomLogger.Log("Saved to " + TextData.imagePath);
             PhotoDataManager.inst.SetImagePath(TextData.imagePath);
         }
 
@@ -238,7 +238,7 @@ public class UC_SynchFrame : MonoBehaviour //SingletonBehaviour<UC_SynchFrame>
             _frameAreaDic_video[UserDataManager.inst.selectedFrame].UpdatePhotos();
         }
 
-        Debug.Log("Loaded");
+        CustomLogger.Log("Loaded");
     }
 
     public void SetPrintImage(Texture2D qrImage)

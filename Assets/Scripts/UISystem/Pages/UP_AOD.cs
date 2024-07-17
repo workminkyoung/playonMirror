@@ -38,7 +38,7 @@ public class UP_AOD : UP_BasePage, IPointerClickHandler
 
     public override void OnPageEnable()
     {
-        Debug.Log(StringCacheManager.inst.DividerLine + DateTime.Now.ToString("HH:mm:ss.fff") + " Session Starting " + StringCacheManager.inst.DividerLine);
+        CustomLogger.Log(StringCacheManager.inst.DividerLine + " Session Starting " + StringCacheManager.inst.DividerLine);
     }
 
     public override void OnPageDisable()

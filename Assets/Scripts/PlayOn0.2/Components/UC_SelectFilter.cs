@@ -97,7 +97,7 @@ public class UC_SelectFilter : UC_BaseComponent
         bool hasReal = false;
         foreach (var pair in _selectedPhoto)
         {
-            Debug.Log("dict [ " + pair.Key + ", " + pair.Value + "]");
+            CustomLogger.Log("dict [ " + pair.Key + ", " + pair.Value + "]");
             if (pair.Value == PHOTO_TYPE.REAL)
             {
                 hasReal = true;

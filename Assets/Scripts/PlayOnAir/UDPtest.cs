@@ -23,7 +23,7 @@ public class UDP : MonoBehaviour
         byte[] data = server.EndReceive(ar, ref remoteEndPoint);
         string message = Encoding.UTF8.GetString(data);
 
-        Debug.Log("Received message from " + remoteEndPoint.Address + ": " + message);
+        CustomLogger.Log("Received message from " + remoteEndPoint.Address + ": " + message);
 
         // Handle the received message here (e.g., update the game state)
 
