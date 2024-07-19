@@ -85,6 +85,7 @@ public class UP_SelectProfile : UP_BaseSelectContent, IPageTimeLimit
     {
         _requirePopup = false;
         UserDataManager.inst.SelectProfile(_profileContents[index]);
+        UserDataManager.inst.SelectContentCode(_profileContents[index]);
         (_pageController as PC_Main)?.globalPage?.OpenAIProfileAlert(() =>
         {
             _pageController.ChangePage(PAGE_TYPE.PAGE_SELECT_FRAME);
