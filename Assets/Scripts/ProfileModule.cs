@@ -108,7 +108,7 @@ public class ProfileModule : SingletonBehaviour<ProfileModule>
         {
             //Debug.Log(jsons[i]);
 
-            using (UnityWebRequest www = new UnityWebRequest(ApiCall.inst.url_img2img))
+            using (UnityWebRequest www = new UnityWebRequest(ApiCall.inst.profileAPI))
             {
                 curRequestNum = 0; 
                 isRequestSuccessed = false;

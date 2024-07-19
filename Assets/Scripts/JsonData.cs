@@ -1,7 +1,11 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+
+[Serializable]
+public class APIResponse
+{
+    public string images;
+}
 
 [Serializable]
 public class Img2ImgResponse

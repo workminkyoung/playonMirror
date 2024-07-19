@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 using Vivestudios.UI;
 
 public partial class ApiCall : SingletonBehaviour<ApiCall>
@@ -21,6 +22,7 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
 
     const int reSizeWidth = 768;
     const int reSizeHeight = 576;
+
     //TODO : RESET
     public void ResetRequest(int photoMax)
     {
@@ -66,100 +68,30 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
             _requestDone = false;
 
             if (UserDataManager.Instance.selectedContent == CONTENT_TYPE.AI_CARTOON)
-                FindTagger();
-            else if (UserDataManager.Instance.selectedContent == CONTENT_TYPE.AI_BEAUTY)
-                CheckImg2ImgJson(string.Empty);
+            {
+                APICartoonRequest();
+            }
 
             yield return new WaitUntil(() => _requestDone);
         }
     }
 
-    //set current model
-    public void RequestModel(Cartoon cartoon)
+    public void APICartoonRequest()
     {
-        ModelRequest request = new ModelRequest();
-        request.sd_model_checkpoint = cartoon.model;
-        string json = JsonUtility.ToJson(request);
+        CartoonRequestData data = new CartoonRequestData();
 
-        if(cartoon.reference != null)
-        {
-            byte[] sources = cartoon.reference.EncodeToPNG();
-            _sourceEncodeText = Convert.ToBase64String(sources);
-        }
-        else
-        {
-            _sourceEncodeText = string.Empty;
-        }
-        _cartoonType = cartoon.type;
+        data.menu_code = UserDataManager.Instance.selectedContentCode;
+        data.encoded_source_image = _targetEncodeText;
 
-        SetModel(json);
-    }
+        string json = JsonUtility.ToJson(data);
+        Post(_cartoonAPI, json, GetResponse);
+    } 
 
-    //set current model
-    public void RequestModel(string model)
+    void GetResponse(string result)
     {
-        ModelRequest request = new ModelRequest();
-        request.sd_model_checkpoint = model;
-        string json = JsonUtility.ToJson(request);
-
-        _sourceEncodeText = string.Empty;
-
-        SetModel(json);
-    }
-
-    //find image tagger and Run change img
-    public void FindTagger()
-    {
-        TaggerRequest tag = new TaggerRequest();
-        tag.image = _targetEncodeText;
-        string json = JsonUtility.ToJson(tag);
-
-        PostSelect(_url_tagger, json, (result) =>
-        {
-            string[] splitData = result.Split('\"');
-            string captions = "";
-
-            for (int i = 1; i < splitData.Length; i += 2)
-            {
-                if (splitData[i].Contains("caption") || splitData[i].Contains("realistic") || splitData[i].Contains("freckles"))
-                    continue;
-
-                if (i < splitData.Length - 2)
-                    captions += splitData[i] + ",";
-                else
-                    captions += splitData[i];
-            }
-
-            CheckImg2ImgJson(captions);
-        });
-    }
-
-    void CheckImg2ImgJson(string tagger)
-    {
-        string json = string.Empty;
-        if(UserDataManager.Instance.selectedContent == CONTENT_TYPE.AI_CARTOON)
-            json = cartoonJsons[(int)_cartoonType];
-        else if(UserDataManager.Instance.selectedContent == CONTENT_TYPE.AI_BEAUTY)
-            json = beautyJsons[0];
-
-        json = json.Replace(TextData.replace_width, reSizeWidth.ToString());
-        json = json.Replace(TextData.replace_height, reSizeHeight.ToString());
-
-        if(json.Contains(TextData.replace_target) && _targetEncodeText.Length > 0)
-            json = json.Replace(TextData.replace_target, _targetEncodeText);
-        if(json.Contains(TextData.replace_source) && _sourceEncodeText.Length > 0)
-            json = json.Replace(TextData.replace_source, _sourceEncodeText);
-        if(json.Contains(TextData.replace_tagger) && tagger.Length > 0)
-            json = json.Replace(TextData.replace_tagger, tagger);
-
-        Img2Img(json, result => ShowResult(result));
-    }
-
-    void ShowResult(string result)
-    {
-        Img2ImgResponse response = new Img2ImgResponse();
-        response = JsonUtility.FromJson<Img2ImgResponse>(result);
-        byte[] bytes = Convert.FromBase64String(response.images[0]);
+        APIResponse response = new APIResponse();
+        response = JsonUtility.FromJson<APIResponse>(result);
+        byte[] bytes = Convert.FromBase64String(response.images);
 
         Texture2D cartoonTex = new Texture2D(0, 0);
         cartoonTex.LoadImage(bytes);
@@ -173,4 +105,11 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
         SendResult(cartoonTex);
         OnEndRequest();
     }
+}
+
+[Serializable]
+public class CartoonRequestData
+{
+    public string menu_code;
+    public string encoded_source_image;
 }

@@ -127,11 +127,6 @@ public class UP_Payment : UP_BasePage
             _warnBtn.gameObject.SetActive(true);
         }
 
-        if (UserDataManager.inst.selectedContent == CONTENT_TYPE.AI_CARTOON)
-        {
-            ApiCall.Instance.RequestModel(CartoonManager.cartoons[UserDataManager.inst.selectedSubContentNum]);
-        }
-
         _timerCoroutine = StartCoroutine(TimerRoutine());
     }
 

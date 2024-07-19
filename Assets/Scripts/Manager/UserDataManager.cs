@@ -49,6 +49,8 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
     public int curPicAmount => _curPicAmount;
     public int curPrice => _curPrice;
 
+    public string selectedContentCode => _selectedContentCode;
+
     private void SetAllContentCode()
     {
         //cartoon
