@@ -18,7 +18,14 @@ public class ProfileModule : SingletonBehaviour<ProfileModule>
 
         for (int i = 0; i < indexes.Count; i++)
         {
-            convertedJsons.Add(_profileJson.Replace(SOURCE_IMAGE_REPLACE_STRING, targetEncodeTexture).Replace(TARGET_IMAGE_REPLACE_STRING, _profileSampleImagesDic[type][i]));
+            ProfileRequestData requestData = new ProfileRequestData();
+            requestData.menu_code = UserDataManager.inst.selectedContentCode;
+            requestData.encoded_source_image = targetEncodeTexture;
+            requestData.image_index = indexes[i];
+
+            convertedJsons.Add(JsonUtility.ToJson(requestData));
+
+            //convertedJsons.Add(_profileJson.Replace(SOURCE_IMAGE_REPLACE_STRING, targetEncodeTexture).Replace(TARGET_IMAGE_REPLACE_STRING, _profileSampleImagesDic[type][i]));
         }
 
         StartCoroutine(PostProfile(convertedJsons, OnEnd));
@@ -34,7 +41,13 @@ public class ProfileModule : SingletonBehaviour<ProfileModule>
 
         for (int i = 0; i < indexes.Count; i++)
         {
-            convertedJsons.Add(_profileJson.Replace(SOURCE_IMAGE_REPLACE_STRING, targetEncodeTexture).Replace(TARGET_IMAGE_REPLACE_STRING, _profileSampleImagesDic[type][indexes[i]]));
+            ProfileRequestData requestData = new ProfileRequestData();
+            requestData.menu_code = UserDataManager.inst.selectedContentCode;
+            requestData.encoded_source_image = targetEncodeTexture;
+            requestData.image_index = indexes[i];
+
+            convertedJsons.Add(JsonUtility.ToJson(requestData));
+            //convertedJsons.Add(_profileJson.Replace(SOURCE_IMAGE_REPLACE_STRING, targetEncodeTexture).Replace(TARGET_IMAGE_REPLACE_STRING, _profileSampleImagesDic[type][indexes[i]]));
             _profileReorderName.Add(StringCacheManager.inst.ProfileWhatIfName[indexes[i]]);
         }
 
@@ -140,7 +153,7 @@ public class ProfileModule : SingletonBehaviour<ProfileModule>
                         //Debug.Log(root);
                         JToken image = root.GetValue("images");
                         //Debug.Log(image);
-                        byte[] bytes = Convert.FromBase64String(image[0].ToString());
+                        byte[] bytes = Convert.FromBase64String(image.ToString());
 
                         Texture2D resultTexture = new Texture2D(0, 0);
                         resultTexture.LoadImage(bytes);

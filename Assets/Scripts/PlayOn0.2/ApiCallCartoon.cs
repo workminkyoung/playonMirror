@@ -107,9 +107,3 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
     }
 }
 
-[Serializable]
-public class CartoonRequestData
-{
-    public string menu_code;
-    public string encoded_source_image;
-}

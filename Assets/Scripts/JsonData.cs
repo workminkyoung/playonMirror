@@ -2,6 +2,21 @@ using System;
 using System.Collections.Generic;
 
 [Serializable]
+public class CartoonRequestData
+{
+    public string menu_code;
+    public string encoded_source_image;
+}
+
+[Serializable]
+public class ProfileRequestData
+{
+    public string menu_code;
+    public string encoded_source_image;
+    public int image_index;
+}
+
+[Serializable]
 public class APIResponse
 {
     public string images;
