@@ -33,6 +33,10 @@
     "childDefaultCheck": false,
     "firstPrintAmount": 2,
 
+    "chromaKey": {
+        "isOn": true 
+    },
+
     "mailConfig": {
         "mailingList": [ "mkkim@vivestudios.com" ],
         "storeName": "하윤 마이그레이션"
