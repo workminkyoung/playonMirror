@@ -75,6 +75,27 @@ public class UC_FrameArea : UC_BaseComponent
     {
     }
 
+    public int GetPicCount ()
+    {
+        switch(_frameType)
+        {
+            case FRAME_TYPE.FRAME_1:
+                return 1;
+            case FRAME_TYPE.FRAME_2:
+                return 2;
+            case FRAME_TYPE.FRAME_4:
+                return 4;
+            case FRAME_TYPE.FRAME_8:
+                return 4;
+            case FRAME_TYPE.FRAME_2_1:
+                return 2;
+            case FRAME_TYPE.FRAME_2_2:
+                return 2;
+            default:
+                return 1;
+        }
+    }
+
     //private void Update()
     //{
     //    if (Input.GetKeyDown(KeyCode.F))
@@ -142,6 +163,11 @@ public class UC_FrameArea : UC_BaseComponent
 
     public void SetPics(List<Texture2D> pics, List<PHOTO_TYPE> types = null)
     {
+        if(_photos == null)
+        {
+            _photos = new List<Texture2D>();
+        }
+
         if (types == null || types.Count == 0)
         {
             types = new List<PHOTO_TYPE>();
@@ -600,10 +626,15 @@ public class UC_FrameArea : UC_BaseComponent
 
     private void UpdateSkinFilter()
     {
+        if(_photos == null)
+        {
+            _photos = new List<Texture2D>();
+        }
 
         if (_types == null || _types.Count == 0)
         {
             _types = new List<PHOTO_TYPE>();
+            
             for (int i = 0; i < _photos.Count; i++)
             {
                 _types.Add(PHOTO_TYPE.NONE);
