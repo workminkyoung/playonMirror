@@ -24,7 +24,10 @@ public class UP_Shoot : UP_BasePage
 
     private RenderTexture _clearTexture;
 
-    public override void InitPage()
+    [SerializeField]
+    protected UC_NextChromakeyBG _nextChromakeyBG;
+
+    public override void InitPage ()
     {
         _flashEffect = GetComponentInChildren<FlashEffect>();
         _shootState = GetComponentInChildren<UC_ShootState>();
@@ -39,7 +42,15 @@ public class UP_Shoot : UP_BasePage
 
         DSLRManager.Instance.OnLoadPreview += (preview) =>
         {
-            _preview.texture = preview;
+            if(UserDataManager.inst.isChromaKeyOn)
+            {
+                ChromaKeyModule.inst.SetCamImg(preview);
+                _preview.texture = ChromaKeyModule.inst.resultRT;
+            }
+            else
+            {
+                _preview.texture = preview;
+            }
         };
 
         GameManager.OnGameResetAction += () =>
@@ -53,17 +64,18 @@ public class UP_Shoot : UP_BasePage
         InitCameraType();
     }
 
-    public override void BindDelegates()
+    public override void BindDelegates ()
     {
     }
 
-    public override void OnPageEnable()
+    public override void OnPageEnable ()
     {
         if(ConfigData.config.camType == (int)CAMERA_TYPE.DSLR)
         {
             DSLRManager.inst.OpenSession();
         }
-        
+
+        _nextChromakeyBG.SetBgImg(null);
         _flashEffect.Init();
 
         //TODO : RESET
@@ -74,40 +86,44 @@ public class UP_Shoot : UP_BasePage
 
         PhotoDataManager.Instance.SetPhotoCount();
 
-        if (ConfigData.config.camType == (int)CAMERA_TYPE.DSLR)
+        if(ConfigData.config.camType == (int)CAMERA_TYPE.DSLR)
         {
             DSLRManager.Instance.LoadCountMax = PhotoDataManager.inst.photoCount;
         }
 
         StartCoroutine(WaitCameraStart());
+
+        if(_nextChromakeyBG != null)
+        {
+            _nextChromakeyBG.gameObject.SetActive(UserDataManager.inst.isChromaKeyOn);
+        }
     }
 
-    public override void OnPageDisable()
+    public override void OnPageDisable ()
     {
 
     }
 
-
-    void InitCameraType()
+    void InitCameraType ()
     {
-        switch (ConfigData.config.camType)
+        switch(ConfigData.config.camType)
         {
             case (int)CAMERA_TYPE.WEBCAM:
-                foreach (var raw in (_pageController as PC_Main).captureRawimgs)
+                foreach(var raw in (_pageController as PC_Main).captureRawimgs)
                 {
                     raw.Value.rectTransform.sizeDelta = new Vector2(1920, 1080);
                 }
                 _preview.rectTransform.sizeDelta = new Vector2(1920, 1080);
                 break;
             case (int)CAMERA_TYPE.NDI:
-                foreach (var raw in (_pageController as PC_Main).captureRawimgs)
+                foreach(var raw in (_pageController as PC_Main).captureRawimgs)
                 {
                     raw.Value.rectTransform.sizeDelta = new Vector2(1920, 1080);
                 }
                 _preview.rectTransform.sizeDelta = new Vector2(1920, 1080);
                 break;
             case (int)CAMERA_TYPE.DSLR:
-                foreach (var raw in (_pageController as PC_Main).captureRawimgs)
+                foreach(var raw in (_pageController as PC_Main).captureRawimgs)
                 {
                     raw.Value.rectTransform.sizeDelta = new Vector2(1920, 1280);
                 }
@@ -118,7 +134,7 @@ public class UP_Shoot : UP_BasePage
         }
     }
 
-    IEnumerator WaitCameraStart()
+    IEnumerator WaitCameraStart ()
     {
         //ready texture change needed
         _shootState.photoMax = PhotoDataManager.inst.photoCount;
@@ -127,30 +143,48 @@ public class UP_Shoot : UP_BasePage
         StartShoot();
     }
 
-    void CheckCameraType()
+    void CheckCameraType ()
     {
         PC_Main main = _pageController as PC_Main;
 
-        switch (ConfigData.config.camType)
+        switch(ConfigData.config.camType)
         {
             case (int)CAMERA_TYPE.WEBCAM:
                 CameraManager.Instance.PlayWebcam();
-                if (_preview.texture == null)
+
+                if(UserDataManager.inst.isChromaKeyOn)
                 {
-                    _preview.texture = CameraManager.Instance.webCamTexture;
+                    ChromaKeyModule.inst.SetCamImg(CameraManager.Instance.webCamTexture);
+
+                    if(_preview.texture == null)
+                    {
+                        _preview.texture = ChromaKeyModule.inst.resultRT;
+                    }
+                    if(main.captureRawimgs[CAMERA_VIEW_TYPE.CAPTURE].texture == null)
+                    {
+                        main.captureRawimgs[CAMERA_VIEW_TYPE.CAPTURE].texture = ChromaKeyModule.inst.resultRT;
+                    }
                 }
-                if (main.captureRawimgs[CAMERA_VIEW_TYPE.CAPTURE].texture == null)
+                else
                 {
-                    main.captureRawimgs[CAMERA_VIEW_TYPE.CAPTURE].texture = CameraManager.Instance.webCamTexture;
+                    if(_preview.texture == null)
+                    {
+                        _preview.texture = CameraManager.Instance.webCamTexture;
+                    }
+                    if(main.captureRawimgs[CAMERA_VIEW_TYPE.CAPTURE].texture == null)
+                    {
+                        main.captureRawimgs[CAMERA_VIEW_TYPE.CAPTURE].texture = CameraManager.Instance.webCamTexture;
+                    }
                 }
+
                 _preview.color = Color.white;
                 break;
             case (int)CAMERA_TYPE.NDI:
-                if (_preview.texture == null)
+                if(_preview.texture == null)
                 {
                     _preview.texture = NDIManager.Instance.ndiTexture;
                 }
-                if (main.captureRawimgs[CAMERA_VIEW_TYPE.CAPTURE].texture == null)
+                if(main.captureRawimgs[CAMERA_VIEW_TYPE.CAPTURE].texture == null)
                 {
                     main.captureRawimgs[CAMERA_VIEW_TYPE.CAPTURE].texture = NDIManager.Instance.ndiTexture;
                 }
@@ -166,15 +200,15 @@ public class UP_Shoot : UP_BasePage
         }
     }
 
-    public virtual void StartShoot()
+    public virtual void StartShoot ()
     {
         _shootState.StartCheckTime();
+        SetNextChromaKeyBG();
         _shootState.StartCountDown();
     }
 
     //screen shot [WEBCAM & NDI]
-    protected IEnumerator TakeShoot()
-
+    protected IEnumerator TakeShoot ()
     {
         SoundManager.Instance.Play(AUDIO.CAMERA);
         yield return new WaitForEndOfFrame();
@@ -202,14 +236,14 @@ public class UP_Shoot : UP_BasePage
         _camera.targetTexture = preTargetTexture;
         SaveCapturePhoto(screenShoot);//send? pc_main에 저장해두는 의미로 변수명을 바꿈좋을듯
 
-        if (Debug.isDebugBuild)
+        if(Debug.isDebugBuild)
         {
             //사진저장
             StorageManager.Instance.SavePicture("resultimg", screenShoot);
         }
 
         CameraManager.Instance.PauseWebcam();
-        if (UserDataManager.inst.selectedContent == CONTENT_TYPE.AI_CARTOON ||
+        if(UserDataManager.inst.selectedContent == CONTENT_TYPE.AI_CARTOON ||
             UserDataManager.inst.selectedContent == CONTENT_TYPE.AI_BEAUTY)
         {
             //_aiCartoon.RequestDiffusion(screenShoot);
@@ -218,7 +252,7 @@ public class UP_Shoot : UP_BasePage
 
         _flashEffect.StartFlashing(() =>
         {
-            if (_shootState.PhotoCountUp())
+            if(_shootState.PhotoCountUp())
             {
                 // end shooting
                 StartCoroutine(WaitSecToNext());
@@ -226,19 +260,20 @@ public class UP_Shoot : UP_BasePage
             else
             {
                 // shooting
+                SetNextChromaKeyBG();
                 CameraManager.Instance.PlayWebcam();
                 _shootState.StartCountDown();
             }
         });
 
     }
-    protected IEnumerator TakeShootDSLR()
+    protected IEnumerator TakeShootDSLR ()
     {
         SoundManager.Instance.Play(AUDIO.CAMERA);
         yield return new WaitForEndOfFrame();
         DSLRManager.Instance.CameraForceShoot(() =>
         {
-            if (_shootState.PhotoCountUp())
+            if(_shootState.PhotoCountUp())
             {
                 // end shooting
                 StartCoroutine(WaitSecToNext());
@@ -246,6 +281,7 @@ public class UP_Shoot : UP_BasePage
             else
             {
                 // shooting
+                SetNextChromaKeyBG();
                 _shootState.StartCountDown();
                 //DSLRManager.inst.CameraAutoFocusON();
             }
@@ -254,16 +290,16 @@ public class UP_Shoot : UP_BasePage
         _flashEffect.StartFlashing();
     }
 
-    IEnumerator WaitSecToNext()
+    IEnumerator WaitSecToNext ()
     {
         yield return new WaitForSeconds(3);
 
         int checkCount = 0;
         int photoCount = 0;
-        while (checkCount < _checkCountMax)
+        while(checkCount < _checkCountMax)
         {
             photoCount = DSLRManager.inst.LoadPhotoCounts();
-            if (photoCount == _photoCountMax)
+            if(photoCount == _photoCountMax)
             {
                 Debug.Log("Loaded All Photo list, Page will be change");
                 break;
@@ -276,7 +312,7 @@ public class UP_Shoot : UP_BasePage
             yield return null;
         }
 
-        if (photoCount == _photoCountMax)
+        if(photoCount == _photoCountMax)
         {
             NextPage();
         }
@@ -287,7 +323,7 @@ public class UP_Shoot : UP_BasePage
         }
     }
 
-    protected Texture2D CropTexture(Texture2D sourceTexture, Rect cropRect, bool flip)
+    protected Texture2D CropTexture (Texture2D sourceTexture, Rect cropRect, bool flip)
     {
         int x = Mathf.FloorToInt(cropRect.x);
         int y = Mathf.FloorToInt(cropRect.y);
@@ -299,16 +335,16 @@ public class UP_Shoot : UP_BasePage
 
         // 지정한 영역의 픽셀 값을 가져와 새로운 Texture2D에 설정
         Color[] pixels = sourceTexture.GetPixels(x, y, width, height);
-        if (flip)
+        if(flip)
         {
             var newPixels = new Color[pixels.Length];
 
             var width_flip = width;
             var rows = height;
 
-            for (var i = 0; i < width_flip; i++)
+            for(var i = 0; i < width_flip; i++)
             {
-                for (var j = 0; j < rows; j++)
+                for(var j = 0; j < rows; j++)
                 {
                     newPixels[i + j * width_flip] = pixels[(width_flip - i - 1) + j * width_flip];
                 }
@@ -325,7 +361,17 @@ public class UP_Shoot : UP_BasePage
         return croppedTexture;
     }
 
-    protected override void OnPageReset()
+    protected override void OnPageReset ()
     {
+    }
+
+    private void SetNextChromaKeyBG ()
+    {
+        if(UserDataManager.inst.isChromaKeyOn)
+        {
+            ChromaKeyModule.inst.SetBg(ChromaKeyModule.inst.options[UserDataManager.inst.selectedChromaKeyNum].images[_shootState.photoCurrent]);
+            _nextChromakeyBG.SetBgImg(ChromaKeyModule.inst.bgTex);
+
+        }
     }
 }

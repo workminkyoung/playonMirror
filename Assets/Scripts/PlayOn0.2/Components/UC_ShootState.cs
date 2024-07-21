@@ -25,6 +25,7 @@ public class UC_ShootState : MonoBehaviour
     [SerializeField]
     private Image _timerImg;
     public Action _shoot, _endShoot;
+    public int photoCurrent => _photoCurrent;
     PC_Main _main;
 
     Coroutine _timeCoroutine = null;

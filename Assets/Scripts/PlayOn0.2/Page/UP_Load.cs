@@ -117,7 +117,25 @@ public class UP_Load : UP_BasePage
             Rect rect = new Rect(x, y, width, height);
 
             Texture2D cropped = CropTexture(texture, rect, true);
-            PhotoDataManager.inst.AddPhotoOrigin(cropped);
+
+            if(UserDataManager.inst.isChromaKeyOn)
+            {
+                Texture2D combined = ChromaKeyModule.inst.CombineImage(ChromaKeyModule.inst.options[UserDataManager.inst.selectedChromaKeyNum].images[PhotoDataManager.inst.photoOrigin.Count], cropped);
+
+                while(combined == null)
+                {
+                    if(combined != null)
+                    {
+                        break;
+                    }
+                }
+
+                PhotoDataManager.inst.AddPhotoOrigin(combined);
+            }
+            else
+            {
+                PhotoDataManager.inst.AddPhotoOrigin(cropped);
+            }
         };
         DSLRManager.Instance.OnEndLoadAllTexture = () =>
         {

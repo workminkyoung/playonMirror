@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class CameraManager : SingletonBehaviour<CameraManager>
 {
+    [SerializeField]
     WebCamTexture _webCamTexture = null;
     WebCamDevice[] _devices;
 
@@ -34,8 +35,9 @@ public class CameraManager : SingletonBehaviour<CameraManager>
                 //{
                 //    if (_devices[i].name.Contains("Insta") || _devices[i].name.Contains("insta"))
                 //    {
-                        WebCamDevice device = _devices[0];
+                        WebCamDevice device = _devices[6];
                         _webCamTexture = new WebCamTexture(device.name);
+                        _webCamTexture.name = "WebcamTexture";
                         _webCamTexture.requestedFPS = 60f;
                         //break;
                 //    }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -79,9 +80,28 @@ public class UP_ShootCartoon : UP_Shoot
             Rect rect = new Rect(x, y, width, height);
 
             Texture2D cropped = CropTexture(texture, rect, true);
-            PhotoDataManager.inst.AddPhotoOrigin(cropped);
 
-            ApiCall.Instance.InRequestList(cropped);
+            if(UserDataManager.inst.isChromaKeyOn)
+            {
+                Texture2D combined = ChromaKeyModule.inst.CombineImage(ChromaKeyModule.inst.options[UserDataManager.inst.selectedChromaKeyNum].images[PhotoDataManager.inst.photoOrigin.Count], cropped);
+
+                while(combined == null)
+                {
+                    if(combined != null)
+                    {
+                        break;
+                    }
+                }
+
+                PhotoDataManager.inst.AddPhotoOrigin(combined);
+                ApiCall.Instance.InRequestList(combined);
+            }
+            else
+            {
+                PhotoDataManager.inst.AddPhotoOrigin(cropped);
+
+                ApiCall.Instance.InRequestList(cropped);
+            }
         };
     }
 
