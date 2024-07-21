@@ -1,7 +1,5 @@
 ﻿// Smallest positive number, such that 1.0 + FLT_EPSILON != 1.0
-#ifndef FLT_EPSILON
 #define FLT_EPSILON 1.192092896e-07 
-#endif
 
 float3 PositivePow(float3 base, float3 power) {
     return pow(max(abs(base), float3(FLT_EPSILON, FLT_EPSILON, FLT_EPSILON)), power);

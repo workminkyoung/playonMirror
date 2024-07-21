@@ -58,7 +58,7 @@ Shader "Nexweron/Builtin/Lut/Unlit_Lut3D"
 		
 		Pass {
 			CGPROGRAM
-			    #pragma multi_compile _LUTGREENDIR_DIRECT _LUTGREENDIR_INVERSE
+			    #pragma shader_feature _LUTGREENDIR_DIRECT _LUTGREENDIR_INVERSE
 			    #pragma vertex vert
 				#pragma fragment frag
 			ENDCG
