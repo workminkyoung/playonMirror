@@ -99,6 +99,7 @@ namespace CameraControl
             vRect = _model.VisibleRect;
             
             //Debug.Log((int)streamLength);
+            //Debug.Log((int)streamLength);
             byte[] data = new byte[(int)streamLength];
             Marshal.Copy(evfStream, data, 0, (int)streamLength);
              
