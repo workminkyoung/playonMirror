@@ -48,9 +48,6 @@ public class Config
     public bool childDefaultCheck;
     public int firstPrintAmount;
 
-    public int paymentMethod;
-    public string KsnetCatID;
-
     public ChromaKeyConfig chromaKey;
     //0 : KICC, 1 : KSNET
     public MailConfig mailConfig;
@@ -58,6 +55,10 @@ public class Config
     public PriceConfig priceConfigProfile;
     public PriceConfig priceConfigBeauty;
     public PriceConfig priceConfigWhatIf;
+
+    public string _comment;
+    public int paymentMethod;
+    public string KsnetCatID;
 }
 public static class ConfigData
 {
@@ -83,4 +84,10 @@ public class PriceConfig
 public class ChromaKeyConfig
 {
     public bool isOn;
+    public float d;
+    public float t;
+    public int blur;
+    public float alphaPow;
+    public float alphaEdge;
+    public string color;    
 }

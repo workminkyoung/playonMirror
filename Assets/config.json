@@ -1,13 +1,11 @@
 {
     "localUrlCheck": false,
     "serverUrl": "",
-
     "camType": 0,
-
+    "photoTime": 0,
     "photoTime_cartoon": 3,
     "photoTime_profile": 3,
     "photoTime_beauty": 3,
-
     "shootWarningTime": 5,
     "waitPrintTime": 15,
     "contentSelectTime": 100,
@@ -15,7 +13,6 @@
     "profileSelectTime": 100,
     "cartoonStyleSelectTime": 100,
     "profilePicSelectTime": 100,
-
     "frameSelectTime": 100,
     "paymentPageTime": 100,
     "paymentFailTime": 5,
@@ -23,46 +20,120 @@
     "decoPageTime": 10,
     "loadingTime": 30,
     "loadingTimeBeauty": 15,
-
     "wbIdx": 1,
     "isoIdx": 6,
     "avIdx": 3,
     "tvIdx": 39,
-
     "policyDefaultCheck": false,
     "childDefaultCheck": false,
     "firstPrintAmount": 2,
-
     "chromaKey": {
-        "isOn": true 
+        "isOn": true,
+        "d": 0.5,
+        "t": 0.05000000074505806,
+        "blur": 2,
+        "alphaPow": 3.0,
+        "alphaEdge": 0.0,
+        "color": "#00FF00"
     },
-
     "mailConfig": {
-        "mailingList": [ "mkkim@vivestudios.com" ],
+        "mailingList": [
+            "mkkim@vivestudios.com"
+        ],
         "storeName": "하윤 마이그레이션"
     },
-
     "priceConfigCartoon": {
         "priceNum": 8,
-        "originalPrices": [ 6000, 12000, 18000, 24000, 30000, 36000, 42000, 48000 ],
-        "discountPrices": [ 6000, 10000, 12000, 18000, 24000, 30000, 36000, 42000 ]
+        "originalPrices": [
+            6000,
+            12000,
+            18000,
+            24000,
+            30000,
+            36000,
+            42000,
+            48000
+        ],
+        "discountPrices": [
+            6000,
+            10000,
+            12000,
+            18000,
+            24000,
+            30000,
+            36000,
+            42000
+        ]
     },
     "priceConfigProfile": {
         "priceNum": 8,
-        "originalPrices": [ 6000, 12000, 18000, 24000, 30000, 36000, 42000, 48000 ],
-        "discountPrices": [ 6000, 10000, 12000, 18000, 24000, 30000, 36000, 42000 ]
+        "originalPrices": [
+            6000,
+            12000,
+            18000,
+            24000,
+            30000,
+            36000,
+            42000,
+            48000
+        ],
+        "discountPrices": [
+            6000,
+            10000,
+            12000,
+            18000,
+            24000,
+            30000,
+            36000,
+            42000
+        ]
     },
     "priceConfigBeauty": {
         "priceNum": 8,
-        "originalPrices": [ 4000, 8000, 12000, 16000, 20000, 24000, 28000, 32000 ],
-        "discountPrices": [ 4000, 8000, 12000, 16000, 20000, 24000, 28000, 32000 ]
+        "originalPrices": [
+            4000,
+            8000,
+            12000,
+            16000,
+            20000,
+            24000,
+            28000,
+            32000
+        ],
+        "discountPrices": [
+            4000,
+            8000,
+            12000,
+            16000,
+            20000,
+            24000,
+            28000,
+            32000
+        ]
     },
     "priceConfigWhatIf": {
         "priceNum": 8,
-        "originalPrices": [ 0, 0, 0, 0, 0, 0, 0, 0 ],
-        "discountPrices": [ 0, 0, 0, 0, 0, 0, 0, 0 ]
+        "originalPrices": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+        ],
+        "discountPrices": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+        ]
     },
-
     "_comment": "0 : KICC, 1 : KSNET",
     "paymentMethod": 0,
     "KsnetCatID": "AT0357245A"

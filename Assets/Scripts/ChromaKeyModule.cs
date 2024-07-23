@@ -26,8 +26,6 @@ public class ChromaKeyModule : SingletonBehaviour<ChromaKeyModule>
     [SerializeField]
     private FFTargetRender m_chromaKeyTargetRender;
     [SerializeField]
-    private FFController m_chromaKeyController;
-    [SerializeField]
     private Texture m_cameraTex;
 
     [Header("Options")]
@@ -37,6 +35,14 @@ public class ChromaKeyModule : SingletonBehaviour<ChromaKeyModule>
     [Header("Combine")]
     [SerializeField]
     private FFTargetRender m_combine;
+
+    [Header("Setting")]
+    [SerializeField]
+    private FFChromaKeyAlpha[] m_chromaKeyAlphas;
+    [SerializeField]
+    private FFBlur[] m_blurs;
+    [SerializeField]
+    private FFMaskSource[] m_maskSources;
 
     [Header("Debug")]
     [SerializeField]
@@ -69,6 +75,12 @@ public class ChromaKeyModule : SingletonBehaviour<ChromaKeyModule>
 
     public void SetCamImg (Texture tex)
     {
+        if(tex == null)
+        {
+            m_cameraTex = null;
+            return;
+        }
+
         if(m_chromaKeyRT == null || m_chromaKeyRT.width != tex.width || m_chromaKeyRT.height != tex.height)
         {
             if(m_chromaKeyRT != null)
@@ -125,6 +137,66 @@ public class ChromaKeyModule : SingletonBehaviour<ChromaKeyModule>
         {
             m_chromaKeyTargetRender.sourceTexture = null;
             m_chromaKeyTargetRender.sourceTexture = m_cameraTex;
+        }
+    }
+
+    public void ChangeChromaKeyConfig (float d, float t, int blur, float alphaPow, float alphaEdge, string color)
+    {
+        ConfigData.config.chromaKey.d = d;
+        ConfigData.config.chromaKey.t = t;
+        ConfigData.config.chromaKey.blur = blur;
+        ConfigData.config.chromaKey.alphaPow = alphaPow;
+        ConfigData.config.chromaKey.alphaEdge = alphaEdge;
+        ConfigData.config.chromaKey.color = color;
+
+        ConfigLoadManager.inst.SaveConfig();
+        ApplySetting();
+    }
+
+    public void ResetChromaKeySetting ()
+    {
+        ApplySetting();
+    }
+
+    public void TemporaryApplySetting (float d, float t, int blur, float alphaPow, float alphaEdge, string color)
+    {
+        foreach(var elem in m_chromaKeyAlphas)
+        {
+            elem.keyColor = UtilityExtensions.HexToColor(color);
+            elem.dChroma = d;
+            elem.dChromaT = t;
+        }
+
+        foreach(var elem in m_blurs)
+        {
+            elem.blurOffset = blur;
+        }
+
+        foreach(var elem in m_maskSources)
+        {
+            elem.alphaPow = alphaPow;
+            elem.alphaEdge = alphaEdge;
+        }
+    }
+
+    private void ApplySetting ()
+    {
+        foreach(var elem in m_chromaKeyAlphas)
+        {
+            elem.keyColor = UtilityExtensions.HexToColor(ConfigData.config.chromaKey.color);
+            elem.dChroma = ConfigData.config.chromaKey.d;
+            elem.dChromaT = ConfigData.config.chromaKey.t;
+        }
+
+        foreach(var elem in m_blurs)
+        {
+            elem.blurOffset = ConfigData.config.chromaKey.blur;
+        }
+
+        foreach(var elem in m_maskSources)
+        {
+            elem.alphaPow = ConfigData.config.chromaKey.alphaPow;
+            elem.alphaEdge = ConfigData.config.chromaKey.alphaEdge;
         }
     }
 }

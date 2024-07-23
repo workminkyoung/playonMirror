@@ -162,7 +162,6 @@ MonoBehaviour:
   m_bg: {fileID: 5172821783319040004}
   m_camImg: {fileID: 420321223816911200}
   m_chromaKeyTargetRender: {fileID: 3399442330341225767}
-  m_chromaKeyController: {fileID: 4061191503793830023}
   m_cameraTex: {fileID: 0}
   m_options:
   - key: cmk_blue
@@ -271,6 +270,15 @@ MonoBehaviour:
     - {fileID: 2800000, guid: 752290b0851d9e2408a83419a48ef435, type: 3}
     - {fileID: 2800000, guid: 86bb57084dc154d428ba272cf952d9e2, type: 3}
   m_combine: {fileID: 3723817206091734956}
+  m_chromaKeyAlphas:
+  - {fileID: 1809122226988824403}
+  - {fileID: 8385349640887528726}
+  m_blurs:
+  - {fileID: 6118566505538333387}
+  - {fileID: 6970546032623158022}
+  m_maskSources:
+  - {fileID: 8842700300073099576}
+  - {fileID: 7216040506009133908}
   m_bgTex: {fileID: 0}
   m_combinedTex: {fileID: 0}
 --- !u!1 &2343830651671895162

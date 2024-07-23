@@ -315,6 +315,7 @@ public class UP_Shoot : UP_BasePage
         if(photoCount == _photoCountMax)
         {
             NextPage();
+            ChromaKeyModule.inst.SetCamImg(null);
         }
         else
         {
