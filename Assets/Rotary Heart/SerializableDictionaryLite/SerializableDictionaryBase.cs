@@ -346,7 +346,7 @@ namespace RotaryHeart.Lib.SerializableDictionary
                             //We need the reference to the reference holder class
                             if (reqReferences == null)
                             {
-                                CustomLogger.LogError("A key of type: " + tKeyType + " requires to have a valid RequiredReferences reference");
+                                Debug.LogError("A key of type: " + tKeyType + " requires to have a valid RequiredReferences reference");
                                 continue;
                             }
 
@@ -364,7 +364,7 @@ namespace RotaryHeart.Lib.SerializableDictionary
                             //References class is missing the field, skip the element
                             if (_keys[i] == null)
                             {
-                                CustomLogger.LogError("Couldn't find " + tKeyType + " reference.");
+                                Debug.LogError("Couldn't find " + tKeyType + " reference.");
                                 continue;
                             }
                         }
