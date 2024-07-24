@@ -189,4 +189,22 @@ public static class UtilityExtensions
     {
         return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
     }
+
+    public static string ColorToHex (Color color)
+    {
+        return $"#{ColorUtility.ToHtmlStringRGB(color)}";
+    }
+
+    public static Color HexToColor (string hex)
+    {
+        Color color;
+        if(ColorUtility.TryParseHtmlString(hex, out color))
+        {
+            return color;
+        }
+        else
+        {
+            throw new System.Exception("Invalid hex string");
+        }
+    }
 }

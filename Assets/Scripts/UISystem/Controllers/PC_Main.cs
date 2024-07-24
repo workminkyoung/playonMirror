@@ -117,17 +117,25 @@ public class PC_Main : PC_BasePageController
             _captureCameras[CAMERA_VIEW_TYPE.RECORD].targetTexture = _recordRenderTextures[0];
         }
 
-        if (_captureRawimgs[CAMERA_VIEW_TYPE.RECORD].texture == null)
+        if(ConfigData.config.camType == (int)CAMERA_TYPE.WEBCAM)
         {
-            if (ConfigData.config.camType == (int)CAMERA_TYPE.WEBCAM)
-                _captureRawimgs[CAMERA_VIEW_TYPE.RECORD].texture = CameraManager.Instance.webCamTexture;
-            else if (ConfigData.config.camType == (int)CAMERA_TYPE.NDI)
-                _captureRawimgs[CAMERA_VIEW_TYPE.RECORD].texture = NDIManager.Instance.ndiTexture;
+            if(UserDataManager.inst.isChromaKeyOn)
+            {
+                _captureRawimgs[CAMERA_VIEW_TYPE.RECORD].texture = ChromaKeyModule.inst.resultRT;
+            }
             else
             {
-
-                //dslr
+                _captureRawimgs[CAMERA_VIEW_TYPE.RECORD].texture = CameraManager.Instance.webCamTexture;
             }
+        }
+        else if(ConfigData.config.camType == (int)CAMERA_TYPE.NDI)
+        {
+            _captureRawimgs[CAMERA_VIEW_TYPE.RECORD].texture = NDIManager.Instance.ndiTexture;
+        }
+        else
+        {
+
+            //dslr
         }
     }
 
@@ -270,7 +278,16 @@ public class PC_Main : PC_BasePageController
         //TODO : Config load manager로 정리한후 아래코드 변경(cam type확인필요)
         DSLRManager.Instance.OnLoadPreview += (preview) =>
         {
-            _captureRawimgs[CAMERA_VIEW_TYPE.RECORD].texture = preview;
+            if(UserDataManager.inst.isChromaKeyOn)
+            {
+                ChromaKeyModule.inst.SetCamImg(preview);
+                _captureRawimgs[CAMERA_VIEW_TYPE.RECORD].texture = ChromaKeyModule.inst.resultRT;
+            } 
+            else
+            {
+                _captureRawimgs[CAMERA_VIEW_TYPE.RECORD].texture = preview;
+            }
+            
         };
     }
 

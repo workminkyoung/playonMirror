@@ -18,6 +18,8 @@ public class UC_SelectableContent : UC_BaseComponent, IPointerDownHandler, IPoin
     private bool isViewOnly = false;
     [SerializeField]
     protected Image _thumbnailImg = null;
+    [SerializeField]
+    protected TextMeshProUGUI _nameText = null;
 
     public Image thumbnailImg => _thumbnailImg;
 
@@ -87,6 +89,11 @@ public class UC_SelectableContent : UC_BaseComponent, IPointerDownHandler, IPoin
     public void SetThumbnailClear(Color color)
     {
         _thumbnailImg.color = color;
+    }
+
+    public void SetNameText(string name)
+    {
+        _nameText.text = name;
     }
 
     //public void OnPointerUp(PointerEventData eventData)

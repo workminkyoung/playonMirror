@@ -38,6 +38,8 @@ public class UP_Global : UP_BasePage
     private RectTransform _versionTextArea;
     [SerializeField]
     private TextMeshProUGUI _versionText;
+    [SerializeField]
+    private UC_ChromaKeySetting _chromaKeySetting;
 
     private Coroutine _timerToastCoroutine = null;
     private Coroutine _showToastCoroutine = null;
@@ -63,6 +65,7 @@ public class UP_Global : UP_BasePage
         _resetPhotoPaperPopup.gameObject.SetActive(false);
         _versionTextArea.gameObject.SetActive(false);
         _aiAlertPopup.gameObject.SetActive(false);
+        _chromaKeySetting.gameObject.SetActive(false);
     }
 
     public override void BindDelegates()
@@ -229,6 +232,16 @@ public class UP_Global : UP_BasePage
     {
         _aiAlertPopup.OnAlertClosed = OnAlertClosed;
         _aiAlertPopup.gameObject.SetActive(true);
+    }
+
+    public void OpenChromaKeySetting()
+    {
+        _chromaKeySetting.gameObject.SetActive(true);
+    }
+
+    public void CloseChromaKeySetting()
+    {
+        _chromaKeySetting.gameObject.SetActive(false);
     }
 
     private void Update()

@@ -117,6 +117,7 @@ public class GameManager : SingletonBehaviour<GameManager>
         CreateManager<ConfigLoadManager>();
         InstantiateManager<ResourceCacheManager>();
         InstantiateManager<StringCacheManager>();
+        InstantiateManager<ChromaKeyModule>();
 
         CreateManager<UserDataManager>();
         CreateManager<PhotoDataManager>();

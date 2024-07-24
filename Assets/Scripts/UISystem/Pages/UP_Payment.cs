@@ -169,7 +169,14 @@ public class UP_Payment : UP_BasePage
 
     private void OnClickPrev()
     {
-        (_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_SELECT_FRAME);
+        if(UserDataManager.inst.isChromaKeyOn)
+        {
+            (_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_SELECT_CHROMA_KEY_BACKGROUND);
+        }
+        else
+        {
+            (_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_SELECT_FRAME);
+        }
     }
 
     private void OnClickPayment()

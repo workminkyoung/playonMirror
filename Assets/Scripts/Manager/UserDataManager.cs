@@ -21,6 +21,11 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
     private GENDER_TYPE _selectedGender = GENDER_TYPE.FEMALE;
 
     [SerializeField]
+    private bool _isChromaKeyOn = false;
+    [SerializeField]
+    private int _selectedChromaKeyNum = 0;
+
+    [SerializeField]
     private int _selectedSubContentNum = 0;
     [SerializeField]
     private PROFILE_TYPE _selectedProfileType = PROFILE_TYPE.PR00001;
@@ -43,6 +48,9 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
     public FRAME_COLOR_TYPE selectedFrameColor => _selectedFrameColor;
     public PROFILE_TYPE selectedProfileType => _selectedProfileType;
     public GENDER_TYPE selectedGender => _selectedGender;
+
+    public bool isChromaKeyOn => _isChromaKeyOn;
+    public int selectedChromaKeyNum => _selectedChromaKeyNum;
 
     public int selectedSubContentNum => _selectedSubContentNum;
     public int selectedProfilePicNum => _selectedProfilePicNum;
@@ -78,6 +86,8 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
         _selectedFrameColor = FRAME_COLOR_TYPE.FRAME_WHITE;
         _frameRatioType = FRAME_RATIO_TYPE.HORIZONTAL;
         _curPicAmount = Mathf.Min( ConfigData.config.firstPrintAmount, PhotoPaperCheckModule.GetRemainPhotoPaper());
+        _selectedChromaKeyNum = 0;
+        _isChromaKeyOn = false;
     }
 
     public void SelectContent(CONTENT_TYPE type)
@@ -148,5 +158,15 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
     public void SetGender(GENDER_TYPE type)
     {
         _selectedGender = type;
+    }
+
+    public void SetChromaKeyEnable(bool isEnable) 
+    {
+        _isChromaKeyOn = isEnable;
+    }
+
+    public void SetSelectedChromaKeyNum(int index)
+    {
+        _selectedChromaKeyNum = index;
     }
 }

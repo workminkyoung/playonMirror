@@ -124,7 +124,41 @@ public class UP_SelectFrame : UP_BaseSelectContent, IPageTimeLimit
                 break;
         }
 
-        (_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_PAYMENT);
+        switch(UserDataManager.inst.selectedContent)
+        {
+            case CONTENT_TYPE.AI_CARTOON:
+                if(ConfigData.config.chromaKey.isOn)
+                {
+                    UserDataManager.inst.SetChromaKeyEnable(true);
+                }
+                else
+                {
+                    UserDataManager.inst.SetChromaKeyEnable(false);
+                }
+                break;
+            case CONTENT_TYPE.AI_BEAUTY:
+                if(ConfigData.config.chromaKey.isOn)
+                {
+                    UserDataManager.inst.SetChromaKeyEnable(true);
+                }
+                else
+                {
+                    UserDataManager.inst.SetChromaKeyEnable(false);
+                }
+                break;
+            default:
+                UserDataManager.inst.SetChromaKeyEnable(false);
+                break;
+        }
+
+        if(UserDataManager.inst.isChromaKeyOn)
+        {
+            (_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_SELECT_CHROMA_KEY_BACKGROUND);
+        }
+        else
+        {
+            (_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_PAYMENT);
+        }
     }
 
     private void ResetContents()
