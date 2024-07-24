@@ -84,6 +84,8 @@ public class UC_ChromaKeySetting : UC_BaseComponent, IPointerClickHandler
         BindDelegates();
         _colorPicker.gameObject.SetActive(false);
         _isInited = true;
+        ResetChromaKey();
+        UpdateBG();
     }
 
     private void BindDelegates ()
