@@ -32,6 +32,8 @@ public class UP_SelectChromaKeyBackground : UP_DecoratePageBase, IPageTimeLimit
     {
         base.InitPage();
 
+        // TODO : Set MaxTime
+        _maxTime = ConfigData.config.frameSelectTime;
         InitContents();
     }
 
@@ -100,6 +102,7 @@ public class UP_SelectChromaKeyBackground : UP_DecoratePageBase, IPageTimeLimit
         }
 
         (_pageController as PC_Main)?.globalPage?.CloseToast();
+        (_pageController as PC_Main)?.globalPage?.CloseConfirmPopup();
 
         _frameAreaDic[UserDataManager.inst.selectedFrame].SetPics(null);
         _frameAreaDic[UserDataManager.inst.selectedFrame].UpdateFrame();
