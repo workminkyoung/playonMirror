@@ -79,14 +79,11 @@ public class UP_SelectChromaKeyBackground : UP_DecoratePageBase, IPageTimeLimit
 
     public override void BindDelegates ()
     {
-        base.BindDelegates();
-
         _prevBtn.onClick.AddListener(OnClickPrev);
         _nextBtn.onClick.AddListener(OnClickNext);
         _descriptBtn.onClick.AddListener(OnClickDescript);
 
-        (_pageController as PC_Main).OnTimeUpdateAction -= OnTimeUpdate;
-        (_pageController as PC_Main).OnTimeLimitDoneAction -= OnTimeLimitDone;
+        (_pageController as PC_Main).OnFrameUpdateAction += UpdateFrame;
     }
 
     private void OnClickDescript ()
@@ -170,5 +167,11 @@ public class UP_SelectChromaKeyBackground : UP_DecoratePageBase, IPageTimeLimit
         {
             StopCoroutine(_timerCoroutine);
         }
+    }
+
+    protected override void OnEnable ()
+    {
+        FrameEnable();
+        UpdateFrame();
     }
 }
