@@ -60,6 +60,7 @@ public class UP_SelectCartoonStyle : UP_BaseSelectContent, IPageTimeLimit
     protected override void OnClickContent(int index)
     {
         UserDataManager.inst.SelectSubContent(index);
+        UserDataManager.inst.SelectContentCode(_activeCartoonTypes[index]);
         _pageController.ChangePage(PAGE_TYPE.PAGE_SELECT_FRAME);
     }
 

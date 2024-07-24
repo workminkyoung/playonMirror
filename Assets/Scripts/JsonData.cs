@@ -1,7 +1,26 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+
+[Serializable]
+public class CartoonRequestData
+{
+    public string menu_code;
+    public string encoded_source_image;
+}
+
+[Serializable]
+public class ProfileRequestData
+{
+    public string menu_code;
+    public string encoded_source_image;
+    public int image_index;
+}
+
+[Serializable]
+public class APIResponse
+{
+    public string images;
+}
 
 [Serializable]
 public class Img2ImgResponse

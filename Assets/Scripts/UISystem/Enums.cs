@@ -39,7 +39,9 @@ namespace Vivestudios.UI
         CA00002,
         CA00003,
         CA00004,
-        CA00005
+        CA00005,
+
+        END
     }
 
     public enum PROFILE_TYPE
@@ -57,7 +59,9 @@ namespace Vivestudios.UI
         PR00011,
         PR00012,
         PR00013,
-        PR00014
+        PR00014,
+
+        END
     }
 
     public enum PHOTO_TYPE
