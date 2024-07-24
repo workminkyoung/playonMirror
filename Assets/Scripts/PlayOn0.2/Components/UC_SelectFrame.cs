@@ -90,7 +90,7 @@ public class UC_SelectFrame : UC_BaseComponent
         }
 
         SetFrame(type);
-        Debug.Log("Change Frame");
+        CustomLogger.Log("Change Frame");
     }
 
     enum CONTAINER

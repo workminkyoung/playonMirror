@@ -165,7 +165,7 @@ public class LogDataManager : SingletonBehaviour<LogDataManager>
         logFormat.timestamp_utc = DateTime.UtcNow.ToString("yyyy-MM-dd") + "T" + DateTime.UtcNow.ToString("HH_mm_ss_ff");
         logFormat.timestamp_kst = DateTime.Now.ToString("yyyy-MM-dd") + "T" + DateTime.Now.ToString("HH_mm_ss_ff");
 
-        Debug.Log(JsonUtility.ToJson(logFormat, true));
+        CustomLogger.Log(JsonUtility.ToJson(logFormat, true));
 
         StartCoroutine(SendLogRoutine(JsonUtility.ToJson(logFormat), GameManager.inst.isChildPlaying));
     }
@@ -183,11 +183,11 @@ public class LogDataManager : SingletonBehaviour<LogDataManager>
 
             if (req.result == UnityWebRequest.Result.Success)
             {
-                Debug.Log("LOG_SUCCESS : " + req.downloadHandler.text);
+                CustomLogger.Log("LOG_SUCCESS : " + req.downloadHandler.text);
             }
             else
             {
-                Debug.Log("LOG_ERROR : " + req.error);
+                CustomLogger.Log("LOG_ERROR : " + req.error);
             }
         }
 
@@ -228,11 +228,11 @@ public class LogDataManager : SingletonBehaviour<LogDataManager>
 
                 if (req.result == UnityWebRequest.Result.Success)
                 {
-                    Debug.Log("FILE_SUCCESS : " + req.downloadHandler.text);
+                    CustomLogger.Log("FILE_SUCCESS : " + req.downloadHandler.text);
                 }
                 else
                 {
-                    Debug.Log("FILE_ERROR : " + req.error);
+                    CustomLogger.Log("FILE_ERROR : " + req.error);
                 }
             }
         }

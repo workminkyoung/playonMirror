@@ -34,7 +34,7 @@ public class UDPReceiver : SingletonBehaviour<UDPReceiver>
         isReceive = false;
         if(server != null)
         {
-            Debug.Log("Server Closed");
+            CustomLogger.Log("Server Closed");
             server.Close();
             server = null;
         }
@@ -53,7 +53,7 @@ public class UDPReceiver : SingletonBehaviour<UDPReceiver>
         byte[] data = server.EndReceive(ar, ref remoteEndPoint);
         string message = Encoding.UTF8.GetString(data);
 
-        //Debug.Log("Received message from " + remoteEndPoint.Address + ": " + message);
+        //CustomLogger.Log("Received message from " + remoteEndPoint.Address + ": " + message);
         Received.Enqueue(message);
         // Handle the received message here (e.g., update the game state)
 

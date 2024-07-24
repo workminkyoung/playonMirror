@@ -96,7 +96,7 @@ public class UC_AgeSlider : UC_BaseComponent
             age.target = 20;
         }
 
-        Debug.LogFormat("value is {0}, revalue is {1}", value, reValue);
+        CustomLogger.Log($"value is {value}, revalue is {reValue}");
         Dictionary<string, object> sliderData = new Dictionary<string, object>();
         sliderData.Add(_index.ToString(), age);
 

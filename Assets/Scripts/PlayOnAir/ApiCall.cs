@@ -65,7 +65,7 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
         }
         else
         {
-            Debug.LogError("Folder does not exist: " + folderPath);
+            CustomLogger.LogError("Folder does not exist: " + folderPath);
         }
 
         return jsonFiles;
@@ -91,8 +91,8 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
 
         if (www.result != UnityWebRequest.Result.Success)
         {
-            Debug.Log(www.error);
-            Debug.Log(www.downloadHandler.text);
+            CustomLogger.Log(www.error);
+            CustomLogger.Log(www.downloadHandler.text);
 
             if (_requestNum < _requestMaxNum)
             {

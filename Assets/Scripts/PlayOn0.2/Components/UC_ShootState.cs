@@ -90,7 +90,7 @@ public class UC_ShootState : MonoBehaviour
     {
         if (!GameManager.inst.isDiffusionSuccess)
         {
-            Debug.Log("Diffusion is already Failed");
+            CustomLogger.Log("Diffusion is already Failed");
             return;
         }
 

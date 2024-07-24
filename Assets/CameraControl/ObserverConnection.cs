@@ -21,7 +21,7 @@ namespace CameraControl
             {
                 case CameraEvent.Type.SHUT_DOWN:
 
-                    Debug.Log("[IObserver] Camera is disconnected");
+                    CustomLogger.Log("[IObserver] Camera is disconnected");
                     //GameManager.inst.SetCameraConnected(false);
                     Reconnection();
                     break;

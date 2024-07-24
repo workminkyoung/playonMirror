@@ -141,7 +141,7 @@ public class DSLRManager : SingletonBehaviour<DSLRManager>
 
             // 파일 삭제
             File.Delete(file);
-            Debug.Log(fileName + " deleted.");
+            CustomLogger.Log(fileName + " deleted.");
         }
     }
 
@@ -188,14 +188,14 @@ public class DSLRManager : SingletonBehaviour<DSLRManager>
                         _loadPhotos.Add(name, texture2D);
                         _listLoadPhotos.Add(data);
 
-                        Debug.Log("[ cartoon ]" + file + " is loaded");
+                        CustomLogger.Log("[ cartoon ]" + file + " is loaded");
                         OnLoadTexture?.Invoke(texture2D);
                     }
                 }
             }
         }
 
-        Debug.Log("loaded all");
+        CustomLogger.Log("loaded all");
         PhotoDataManager.Instance.SetDslrPhotos(_listLoadPhotos);
         OnEndLoadAllTexture?.Invoke();
     }
@@ -210,7 +210,7 @@ public class DSLRManager : SingletonBehaviour<DSLRManager>
             _listLoadPhotos.Add(data);
 
             OnLoadTexture?.Invoke(texture2D);
-            Debug.Log("[ profile] " + file + " is loaded");
+            CustomLogger.Log("[ profile] " + file + " is loaded");
         }
         PhotoDataManager.Instance.SetDslrPhotos(_listLoadPhotos);
         OnEndLoadAllTexture?.Invoke();

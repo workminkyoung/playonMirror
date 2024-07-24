@@ -58,13 +58,13 @@ public class EosController : MonoBehaviour
     {
         _actionSource.FireEvent(ActionEvent.Command.START_EVF, IntPtr.Zero);
         //_actionSource.FireEvent(ActionEvent.Command.EVF_AF_ON, IntPtr.Zero);
-        //Debug.Log("Camera on");
+        //CustomLogger.Log("Camera on");
     }
 
     public void CameraOff()
     {
         _actionSource.FireEvent(ActionEvent.Command.END_EVF, IntPtr.Zero);
-        //Debug.Log("Camera off");
+        //CustomLogger.Log("Camera off");
     }
 
     public void CameraAFON()
@@ -91,7 +91,7 @@ public class EosController : MonoBehaviour
 
         _controller.ActionPerformed(e);
 
-        Debug.Log("Set WHITE BALANCE : " );
+        CustomLogger.Log("Set WHITE BALANCE : " );
     }
 
     public void SetCameraISO()
@@ -103,7 +103,7 @@ public class EosController : MonoBehaviour
 
         _controller.ActionPerformed(e);
 
-        Debug.Log("Set iso speed ");
+        CustomLogger.Log("Set iso speed ");
     }
 
     //조리개
@@ -116,7 +116,7 @@ public class EosController : MonoBehaviour
 
         _controller.ActionPerformed(e);
 
-        Debug.Log("Set iso speed ");
+        CustomLogger.Log("Set iso speed ");
     }
 
     //셔터스피드
@@ -129,7 +129,7 @@ public class EosController : MonoBehaviour
 
         _controller.ActionPerformed(e);
 
-        Debug.Log("Set shutter speed ");
+        CustomLogger.Log("Set shutter speed ");
     }
 
 

@@ -119,7 +119,7 @@ public class ProfileModule : SingletonBehaviour<ProfileModule>
 
         for (int i = 0; i < jsons.Count; i++)
         {
-            //Debug.Log(jsons[i]);
+            //CustomLogger.Log(jsons[i]);
 
             using (UnityWebRequest www = new UnityWebRequest(ApiCall.inst.profileAPI))
             {
@@ -141,16 +141,16 @@ public class ProfileModule : SingletonBehaviour<ProfileModule>
 
                     if (www.result != UnityWebRequest.Result.Success)
                     {
-                        Debug.Log(www.error);
-                        Debug.Log(www.downloadHandler.text);
+                        CustomLogger.Log(www.error);
+                        CustomLogger.Log(www.downloadHandler.text);
                         curRequestNum++;
                     }
                     else
                     {
                         string response = (www.downloadHandler.text);
-                        //Debug.Log(response);
+                        //CustomLogger.Log(response);
                         JObject root = JObject.Parse(response);
-                        //Debug.Log(root);
+                        //CustomLogger.Log(root);
                         JToken image = root.GetValue("images");
                         //Debug.Log(image);
                         byte[] bytes = Convert.FromBase64String(image.ToString());
@@ -159,7 +159,7 @@ public class ProfileModule : SingletonBehaviour<ProfileModule>
                         resultTexture.LoadImage(bytes);
                         resultTextures.Add(resultTexture);
 
-                        Debug.Log($"get image [{i}]");
+                        CustomLogger.Log($"get image [{i}]");
                         isRequestSuccessed = true;
                         break;
                     }
@@ -167,7 +167,7 @@ public class ProfileModule : SingletonBehaviour<ProfileModule>
 
                 if (!isRequestSuccessed)
                 {
-                    Debug.LogFormat("[AIProfile / request count {0}] Fail to Send!", curRequestNum);
+                    CustomLogger.Log($"[AIProfile / request count {curRequestNum}] Fail to Send!");
                     GameManager.inst.SetDiffusionState(false);
                     break;
                 }

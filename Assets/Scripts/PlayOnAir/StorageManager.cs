@@ -70,7 +70,7 @@ public class StorageManager : SingletonBehaviour<StorageManager>
 
         if (request.result != UnityWebRequest.Result.Success)
         {
-            Debug.Log("Error: " + request.error);
+            CustomLogger.LogError(request.error);
         }
         else
         {
@@ -79,7 +79,7 @@ public class StorageManager : SingletonBehaviour<StorageManager>
             // Get the desired value
             string message = responseData.message;
             SendLink(url_qr + message);
-            Debug.Log("Form upload complete! : " + url_qr + message);
+            CustomLogger.Log("Form upload complete! : " + url_qr + message);
         }
 
         request.Dispose();
@@ -99,18 +99,18 @@ public class StorageManager : SingletonBehaviour<StorageManager>
 
         if (request.result != UnityWebRequest.Result.Success)
         {
-            Debug.Log("Error: " + request.error);
+            CustomLogger.LogError(request.error);
             GameManager.inst.SetQRUploadState(false);
         }
         else
         {
-            Debug.Log(request.downloadHandler.text);
+            CustomLogger.Log(request.downloadHandler.text);
             ResponseData responseData = JsonUtility.FromJson<ResponseData>(request.downloadHandler.text);
 
             // Get the desired value
             string message = responseData.message;
             SendLink(url_qr + message);
-            Debug.Log("Form upload complete! : " + url_qr + message);
+            CustomLogger.Log("Form upload complete! : " + url_qr + message);
         }
 
         request.Dispose();
@@ -126,16 +126,16 @@ public class StorageManager : SingletonBehaviour<StorageManager>
 
         if (request.result != UnityWebRequest.Result.Success)
         {
-            Debug.Log("Error: " + request.error);
+            CustomLogger.LogError(request.error);
         }
         else
         {
-            Debug.Log(request.downloadHandler.text);
+            CustomLogger.Log(request.downloadHandler.text);
             ResponseData responseData = JsonUtility.FromJson<ResponseData>(request.downloadHandler.text);
 
             // Get the desired value
             string message = responseData.message;
-            Debug.Log("Form upload complete! : " + url_qr + message);
+            CustomLogger.Log("Form upload complete! : " + url_qr + message);
             OnEnd?.Invoke();
         }
 

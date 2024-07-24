@@ -163,6 +163,7 @@ public class UP_DecoSelectCartoonPics : UP_DecoSelectPicsBase
         {
             _originalContents[i].SetThumbnail(null);
         }
-        Debug.LogFormat("[CLEAR UI] {0} pictures - override", name);
+        CustomLogger.Log($"[CLEAR UI] {name} pictures - override");
+
     }
 }

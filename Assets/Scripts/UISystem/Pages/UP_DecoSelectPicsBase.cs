@@ -330,7 +330,7 @@ public class UP_DecoSelectPicsBase : UP_DecoratePageBase
         {
             _contents[i].SetThumbnail(null);
         }
-        Debug.LogFormat("[CLEAR UI] {0} pictures - base", name);
+        CustomLogger.Log($"[CLEAR UI] {name} pictures - base");
 
         UpdateFrame();
         _nextBtn.interactable = false;

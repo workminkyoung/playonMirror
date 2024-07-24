@@ -73,7 +73,7 @@ namespace CameraControl
                         // PC live view has ended.
                         if (_active && (device & EDSDKLib.EDSDK.EvfOutputDevice_PC) == 0)
                         {
-                            Debug.Log("PC live view has ended.");
+                            CustomLogger.Log("PC live view has ended.");
                             _active = false;
                         }
                     }
@@ -98,6 +98,7 @@ namespace CameraControl
             
             vRect = _model.VisibleRect;
             
+            //Debug.Log((int)streamLength);
             //Debug.Log((int)streamLength);
             byte[] data = new byte[(int)streamLength];
             Marshal.Copy(evfStream, data, 0, (int)streamLength);

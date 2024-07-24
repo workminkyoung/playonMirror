@@ -73,10 +73,10 @@ public partial class UC_AiCartoon : UC_BaseComponent
 
     //        yield return new WaitUntil(() => _checkRequestDone);
 
-    //        Debug.Log("check done");
+    //        CustomLogger.Log("check done");
     //    }
 
-    //    Debug.Log("End of request");
+    //    CustomLogger.Log("End of request");
     //}
 
 }
