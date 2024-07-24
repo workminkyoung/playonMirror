@@ -423,6 +423,10 @@ public class PC_Main : PC_BasePageController
                     }
                     Application.Quit();
                 }
+                if (Input.GetKeyDown(KeyCode.K))
+                {
+                    _globalPage.OpenChromaKeySetting();
+                }
             }
         }
     }
