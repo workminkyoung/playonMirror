@@ -199,7 +199,7 @@ public class ResourceCacheManager : SingletonBehaviour<ResourceCacheManager>
     IEnumerator LoadSVGSprite (string folderPath, string fileName, Action<Sprite> onDone)
     {
         string filePath = System.IO.Path.Combine(Application.streamingAssetsPath, folderPath, fileName);
-        Debug.Log(filePath);
+
         UnityWebRequest www = UnityWebRequest.Get(filePath);
         yield return www.SendWebRequest();
 

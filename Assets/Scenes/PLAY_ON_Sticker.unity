@@ -2198,6 +2198,7 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 84363bbaa6a1241499291d13278ebd67, type: 3}
   - {fileID: 0}
   dropGroup: {fileID: 1860963935}
+  stickerContainerPrefab: {fileID: 0}
 --- !u!114 &319188281 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5877391397266644262, guid: 69af8fb749135d3498667dc5f20e4b62, type: 3}
@@ -6444,6 +6445,10 @@ PrefabInstance:
     - target: {fileID: 8550220831429302419, guid: bd7233b5a18a046498a07b97b56e60d7, type: 3}
       propertyPath: m_Name
       value: UP_DecoSelectSticker
+      objectReference: {fileID: 0}
+    - target: {fileID: 9037798728229478587, guid: bd7233b5a18a046498a07b97b56e60d7, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

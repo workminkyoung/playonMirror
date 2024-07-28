@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -19,7 +20,12 @@ public class UC_StickerThumbnail : UC_BaseComponent, IPointerClickHandler
     private TextMeshProUGUI _text = null;
 
     public RectTransform rectTransform => transform as RectTransform;
+    public float scale => _stickerOption.startScale;
+    public int margin => _stickerOption.margin;
     public string category => _stickerOption.category;
+    public RectTransform scaler => _scaler;
+    public MaskableGraphic thumbnail => _thumbnail; 
+    public Action<StickerOptionBase> OnClickAction;
 
     public override void InitComponent ()
     {
@@ -34,7 +40,7 @@ public class UC_StickerThumbnail : UC_BaseComponent, IPointerClickHandler
         _scaler.localScale = new Vector3(_stickerOption.thumbnailScale, _stickerOption.thumbnailScale, 1);
     }
 
-    public void SetThumbnail ()
+    private void SetThumbnail ()
     {
         if(string.IsNullOrEmpty(_stickerOption.image))
         {
@@ -65,7 +71,7 @@ public class UC_StickerThumbnail : UC_BaseComponent, IPointerClickHandler
         _thumbnail.rectTransform.sizeDelta = new Vector2(_stickerOption.thumbnailSprite.rect.width, _stickerOption.thumbnailSprite.rect.height);
     }
 
-    public void SetText ()
+    private void SetText ()
     {
         if(_stickerOption.kind == "ImageText" || _stickerOption.kind == "Text")
         {
@@ -91,6 +97,11 @@ public class UC_StickerThumbnail : UC_BaseComponent, IPointerClickHandler
 
     public void OnPointerClick (PointerEventData eventData)
     {
+        OnClickAction?.Invoke(_stickerOption);
+    }
 
+    internal void SetOption<T> (T t)
+    {
+        throw new NotImplementedException();
     }
 }

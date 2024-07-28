@@ -20,12 +20,21 @@ public class UP_DecoSelectSticker : UP_DecoratePageBase
     private List<UC_StickerThumbnail> _stickerThumbnails = new List<UC_StickerThumbnail>();
     [SerializeField]
     private Button _nextBtn, _prevBtn;
+    [SerializeField]
+    private GameObject _stickerContainer;
+    [SerializeField]
+    private RectTransform _stickerArea;
+
+    [SerializeField]
+    private List<GameObject> _createdStickers = new List<GameObject>();
 
     [Header("Prefabs")]
     [SerializeField]
     private GameObject _categoryTogglePrefab;
     [SerializeField]
     private GameObject _stickerThumbnailPrefab;
+    [SerializeField]
+    private GameObject _controllerableStickerPrefab;
 
     [Header("DEBUG")]
     [SerializeField]
@@ -75,6 +84,9 @@ public class UP_DecoSelectSticker : UP_DecoratePageBase
 
     private void OnClickNext ()
     {
+        (_pageController as PC_Main).stickerContainerPrefab = _stickerContainer;
+        (_pageController as PC_Main).StickerUpdateAction?.Invoke();
+
         (_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_DECO_SELECT_EFFECT);
     }
 
@@ -95,6 +107,12 @@ public class UP_DecoSelectSticker : UP_DecoratePageBase
 
     protected override void OnPageReset ()
     {
+        foreach(var elem in _createdStickers)
+        {
+            Destroy(elem.gameObject);
+        }
+
+        _createdStickers.Clear();
     }
 
     private void CreateCategories ()
@@ -194,11 +212,42 @@ public class UP_DecoSelectSticker : UP_DecoratePageBase
             newSticker.transform.localEulerAngles = Vector3.zero;
 
             newSticker.SetOption(option);
+            newSticker.OnClickAction += OnClickStickerThumbnail;
 
             _stickerThumbnails.Add(newSticker);
         }
 
         isStickerCreated = true;
+    }
+
+    private void OnClickStickerThumbnail (StickerOptionBase option)
+    {
+        for(int i = _createdStickers.Count - 1; i > 0; i--)
+        {
+            if(_createdStickers[i] != null)
+            {
+                continue;
+            }
+
+            _createdStickers.RemoveAt(i);
+        }
+
+        if(_createdStickers.Count >= ConfigData.config.stickerMaxCount)
+        {
+            // 스티커 최대 갯수 초과
+            (pageController as PC_Main).globalPage.OpenToast("스티커 최대 갯수에 도달했습니다", 3);
+            return;
+        }
+
+        UC_StickerThumbnail newSticker = GameObject.Instantiate(_controllerableStickerPrefab).GetComponent<UC_StickerThumbnail>();
+        newSticker.transform.SetParent(_stickerArea);
+        newSticker.rectTransform.anchoredPosition3D = Vector3.zero;
+        newSticker.transform.localScale = Vector3.one;
+        newSticker.transform.localEulerAngles = Vector3.zero;
+
+        newSticker.SetOption(option);
+
+        _createdStickers.Add(newSticker.gameObject);
     }
 
     private void UpdateCategory (string category)
@@ -237,7 +286,6 @@ public class UP_DecoSelectSticker : UP_DecoratePageBase
         // 모든 자식이 비활성화 되어 있으면 true를 반환
         return true;
     }
-
 
     private void Update ()
     {

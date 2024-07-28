@@ -95,6 +95,9 @@ public class PC_Main : PC_BasePageController
     //public bool isChildPlaying { get { return _isChildPlaying; } }
     //public bool SetIsChildPlaying { set { _isChildPlaying = value; } }
 
+    public GameObject stickerContainerPrefab;
+    public Action StickerUpdateAction;
+
     public void SkinFilterOn(bool isOn)
     {
         _isSkinFilterOn = isOn;

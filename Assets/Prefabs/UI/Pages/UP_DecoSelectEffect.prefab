@@ -2882,6 +2882,8 @@ MonoBehaviour:
   _skinDescription: {fileID: 9109800435902202497}
   _prevBtn: {fileID: 1154477244006899138}
   _nextBtn: {fileID: 1783877791282585195}
+  stickerContainerParent: {fileID: 2747526970948535358}
+  stickerContainer: {fileID: 0}
 --- !u!225 &7223836631238857864
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -3097,6 +3099,7 @@ MonoBehaviour:
   _stroke: {fileID: 6870113045432116456}
   isViewOnly: 0
   _thumbnailImg: {fileID: 2720926741802561755}
+  _nameText: {fileID: 0}
   _lutTex: {fileID: 2800000, guid: a3be243fe7bf0224e9b9090ec906478a, type: 3}
 --- !u!1 &5218457555758680804
 GameObject:
@@ -3167,6 +3170,7 @@ MonoBehaviour:
   _stroke: {fileID: 2120362701029216341}
   isViewOnly: 0
   _thumbnailImg: {fileID: 3420315315343470182}
+  _nameText: {fileID: 0}
   _lutTex: {fileID: 2800000, guid: 6e278354de4c76840bf69d071219d60e, type: 3}
 --- !u!1 &5476212715950837726
 GameObject:
@@ -3237,6 +3241,7 @@ MonoBehaviour:
   _stroke: {fileID: 9063065409234958985}
   isViewOnly: 0
   _thumbnailImg: {fileID: 824598954141863593}
+  _nameText: {fileID: 0}
   _lutTex: {fileID: 2800000, guid: 8fe4214476666894185b32f882760f8f, type: 3}
 --- !u!1 &5528097438845902403
 GameObject:
@@ -5175,6 +5180,7 @@ MonoBehaviour:
   _stroke: {fileID: 9046591113949609943}
   isViewOnly: 0
   _thumbnailImg: {fileID: 4424623470491100583}
+  _nameText: {fileID: 0}
   _lutTex: {fileID: 2800000, guid: a5c95a15f23765c41a01aced749369e7, type: 3}
 --- !u!1001 &299686526223137226
 PrefabInstance:

@@ -33,6 +33,10 @@ public class UC_SynchFrame : MonoBehaviour //SingletonBehaviour<UC_SynchFrame>
     private List<RawImage> _listRaw = new List<RawImage>();
     [SerializeField]
     private Texture2D _saveTexture;
+    [SerializeField]
+    private GameObject photoCaptureArea, videoCaptureArea;
+    [SerializeField]
+    private GameObject photoStickerContainer, videoStickerContainer;
 
     private PC_Main _mainController;
 
@@ -47,6 +51,38 @@ public class UC_SynchFrame : MonoBehaviour //SingletonBehaviour<UC_SynchFrame>
     private void Awake()
     {
         _listRaw.AddRange(UtilityExtensions.GetComponentsOnlyInChildren_NonRecursive<RawImage>(transform));
+
+        _mainController.StickerUpdateAction += UpdateSticker;
+    }
+
+    private void UpdateSticker()
+    {
+        if(photoStickerContainer != null)
+        {
+            Destroy(photoStickerContainer);
+        }
+
+        if(videoStickerContainer != null)
+        {
+            Destroy(videoStickerContainer);
+        }
+
+        photoStickerContainer = GameObject.Instantiate(_mainController.stickerContainerPrefab, photoCaptureArea.transform);
+        photoStickerContainer.transform.localScale = new Vector3(4, 4, 1);
+        videoStickerContainer = GameObject.Instantiate(_mainController.stickerContainerPrefab, videoCaptureArea.transform);
+        videoStickerContainer.transform.localScale = new Vector3(2, 2, 1);
+
+        foreach(var elem in photoStickerContainer.GetComponentsInChildren<UC_StickerController>())
+        {
+            elem.HideController();
+            Destroy(elem);
+        }
+
+        foreach(var elem in videoStickerContainer.GetComponentsInChildren<UC_StickerController>())
+        {
+            elem.HideController();
+            Destroy(elem);
+        }
     }
 
     public void ResetPage()
@@ -80,6 +116,16 @@ public class UC_SynchFrame : MonoBehaviour //SingletonBehaviour<UC_SynchFrame>
         for (int i = 0; i < _listRaw.Count; i++)
         {
             _listRaw[i].gameObject.SetActive(false);
+        }
+
+        if(photoStickerContainer != null)
+        {
+            Destroy(photoStickerContainer);
+        }
+
+        if(videoStickerContainer != null)
+        {
+            Destroy(videoStickerContainer);
         }
     }
 
