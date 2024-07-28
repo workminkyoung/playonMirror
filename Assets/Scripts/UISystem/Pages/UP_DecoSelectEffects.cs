@@ -53,7 +53,7 @@ public class UP_DecoSelectEffects : UP_DecoratePageBase
         {
 
             case CONTENT_TYPE.AI_CARTOON:
-                _pageController.ChangePage(PAGE_TYPE.PAGE_DECO_SELECT_PICS_CARTOON);
+                _pageController.ChangePage(PAGE_TYPE.PAGE_DECO_SELECT_STICKER);
                 break;
             case CONTENT_TYPE.AI_PROFILE:
                 _pageController.ChangePage(PAGE_TYPE.PAGE_DECO_SELECT_PICS_PROFILE);

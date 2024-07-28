@@ -33,6 +33,7 @@ namespace Vivestudios.UI
         PAGE_SHOOT_WHAT_IF,
 
         PAGE_SELECT_CHROMA_KEY_BACKGROUND,
+        PAGE_DECO_SELECT_STICKER
     }
 
     public enum CARTOON_TYPE
@@ -190,4 +191,11 @@ public enum CAMERA_VIEW_TYPE
     UI,
     CAPTURE,
     RECORD
+}
+
+public enum LANGUAGE_TYPE
+{
+    KOR,
+    ENG,
+    CHN
 }
