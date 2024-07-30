@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VectorGraphics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -42,11 +43,6 @@ public class UC_StickerThumbnail : UC_BaseComponent, IPointerClickHandler
 
     private void SetThumbnail ()
     {
-        if(string.IsNullOrEmpty(_stickerOption.image))
-        {
-            return;
-        }
-
         RectTransform thumbnailObj = new GameObject().AddComponent<RectTransform>();
         thumbnailObj.SetParent(_scaler);
         thumbnailObj.name = "Thumbnail";
@@ -66,6 +62,11 @@ public class UC_StickerThumbnail : UC_BaseComponent, IPointerClickHandler
                 _thumbnail = thumbnailObj.gameObject.AddComponent<Image>();
                 (_thumbnail as Image).sprite = _stickerOption.thumbnailSprite;
                 break;
+        }
+
+        if(string.IsNullOrEmpty(_stickerOption.image))
+        {
+            return;
         }
 
         _thumbnail.rectTransform.sizeDelta = new Vector2(_stickerOption.thumbnailSprite.rect.width, _stickerOption.thumbnailSprite.rect.height);
@@ -91,7 +92,19 @@ public class UC_StickerThumbnail : UC_BaseComponent, IPointerClickHandler
             text.alignment = TextAlignmentOptions.Center;
             text.text = System.Text.RegularExpressions.Regex.Unescape(_stickerOption.kor);
             text.enableWordWrapping = false;
+            
             _text = text;
+
+            if(string.IsNullOrEmpty(_stickerOption.image))
+            {
+                ContentSizeFitter fitter = _text.AddComponent<ContentSizeFitter>();
+                fitter.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
+                fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+                LayoutRebuilder.ForceRebuildLayoutImmediate(_text.rectTransform);
+                
+                _thumbnail.color = Color.clear;
+                _thumbnail.rectTransform.sizeDelta = _text.rectTransform.sizeDelta;
+            }
         }
     }
 

@@ -99,6 +99,9 @@ public class UP_DecoSelectSticker : UP_DecoratePageBase
         {
             CreateStickers();
         }
+
+        (_categoryContent.transform as RectTransform).anchoredPosition = Vector2.zero;
+        (_stickerContent.transform as RectTransform).anchoredPosition = Vector2.zero;
     }
 
     public override void OnPageDisable ()
@@ -222,10 +225,11 @@ public class UP_DecoSelectSticker : UP_DecoratePageBase
 
     private void OnClickStickerThumbnail (StickerOptionBase option)
     {
-        for(int i = _createdStickers.Count - 1; i > 0; i--)
+        for(int i = _createdStickers.Count - 1; i >= 0; i--)
         {
             if(_createdStickers[i] != null)
             {
+                _createdStickers[i].GetComponent<UC_StickerController>().HideController();
                 continue;
             }
 
@@ -292,6 +296,16 @@ public class UP_DecoSelectSticker : UP_DecoratePageBase
         if(Input.GetKeyDown(KeyCode.Space))
         {
             OnPageEnable();
+        }
+    }
+
+    protected override void OnTimeLimitDone ()
+    {
+        if(gameObject.activeInHierarchy)
+        {
+            (_pageController as PC_Main).StopTimeLimit();
+            (_pageController as PC_Main).StartTimeLimit(10);
+            OnClickNext();
         }
     }
 }

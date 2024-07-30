@@ -640,9 +640,9 @@ RectTransform:
   - {fileID: 7765060392726488065}
   m_Father: {fileID: 4688170908623007884}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 38.000137}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0.0001373291}
   m_SizeDelta: {x: 0, y: 76}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &7910187516027137333
@@ -3006,6 +3006,7 @@ MonoBehaviour:
   _prevBtn: {fileID: 8479919944109873072}
   _stickerContainer: {fileID: 7928246875734440040}
   _stickerArea: {fileID: 8782393938279102277}
+  _createdStickers: []
   _categoryTogglePrefab: {fileID: 1039216745182349922, guid: 95fd9278c5496c544a9142f40d3a86f1, type: 3}
   _stickerThumbnailPrefab: {fileID: 4556122792561415921, guid: 5dd08897771be82488969acf0c0c0655, type: 3}
   _controllerableStickerPrefab: {fileID: 6805240406918128400, guid: dd31a0df0a851994f8896c970dcca6d1, type: 3}
