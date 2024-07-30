@@ -93,8 +93,6 @@ public class UP_DecoSelectSticker : UP_DecoratePageBase
 
     public override void OnPageEnable ()
     {
-        _allCategoryToggle.Select(true);
-
         if(isStickerCreated == false)
         {
             CreateStickers();
@@ -102,6 +100,9 @@ public class UP_DecoSelectSticker : UP_DecoratePageBase
 
         (_categoryContent.transform as RectTransform).anchoredPosition = Vector2.zero;
         (_stickerContent.transform as RectTransform).anchoredPosition = Vector2.zero;
+
+        _allCategoryToggle.Select(true);
+        OnClickCategory("all");
     }
 
     public override void OnPageDisable ()
