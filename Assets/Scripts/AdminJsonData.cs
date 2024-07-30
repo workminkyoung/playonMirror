@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using RotaryHeart.Lib.SerializableDictionary;
+using BasicData;
 
 [System.Serializable]
 public class ConfigDefaultData
@@ -33,10 +34,18 @@ namespace BubbleData
     [Serializable]
     public class BubbleData
     {
-        public object Config { get; set; }
-        public object FontSet { get; set; }
-        public object Category { get; set; }
-        public object BubbleTable { get; set; }
+        public ConfigEntryDic Config { get; set; }
+        public FontSetEntryDic FontSet { get; set; }
+        public List<CategoryEntry> Category { get; set; }
+        public BubbleTableEntryDic BubbleTable { get; set; }
+
+        [Serializable]
+        public class ConfigEntryDic : SerializableDictionaryBase<string, ConfigEntry> { }
+        [Serializable]
+        public class FontSetEntryDic : SerializableDictionaryBase<string, ConfigEntry> { }
+        [Serializable]
+        public class BubbleTableEntryDic : SerializableDictionaryBase<string, BubbleTableEntry> { }
+
     }
 
     [Serializable]
@@ -57,6 +66,15 @@ namespace BubbleData
 
     [Serializable]
     public class FontSetEntry
+    {
+        public string Key { get; set; }
+        public string Korean { get; set; }
+        public string Chinese { get; set; }
+        public string English { get; set; }
+    }
+
+    [Serializable]
+    public class CategoryEntry
     {
         public string Key { get; set; }
         public string Korean { get; set; }
@@ -93,8 +111,11 @@ namespace FilterData
     [Serializable]
     public class FilterData
     {
-        public object Config { get; set; }
-        public object FilterTable { get; set; }
+        public ConfigEntry Config { get; set; }
+        public FilterTableEntryDic FilterTable { get; set; }
+
+        [Serializable]
+        public class FilterTableEntryDic : SerializableDictionaryBase<string, FilterTableEntry> { }
     }
 
     [Serializable]
@@ -128,10 +149,14 @@ namespace ServiceData
     [Serializable]
     public class ServiceData
     {
-        public object Config { get; set; }
-        public object Contents { get; set; }
-        public object ContentsDetail { get; set; }
+        public ConfigEntry Config { get; set; }
+        public ContentsEntryDic Contents { get; set; }
+        public ContentsDetailEntryDic ContentsDetail { get; set; }
 
+        [Serializable]
+        public class ContentsEntryDic : SerializableDictionaryBase<string, ContentsEntry> { }
+        [Serializable]
+        public class ContentsDetailEntryDic : SerializableDictionaryBase<string, ContentsDetailEntry> { }
     }
 
     [Serializable]
@@ -186,8 +211,82 @@ namespace BasicData
     [Serializable]
     public class BasicSetting
     {
-        public object Config { get; set; }
-        public object Device { get; set; }
+        public ConfigEntry Config { get; set; }
+        public DeviceEntryDic Device { get; set; }
+
+        [Serializable]
+        public class DeviceEntryDic : SerializableDictionaryBase<string, DeviceEntry> { }
+    }
+
+    [Serializable]
+    public class ConfigEntry
+    {
+        public string BTBG { get; set; }
+        public string CABG { get; set; }
+        public string CAMenu { get; set; }
+        public string PRMenu { get; set; }
+        public string WFMenu { get; set; }
+        public string BGImage { get; set; }
+        public string EndImage { get; set; }
+        public string Printing { get; set; }
+        public string ColorCode { get; set; }
+        public string OtherMenu { get; set; }
+        public string PayConfirm { get; set; }
+        public string StartImage { get; set; }
+        public string DefaultUsed { get; set; }
+        public string FrameSelect { get; set; }
+        public string OptionalUse { get; set; }
+        public string VideoVolume { get; set; }
+        public string Age14TermUse { get; set; }
+        public string ContentsMenu { get; set; }
+        public string PhotoStandby { get; set; }
+        public string Age14TermUsed { get; set; }
+        public string PlayShotMovie { get; set; }
+        public string PaymentTermUse { get; set; }
+        public string PaymentTermUsed { get; set; }
+        public string PrintErrorImage { get; set; }
+        public string StartMediaVideo { get; set; }
+        public string MarketingTermUse { get; set; }
+        public string MultiLanguageUse { get; set; }
+        public List<string> PaymentTermImage { get; set; }
+        public List<string> ServiceTermImage { get; set; }
+        public string ServieErrorImage { get; set; }
+        public string ShootingPRSelect { get; set; }
+        public string MarketingTermUsed { get; set; }
+        public List<string> MarketingTermImage { get; set; }
+        public List<string> PersonalPolicyImage { get; set; }
+    }
+
+    [Serializable]
+    public class DeviceEntry
+    {
+        public string Key { get; set; }
+        public string TID { get; set; }
+        public string Deploy { get; set; }
+        public string MailList { get; set; }
+        public string MachineID { get; set; }
+        public string StoreName { get; set; }
+        public string PrinterModel { get; set; }
+    }
+
+}
+
+namespace ChromakeyFrameData
+{
+    [Serializable]
+    public class ChromakeyFrame
+    {
+        public ConfigEntryDic Config;
+        public List<CategoryEntry> Category;
+        public ChromakeyToneTableEntryDic ChromakeyToneTable;
+        public ChromakeyFrameTableDic ChromakeyFrameTable;
+
+        [Serializable]
+        public class ConfigEntryDic : SerializableDictionaryBase<string, ConfigEntry> { }
+        [Serializable]
+        public class ChromakeyToneTableEntryDic : SerializableDictionaryBase<string, ChromakeyToneTableEntry> { }
+        [Serializable]
+        public class ChromakeyFrameTableDic : SerializableDictionaryBase<string, ChromakeyToneTableEntry> { }
     }
 
     [Serializable]
