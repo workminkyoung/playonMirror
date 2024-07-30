@@ -8,7 +8,7 @@ using System;
 public class Loading : MonoBehaviour
 {
     Action OnEndEvent;
-    const string loadText = "AI°¡ ÃÖ°íÀÇ ÀÌ¹ÌÁö¸¦ ¸¸µé°í ÀÖ½À´Ï´Ù. ";
+    const string loadText = "AIê°€ ìµœê³ ì˜ ì´ë¯¸ì§€ë¥¼ ë§Œë“¤ê³  ìˆìŠµë‹ˆë‹¤. ";
     const float loadTime = 10;
     const float loadTimeSpeedy = 1;
     public string pageName;
@@ -60,8 +60,8 @@ public class Loading : MonoBehaviour
                 textLoad.text = string.Format("{0}({1}%)", loadText, remap.ToString());
             }
 
-            if(Input.GetMouseButtonDown(0))
-                DataLog.Instance.AddComponent(pageName, DataLog.inst.boundary);
+            //if(Input.GetMouseButtonDown(0))
+            //    DataLog.Instance.AddComponent(pageName, DataLog.inst.boundary);
 
             listImg[(int)eImg.Hole].rectTransform.Rotate(Vector3.forward, 1);
             yield return null;
