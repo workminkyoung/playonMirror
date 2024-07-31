@@ -28,6 +28,11 @@ public class UP_DecoSelectFrame : UP_DecoratePageBase
     [SerializeField]
     private SelectableColorTypeDicBase _frameColorDicWhatIf;
 
+    [SerializeField]
+    private GameObject stickerContainerParent;
+    [SerializeField]
+    private GameObject stickerContainer;
+
     [Serializable]
     private class SelectableColorTypeDicBase : SerializableDictionaryBase<FRAME_COLOR_TYPE, UC_SelectableContent> { }
 
@@ -57,6 +62,22 @@ public class UP_DecoSelectFrame : UP_DecoratePageBase
         {
             int index = i;
             _frameShapes[i].pointerDownAction += () => OnClickShape(index);
+        }
+
+        (pageController as PC_Main).StickerUpdateAction += UpdateSticker;
+    }
+
+    private void UpdateSticker ()
+    {
+        if(stickerContainer != null)
+        {
+            Destroy(stickerContainer);
+        }
+        stickerContainer = GameObject.Instantiate((pageController as PC_Main).stickerContainerPrefab, stickerContainerParent.transform);
+        foreach(var elem in stickerContainer.GetComponentsInChildren<UC_StickerController>())
+        {
+            elem.HideController();
+            Destroy(elem);
         }
     }
 
@@ -212,5 +233,9 @@ public class UP_DecoSelectFrame : UP_DecoratePageBase
 
     protected override void OnPageReset()
     {
+        if(stickerContainer != null)
+        {
+            Destroy(stickerContainer);
+        }
     }
 }

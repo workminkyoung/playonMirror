@@ -112,8 +112,11 @@ public class UP_DecoSelectCartoonPics : UP_DecoSelectPicsBase
 
         (_pageController as PC_Main).StopTimeLimit();
         (_pageController as PC_Main).StartTimeLimit(10);
-        (_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_DECO_SELECT_EFFECT);
         _touchIgnoreArea.SetActive(false);
+
+        OnClickNext();
+        //(_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_DECO_SELECT_EFFECT);
+        
     }
 
     private void OpenCartoon()

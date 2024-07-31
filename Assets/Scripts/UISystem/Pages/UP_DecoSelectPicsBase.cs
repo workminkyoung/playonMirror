@@ -49,10 +49,7 @@ public class UP_DecoSelectPicsBase : UP_DecoratePageBase
             _contents[i].pointerDownAction += () => SelectPic(_contents[index], index);
         }
 
-        _nextBtn.onClick.AddListener(() =>
-        {
-            (_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_DECO_SELECT_EFFECT);
-        });
+        _nextBtn.onClick.AddListener(OnClickNext);
 
         foreach (var elem in _frameAreaDic.Keys)
         {
@@ -64,6 +61,19 @@ public class UP_DecoSelectPicsBase : UP_DecoratePageBase
             {
                 _frameAreaDic[elem].OnClickFrameAction += (index) => DeselectPic(index);
             }
+        }
+    }
+
+    protected void OnClickNext()
+    {
+        switch(UserDataManager.inst.selectedContent)
+        {
+            case CONTENT_TYPE.AI_CARTOON:
+                (_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_DECO_SELECT_STICKER);
+                break;
+            default:
+                (_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_DECO_SELECT_EFFECT);
+                break;
         }
     }
 

@@ -27,6 +27,7 @@
     "policyDefaultCheck": false,
     "childDefaultCheck": false,
     "firstPrintAmount": 2,
+    "stickerMaxCount": 100,
     "chromaKey": {
         "isOn": true,
         "d": 0.5,

@@ -22,6 +22,11 @@ public class UP_DecoSelectEffects : UP_DecoratePageBase
     [SerializeField]
     private Button _nextBtn;
 
+    [SerializeField]
+    private GameObject stickerContainerParent;
+    [SerializeField]
+    private GameObject stickerContainer;
+
     protected const int DISABLE_STROKE_SIZE = 2;
 
     public override void InitPage()
@@ -45,6 +50,22 @@ public class UP_DecoSelectEffects : UP_DecoratePageBase
         }
 
         _skinToggle.onValueChanged.AddListener(OnChangeSkin);
+
+        (pageController as PC_Main).StickerUpdateAction += UpdateSticker;
+    }
+
+    private void UpdateSticker()
+    {
+        if(stickerContainer != null)
+        {
+            Destroy(stickerContainer);
+        }
+        stickerContainer = GameObject.Instantiate((pageController as PC_Main).stickerContainerPrefab, stickerContainerParent.transform);
+        foreach(var elem in stickerContainer.GetComponentsInChildren<UC_StickerController>())
+        {
+            elem.HideController();
+            Destroy(elem);
+        }
     }
 
     private void OnClickPrev()
@@ -53,7 +74,7 @@ public class UP_DecoSelectEffects : UP_DecoratePageBase
         {
 
             case CONTENT_TYPE.AI_CARTOON:
-                _pageController.ChangePage(PAGE_TYPE.PAGE_DECO_SELECT_PICS_CARTOON);
+                _pageController.ChangePage(PAGE_TYPE.PAGE_DECO_SELECT_STICKER);
                 break;
             case CONTENT_TYPE.AI_PROFILE:
                 _pageController.ChangePage(PAGE_TYPE.PAGE_DECO_SELECT_PICS_PROFILE);
@@ -65,7 +86,6 @@ public class UP_DecoSelectEffects : UP_DecoratePageBase
                 _pageController.ChangePage(PAGE_TYPE.PAGE_DECO_SELECT_PICS_WHAT_IF);
                 break;
         }
-
     }
 
     private void OnClickNext()
@@ -184,5 +204,9 @@ public class UP_DecoSelectEffects : UP_DecoratePageBase
 
     protected override void OnPageReset()
     {
+        if(stickerContainer != null)
+        {
+            Destroy(stickerContainer);
+        }
     }
 }
