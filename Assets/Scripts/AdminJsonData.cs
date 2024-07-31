@@ -349,6 +349,24 @@ namespace ChromakeyFrameData
 
 namespace ShootingScreenData
 {
+
+    [Serializable]
+    public class ShootScreenEntry
+    {
+        public string Key { get; set; }
+        public ShootScreenEntryDic url;
+        public ShootScreenEntryDic ratio;
+        public ShootScreenEntryDic korean;
+        public ShootScreenEntryDic chinese;
+        public ShootScreenEntryDic english;
+        public string ConversionTime;
+        public string ConversionVideo;
+
+    }
+
     [Serializable]
     public class ShootScreenEntryDic : SerializableDictionaryBase<string, string> { }
+
+    [Serializable]
+    public class ShootScreenDic : SerializableDictionaryBase<string, ShootScreenEntry> { }
 }

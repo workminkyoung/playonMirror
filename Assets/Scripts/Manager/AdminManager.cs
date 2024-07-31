@@ -1,6 +1,7 @@
 using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing.Text;
 using UnityEngine;
 
 public class AdminManager : SingletonBehaviour<AdminManager>
@@ -11,6 +12,7 @@ public class AdminManager : SingletonBehaviour<AdminManager>
     public ServiceData.ServiceData _serviceData;
     public BasicData.BasicSetting _basicSetting;
     public ChromakeyFrameData.ChromakeyFrame _chromakeyFrame;
+    public ShootingScreenData.ShootScreenDic _shootScreen;
 
     private string _configDefaultAPI = "http://api.playon-vive.com/config/default/latest";
 
@@ -38,6 +40,7 @@ public class AdminManager : SingletonBehaviour<AdminManager>
         SetServiceData();
         SetBasicData();
         SetChromakeyFrameData();
+        SetShootScreenData();
     }
 
     private void SetBubbleData()
@@ -68,5 +71,64 @@ public class AdminManager : SingletonBehaviour<AdminManager>
     {
         string result = _configDefaultData.config_default_set.result.ChromakeyFrame.ToString();
         _chromakeyFrame = JsonConvert.DeserializeObject<ChromakeyFrameData.ChromakeyFrame>(result);
+    }
+
+    private void SetShootScreenData()
+    {
+        Dictionary<string, object> shootScreenPair = new Dictionary<string, object>();
+        string result = _configDefaultData.config_default_set.result.ShootingScreen.ToString();
+        shootScreenPair = JsonConvert.DeserializeObject<Dictionary<string, object>>(result);
+
+        _shootScreen = new ShootingScreenData.ShootScreenDic();
+
+        foreach (var item in shootScreenPair)
+        {
+            Dictionary<string, string> shootScreenEntryDic = new Dictionary<string, string>();
+            shootScreenEntryDic = JsonConvert.DeserializeObject<Dictionary<string, string>>(item.Value.ToString());
+
+            ShootingScreenData.ShootScreenEntry shootScreen = new ShootingScreenData.ShootScreenEntry();
+            shootScreen.url = new ShootingScreenData.ShootScreenEntryDic();
+            shootScreen.ratio = new ShootingScreenData.ShootScreenEntryDic();
+            shootScreen.korean = new ShootingScreenData.ShootScreenEntryDic();
+            shootScreen.chinese = new ShootingScreenData.ShootScreenEntryDic();
+            shootScreen.english = new ShootingScreenData.ShootScreenEntryDic();
+            foreach (var entry in shootScreenEntryDic)
+            {
+                if (entry.Key.Contains("Key"))
+                {
+                    shootScreen.Key = entry.Value.ToString();
+                }
+                else if (entry.Key.Contains("url"))
+                {
+                    shootScreen.url.Add(entry.Key, entry.Value);
+                }
+                else if (entry.Key.Contains("ratio"))
+                {
+                    shootScreen.ratio.Add(entry.Key, entry.Value);
+                }
+                else if (entry.Key.Contains("Korean"))
+                {
+                    shootScreen.korean.Add(entry.Key, entry.Value);
+                }
+                else if (entry.Key.Contains("Chinese"))
+                {
+                    shootScreen.chinese.Add(entry.Key, entry.Value);
+                }
+                else if (entry.Key.Contains("English"))
+                {
+                    shootScreen.english.Add(entry.Key, entry.Value);
+                }
+                else if (entry.Key.Contains("ConversionTime"))
+                {
+                    shootScreen.ConversionTime = entry.Value.ToString();
+                }
+                else if (entry.Key.Contains("ConversionVideo"))
+                {
+                    shootScreen.ConversionVideo = entry.Value.ToString();
+                }
+            }
+
+            _shootScreen.Add(shootScreen.Key, shootScreen);
+        }
     }
 }
