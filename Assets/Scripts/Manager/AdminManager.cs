@@ -6,15 +6,23 @@ using UnityEngine;
 
 public class AdminManager : SingletonBehaviour<AdminManager>
 {
-    public ConfigDefaultData _configDefaultData;
-    public BubbleData.BubbleData _bubbleData;
-    public FilterData.FilterData _filterData;
-    public ServiceData.ServiceData _serviceData;
-    public BasicData.BasicSetting _basicSetting;
-    public ChromakeyFrameData.ChromakeyFrame _chromakeyFrame;
-    public ShootingScreenData.ShootScreenDic _shootScreen;
+    private ConfigDefaultData _configDefaultData;
+    private BubbleData.BubbleData _bubbleData;
+    private FilterData.FilterData _filterData;
+    private ServiceData.ServiceData _serviceData;
+    private BasicData.BasicSetting _basicSetting;
+    private ChromakeyFrameData.ChromakeyFrame _chromakeyFrame;
+    private ShootingScreenData.ShootScreenDic _shootScreen;
 
     private string _configDefaultAPI = "http://api.playon-vive.com/config/default/latest";
+
+    public ConfigDefaultData ConfigDefaultData => _configDefaultData;
+    public BubbleData.BubbleData BubbleData => _bubbleData;
+    public FilterData.FilterData FilterData => _filterData;
+    public ServiceData.ServiceData ServiceData => _serviceData;
+    public BasicData.BasicSetting BasicSetting => _basicSetting;
+    public ChromakeyFrameData.ChromakeyFrame ChromakeyFrame => _chromakeyFrame;
+    public ShootingScreenData.ShootScreenDic ShootScreen => _shootScreen;
 
     protected override void Init()
     {
