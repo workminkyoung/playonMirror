@@ -191,3 +191,10 @@ public enum CAMERA_VIEW_TYPE
     CAPTURE,
     RECORD
 }
+
+public enum LANGUAGE_TYPE
+{
+    KOR,
+    ENG,
+    CHN
+}

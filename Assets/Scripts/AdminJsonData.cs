@@ -8,25 +8,25 @@ using BasicData;
 [System.Serializable]
 public class ConfigDefaultData
 {
-    public int id { get; set; }
-    public ConfigDefaultSet config_default_set { get; set; }
+    public int id;
+    public ConfigDefaultSet config_default_set;
 }
 
 [System.Serializable]
 public class ConfigDefaultSet
 {
-    public Result result { get; set; }
+    public Result result;
 }
 
 [Serializable]
 public class Result
 {
-    public object BubbleData { get; set; }
-    public object FilterData { get; set; }
-    public object ServiceData { get; set; }
-    public object BasicSetting { get; set; }
-    public object ChromakeyFrame { get; set; }
-    public object ShootingScreen { get; set; }
+    public object BubbleData;
+    public object FilterData;
+    public object ServiceData;
+    public object BasicSetting;
+    public object ChromakeyFrame;
+    public object ShootingScreen;
 }
 
 namespace BubbleData
@@ -34,10 +34,10 @@ namespace BubbleData
     [Serializable]
     public class BubbleData
     {
-        public ConfigEntryDic Config { get; set; }
-        public FontSetEntryDic FontSet { get; set; }
-        public List<CategoryEntry> Category { get; set; }
-        public BubbleTableEntryDic BubbleTable { get; set; }
+        public ConfigEntryDic Config;
+        public FontSetEntryDic FontSet;
+        public List<CategoryEntry> Category;
+        public BubbleTableEntryDic BubbleTable;
 
         [Serializable]
         public class ConfigEntryDic : SerializableDictionaryBase<string, ConfigEntry> { }
@@ -51,58 +51,58 @@ namespace BubbleData
     [Serializable]
     public class ConfigEntry
     {
-        public string Key { get; set; }
-        public string value1 { get; set; }
-        public string value2 { get; set; }
-        public string value3 { get; set; }
-        public string value4 { get; set; }
-        public string value5 { get; set; }
-        public string value6 { get; set; }
-        public string value7 { get; set; }
-        public string value8 { get; set; }
-        public string value9 { get; set; }
-        public string value10 { get; set; }
+        public string Key;
+        public string value1;
+        public string value2;
+        public string value3;
+        public string value4;
+        public string value5;
+        public string value6;
+        public string value7;
+        public string value8;
+        public string value9;
+        public string value10;
     }
 
     [Serializable]
     public class FontSetEntry
     {
-        public string Key { get; set; }
-        public string Korean { get; set; }
-        public string Chinese { get; set; }
-        public string English { get; set; }
+        public string Key;
+        public string Korean;
+        public string Chinese;
+        public string English;
     }
 
     [Serializable]
     public class CategoryEntry
     {
-        public string Key { get; set; }
-        public string Korean { get; set; }
-        public string Chinese { get; set; }
-        public string English { get; set; }
+        public string Key;
+        public string Korean;
+        public string Chinese;
+        public string English;
     }
 
     [Serializable]
     public class BubbleTableEntry
     {
-        public string Key { get; set; }
-        public string Kind { get; set; }
-        public string Group { get; set; }
-        public string Image { get; set; }
-        public string Korean { get; set; }
-        public string Margin { get; set; }
-        public string Chinese { get; set; }
-        public string English { get; set; }
-        public string FontSet { get; set; }
-        public string Category { get; set; }
-        public string FontSize { get; set; }
-        public string Sequence { get; set; }
-        public string TextArea { get; set; }
-        public string FontColor { get; set; }
-        public string ImageType { get; set; }
-        public string Thumbnail { get; set; }
-        public string StartScale { get; set; }
-        public string ThumbnailScale { get; set; }
+        public string Key;
+        public string Kind;
+        public string Group;
+        public string Image;
+        public string Korean;
+        public string Margin;
+        public string Chinese;
+        public string English;
+        public string FontSet;
+        public string Category;
+        public string FontSize;
+        public string Sequence;
+        public string TextArea;
+        public string FontColor;
+        public string ImageType;
+        public string Thumbnail;
+        public string StartScale;
+        public string ThumbnailScale;
     }
 }
 
@@ -111,8 +111,8 @@ namespace FilterData
     [Serializable]
     public class FilterData
     {
-        public ConfigEntry Config { get; set; }
-        public FilterTableEntryDic FilterTable { get; set; }
+        public ConfigEntry Config;
+        public FilterTableEntryDic FilterTable;
 
         [Serializable]
         public class FilterTableEntryDic : SerializableDictionaryBase<string, FilterTableEntry> { }
@@ -121,25 +121,25 @@ namespace FilterData
     [Serializable]
     public class ConfigEntry
     {
-        public string Kernal { get; set; }
-        public string SigmaB { get; set; }
-        public string SigmaS { get; set; }
-        public string Sorting { get; set; }
-        public string UsePage { get; set; }
-        public string BilateralDefaultCheck { get; set; }
+        public string Kernal;
+        public string SigmaB;
+        public string SigmaS;
+        public string Sorting;
+        public string UsePage;
+        public string BilateralDefaultCheck;
     }
 
     [Serializable]
     public class FilterTableEntry
     {
-        public string Key { get; set; }
-        public string File { get; set; }
-        public string Used { get; set; }
-        public string Korean { get; set; }
-        public string Chinese { get; set; }
-        public string English { get; set; }
-        public string Sequence { get; set; }
-        public string Thumbnail { get; set; }
+        public string Key;
+        public string File;
+        public string Used;
+        public string Korean;
+        public string Chinese;
+        public string English;
+        public string Sequence;
+        public string Thumbnail;
     }
 
 }
@@ -149,9 +149,9 @@ namespace ServiceData
     [Serializable]
     public class ServiceData
     {
-        public ConfigEntry Config { get; set; }
-        public ContentsEntryDic Contents { get; set; }
-        public ContentsDetailEntryDic ContentsDetail { get; set; }
+        public ConfigEntry Config;
+        public ContentsEntryDic Contents;
+        public ContentsDetailEntryDic ContentsDetail;
 
         [Serializable]
         public class ContentsEntryDic : SerializableDictionaryBase<string, ContentsEntry> { }
@@ -162,47 +162,51 @@ namespace ServiceData
     [Serializable]
     public class ConfigEntry
     {
-        public string Sorting { get; set; }
+        public string Sorting;
     }
 
     [Serializable]
     public class ContentsEntry
     {
-        public string Key { get; set; }
-        public string Use { get; set; }
-        public string Sorting { get; set; }
-        public string Sequence { get; set; }
-        public string Thumbnail { get; set; }
-        public string Korean_Title { get; set; }
-        public string Chinese_Title { get; set; }
-        public string English_Title { get; set; }
-        public string Korean_People { get; set; }
-        public string Chinese_People { get; set; }
-        public string English_People { get; set; }
-        public string Korean_SubText { get; set; }
-        public string Chinese_SubText { get; set; }
-        public string English_SubText { get; set; }
-        public string ShootGuideImage { get; set; }
+        public string Key;
+        public string Use;
+        public string Sorting;
+        public string Sequence;
+        public string ImageThumbnail;
+        public string VideoThumbnail;
+        public string GuideImage;
+        public string BGGuideImage;
+        public string People_Icon;
+        public string Korean_Title;
+        public string Chinese_Title;
+        public string English_Title;
+        public string Korean_People;
+        public string Chinese_People;
+        public string English_People;
+        public string Korean_SubText;
+        public string Chinese_SubText;
+        public string English_SubText;
+        public string ShootGuideImage;
     }
 
     [Serializable]
     public class ContentsDetailEntry
     {
-        public string Key { get; set; }
-        public string Use { get; set; }
-        public string Model { get; set; }
-        public string Gender { get; set; }
-        public string Category { get; set; }
-        public string Property { get; set; }
-        public string Sequence { get; set; }
-        public string Thumbnail { get; set; }
-        public string References { get; set; }
-        public string KoreanTitle { get; set; }
-        public string ChineseTitle { get; set; }
-        public string EnglishTitle { get; set; }
-        public string KoreanSubtext { get; set; }
-        public string ChineseSubtext { get; set; }
-        public string EnglishSubtext { get; set; }
+        public string Key;
+        public string Use;
+        public string Model;
+        public string Gender;
+        public string Category;
+        public string Property;
+        public string Sequence;
+        public string Thumbnail;
+        public string References;
+        public string KoreanTitle;
+        public string ChineseTitle;
+        public string EnglishTitle;
+        public string KoreanSubtext;
+        public string ChineseSubtext;
+        public string EnglishSubtext;
     }
 }
 
@@ -211,8 +215,8 @@ namespace BasicData
     [Serializable]
     public class BasicSetting
     {
-        public ConfigEntry Config { get; set; }
-        public DeviceEntryDic Device { get; set; }
+        public ConfigEntry Config;
+        public DeviceEntryDic Device;
 
         [Serializable]
         public class DeviceEntryDic : SerializableDictionaryBase<string, DeviceEntry> { }
@@ -221,52 +225,52 @@ namespace BasicData
     [Serializable]
     public class ConfigEntry
     {
-        public string BTBG { get; set; }
-        public string CABG { get; set; }
-        public string CAMenu { get; set; }
-        public string PRMenu { get; set; }
-        public string WFMenu { get; set; }
-        public string BGImage { get; set; }
-        public string EndImage { get; set; }
-        public string Printing { get; set; }
-        public string ColorCode { get; set; }
-        public string OtherMenu { get; set; }
-        public string PayConfirm { get; set; }
-        public string StartImage { get; set; }
-        public string DefaultUsed { get; set; }
-        public string FrameSelect { get; set; }
-        public string OptionalUse { get; set; }
-        public string VideoVolume { get; set; }
-        public string Age14TermUse { get; set; }
-        public string ContentsMenu { get; set; }
-        public string PhotoStandby { get; set; }
-        public string Age14TermUsed { get; set; }
-        public string PlayShotMovie { get; set; }
-        public string PaymentTermUse { get; set; }
-        public string PaymentTermUsed { get; set; }
-        public string PrintErrorImage { get; set; }
-        public string StartMediaVideo { get; set; }
-        public string MarketingTermUse { get; set; }
-        public string MultiLanguageUse { get; set; }
-        public List<string> PaymentTermImage { get; set; }
-        public List<string> ServiceTermImage { get; set; }
-        public string ServieErrorImage { get; set; }
-        public string ShootingPRSelect { get; set; }
-        public string MarketingTermUsed { get; set; }
-        public List<string> MarketingTermImage { get; set; }
-        public List<string> PersonalPolicyImage { get; set; }
+        public string BTBG;
+        public string CABG;
+        public string CAMenu;
+        public string PRMenu;
+        public string WFMenu;
+        public string BGImage;
+        public string EndImage;
+        public string Printing;
+        public string ColorCode;
+        public string OtherMenu;
+        public string PayConfirm;
+        public string StartImage;
+        public string DefaultUsed;
+        public string FrameSelect;
+        public string OptionalUse;
+        public string VideoVolume;
+        public string Age14TermUse;
+        public string ContentsMenu;
+        public string PhotoStandby;
+        public string Age14TermUsed;
+        public string PlayShotMovie;
+        public string PaymentTermUse;
+        public string PaymentTermUsed;
+        public string PrintErrorImage;
+        public string StartMediaVideo;
+        public string MarketingTermUse;
+        public string MultiLanguageUse;
+        public List<string> PaymentTermImage;
+        public List<string> ServiceTermImage;
+        public string ServieErrorImage;
+        public string ShootingPRSelect;
+        public string MarketingTermUsed;
+        public List<string> MarketingTermImage;
+        public List<string> PersonalPolicyImage;
     }
 
     [Serializable]
     public class DeviceEntry
     {
-        public string Key { get; set; }
-        public string TID { get; set; }
-        public string Deploy { get; set; }
-        public string MailList { get; set; }
-        public string MachineID { get; set; }
-        public string StoreName { get; set; }
-        public string PrinterModel { get; set; }
+        public string Key;
+        public string TID;
+        public string Deploy;
+        public string MailList;
+        public string MachineID;
+        public string StoreName;
+        public string PrinterModel;
     }
 
 }
@@ -292,58 +296,58 @@ namespace ChromakeyFrameData
     [Serializable]
     public class ConfigEntry
     {
-        public string Key { get; set; }
-        public string value1 { get; set; }
-        public string value2 { get; set; }
-        public string value3 { get; set; }
-        public string value4 { get; set; }
-        public string value5 { get; set; }
-        public string value6 { get; set; }
-        public string value7 { get; set; }
-        public string value8 { get; set; }
-        public string value9 { get; set; }
-        public string value10 { get; set; }
+        public string Key;
+        public string value1;
+        public string value2;
+        public string value3;
+        public string value4;
+        public string value5;
+        public string value6;
+        public string value7;
+        public string value8;
+        public string value9;
+        public string value10;
     }
 
     [Serializable]
     public class CategoryEntry
     {
-        public string Key { get; set; }
-        public string Korean { get; set; }
-        public string Chinese { get; set; }
-        public string English { get; set; }
+        public string Key;
+        public string Korean;
+        public string Chinese;
+        public string English;
     }
 
     [Serializable]
     public class ChromakeyToneTableEntry
     {
-        public string Key { get; set; }
-        public string Color { get; set; }
-        public string Korean { get; set; }
-        public string Chinese { get; set; }
-        public string English { get; set; }
-        public string Sequence { get; set; }
-        public string Thumbnail { get; set; }
+        public string Key;
+        public string Color;
+        public string Korean;
+        public string Chinese;
+        public string English;
+        public string Sequence;
+        public string Thumbnail;
     }
 
     [Serializable]
     public class ChromakeyFrameTableEntry
     {
-        public string Key { get; set; }
-        public string Image1 { get; set; }
-        public string Image2 { get; set; }
-        public string Image3 { get; set; }
-        public string Image4 { get; set; }
-        public string Image5 { get; set; }
-        public string Image6 { get; set; }
-        public string Image7 { get; set; }
-        public string Image8 { get; set; }
-        public string Korean { get; set; }
-        public string Chinese { get; set; }
-        public string English { get; set; }
-        public string Category { get; set; }
-        public string Sequence { get; set; }
-        public string Thumbnail { get; set; }
+        public string Key;
+        public string Image1;
+        public string Image2;
+        public string Image3;
+        public string Image4;
+        public string Image5;
+        public string Image6;
+        public string Image7;
+        public string Image8;
+        public string Korean;
+        public string Chinese;
+        public string English;
+        public string Category;
+        public string Sequence;
+        public string Thumbnail;
     }
 }
 
@@ -353,7 +357,7 @@ namespace ShootingScreenData
     [Serializable]
     public class ShootScreenEntry
     {
-        public string Key { get; set; }
+        public string Key;
         public ShootScreenEntryDic url;
         public ShootScreenEntryDic ratio;
         public ShootScreenEntryDic korean;

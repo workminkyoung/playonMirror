@@ -1,7 +1,5 @@
 using Newtonsoft.Json;
-using System.Collections;
 using System.Collections.Generic;
-using System.Drawing.Text;
 using UnityEngine;
 
 public class AdminManager : SingletonBehaviour<AdminManager>
@@ -14,6 +12,9 @@ public class AdminManager : SingletonBehaviour<AdminManager>
     private ChromakeyFrameData.ChromakeyFrame _chromakeyFrame;
     private ShootingScreenData.ShootScreenDic _shootScreen;
 
+    [SerializeField]
+    private LANGUAGE_TYPE _language = LANGUAGE_TYPE.KOR;
+
     private string _configDefaultAPI = "http://api.playon-vive.com/config/default/latest";
 
     public ConfigDefaultData ConfigDefaultData => _configDefaultData;
@@ -23,6 +24,7 @@ public class AdminManager : SingletonBehaviour<AdminManager>
     public BasicData.BasicSetting BasicSetting => _basicSetting;
     public ChromakeyFrameData.ChromakeyFrame ChromakeyFrame => _chromakeyFrame;
     public ShootingScreenData.ShootScreenDic ShootScreen => _shootScreen;
+    public LANGUAGE_TYPE Language => _language;
 
     protected override void Init()
     {
