@@ -4,12 +4,19 @@ using UnityEngine;
 
 public class AdminManager : SingletonBehaviour<AdminManager>
 {
+    [SerializeField]
     private ConfigDefaultData _configDefaultData;
+    [SerializeField]
     private BubbleData.BubbleData _bubbleData;
+    [SerializeField]
     private FilterData.FilterData _filterData;
+    [SerializeField]
     private ServiceData.ServiceData _serviceData;
+    [SerializeField]
     private BasicData.BasicSetting _basicSetting;
+    [SerializeField]
     private ChromakeyFrameData.ChromakeyFrame _chromakeyFrame;
+    [SerializeField]
     private ShootingScreenData.ShootScreenDic _shootScreen;
 
     [SerializeField]
