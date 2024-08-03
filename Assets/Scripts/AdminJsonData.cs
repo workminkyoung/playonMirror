@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using RotaryHeart.Lib.SerializableDictionary;
 using BasicData;
+using System.IO;
 
 [System.Serializable]
 public class ConfigDefaultData
@@ -173,9 +174,13 @@ namespace ServiceData
         public string Sorting;
         public string Sequence;
         public string ImageThumbnail;
+        public Texture2D ImageThumbnail_data;
         public string VideoThumbnail;
+        public string VideoThumbnail_path;
         public string GuideImage;
+        public Texture2D GuideImage_data;
         public string BGGuideImage;
+        public Texture2D BGGuideImage_data;
         public string People_Icon;
         public string Korean_Title;
         public string Chinese_Title;
@@ -187,6 +192,7 @@ namespace ServiceData
         public string Chinese_SubText;
         public string English_SubText;
         public string ShootGuideImage;
+        public Texture2D ShootGuideImage_data;
     }
 
     [Serializable]
@@ -200,6 +206,7 @@ namespace ServiceData
         public string Property;
         public string Sequence;
         public string Thumbnail;
+        public Texture2D Thumbnail_data;
         public string References;
         public string KoreanTitle;
         public string ChineseTitle;

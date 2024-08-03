@@ -37,7 +37,7 @@ public class AdminManager : SingletonBehaviour<AdminManager>
     {
         GameManager.OnGameResetAction += ResetAdminData;
 
-        ApiCall.Instance.Get(_configDefaultAPI, GetResponse);
+        ApiCall.Instance.Get<string>(_configDefaultAPI, GetResponse);
     }
 
     public void ResetAdminData()
@@ -76,6 +76,7 @@ public class AdminManager : SingletonBehaviour<AdminManager>
     {
         string result = _configDefaultData.config_default_set.result.ServiceData.ToString();
         _serviceData = JsonConvert.DeserializeObject<ServiceData.ServiceData>(result);
+        DownloadServiceData();
     }
 
     private void SetBasicData()
@@ -146,6 +147,42 @@ public class AdminManager : SingletonBehaviour<AdminManager>
             }
 
             _shootScreen.Add(shootScreen.Key, shootScreen);
+        }
+    }
+
+    public void DownloadServiceData()
+    {
+        foreach (var item in _serviceData.Contents)
+        {
+            if(item.Value.ImageThumbnail != null && item.Value.ImageThumbnail != string.Empty)
+            {
+                ApiCall.Instance.GetSequently<Texture2D>
+                    (item.Value.ImageThumbnail, (texture) => {item.Value.ImageThumbnail_data = texture;}, true);
+            }
+
+            if (item.Value.VideoThumbnail !=  null && item.Value.VideoThumbnail != string.Empty)
+            {
+                ApiCall.Instance.GetSequently<string>
+                    (item.Value.VideoThumbnail, (path) => { item.Value.VideoThumbnail_path = path; }, true);
+            }
+
+            if (item.Value.GuideImage != null && item.Value.GuideImage != string.Empty)
+            {
+                ApiCall.Instance.GetSequently<Texture2D>
+                    (item.Value.GuideImage, (texture) => { item.Value.GuideImage_data = texture; }, true);
+            }
+
+            if (item.Value.BGGuideImage != null && item.Value.BGGuideImage != string.Empty)
+            {
+                ApiCall.Instance.GetSequently<Texture2D>
+                    (item.Value.BGGuideImage, (texture) => { item.Value.BGGuideImage_data = texture; }, true);
+            }
+
+            if (item.Value.ShootGuideImage != null && item.Value.ShootGuideImage != string.Empty)
+            {
+                ApiCall.Instance.GetSequently<Texture2D>
+                    (item.Value.ShootGuideImage, (texture) => { item.Value.ShootGuideImage_data = texture; }, true);
+            }
         }
     }
 }
