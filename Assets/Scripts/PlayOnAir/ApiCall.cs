@@ -4,15 +4,17 @@ using UnityEngine;
 using UnityEngine.Networking;
 using System;
 using System.IO;
-using Vivestudios.UI;
-using Newtonsoft.Json;
 
 public partial class ApiCall : SingletonBehaviour<ApiCall>
 {
     private Coroutine _postCoroutine;
     private Coroutine _getCoroutine;
+    //[SerializeField]
+    //private List<Coroutine> _getCoroutines = new List<Coroutine>();
     private int _requestNum = 0;
     private const int _requestMaxNum = 3;
+    private const string _googleDownUrl = "https://drive.google.com/uc?export=download&id=";
+    private string _downloadPath;
 
     protected override void Init()
     {
@@ -66,7 +68,7 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
         www.Dispose();
     }
 
-    public IEnumerator GetRequest(string url, Action<string> response = null, bool isReRequest = false)
+    public IEnumerator GetRequest<T>(string url, Action<T> response = null, bool isReRequest = false)
     {
         if (!isReRequest)
         {
@@ -95,14 +97,95 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
             }
             else
             {
-                Debug.LogFormat("[POST / request count {0}] Fail to Send!", _requestNum);
-                GameManager.inst.SetDiffusionState(false);
+                Debug.LogFormat("[Get / request count {0}] Fail to Send!", _requestNum);
             }
         }
         else
         {
-            Debug.LogFormat("[POST / request count {0}] Successed to Send!", _requestNum);
-            response?.Invoke(www.downloadHandler.text);
+            object result = null;
+
+            if (typeof(T) == typeof(string))
+            {
+                result = www.downloadHandler.text;
+            }
+            else if (typeof(T) == typeof(Texture2D))
+            {
+                result = DownloadHandlerTexture.GetContent(www);
+            }
+
+            Debug.LogFormat("[Get / request count {0}] Successed to Send!", _requestNum);
+            response?.Invoke((T)result);
+        }
+        www.Dispose();
+    }
+
+    public IEnumerator GetRequestGoogleLink<T>(string url, Action<T> response = null, bool isReRequest = false, bool isSequential = false)
+    {
+        if (!isReRequest)
+        {
+            _requestNum = 0;
+        }
+
+        string key = ExtractGoogleDownKey(url);
+        url = _googleDownUrl + key;
+
+        _requestNum++;
+        UnityWebRequest www = new UnityWebRequest(url, UnityWebRequest.kHttpVerbGET);
+        DownloadHandlerBuffer dh = new DownloadHandlerBuffer();
+
+        www.SetRequestHeader("Content-Type", "application/json");
+        www.downloadHandler = dh;
+
+        yield return www.SendWebRequest();
+
+        if (www.result != UnityWebRequest.Result.Success)
+        {
+            CustomLogger.Log(www.error);
+            CustomLogger.Log(www.downloadHandler.text);
+
+            if (_requestNum < _requestMaxNum)
+            {
+                www.Dispose();
+                if(!isSequential)
+                {
+                    _getCoroutine = StartCoroutine(GetRequestGoogleLink(url, response, true));
+                }
+                yield break;
+            }
+            else
+            {
+                Debug.LogFormat("[Get / request count {0}] Fail to Send!", _requestNum);
+            }
+        }
+        else
+        {
+            Debug.LogFormat("[Get / request count {0}] Successed to Send!", _requestNum);
+
+            object result = null;
+            string contentType = www.GetResponseHeader("Content-Type");
+            if (contentType != null)
+            {
+                if (contentType.StartsWith("image/"))
+                {
+                    byte[] data = www.downloadHandler.data;
+                    Texture2D texture = new Texture2D(0, 0, TextureFormat.ARGB32, false);
+                    texture.LoadImage(data);
+                    result = texture;
+                }
+                else if (contentType.StartsWith("video/"))
+                {
+                    _downloadPath = Path.Combine(Application.streamingAssetsPath, $"Video/{key}.mp4");
+                    byte[] data = www.downloadHandler.data;
+                    File.WriteAllBytes(_downloadPath, data);
+                    result = _downloadPath;
+                }
+                else
+                {
+                    Debug.Log($"Unknown file type. : {contentType}");
+                }
+            }
+
+            response?.Invoke((T)result);
         }
         www.Dispose();
     }
@@ -117,7 +200,7 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
         _postCoroutine = StartCoroutine(PostRequest(url, json, response));
     }
 
-    public void Get(string url, Action<string> response = null)
+    public void Get<T>(string url, Action<T> response = null, bool isGoogleDownload = false)
     {
         if (_getCoroutine != null)
         {
@@ -125,7 +208,27 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
             _getCoroutine = null;
         }
 
-        _getCoroutine = StartCoroutine(GetRequest(url, response));
+        if (isGoogleDownload)
+        {
+            _getCoroutine = StartCoroutine(GetRequestGoogleLink(url, response));
+        }
+        else
+        {
+            _getCoroutine = StartCoroutine(GetRequest(url, response));
+        }
+    }
+
+    public void GetSequently<T>(string url, Action<T> response = null, bool isGoogleDownload = false)
+    {
+        if (isGoogleDownload)
+        {
+            StartCoroutine(GetRequestGoogleLink(url, response, false, true));
+        }
+        else
+        {
+            //sequential 대응필요
+            StartCoroutine(GetRequest(url, response));
+        }
     }
 
     public void StopActiveCoroutine()
@@ -134,6 +237,25 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
         {
             StopCoroutine(_postCoroutine);
             _postCoroutine = null;
+        }
+    }
+
+    private string ExtractGoogleDownKey(string url)
+    {
+        try
+        {
+            string startPattern = "file/d/";
+            string endPattern = "/view";
+
+            var startindex = url.IndexOf(startPattern) + startPattern.Length;
+            var endindex = url.IndexOf(endPattern);
+
+            return url.Substring(startindex, endindex - startindex);
+        }
+        catch (Exception ex)
+        {
+            CustomLogger.LogError(ex);
+            return string.Empty;
         }
     }
 }
