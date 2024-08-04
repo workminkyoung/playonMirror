@@ -95,6 +95,9 @@ public class PC_Main : PC_BasePageController
     //public bool isChildPlaying { get { return _isChildPlaying; } }
     //public bool SetIsChildPlaying { set { _isChildPlaying = value; } }
 
+    public GameObject stickerContainerPrefab;
+    public Action StickerUpdateAction;
+
     public void SkinFilterOn(bool isOn)
     {
         _isSkinFilterOn = isOn;
@@ -310,7 +313,10 @@ public class PC_Main : PC_BasePageController
     public void StartTimeLimit(int limitTime = 0)
     {
         if (TimeLimitCoroutine != null)
+        {
             return;
+        }
+
         TimeLimitCoroutine = StartCoroutine(TimeLimitRoutine(limitTime));
     }
 
@@ -341,8 +347,8 @@ public class PC_Main : PC_BasePageController
         }
 
         _timeLimitDone = true;
-        OnTimeLimitDoneAction?.Invoke();
         TimeLimitCoroutine = null;
+        OnTimeLimitDoneAction?.Invoke();
     }
 
     private void Update()

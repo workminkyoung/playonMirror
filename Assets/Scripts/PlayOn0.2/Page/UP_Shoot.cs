@@ -371,8 +371,15 @@ public class UP_Shoot : UP_BasePage
         if(UserDataManager.inst.isChromaKeyOn)
         {
             ChromaKeyModule.inst.SetBg(ChromaKeyModule.inst.options[UserDataManager.inst.selectedChromaKeyNum].images[_shootState.photoCurrent]);
-            _nextChromakeyBG.SetBgImg(ChromaKeyModule.inst.bgTex);
 
+            if(ChromaKeyModule.inst.options[UserDataManager.inst.selectedChromaKeyNum].images.Length > _shootState.photoCurrent + 1 && ChromaKeyModule.inst.options[UserDataManager.inst.selectedChromaKeyNum].images[_shootState.photoCurrent + 1] != null)
+            {
+                _nextChromakeyBG.SetBgImg(ChromaKeyModule.inst.options[UserDataManager.inst.selectedChromaKeyNum].images[_shootState.photoCurrent + 1]);
+            }
+            else
+            {
+                _nextChromakeyBG.gameObject.SetActive(false);
+            }
         }
     }
 }

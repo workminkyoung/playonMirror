@@ -48,6 +48,9 @@ public class Config
     public bool childDefaultCheck;
     public int firstPrintAmount;
 
+    //sticker setting
+    public int stickerMaxCount;
+
     public ChromaKeyConfig chromaKey;
     //0 : KICC, 1 : KSNET
     public MailConfig mailConfig;

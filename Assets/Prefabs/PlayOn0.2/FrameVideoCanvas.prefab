@@ -1248,6 +1248,10 @@ MonoBehaviour:
   _videoRT: {fileID: 8400000, guid: b2c74a4b298a6154c8a9fffc319d6353, type: 2}
   _listRaw: []
   _saveTexture: {fileID: 0}
+  photoCaptureArea: {fileID: 6696776496999960895}
+  videoCaptureArea: {fileID: 488779635156210602}
+  photoStickerContainer: {fileID: 0}
+  videoStickerContainer: {fileID: 0}
 --- !u!1 &2726571785429051415
 GameObject:
   m_ObjectHideFlags: 0
@@ -3996,6 +4000,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eea5f9951b5fc2c41b52afcab2ddccc6, type: 3}
+--- !u!1 &488779635156210602 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1707066253833131965, guid: eea5f9951b5fc2c41b52afcab2ddccc6, type: 3}
+  m_PrefabInstance: {fileID: 1258977972470776855}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &513898611640732747 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1610447925895235676, guid: eea5f9951b5fc2c41b52afcab2ddccc6, type: 3}
@@ -6212,6 +6221,11 @@ MonoBehaviour:
 --- !u!224 &5448684069679775894 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 54764765377857044, guid: eea5f9951b5fc2c41b52afcab2ddccc6, type: 3}
+  m_PrefabInstance: {fileID: 5431074006060615298}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6696776496999960895 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1707066253833131965, guid: eea5f9951b5fc2c41b52afcab2ddccc6, type: 3}
   m_PrefabInstance: {fileID: 5431074006060615298}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &6703177946113887966 stripped
