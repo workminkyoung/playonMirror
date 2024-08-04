@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 using Vivestudios.UI;
 
 public class UP_SelectContent : UP_BaseSelectContent, IPageTimeLimit
@@ -23,6 +21,28 @@ public class UP_SelectContent : UP_BaseSelectContent, IPageTimeLimit
     {
         _maxTime = ConfigData.config.contentSelectTime;
         _styleContents = new List<UC_StyleVideoContent>();
+
+        base.InitPage();
+    }
+
+    private void CreateContent()
+    {
+        foreach (var item in AdminManager.Instance.ServiceData.Contents)
+        {
+            //if(item.Value.Use.ToLower() == "true")
+            //{
+            //    GameObject contentObj = Instantiate(_contentPrefab, _contentParent);
+            //    UC_StyleVideoContent content = contentObj.GetComponentInChildren<UC_StyleVideoContent>();
+            //    content.SetTitle(StringCacheManager.inst.GetContentTitle(_activeContentType[i]));
+            //    content.SetDescription(StringCacheManager.inst.GetContentDescription(_activeContentType[i]));
+            //    content.SetMaxPlayer(StringCacheManager.inst.GetContentPlayerNum(_activeContentType[i]));
+            //    content.SetVideo(ResourceCacheManager.inst.GetContentVideoThumbnail(_activeContentType[i]));
+            //    content.Select(false);
+            //    _styleContents.Add(content);
+            //}
+        }
+        
+
         for (int i = 0; i < _activeContentType.Count; i++)
         {
             GameObject contentObj = Instantiate(_contentPrefab, _contentParent);
@@ -34,8 +54,6 @@ public class UP_SelectContent : UP_BaseSelectContent, IPageTimeLimit
             content.Select(false);
             _styleContents.Add(content);
         }
-
-        base.InitPage();
     }
 
     public override void BindDelegates()
