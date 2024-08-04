@@ -8,22 +8,21 @@ using Vivestudios.UI;
 
 public partial class ApiCall : SingletonBehaviour<ApiCall>
 {
-    private string _sourceEncodeText;// reference
-    private string _targetEncodeText;// photo
     public Action<Texture2D> SendResult;
     public Action OnEndRequest;
-
     public List<Texture2D> _requestTextures = new List<Texture2D>();
     public int _requestCountMax = 0;
     public int _curRequestCount = 0;
-    bool _requestDone = false;
-    CARTOON_TYPE _cartoonType;
-    Coroutine _requestCoroutine = null;
 
-    const int reSizeWidth = 768;
-    const int reSizeHeight = 576;
+    protected string _cartoonAPI = "http://api.playon-vive.com/ai-cartoon?api_key=1ef5ba12-5773-4fc0-837c-9af7a926e2db";
+    protected string _profileAPI = "http://api.playon-vive.com/ai-profile?api_key=1ef5ba12-5773-4fc0-837c-9af7a926e2db";
 
-    //TODO : RESET
+    private string _targetEncodeText;
+    private bool _requestDone = false;
+    private Coroutine _requestCoroutine = null;
+
+    public string profileAPI => _profileAPI;
+
     public void ResetRequest(int photoMax)
     {
         _requestTextures.Clear();
