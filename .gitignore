@@ -19,10 +19,10 @@
 /Assets/Photos
 
 # downloaded file by admin
-/Assets/StreamingAssets/Video
-/Assets/StreamingAssets/Video.meta
-/Assets/StreamingAssets/Image
-/Assets/StreamingAssets/Image.meta
+!/Assets/StreamingAssets/Video
+/Assets/StreamingAssets/Video/*
+!/Assets/StreamingAssets/Image
+/Assets/StreamingAssets/Image/*
 
 # Uncomment this line if you wish to ignore the asset store tools plugin
 # /[Aa]ssets/AssetStoreTools*
