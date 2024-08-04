@@ -126,6 +126,7 @@ public class GameManager : SingletonBehaviour<GameManager>
         CreateManager<ProfileModule>();
         CreateManager<StorageManager>();
         CreateManager<MailingModule>();
+        CreateManager<AdminManager>();
 
         switch (ConfigData.config.paymentMethod)
         {

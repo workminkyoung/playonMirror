@@ -9,66 +9,18 @@ using Newtonsoft.Json;
 
 public partial class ApiCall : SingletonBehaviour<ApiCall>
 {
-    private List<CartoonRequestBody> cartoonTemplate = new List<CartoonRequestBody>();
-    private List<string> cartoonJsons = new List<string>();
-    private List<string> beautyJsons = new List<string>();
-
-    private Coroutine _setPostCoroutine;
-
+    private Coroutine _postCoroutine;
+    private Coroutine _getCoroutine;
     private int _requestNum = 0;
     private const int _requestMaxNum = 3;
 
-    protected string _cartoonAPI = "http://api.playon-vive.com/ai-cartoon?api_key=1ef5ba12-5773-4fc0-837c-9af7a926e2db";
-    protected string _profileAPI = "http://api.playon-vive.com/ai-profile?api_key=1ef5ba12-5773-4fc0-837c-9af7a926e2db";
-
-    public string profileAPI => _profileAPI;
-
     protected override void Init()
     {
-        //videoPath = Path.Combine(Application.persistentDataPath, videoName);
-        //throw new NotImplementedException();
-        //유저데이터 서버사용인지 아닌지 확인해서 적용
-        //UserDataManager.inst.url_setmodel;
         OnEndRequest = () =>
         {
             _curRequestCount++;
             _requestDone = true;
         };
-    }
-
-    public void GetCartoonTemplate()
-    {
-        string cartoonPath = Path.Combine(Application.streamingAssetsPath, "Cartoon");
-        cartoonJsons = GetJsonFiles(Path.GetFullPath(cartoonPath));
-
-        string beautyPath = Path.Combine(Application.streamingAssetsPath, "Beauty");
-        beautyJsons = GetJsonFiles(Path.GetFullPath(beautyPath));
-        //cartoonTemplate = new List<CartoonRequestBody>(GetBodyFromJson(jsonNames));
-    }
-
-    List<string> GetJsonFiles(string folderPath)
-    {
-        List<string> jsonFiles = new List<string>();
-
-        if (Directory.Exists(folderPath))
-        {
-            DirectoryInfo directoryInfo = new DirectoryInfo(folderPath);
-            FileInfo[] fileInfos = directoryInfo.GetFiles("*.json");
-
-            string[] files = Directory.GetFiles(folderPath, "*.json", SearchOption.AllDirectories);
-            Array.Sort(files);
-            foreach (string file in files)
-            {
-                string fileData = File.ReadAllText(file);
-                jsonFiles.Add(fileData);
-            }
-        }
-        else
-        {
-            CustomLogger.LogError("Folder does not exist: " + folderPath);
-        }
-
-        return jsonFiles;
     }
 
     public IEnumerator PostRequest(string url, string json, Action<string> response = null, bool isReRequest = false)
@@ -97,7 +49,48 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
             if (_requestNum < _requestMaxNum)
             {
                 www.Dispose();
-                _setPostCoroutine = StartCoroutine(PostRequest(url, json, response, true));
+                _postCoroutine = StartCoroutine(PostRequest(url, json, response, true));
+                yield break;
+            }
+            else
+            {
+                Debug.LogFormat("[POST / request count {0}] Fail to Send!", _requestNum);
+                GameManager.inst.SetDiffusionState(false);
+            }
+        }
+        else
+        {
+            Debug.LogFormat("[POST / request count {0}] Successed to Send!", _requestNum);
+            response?.Invoke(www.downloadHandler.text);
+        }
+        www.Dispose();
+    }
+
+    public IEnumerator GetRequest(string url, Action<string> response = null, bool isReRequest = false)
+    {
+        if (!isReRequest)
+        {
+            _requestNum = 0;
+        }
+
+        _requestNum++;
+        UnityWebRequest www = new UnityWebRequest(url, UnityWebRequest.kHttpVerbGET);
+        DownloadHandlerBuffer dh = new DownloadHandlerBuffer();
+
+        www.SetRequestHeader("Content-Type", "application/json");
+        www.downloadHandler = dh;
+
+        yield return www.SendWebRequest();
+
+        if (www.result != UnityWebRequest.Result.Success)
+        {
+            CustomLogger.Log(www.error);
+            CustomLogger.Log(www.downloadHandler.text);
+
+            if (_requestNum < _requestMaxNum)
+            {
+                www.Dispose();
+                _getCoroutine = StartCoroutine(GetRequest(url, response, true));
                 yield break;
             }
             else
@@ -116,20 +109,31 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
 
     public void Post(string url, string json, Action<string> response = null)
     {
-        if(_setPostCoroutine != null)
+        if(_postCoroutine != null)
         {
-            StopCoroutine(_setPostCoroutine);
-            _setPostCoroutine = null;
+            StopCoroutine(_postCoroutine);
+            _postCoroutine = null;
         }
-        _setPostCoroutine = StartCoroutine(PostRequest(url, json, response));
+        _postCoroutine = StartCoroutine(PostRequest(url, json, response));
+    }
+
+    public void Get(string url, Action<string> response = null)
+    {
+        if (_getCoroutine != null)
+        {
+            StopCoroutine(_getCoroutine);
+            _getCoroutine = null;
+        }
+
+        _getCoroutine = StartCoroutine(GetRequest(url, response));
     }
 
     public void StopActiveCoroutine()
     {
-        if (_setPostCoroutine != null)
+        if (_postCoroutine != null)
         {
-            StopCoroutine(_setPostCoroutine);
-            _setPostCoroutine = null;
+            StopCoroutine(_postCoroutine);
+            _postCoroutine = null;
         }
     }
 }

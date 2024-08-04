@@ -256,7 +256,6 @@ public class PC_Main : PC_BasePageController
 
         //SetCameraData();
         ffmpegManager.Instance.Setting(_captureCameras[CAMERA_VIEW_TYPE.RECORD]);
-        ApiCall.Instance.GetCartoonTemplate();
 
         if (LogDataManager.inst == null)
         {
