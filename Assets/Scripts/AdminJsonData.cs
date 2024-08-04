@@ -88,22 +88,24 @@ namespace BubbleData
     {
         public string Key;
         public string Kind;
-        public string Group;
+        public int Group;
         public string Image;
         public string Korean;
-        public string Margin;
+        public int Margin;
         public string Chinese;
         public string English;
         public string FontSet;
         public string Category;
-        public string FontSize;
+        public float FontSize;
         public string Sequence;
         public string TextArea;
         public string FontColor;
         public string ImageType;
         public string Thumbnail;
-        public string StartScale;
-        public string ThumbnailScale;
+        public float StartScale;
+        public float ThumbnailScale;
+        public Texture2D Image_data;
+        public Sprite Image_sprite;
     }
 }
 

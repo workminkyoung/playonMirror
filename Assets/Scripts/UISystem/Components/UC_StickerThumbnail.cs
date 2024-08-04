@@ -1,3 +1,4 @@
+using BubbleData;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ using Vivestudios.UI;
 public class UC_StickerThumbnail : UC_BaseComponent, IPointerClickHandler
 {
     [SerializeField]
-    private StickerOptionBase _stickerOption = null;
+    private BubbleTableEntry _stickerOption = null;
     [SerializeField]
     private RectTransform _scaler;
     [SerializeField]
@@ -21,24 +22,24 @@ public class UC_StickerThumbnail : UC_BaseComponent, IPointerClickHandler
     private TextMeshProUGUI _text = null;
 
     public RectTransform rectTransform => transform as RectTransform;
-    public float scale => _stickerOption.startScale;
-    public int margin => _stickerOption.margin;
-    public string category => _stickerOption.category;
+    public float scale => _stickerOption.StartScale;
+    public int margin => _stickerOption.Margin;
+    public string category => _stickerOption.Category;
     public RectTransform scaler => _scaler;
-    public MaskableGraphic thumbnail => _thumbnail; 
-    public Action<StickerOptionBase> OnClickAction;
+    public MaskableGraphic thumbnail => _thumbnail;
+    public Action<BubbleTableEntry> OnClickAction;
 
     public override void InitComponent ()
     {
 
     }
 
-    public void SetOption (StickerOptionBase option)
+    public void SetOption (BubbleTableEntry option)
     {
         _stickerOption = option;
         SetThumbnail();
         SetText();
-        _scaler.localScale = new Vector3(_stickerOption.thumbnailScale, _stickerOption.thumbnailScale, 1);
+        _scaler.localScale = new Vector3(_stickerOption.ThumbnailScale, _stickerOption.ThumbnailScale, 1);
     }
 
     private void SetThumbnail ()
@@ -52,29 +53,29 @@ public class UC_StickerThumbnail : UC_BaseComponent, IPointerClickHandler
         thumbnailObj.localRotation = Quaternion.identity;
         thumbnailObj.anchoredPosition3D = Vector3.zero;
 
-        switch(_stickerOption.imageType.ToLower())
+        switch(_stickerOption.ImageType.ToLower())
         {
             case "svg":
                 _thumbnail = thumbnailObj.gameObject.AddComponent<SVGImage>();
-                (_thumbnail as SVGImage).sprite = _stickerOption.thumbnailSprite;
+                (_thumbnail as SVGImage).sprite = _stickerOption.Image_sprite;
                 break;
             case "png":
                 _thumbnail = thumbnailObj.gameObject.AddComponent<Image>();
-                (_thumbnail as Image).sprite = _stickerOption.thumbnailSprite;
+                (_thumbnail as Image).sprite = _stickerOption.Image_sprite;
                 break;
         }
 
-        if(string.IsNullOrEmpty(_stickerOption.image))
+        if(string.IsNullOrEmpty(_stickerOption.Image))
         {
             return;
         }
 
-        _thumbnail.rectTransform.sizeDelta = new Vector2(_stickerOption.thumbnailSprite.rect.width, _stickerOption.thumbnailSprite.rect.height);
+        _thumbnail.rectTransform.sizeDelta = new Vector2(_stickerOption.Image_sprite.rect.width, _stickerOption.Image_sprite.rect.height);
     }
 
     private void SetText ()
     {
-        if(_stickerOption.kind == "ImageText" || _stickerOption.kind == "Text")
+        if(_stickerOption.Kind == "ImageText" || _stickerOption.Kind == "Text")
         {
             RectTransform textObj = new GameObject().AddComponent<RectTransform>();
             textObj.SetParent(_scaler);
@@ -86,22 +87,37 @@ public class UC_StickerThumbnail : UC_BaseComponent, IPointerClickHandler
             textObj.anchoredPosition3D = Vector3.zero;
 
             TextMeshProUGUI text = textObj.gameObject.AddComponent<TextMeshProUGUI>();
-            text.font = ResourceCacheManager.inst.GetFont(_stickerOption.fontSet, LANGUAGE_TYPE.KOR);
-            text.fontSize = _stickerOption.fontSize;
-            text.color = UtilityExtensions.HexToColor(_stickerOption.fontColor);
+            text.font = ResourceCacheManager.inst.GetFont(_stickerOption.FontSet, AdminManager.Instance.Language);
+            text.fontSize = _stickerOption.FontSize;
+            text.color = UtilityExtensions.HexToColor(_stickerOption.FontColor);
             text.alignment = TextAlignmentOptions.Center;
-            text.text = System.Text.RegularExpressions.Regex.Unescape(_stickerOption.kor);
+            switch(AdminManager.Instance.Language)
+            {
+                case LANGUAGE_TYPE.KOR:
+                    text.text = System.Text.RegularExpressions.Regex.Unescape(_stickerOption.Korean);
+                    break;
+                case LANGUAGE_TYPE.ENG:
+                    text.text = System.Text.RegularExpressions.Regex.Unescape(_stickerOption.English);
+                    break;
+                case LANGUAGE_TYPE.CHN:
+                    text.text = System.Text.RegularExpressions.Regex.Unescape(_stickerOption.Chinese);
+                    break;
+                default:
+                    text.text = System.Text.RegularExpressions.Regex.Unescape(_stickerOption.Korean);
+                    break;
+            }
+
             text.enableWordWrapping = false;
-            
+
             _text = text;
 
-            if(string.IsNullOrEmpty(_stickerOption.image))
+            if(string.IsNullOrEmpty(_stickerOption.Image))
             {
                 ContentSizeFitter fitter = _text.AddComponent<ContentSizeFitter>();
                 fitter.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
                 fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
                 LayoutRebuilder.ForceRebuildLayoutImmediate(_text.rectTransform);
-                
+
                 _thumbnail.color = Color.clear;
                 _thumbnail.rectTransform.sizeDelta = _text.rectTransform.sizeDelta;
             }
@@ -111,10 +127,5 @@ public class UC_StickerThumbnail : UC_BaseComponent, IPointerClickHandler
     public void OnPointerClick (PointerEventData eventData)
     {
         OnClickAction?.Invoke(_stickerOption);
-    }
-
-    internal void SetOption<T> (T t)
-    {
-        throw new NotImplementedException();
     }
 }

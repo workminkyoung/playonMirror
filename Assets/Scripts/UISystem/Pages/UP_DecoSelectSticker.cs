@@ -1,3 +1,4 @@
+using BubbleData;
 using MPUIKIT;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,6 +9,10 @@ using Vivestudios.UI;
 
 public class UP_DecoSelectSticker : UP_DecoratePageBase
 {
+    [SerializeField]
+    private VerticalLayoutGroup _contentAreaLayoutGroup;
+    [SerializeField]
+    private RectTransform _categoryArea;
     [SerializeField]
     private RectTransform _categoryContent;
     [SerializeField]
@@ -48,8 +53,6 @@ public class UP_DecoSelectSticker : UP_DecoratePageBase
 
     public override void InitPage ()
     {
-        CreateCategories();
-        CreateStickerAreas();
 
     }
 
@@ -95,6 +98,16 @@ public class UP_DecoSelectSticker : UP_DecoratePageBase
     {
         if(isStickerCreated == false)
         {
+            _categoryArea.gameObject.SetActive(bool.Parse(AdminManager.Instance.BubbleData.Config["UseCategory"].value1) == true);
+            _contentAreaLayoutGroup.padding.top = bool.Parse(AdminManager.Instance.BubbleData.Config["UseCategory"].value1) == true ? 48 : 24;
+
+            if(bool.Parse(AdminManager.Instance.BubbleData.Config["UseCategory"].value1) == true)
+            {
+                CreateCategories();
+                OnClickCategory("all");
+            }
+
+            CreateStickerAreas();
             CreateStickers();
         }
 
@@ -102,7 +115,7 @@ public class UP_DecoSelectSticker : UP_DecoratePageBase
         (_stickerContent.transform as RectTransform).anchoredPosition = Vector2.zero;
 
         _allCategoryToggle.Select(true);
-        OnClickCategory("all");
+
     }
 
     public override void OnPageDisable ()
@@ -121,7 +134,12 @@ public class UP_DecoSelectSticker : UP_DecoratePageBase
 
     private void CreateCategories ()
     {
-        _categories = ResourceCacheManager.inst.stickerOptions.Select(option => option.category).Distinct().ToList();
+        //_categories = ResourceCacheManager.inst.stickerOptions.Select(option => option.category).Distinct().ToList();
+        _categories = AdminManager.Instance.BubbleData.BubbleTable.Select(option => option.Value.Category).Distinct().ToList();
+        if(AdminManager.Instance.BubbleData.Config["GroupSorting"].value1.ToLower() == "random")
+        {
+            _categories.Shuffle();
+        }
         for(int i = 0; i < _categories.Count; i++)
         {
             int index = i;
@@ -166,7 +184,8 @@ public class UP_DecoSelectSticker : UP_DecoratePageBase
 
     private void CreateStickerAreas ()
     {
-        _groups = ResourceCacheManager.inst.stickerOptions.Select(option => option.group).Distinct().ToList();
+        _groups = AdminManager.Instance.BubbleData.BubbleTable.Select(option => option.Value.Group).Distinct().ToList();
+
         for(int i = 0; i < _groups.Count; i++)
         {
             MPImage newStickerArea = new GameObject().AddComponent<MPImage>();
@@ -207,10 +226,10 @@ public class UP_DecoSelectSticker : UP_DecoratePageBase
 
     private void CreateStickers ()
     {
-        foreach(var option in ResourceCacheManager.inst.stickerOptions)
+        foreach(var option in AdminManager.Instance.BubbleData.BubbleTable.Values)
         {
             UC_StickerThumbnail newSticker = GameObject.Instantiate(_stickerThumbnailPrefab).GetComponent<UC_StickerThumbnail>();
-            newSticker.transform.SetParent(_stickerAreas[option.group].transform);
+            newSticker.transform.SetParent(_stickerAreas[option.Group].transform);
             newSticker.rectTransform.anchoredPosition3D = Vector3.zero;
             newSticker.transform.localScale = Vector3.one;
             newSticker.transform.localEulerAngles = Vector3.zero;
@@ -224,7 +243,7 @@ public class UP_DecoSelectSticker : UP_DecoratePageBase
         isStickerCreated = true;
     }
 
-    private void OnClickStickerThumbnail (StickerOptionBase option)
+    private void OnClickStickerThumbnail (BubbleTableEntry option)
     {
         for(int i = _createdStickers.Count - 1; i >= 0; i--)
         {

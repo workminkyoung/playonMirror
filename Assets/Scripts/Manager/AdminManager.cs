@@ -1,5 +1,7 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.IO;
+using Unity.VectorGraphics;
 using UnityEngine;
 
 public class AdminManager : SingletonBehaviour<AdminManager>
@@ -33,19 +35,19 @@ public class AdminManager : SingletonBehaviour<AdminManager>
     public ShootingScreenData.ShootScreenDic ShootScreen => _shootScreen;
     public LANGUAGE_TYPE Language => _language;
 
-    protected override void Init()
+    protected override void Init ()
     {
         GameManager.OnGameResetAction += ResetAdminData;
 
         ApiCall.Instance.Get<string>(_configDefaultAPI, GetResponse);
     }
 
-    public void ResetAdminData()
+    public void ResetAdminData ()
     {
 
     }
 
-    public void GetResponse(string result)
+    public void GetResponse (string result)
     {
         Debug.Log(result);
 
@@ -60,38 +62,39 @@ public class AdminManager : SingletonBehaviour<AdminManager>
         SetShootScreenData();
     }
 
-    private void SetBubbleData()
+    private void SetBubbleData ()
     {
         string result = _configDefaultData.config_default_set.result.BubbleData.ToString();
         _bubbleData = JsonConvert.DeserializeObject<BubbleData.BubbleData>(result);
+        DownloadBubbleData();
     }
 
-    private void SetFilterData()
+    private void SetFilterData ()
     {
         string result = _configDefaultData.config_default_set.result.FilterData.ToString();
         _filterData = JsonConvert.DeserializeObject<FilterData.FilterData>(result);
     }
 
-    private void SetServiceData()
+    private void SetServiceData ()
     {
         string result = _configDefaultData.config_default_set.result.ServiceData.ToString();
         _serviceData = JsonConvert.DeserializeObject<ServiceData.ServiceData>(result);
         DownloadServiceData();
     }
 
-    private void SetBasicData()
+    private void SetBasicData ()
     {
         string result = _configDefaultData.config_default_set.result.BasicSetting.ToString();
         _basicSetting = JsonConvert.DeserializeObject<BasicData.BasicSetting>(result);
     }
 
-    private void SetChromakeyFrameData()
+    private void SetChromakeyFrameData ()
     {
         string result = _configDefaultData.config_default_set.result.ChromakeyFrame.ToString();
         _chromakeyFrame = JsonConvert.DeserializeObject<ChromakeyFrameData.ChromakeyFrame>(result);
     }
 
-    private void SetShootScreenData()
+    private void SetShootScreenData ()
     {
         Dictionary<string, object> shootScreenPair = new Dictionary<string, object>();
         string result = _configDefaultData.config_default_set.result.ShootingScreen.ToString();
@@ -99,7 +102,7 @@ public class AdminManager : SingletonBehaviour<AdminManager>
 
         _shootScreen = new ShootingScreenData.ShootScreenDic();
 
-        foreach (var item in shootScreenPair)
+        foreach(var item in shootScreenPair)
         {
             Dictionary<string, string> shootScreenEntryDic = new Dictionary<string, string>();
             shootScreenEntryDic = JsonConvert.DeserializeObject<Dictionary<string, string>>(item.Value.ToString());
@@ -110,37 +113,37 @@ public class AdminManager : SingletonBehaviour<AdminManager>
             shootScreen.korean = new ShootingScreenData.ShootScreenEntryDic();
             shootScreen.chinese = new ShootingScreenData.ShootScreenEntryDic();
             shootScreen.english = new ShootingScreenData.ShootScreenEntryDic();
-            foreach (var entry in shootScreenEntryDic)
+            foreach(var entry in shootScreenEntryDic)
             {
-                if (entry.Key.Contains("Key"))
+                if(entry.Key.Contains("Key"))
                 {
                     shootScreen.Key = entry.Value.ToString();
                 }
-                else if (entry.Key.Contains("url"))
+                else if(entry.Key.Contains("url"))
                 {
                     shootScreen.url.Add(entry.Key, entry.Value);
                 }
-                else if (entry.Key.Contains("ratio"))
+                else if(entry.Key.Contains("ratio"))
                 {
                     shootScreen.ratio.Add(entry.Key, entry.Value);
                 }
-                else if (entry.Key.Contains("Korean"))
+                else if(entry.Key.Contains("Korean"))
                 {
                     shootScreen.korean.Add(entry.Key, entry.Value);
                 }
-                else if (entry.Key.Contains("Chinese"))
+                else if(entry.Key.Contains("Chinese"))
                 {
                     shootScreen.chinese.Add(entry.Key, entry.Value);
                 }
-                else if (entry.Key.Contains("English"))
+                else if(entry.Key.Contains("English"))
                 {
                     shootScreen.english.Add(entry.Key, entry.Value);
                 }
-                else if (entry.Key.Contains("ConversionTime"))
+                else if(entry.Key.Contains("ConversionTime"))
                 {
                     shootScreen.ConversionTime = entry.Value.ToString();
                 }
-                else if (entry.Key.Contains("ConversionVideo"))
+                else if(entry.Key.Contains("ConversionVideo"))
                 {
                     shootScreen.ConversionVideo = entry.Value.ToString();
                 }
@@ -150,38 +153,77 @@ public class AdminManager : SingletonBehaviour<AdminManager>
         }
     }
 
-    public void DownloadServiceData()
+    public void DownloadServiceData ()
     {
-        foreach (var item in _serviceData.Contents)
+        foreach(var item in _serviceData.Contents)
         {
             if(item.Value.ImageThumbnail != null && item.Value.ImageThumbnail != string.Empty)
             {
                 ApiCall.Instance.GetSequently<Texture2D>
-                    (item.Value.ImageThumbnail, (texture) => {item.Value.ImageThumbnail_data = texture;}, true);
+                    (item.Value.ImageThumbnail, (texture) => { item.Value.ImageThumbnail_data = texture; }, true);
             }
 
-            if (item.Value.VideoThumbnail !=  null && item.Value.VideoThumbnail != string.Empty)
+            if(item.Value.VideoThumbnail != null && item.Value.VideoThumbnail != string.Empty)
             {
                 ApiCall.Instance.GetSequently<string>
                     (item.Value.VideoThumbnail, (path) => { item.Value.VideoThumbnail_path = path; }, true);
             }
 
-            if (item.Value.GuideImage != null && item.Value.GuideImage != string.Empty)
+            if(item.Value.GuideImage != null && item.Value.GuideImage != string.Empty)
             {
                 ApiCall.Instance.GetSequently<Texture2D>
                     (item.Value.GuideImage, (texture) => { item.Value.GuideImage_data = texture; }, true);
             }
 
-            if (item.Value.BGGuideImage != null && item.Value.BGGuideImage != string.Empty)
+            if(item.Value.BGGuideImage != null && item.Value.BGGuideImage != string.Empty)
             {
                 ApiCall.Instance.GetSequently<Texture2D>
                     (item.Value.BGGuideImage, (texture) => { item.Value.BGGuideImage_data = texture; }, true);
             }
 
-            if (item.Value.ShootGuideImage != null && item.Value.ShootGuideImage != string.Empty)
+            if(item.Value.ShootGuideImage != null && item.Value.ShootGuideImage != string.Empty)
             {
                 ApiCall.Instance.GetSequently<Texture2D>
                     (item.Value.ShootGuideImage, (texture) => { item.Value.ShootGuideImage_data = texture; }, true);
+            }
+        }
+    }
+
+    public void DownloadBubbleData ()
+    {
+        foreach(var item in _bubbleData.BubbleTable)
+        {
+            if(string.IsNullOrEmpty(item.Value.Image))
+            {
+                continue;
+            }
+
+            if(item.Value.ImageType.ToLower() == "png")
+            {
+                ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image, (texture) =>
+                {
+                    Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+                    item.Value.Image_sprite = sprite;
+                }, true);
+            }
+            else if(item.Value.ImageType.ToLower() == "svg")
+            {
+                ApiCall.Instance.GetSequently<byte[]>(item.Value.Image, (stream) =>
+                {
+                    string svgText = System.Text.Encoding.UTF8.GetString(stream);
+                    var TessOptions = new VectorUtils.TessellationOptions()
+                    {
+                        StepDistance = 100.0f,
+                        MaxCordDeviation = 0.5f,
+                        MaxTanAngleDeviation = 0.1f,
+                        SamplingStepSize = 0.01f
+                    };
+                    var SceneInfo = SVGParser.ImportSVG(new StringReader(svgText));
+                    var TessGeo = VectorUtils.TessellateScene(SceneInfo.Scene, TessOptions);
+                    var spriteSvg = VectorUtils.BuildSprite(TessGeo, 10.0f, VectorUtils.Alignment.Center, Vector2.zero, 128, true);
+                    item.Value.Image_sprite = spriteSvg;
+
+                }, true);
             }
         }
     }
