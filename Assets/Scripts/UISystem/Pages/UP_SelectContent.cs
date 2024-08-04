@@ -29,31 +29,32 @@ public class UP_SelectContent : UP_BaseSelectContent, IPageTimeLimit
     {
         foreach (var item in AdminManager.Instance.ServiceData.Contents)
         {
-            //if(item.Value.Use.ToLower() == "true")
-            //{
-            //    GameObject contentObj = Instantiate(_contentPrefab, _contentParent);
-            //    UC_StyleVideoContent content = contentObj.GetComponentInChildren<UC_StyleVideoContent>();
-            //    content.SetTitle(StringCacheManager.inst.GetContentTitle(_activeContentType[i]));
-            //    content.SetDescription(StringCacheManager.inst.GetContentDescription(_activeContentType[i]));
-            //    content.SetMaxPlayer(StringCacheManager.inst.GetContentPlayerNum(_activeContentType[i]));
-            //    content.SetVideo(ResourceCacheManager.inst.GetContentVideoThumbnail(_activeContentType[i]));
-            //    content.Select(false);
-            //    _styleContents.Add(content);
-            //}
+            if (item.Value.Use.ToLower() == "true")
+            {
+                GameObject contentObj = Instantiate(_contentPrefab, _contentParent);
+                UC_StyleVideoContent content = contentObj.GetComponentInChildren<UC_StyleVideoContent>();
+                content.SetTitle(item.Value.Korean_Title);
+                content.SetDescription(item.Value.Korean_SubText);
+                content.SetMaxPlayer(item.Value.Korean_People);
+                content.SetVideo(item.Value.VideoThumbnail_path);
+                content.SetThumbnail(item.Value.ImageThumbnail_data);
+                content.Select(false);
+                _styleContents.Add(content);
+            }
         }
         
 
-        for (int i = 0; i < _activeContentType.Count; i++)
-        {
-            GameObject contentObj = Instantiate(_contentPrefab, _contentParent);
-            UC_StyleVideoContent content = contentObj.GetComponentInChildren<UC_StyleVideoContent>();
-            content.SetTitle(StringCacheManager.inst.GetContentTitle(_activeContentType[i]));
-            content.SetDescription(StringCacheManager.inst.GetContentDescription(_activeContentType[i]));
-            content.SetMaxPlayer(StringCacheManager.inst.GetContentPlayerNum(_activeContentType[i]));
-            content.SetVideo(ResourceCacheManager.inst.GetContentVideoThumbnail(_activeContentType[i]));
-            content.Select(false);
-            _styleContents.Add(content);
-        }
+        //for (int i = 0; i < _activeContentType.Count; i++)
+        //{
+        //    GameObject contentObj = Instantiate(_contentPrefab, _contentParent);
+        //    UC_StyleVideoContent content = contentObj.GetComponentInChildren<UC_StyleVideoContent>();
+        //    content.SetTitle(StringCacheManager.inst.GetContentTitle(_activeContentType[i]));
+        //    content.SetDescription(StringCacheManager.inst.GetContentDescription(_activeContentType[i]));
+        //    content.SetMaxPlayer(StringCacheManager.inst.GetContentPlayerNum(_activeContentType[i]));
+        //    content.SetVideo(ResourceCacheManager.inst.GetContentVideoThumbnail(_activeContentType[i]));
+        //    content.Select(false);
+        //    _styleContents.Add(content);
+        //}
     }
 
     public override void BindDelegates()
@@ -91,11 +92,14 @@ public class UP_SelectContent : UP_BaseSelectContent, IPageTimeLimit
     protected override void OnEnable()
     {
         base.OnEnable();
-        UserDataManager.inst.SelectContent(CONTENT_TYPE.AI_CARTOON);
     }
+    //다운받는 virture 함수 만들어서 관리
 
     public override void OnPageEnable()
     {
+        //처음 다운받을때 로딩 필요
+        UserDataManager.inst.SelectContent(CONTENT_TYPE.AI_CARTOON);
+        CreateContent();
     }
 
     public override void OnPageDisable()

@@ -35,7 +35,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
                 //{
                 //    if (_devices[i].name.Contains("Insta") || _devices[i].name.Contains("insta"))
                 //    {
-                        WebCamDevice device = _devices[6];
+                        WebCamDevice device = _devices[0];
                         _webCamTexture = new WebCamTexture(device.name);
                         _webCamTexture.name = "WebcamTexture";
                         _webCamTexture.requestedFPS = 60f;
