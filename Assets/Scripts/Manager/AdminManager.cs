@@ -21,7 +21,6 @@ public class AdminManager : SingletonBehaviour<AdminManager>
 
     [SerializeField]
     private LANGUAGE_TYPE _language = LANGUAGE_TYPE.KOR;
-
     private string _configDefaultAPI = "http://api.playon-vive.com/config/default/latest";
 
     public ConfigDefaultData ConfigDefaultData => _configDefaultData;
@@ -36,7 +35,6 @@ public class AdminManager : SingletonBehaviour<AdminManager>
     protected override void Init()
     {
         GameManager.OnGameResetAction += ResetAdminData;
-
         ApiCall.Instance.Get<string>(_configDefaultAPI, GetResponse);
     }
 
@@ -47,6 +45,7 @@ public class AdminManager : SingletonBehaviour<AdminManager>
 
     public void GetResponse(string result)
     {
+        GameManager.Instance.globalPage.OpenDownloadLoading();
         Debug.Log(result);
 
         _configDefaultData = JsonConvert.DeserializeObject<ConfigDefaultData>(result);
@@ -184,5 +183,6 @@ public class AdminManager : SingletonBehaviour<AdminManager>
                     (item.Value.ShootGuideImage, (texture) => { item.Value.ShootGuideImage_data = texture; }, true);
             }
         }
+
     }
 }

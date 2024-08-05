@@ -40,6 +40,8 @@ public class UP_Global : UP_BasePage
     private TextMeshProUGUI _versionText;
     [SerializeField]
     private UC_ChromaKeySetting _chromaKeySetting;
+    [SerializeField]
+    private UC_DownloadLoading _downloadLoading;
 
     private Coroutine _timerToastCoroutine = null;
     private Coroutine _showToastCoroutine = null;
@@ -242,6 +244,16 @@ public class UP_Global : UP_BasePage
     public void CloseChromaKeySetting()
     {
         _chromaKeySetting.gameObject.SetActive(false);
+    }
+
+    public void OpenDownloadLoading()
+    {
+        _downloadLoading.SetActivate(true);
+    }
+
+    public void CloseDownloadLoading()
+    {
+        _downloadLoading.SetActivate(false);
     }
 
     private void Update()

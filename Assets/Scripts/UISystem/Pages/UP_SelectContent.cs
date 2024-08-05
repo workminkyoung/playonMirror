@@ -98,8 +98,11 @@ public class UP_SelectContent : UP_BaseSelectContent, IPageTimeLimit
     public override void OnPageEnable()
     {
         //처음 다운받을때 로딩 필요
-        UserDataManager.inst.SelectContent(CONTENT_TYPE.AI_CARTOON);
-        CreateContent();
+        if (!_isContentCreated)
+        {
+            UserDataManager.inst.SelectContent(CONTENT_TYPE.AI_CARTOON);
+            CreateContent();
+        }
     }
 
     public override void OnPageDisable()

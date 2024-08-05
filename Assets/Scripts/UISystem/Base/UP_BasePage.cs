@@ -13,6 +13,7 @@ namespace Vivestudios.UI
         [SerializeField]
         protected PAGE_TYPE _pageType;
         public PAGE_TYPE pageType { get { return _pageType; } }
+        protected bool _isContentCreated = false;
 
         public virtual void AwakePage()
         {

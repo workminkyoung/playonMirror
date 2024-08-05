@@ -15,6 +15,7 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
     private const int _requestMaxNum = 3;
     private const string _googleDownUrl = "https://drive.google.com/uc?export=download&id=";
     private string _downloadPath;
+    private List<bool> _requestCompleted = new List<bool>();
 
     protected override void Init()
     {
@@ -119,11 +120,18 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
         www.Dispose();
     }
 
-    public IEnumerator GetRequestGoogleLink<T>(string url, Action<T> response = null, bool isReRequest = false, bool isSequential = false)
+    public IEnumerator GetRequestGoogleLink<T>(string url, Action<T> response = null, bool isReRequest = false, bool isSequential = false, int? reRequestedIndex = null)
     {
         if (!isReRequest)
         {
             _requestNum = 0;
+            _requestCompleted.Add(false);
+        }
+
+        int requestIndex = _requestCompleted.Count - 1;
+        if(reRequestedIndex != null)
+        {
+            requestIndex = (int)reRequestedIndex;
         }
 
         string key = ExtractGoogleDownKey(url);
@@ -150,6 +158,10 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
                 {
                     _getCoroutine = StartCoroutine(GetRequestGoogleLink(url, response, true));
                 }
+                else
+                {
+                    StartCoroutine(GetRequestGoogleLink(url, response, true, true, requestIndex));
+                }
                 yield break;
             }
             else
@@ -175,8 +187,11 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
                 else if (contentType.StartsWith("video/"))
                 {
                     _downloadPath = Path.Combine(Application.streamingAssetsPath, $"Video/{key}.mp4");
-                    byte[] data = www.downloadHandler.data;
-                    File.WriteAllBytes(_downloadPath, data);
+                    if(!File.Exists(_downloadPath))
+                    {
+                        byte[] data = www.downloadHandler.data;
+                        File.WriteAllBytes(_downloadPath, data);
+                    }
                     result = _downloadPath;
                 }
                 else
@@ -188,6 +203,14 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
             response?.Invoke((T)result);
         }
         www.Dispose();
+
+        _requestCompleted[requestIndex] = true;
+
+        if(_requestCompleted.TrueForAll(x => x))
+        {
+            CustomLogger.Log("All Google Download completed");
+            GameManager.Instance.globalPage.CloseDownloadLoading();
+        }
     }
 
     public void Post(string url, string json, Action<string> response = null)
