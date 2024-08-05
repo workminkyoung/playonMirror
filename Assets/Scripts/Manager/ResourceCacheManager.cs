@@ -56,32 +56,13 @@ public class ResourceCacheManager : SingletonBehaviour<ResourceCacheManager>
     [Header("Sticker Option")]
     [SerializeField]
     private FontNameDicBase _fontNameDic;
-    [SerializeField]
-    private StickerOptionBase[] _stickerOptions;
 
     public Sprite cartoonPopupThumbnailSprite => _cartoonPopupThumbnailSprite;
     public Sprite profilePopupThumbnailSprite => _profilePopupThumbnailSprite;
 
-    public StickerOptionBase[] stickerOptions => _stickerOptions;
-
     protected override void Init ()
     {
-        StartCoroutine(LoadSVGSprites());
 
-        for(int i = 0; i < _stickerOptions.Length; i++)
-        {
-            int index = i;
-
-            if(string.IsNullOrEmpty(_stickerOptions[index].image))
-            {
-                continue;
-            }
-
-            if(_stickerOptions[index].imageType.ToLower() == "png")
-            {
-                StartCoroutine(LoadPNGSprite("Sticker", _stickerOptions[index].image, (sprite) => _stickerOptions[index].thumbnailSprite = sprite));
-            }
-        }
     }
 
     public Sprite GetFrameSprite (FRAME_COLOR_TYPE colorType, FRAME_TYPE frameType)
@@ -168,6 +149,7 @@ public class ResourceCacheManager : SingletonBehaviour<ResourceCacheManager>
     {
         if(_fontNameDic.ContainsKey(fontName) == false)
         {
+            Debug.Log($"Cannot find [{fontName}] : set default font");
             return _defaultFont;
         }
         else
@@ -175,74 +157,6 @@ public class ResourceCacheManager : SingletonBehaviour<ResourceCacheManager>
             return _fontNameDic[fontName][lang];
         }
     }
-
-    #region Temp : 스티커 불러오는 코루틴 (추후 관리자 기능 추가 시 삭제)
-    IEnumerator LoadPNGSprite (string folderPath, string fileName, Action<Sprite> onDone)
-    {
-        string filePath = System.IO.Path.Combine(Application.streamingAssetsPath, folderPath, fileName);
-        UnityWebRequest www = UnityWebRequestTexture.GetTexture(filePath);
-        yield return www.SendWebRequest();
-
-        if(www.result == UnityWebRequest.Result.ConnectionError || www.result == UnityWebRequest.Result.ProtocolError)
-        {
-            Debug.LogError(www.error);
-        }
-        else
-        {
-            Texture2D texture = DownloadHandlerTexture.GetContent(www);
-            Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
-
-            onDone.Invoke(sprite);
-        }
-    }
-
-    IEnumerator LoadSVGSprite (string folderPath, string fileName, Action<Sprite> onDone)
-    {
-        string filePath = System.IO.Path.Combine(Application.streamingAssetsPath, folderPath, fileName);
-
-        UnityWebRequest www = UnityWebRequest.Get(filePath);
-        yield return www.SendWebRequest();
-
-        if(www.result == UnityWebRequest.Result.ConnectionError || www.result == UnityWebRequest.Result.ProtocolError)
-        {
-            Debug.LogError(filePath + www.error);
-        }
-        else
-        {
-            string svgText = www.downloadHandler.text;
-
-            var TessOptions = new VectorUtils.TessellationOptions()
-            {
-                StepDistance = 100.0f,
-                MaxCordDeviation = 0.5f,
-                MaxTanAngleDeviation = 0.1f,
-                SamplingStepSize = 0.01f
-            };
-
-            var SceneInfo = SVGParser.ImportSVG(new StringReader(svgText));
-            var TessGeo = VectorUtils.TessellateScene(SceneInfo.Scene, TessOptions);
-            var spriteSvg = VectorUtils.BuildSprite(TessGeo, 10.0f, VectorUtils.Alignment.Center, Vector2.zero, 128, true);
-            onDone.Invoke(spriteSvg);
-        }
-    }
-
-    IEnumerator LoadSVGSprites ()
-    {
-        List<StickerOptionBase> options = _stickerOptions.Where(option => option.imageType.ToLower() == "svg").ToList();
-
-        for(int i = 0; i < options.Count; i++)
-        {
-            yield return new WaitForEndOfFrame();
-            int index = i;
-            if(string.IsNullOrEmpty(options[index].image))
-            {
-                continue;
-            }
-            yield return StartCoroutine(LoadSVGSprite("Sticker", options[index].image, (sprite) => options[index].thumbnailSprite = sprite));
-        }
-    }
-
-    #endregion
 
     [Serializable]
     private class CartoonTexDicBase : SerializableDictionaryBase<CARTOON_TYPE, Sprite> { }
@@ -267,28 +181,4 @@ public class ResourceCacheManager : SingletonBehaviour<ResourceCacheManager>
 
     [Serializable]
     private class LangFontDicBase : SerializableDictionaryBase<LANGUAGE_TYPE, TMP_FontAsset> { }
-}
-
-[Serializable]
-public class StickerOptionBase
-{
-    public string key;
-    public int group;
-    public int sequence;
-    public string category;
-    public float thumbnailScale;
-    public float startScale;
-    public int margin;
-    public string textArea;
-    public string imageType;
-    public string image;
-    public int fontSize;
-    public string kind;
-    public string fontSet;
-    public string fontColor;
-    public string kor;
-    public string eng;
-    public string chn;
-    public Texture thumbnailTex;
-    public Sprite thumbnailSprite;
 }

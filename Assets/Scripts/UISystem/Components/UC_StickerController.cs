@@ -100,7 +100,6 @@ public class UC_StickerController : UC_BaseComponent, IPointerDownHandler, IBegi
         {
             StopCoroutine(_hideBorderRoutine);
         }
-        _hideBorderRoutine = StartCoroutine(HideBorderRoutine());
         rectTransform.SetAsLastSibling();
     }
 
@@ -109,6 +108,11 @@ public class UC_StickerController : UC_BaseComponent, IPointerDownHandler, IBegi
         if(_isRotating)
         {
             ResetAndGetRotateOffset();
+        }
+
+        if(_hideBorderRoutine != null)
+        {
+            StopCoroutine(_hideBorderRoutine);
         }
     }
 
@@ -144,6 +148,12 @@ public class UC_StickerController : UC_BaseComponent, IPointerDownHandler, IBegi
         _isDragging = false;
         _isRotating = false;
         _isScaling = false;
+
+        if(_hideBorderRoutine != null)
+        {
+            StopCoroutine(_hideBorderRoutine);
+        }
+        _hideBorderRoutine = StartCoroutine(HideBorderRoutine());
     }
 
     public void HideController ()

@@ -16,7 +16,7 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
     private const string _googleDownUrl = "https://drive.google.com/uc?export=download&id=";
     private string _downloadPath;
 
-    protected override void Init()
+    protected override void Init ()
     {
         OnEndRequest = () =>
         {
@@ -25,9 +25,9 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
         };
     }
 
-    public IEnumerator PostRequest(string url, string json, Action<string> response = null, bool isReRequest = false)
+    public IEnumerator PostRequest (string url, string json, Action<string> response = null, bool isReRequest = false)
     {
-        if (!isReRequest)
+        if(!isReRequest)
         {
             _requestNum = 0;
         }
@@ -43,12 +43,12 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
 
         yield return www.SendWebRequest();
 
-        if (www.result != UnityWebRequest.Result.Success)
+        if(www.result != UnityWebRequest.Result.Success)
         {
             CustomLogger.Log(www.error);
             CustomLogger.Log(www.downloadHandler.text);
 
-            if (_requestNum < _requestMaxNum)
+            if(_requestNum < _requestMaxNum)
             {
                 www.Dispose();
                 _postCoroutine = StartCoroutine(PostRequest(url, json, response, true));
@@ -68,9 +68,9 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
         www.Dispose();
     }
 
-    public IEnumerator GetRequest<T>(string url, Action<T> response = null, bool isReRequest = false)
+    public IEnumerator GetRequest<T> (string url, Action<T> response = null, bool isReRequest = false)
     {
-        if (!isReRequest)
+        if(!isReRequest)
         {
             _requestNum = 0;
         }
@@ -84,12 +84,12 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
 
         yield return www.SendWebRequest();
 
-        if (www.result != UnityWebRequest.Result.Success)
+        if(www.result != UnityWebRequest.Result.Success)
         {
             CustomLogger.Log(www.error);
             CustomLogger.Log(www.downloadHandler.text);
 
-            if (_requestNum < _requestMaxNum)
+            if(_requestNum < _requestMaxNum)
             {
                 www.Dispose();
                 _getCoroutine = StartCoroutine(GetRequest(url, response, true));
@@ -104,11 +104,11 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
         {
             object result = null;
 
-            if (typeof(T) == typeof(string))
+            if(typeof(T) == typeof(string))
             {
                 result = www.downloadHandler.text;
             }
-            else if (typeof(T) == typeof(Texture2D))
+            else if(typeof(T) == typeof(Texture2D))
             {
                 result = DownloadHandlerTexture.GetContent(www);
             }
@@ -119,9 +119,9 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
         www.Dispose();
     }
 
-    public IEnumerator GetRequestGoogleLink<T>(string url, Action<T> response = null, bool isReRequest = false, bool isSequential = false)
+    public IEnumerator GetRequestGoogleLink<T> (string url, Action<T> response = null, bool isReRequest = false, bool isSequential = false)
     {
-        if (!isReRequest)
+        if(!isReRequest)
         {
             _requestNum = 0;
         }
@@ -138,12 +138,12 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
 
         yield return www.SendWebRequest();
 
-        if (www.result != UnityWebRequest.Result.Success)
+        if(www.result != UnityWebRequest.Result.Success)
         {
             CustomLogger.Log(www.error);
             CustomLogger.Log(www.downloadHandler.text);
 
-            if (_requestNum < _requestMaxNum)
+            if(_requestNum < _requestMaxNum)
             {
                 www.Dispose();
                 if(!isSequential)
@@ -163,21 +163,26 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
 
             object result = null;
             string contentType = www.GetResponseHeader("Content-Type");
-            if (contentType != null)
+            if(contentType != null)
             {
-                if (contentType.StartsWith("image/"))
+                if(contentType.StartsWith("image/"))
                 {
                     byte[] data = www.downloadHandler.data;
                     Texture2D texture = new Texture2D(0, 0, TextureFormat.ARGB32, false);
                     texture.LoadImage(data);
                     result = texture;
                 }
-                else if (contentType.StartsWith("video/"))
+                else if(contentType.StartsWith("video/"))
                 {
                     _downloadPath = Path.Combine(Application.streamingAssetsPath, $"Video/{key}.mp4");
                     byte[] data = www.downloadHandler.data;
                     File.WriteAllBytes(_downloadPath, data);
                     result = _downloadPath;
+                }
+                else if(contentType.Contains("application/octet-stream")) // SVG 인 경우 혹은 data인 경우
+                {
+                    byte[] data = www.downloadHandler.data;
+                    result = data;
                 }
                 else
                 {
@@ -190,7 +195,7 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
         www.Dispose();
     }
 
-    public void Post(string url, string json, Action<string> response = null)
+    public void Post (string url, string json, Action<string> response = null)
     {
         if(_postCoroutine != null)
         {
@@ -200,15 +205,15 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
         _postCoroutine = StartCoroutine(PostRequest(url, json, response));
     }
 
-    public void Get<T>(string url, Action<T> response = null, bool isGoogleDownload = false)
+    public void Get<T> (string url, Action<T> response = null, bool isGoogleDownload = false)
     {
-        if (_getCoroutine != null)
+        if(_getCoroutine != null)
         {
             StopCoroutine(_getCoroutine);
             _getCoroutine = null;
         }
 
-        if (isGoogleDownload)
+        if(isGoogleDownload)
         {
             _getCoroutine = StartCoroutine(GetRequestGoogleLink(url, response));
         }
@@ -218,9 +223,9 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
         }
     }
 
-    public void GetSequently<T>(string url, Action<T> response = null, bool isGoogleDownload = false)
+    public void GetSequently<T> (string url, Action<T> response = null, bool isGoogleDownload = false)
     {
-        if (isGoogleDownload)
+        if(isGoogleDownload)
         {
             StartCoroutine(GetRequestGoogleLink(url, response, false, true));
         }
@@ -231,16 +236,16 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
         }
     }
 
-    public void StopActiveCoroutine()
+    public void StopActiveCoroutine ()
     {
-        if (_postCoroutine != null)
+        if(_postCoroutine != null)
         {
             StopCoroutine(_postCoroutine);
             _postCoroutine = null;
         }
     }
 
-    private string ExtractGoogleDownKey(string url)
+    private string ExtractGoogleDownKey (string url)
     {
         try
         {
@@ -252,7 +257,7 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
 
             return url.Substring(startindex, endindex - startindex);
         }
-        catch (Exception ex)
+        catch(Exception ex)
         {
             CustomLogger.LogError(ex);
             return string.Empty;
