@@ -35,7 +35,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 65.44, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 20}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!222 &2073116578121263860
@@ -369,6 +369,7 @@ MonoBehaviour:
   _stroke: {fileID: 3895444315832139185}
   isViewOnly: 0
   _thumbnailImg: {fileID: 3395786847615017597}
+  _nameText: {fileID: 0}
   _titleText: {fileID: 1264671585619350283}
   _descriptionText: {fileID: 6450568890792532217}
   _maxPlayerText: {fileID: 0}

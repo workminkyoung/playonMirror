@@ -42,11 +42,11 @@ public class LogDataManager : SingletonBehaviour<LogDataManager>
         switch (UserDataManager.inst.selectedContent)
         {
             case CONTENT_TYPE.AI_CARTOON:
-                logFormat.played_menu_categories = (UserDataManager.inst.selectedSubContentNum + 1).ToString("CA00000");
+                logFormat.played_menu_categories = UserDataManager.inst.selectedSubContentKey;
                 logFormat.profile_index = -1;
                 break;
             case CONTENT_TYPE.AI_PROFILE:
-                logFormat.played_menu_categories = UserDataManager.inst.selectedProfileType.ToString();
+                logFormat.played_menu_categories = UserDataManager.inst.selectedSubContentKey;
                 logFormat.profile_index = UserDataManager.inst.selectedProfilePicNum;
                 break;
             case CONTENT_TYPE.AI_BEAUTY:
@@ -54,7 +54,7 @@ public class LogDataManager : SingletonBehaviour<LogDataManager>
                 logFormat.profile_index = -1;
                 break;
             case CONTENT_TYPE.WHAT_IF:
-                logFormat.played_menu_categories = UserDataManager.inst.selectedProfileType.ToString();
+                logFormat.played_menu_categories = UserDataManager.inst.selectedSubContentKey;
                 logFormat.profile_index = UserDataManager.inst.selectedProfilePicNum;
                 break;
         }

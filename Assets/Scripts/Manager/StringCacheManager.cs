@@ -4,6 +4,7 @@ using UnityEngine;
 using RotaryHeart.Lib.SerializableDictionary;
 using System;
 using Vivestudios.UI;
+using static UnityEditor.Progress;
 
 public class StringCacheManager : SingletonBehaviour<StringCacheManager>
 {
@@ -44,6 +45,18 @@ public class StringCacheManager : SingletonBehaviour<StringCacheManager>
     public string GetContentKey(CONTENT_TYPE type)
     {
         return _contentKey[type];
+    }
+    
+    public CONTENT_TYPE GetContentType(string key)
+    {
+        foreach (var item in _contentKey)
+        {
+            if(item.Value == key)
+            {
+                return item.Key;
+            }
+        }
+        return CONTENT_TYPE.AI_CARTOON;
     }
 
     public string GetCartoonTitle(CARTOON_TYPE type)
