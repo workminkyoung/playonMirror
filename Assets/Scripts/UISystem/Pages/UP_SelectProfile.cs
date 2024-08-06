@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing.Design;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,12 +12,16 @@ public class UP_SelectProfile : UP_BaseSelectContent, IPageTimeLimit
     private string _popupTitle;
     [SerializeField]
     private string _popupDescription;
-
     [SerializeField]
     private Button _prevBtn;
-
+    //[SerializeField]
+    //private PROFILE_TYPE[] _profileContents;
     [SerializeField]
-    private PROFILE_TYPE[] _profileContents;
+    private GameObject _styleContent;
+    [SerializeField]
+    private Transform _contentParent;
+    private List<UC_ProfileContent> _profileContents = new List<UC_ProfileContent>();
+    //private Sprite _guideImage;
 
     private bool _requirePopup = true;
     public int MaxTime { get => _maxTime; set => _maxTime = value; }
@@ -27,32 +32,6 @@ public class UP_SelectProfile : UP_BaseSelectContent, IPageTimeLimit
         base.InitPage();
 
         _maxTime = ConfigData.config.profileSelectTime;
-
-        for (int i = 0; i < _contents.Length; i++)
-        {
-            if (i < _profileContents.Length)
-            {
-                (_contents[i] as UC_ProfileContent).SetThumbnail(ResourceCacheManager.inst.GetProfileThumbnailSprite(_profileContents[i]));
-                (_contents[i] as UC_ProfileContent).SetTitle(StringCacheManager.inst.GetProfileTitle(_profileContents[i]));
-                (_contents[i] as UC_ProfileContent).SetDescription(StringCacheManager.inst.GetProfileDescription(_profileContents[i]));
-                (_contents[i] as UC_ProfileContent).SetGender(ResourceCacheManager.inst.GetProfileGenderType(_profileContents[i]));
-            }
-            else
-            {
-                _contents[i].transform.parent.gameObject.SetActive(false);
-            }
-
-        }
-    }
-
-    protected override void OnEnable()
-    {
-        base.OnEnable();
-
-        if (_pageController && _requirePopup)
-        {
-            //(_pageController as PC_Main).globalPage.OpenConfirmPopup(_popupTitle, _popupDescription, ResourceCacheManager.inst.profilePopupThumbnailSprite);
-        }
     }
 
     protected override void OnDisable()
@@ -81,22 +60,56 @@ public class UP_SelectProfile : UP_BaseSelectContent, IPageTimeLimit
         };
     }
 
-    protected override void OnClickContent(int index)
+    private void CreateContent()
+    {
+        string key = StringCacheManager.Instance.GetContentKey(CONTENT_TYPE.AI_PROFILE);
+
+        foreach (var item in AdminManager.Instance.ServiceData.ContentsDetail)
+        {
+            if (item.Value.Category.Contains(key) && item.Value.Use.ToLower() == "true")
+            {
+                GameObject contentObj = Instantiate(_styleContent, _contentParent);
+                UC_ProfileContent content = contentObj.GetComponentInChildren<UC_ProfileContent>();
+                //content.SetContentDetail(item.Value);
+                content.SetThumbnail(item.Value.Thumbnail_data);
+                content.SetTitle(item.Value.Korean_Title);
+                content.SetDescription(item.Value.Korean_SubText);
+                content.SetGenderActive(true);
+                content.SetGender(item.Value.Gender_type);
+
+                content.pointerClickAction += () => OnClickContent(item.Value);
+                content.Select(false);
+
+                _profileContents.Add(content);
+            }
+        }
+
+        //_guideImage = AdminManager.Instance.ServiceData.Contents[key].GuideImage_data;
+        _isContentCreated = true;
+    }
+
+    private void OnClickContent(ServiceData.ContentsDetailEntry contentDetail)
     {
         _requirePopup = false;
-        UserDataManager.inst.SelectProfile(_profileContents[index]);
-        UserDataManager.inst.SelectContentCode(_profileContents[index]);
+        UserDataManager.Instance.SelectSubContent(contentDetail.Key);
+
         (_pageController as PC_Main)?.globalPage?.OpenAIProfileAlert(() =>
         {
             _pageController.ChangePage(PAGE_TYPE.PAGE_SELECT_FRAME);
         });
-
-        //UserDataManager.inst.SelectSubContent(index);
-        //_pageController.ChangePage(PAGE_TYPE.PAGE_SELECT_FRAME);
     }
 
     public override void OnPageEnable()
     {
+        if (!_isContentCreated)
+        {
+            CreateContent();
+        }
+
+        if (_pageController && _requirePopup)
+        {
+            //(_pageController as PC_Main).globalPage.OpenConfirmPopup(_popupTitle, _popupDescription, _guideImage);
+        }
     }
 
     public override void OnPageDisable()

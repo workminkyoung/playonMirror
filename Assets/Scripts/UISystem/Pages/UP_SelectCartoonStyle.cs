@@ -23,6 +23,7 @@ public class UP_SelectCartoonStyle : UP_BaseSelectContent, IPageTimeLimit
     private HorizontalLayoutGroup _contentParent;
     [SerializeField]
     private Button _prevBtn;
+    private Sprite _guideImage;
 
     [SerializeField]
     private CARTOON_TYPE[] _activeCartoonTypes;
@@ -58,44 +59,45 @@ public class UP_SelectCartoonStyle : UP_BaseSelectContent, IPageTimeLimit
 
     private void CreateStyleContent()
     {
-        if (!_isContentCreated)
+        List<UC_SelectableContent> contents = new List<UC_SelectableContent>();
+        string key = StringCacheManager.Instance.GetContentKey(CONTENT_TYPE.AI_CARTOON);
+
+        foreach (var item in AdminManager.Instance.ServiceData.ContentsDetail)
         {
-            List<UC_SelectableContent> contents = new List<UC_SelectableContent>();
-            string key = StringCacheManager.Instance.GetContentKey(CONTENT_TYPE.AI_CARTOON);
-
-            foreach (var item in AdminManager.Instance.ServiceData.ContentsDetail)
+            if (item.Key.Contains(key) && item.Value.Use.ToLower() == "true")
             {
-                if (item.Key.Contains(key) && item.Value.Use.ToLower() == "true")
-                {
-                    GameObject content = Instantiate(_styleContent, _contentParent.transform);
-                    UC_StyleContent styleContent = content.GetComponentInChildren<UC_StyleContent>();
-                    contents.Add(styleContent);
-                    styleContent.InitComponent();
+                GameObject content = Instantiate(_styleContent, _contentParent.transform);
+                UC_StyleContent styleContent = content.GetComponentInChildren<UC_StyleContent>();
+                contents.Add(styleContent);
+                styleContent.InitComponent();
 
-                    styleContent.SetThumbnail(item.Value.Thumbnail_data);
-                    styleContent.SetTitle(item.Value.Korean_Title);
-                    styleContent.SetDescription(item.Value.Korean_SubText);
-                    styleContent.pointerClickAction += () => OnClickContent(item.Key);
+                styleContent.SetThumbnail(item.Value.Thumbnail_data);
+                styleContent.SetTitle(item.Value.Korean_Title);
+                styleContent.SetDescription(item.Value.Korean_SubText);
+                styleContent.pointerClickAction += () => OnClickContent(item.Key);
 
-                    _contentParents.Add(styleContent.transform.parent);
-                }
+                _contentParents.Add(styleContent.transform.parent);
             }
-
-            _contents = contents.ToArray();
-            _shuffledContentParents = _contentParents.ToList();
-            _isContentCreated = true;
         }
+
+        _contents = contents.ToArray();
+        _shuffledContentParents = _contentParents.ToList();
+
+        _guideImage = AdminManager.Instance.ServiceData.Contents[key].GuideImage_data;
+        _isContentCreated = true;
     }
 
     private void OnClickDescription()
     {
-        string key = StringCacheManager.Instance.GetContentKey(CONTENT_TYPE.AI_CARTOON);
-        (_pageController as PC_Main).globalPage.OpenConfirmPopup(_popupTitle, _popupDescription, AdminManager.Instance.ServiceData.Contents[key].GuideImage_data);
+        (_pageController as PC_Main).globalPage.OpenConfirmPopup(_popupTitle, _popupDescription, _guideImage);
     }
 
     public override void OnPageEnable()
     {
-        CreateStyleContent();
+        if (!_isContentCreated)
+        {
+            CreateStyleContent();
+        }
     }
 
     public override void OnPageDisable()

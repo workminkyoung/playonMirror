@@ -15,14 +15,14 @@ public class UC_ProfileContent : UC_StyleContent
     [SerializeField]
     private Image _thumbnailImgFull = null;
 
-    private ServiceData.ContentsDetailEntry _contentDetail;
+    //private ServiceData.ContentsDetailEntry _contentDetail;
 
-    public ServiceData.ContentsDetailEntry ContentDetail => _contentDetail;
+    //public ServiceData.ContentsDetailEntry ContentDetail => _contentDetail;
 
-    public void SetContentDetail (ServiceData.ContentsDetailEntry contentDetail)
-    {
-        _contentDetail = contentDetail;
-    }
+    //public void SetContentDetail (ServiceData.ContentsDetailEntry contentDetail)
+    //{
+    //    _contentDetail = contentDetail;
+    //}
 
     private readonly Dictionary<GENDER_TYPE, string> GENDER_STRING_DIC = new Dictionary<GENDER_TYPE, string>
     {

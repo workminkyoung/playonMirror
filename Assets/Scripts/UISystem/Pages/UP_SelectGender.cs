@@ -74,14 +74,14 @@ public class UP_SelectGender : UP_BaseSelectContent, IPageTimeLimit
             {
                 GameObject content = Instantiate(_styleContent, _contentParent);
                 UC_ProfileContent styleContent = content.GetComponent<UC_ProfileContent>();
+                //styleContent.SetContentDetail(item.Value);
                 styleContent.SetThumbnail(item.Value.Thumbnail_data, true);
-                styleContent.SetContentDetail(item.Value);
                 styleContent.SetTitle("");
                 styleContent.SetDescription("");
                 styleContent.SetGenderActive(false);
 
+                styleContent.pointerClickAction += () => OnClickContent(item.Value);
                 styleContent.Select(false);
-                styleContent.pointerClickAction += () => OnClickContent(styleContent.ContentDetail);
 
                 _profileContents.Add(styleContent);
             }

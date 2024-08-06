@@ -203,6 +203,7 @@ namespace ServiceData
         public string Use;
         public string Model;
         public string Gender;
+        public GENDER_TYPE Gender_type;
         public string Category;
         public string Property;
         public string Sequence;

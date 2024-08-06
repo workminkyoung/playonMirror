@@ -215,6 +215,21 @@ public class AdminManager : SingletonBehaviour<AdminManager>
                 ApiCall.Instance.GetSequently<Sprite>
                     (item.Value.Thumbnail, (texture) => { item.Value.Thumbnail_data = texture; }, true);
             }
+
+            if (item.Value.Gender != null && item.Value.Gender != string.Empty)
+            {
+                switch (item.Value.Gender.ToLower())
+                {
+                    case "male" :
+                        item.Value.Gender_type = GENDER_TYPE.MALE;
+                        break;
+                    case "female" :
+                        item.Value.Gender_type = GENDER_TYPE.FEMALE;
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
     }
 }
