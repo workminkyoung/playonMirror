@@ -65,30 +65,14 @@ public class UC_StyleVideoContent : UC_StyleContent
 
     public override void SetThumbnail(Sprite thumbnail)
     {
-        if(_thumbnailImg == null)
+        if(thumbnail == null || _thumbnailImg == null)
         {
             CustomLogger.Log("No Thumbnail Image");
             return;
         }
+
         base.SetThumbnail(thumbnail);
 
-        _videoImage?.gameObject.SetActive(false);
-        _thumbnailImg.gameObject.SetActive(true);
-    }
-
-    public void SetThumbnail(Texture2D thumbnail)
-    {
-        if (thumbnail == null)
-        {
-            CustomLogger.Log("No Thumbnail Image");
-            return;
-        }
-
-        Rect rect = new Rect(0, 0, thumbnail.width, thumbnail.height);
-        Vector2 pivot = new Vector2(0.5f, 0.5f);
-        Sprite sprite = Sprite.Create(thumbnail, rect, pivot);
-
-        _thumbnailImg.sprite = sprite;
         _videoImage?.gameObject.SetActive(false);
         _thumbnailImg.gameObject.SetActive(true);
     }

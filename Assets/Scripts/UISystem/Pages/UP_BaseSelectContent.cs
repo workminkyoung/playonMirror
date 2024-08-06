@@ -45,7 +45,7 @@ public abstract class UP_BaseSelectContent : UP_BasePage
         (_pageController as PC_Main).OnShuffleAction += ShuffleContents;
     }
 
-    protected abstract void OnClickContent(int index);
+    protected virtual void OnClickContent(int index) { }
 
     protected virtual void ShuffleContents()
     {

@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -30,17 +32,7 @@ public class UP_SelectCartoonStyle : UP_BaseSelectContent, IPageTimeLimit
 
     public override void InitPage()
     {
-        CreatStyleContent();
         _maxTime = ConfigData.config.cartoonStyleSelectTime;
-
-        for (int i = 0; i < _activeCartoonTypes.Length; i++)
-        {
-            int index = i;
-
-            (_contents[i] as UC_StyleContent).SetThumbnail(ResourceCacheManager.inst.GetCartoonThumbnailSprite(_activeCartoonTypes[index]));
-            (_contents[i] as UC_StyleContent).SetTitle(StringCacheManager.inst.GetCartoonTitle(_activeCartoonTypes[index]));
-            (_contents[i] as UC_StyleContent).SetDescription(StringCacheManager.inst.GetCartoonDescription(_activeCartoonTypes[index]));
-        }
     }
 
     public override void BindDelegates()
@@ -57,27 +49,42 @@ public class UP_SelectCartoonStyle : UP_BaseSelectContent, IPageTimeLimit
         (_pageController as PC_Main).OnShuffleAction += ShuffleContents;
     }
 
-    protected override void OnClickContent(int index)
+    private void OnClickContent(string cartoonKey)
     {
-        UserDataManager.inst.SelectSubContent(index);
-        UserDataManager.inst.SelectContentCode(_activeCartoonTypes[index]);
+        UserDataManager.inst.SelectSubContent(cartoonKey);
+        //UserDataManager.inst.SelectContentCode(_activeCartoonTypes[index]);
         _pageController.ChangePage(PAGE_TYPE.PAGE_SELECT_FRAME);
     }
 
-    private void CreatStyleContent()
+    private void CreateStyleContent()
     {
-        List<UC_SelectableContent> contents = new List<UC_SelectableContent>();
-        for (int i = 0; i < _activeCartoonTypes.Length; i++)
+        if (!_isContentCreated)
         {
-            GameObject content = Instantiate(_styleContent, _contentParent.transform);
-            UC_StyleContent styleContent = content.GetComponentInChildren<UC_StyleContent>();
-            styleContent.InitComponent();
-            contents.Add(styleContent);
-            _contentParents.Add(styleContent.transform.parent);
-        }
+            List<UC_SelectableContent> contents = new List<UC_SelectableContent>();
+            string key = StringCacheManager.Instance.GetContentKey(CONTENT_TYPE.AI_CARTOON);
 
-        _contents = contents.ToArray();
-        _shuffledContentParents = _contentParents.ToList();
+            foreach (var item in AdminManager.Instance.ServiceData.ContentsDetail)
+            {
+                if (item.Key.Contains(key) && item.Value.Use.ToLower() == "true")
+                {
+                    GameObject content = Instantiate(_styleContent, _contentParent.transform);
+                    UC_StyleContent styleContent = content.GetComponentInChildren<UC_StyleContent>();
+                    contents.Add(styleContent);
+                    styleContent.InitComponent();
+
+                    styleContent.SetThumbnail(item.Value.Thumbnail_data);
+                    styleContent.SetTitle(item.Value.Korean_Title);
+                    styleContent.SetDescription(item.Value.Korean_SubText);
+                    styleContent.pointerClickAction += () => OnClickContent(item.Key);
+
+                    _contentParents.Add(styleContent.transform.parent);
+                }
+            }
+
+            _contents = contents.ToArray();
+            _shuffledContentParents = _contentParents.ToList();
+            _isContentCreated = true;
+        }
     }
 
     private void OnClickDescription()
@@ -87,6 +94,7 @@ public class UP_SelectCartoonStyle : UP_BaseSelectContent, IPageTimeLimit
 
     public override void OnPageEnable()
     {
+        CreateStyleContent();
     }
 
     public override void OnPageDisable()

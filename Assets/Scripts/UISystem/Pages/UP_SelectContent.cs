@@ -39,11 +39,13 @@ public class UP_SelectContent : UP_BaseSelectContent, IPageTimeLimit
                 content.SetMaxPlayer(item.Value.Korean_People);
                 content.SetVideo(item.Value.VideoThumbnail_path);
                 content.SetThumbnail(item.Value.ImageThumbnail_data);
-                content.pointerClickAction += () => OnClickContent(item.Value.ContentType);
+                content.pointerClickAction += () => OnClickContent(item.Value.ContentType, item.Key);
                 content.Select(false);
                 _styleContents.Add(content);
             }
         }
+
+        _isContentCreated = true;
     }
 
     public override void BindDelegates()
@@ -54,27 +56,31 @@ public class UP_SelectContent : UP_BaseSelectContent, IPageTimeLimit
     {
     }
 
-    private void OnClickContent(CONTENT_TYPE contentType)
+    private void OnClickContent(CONTENT_TYPE contentType, string contentKey)
     {
         switch (contentType)
         {
             case CONTENT_TYPE.AI_CARTOON:
                 UserDataManager.inst.SelectContent(CONTENT_TYPE.AI_CARTOON);
+                UserDataManager.inst.SelectContent(contentKey);
                 UserDataManager.inst.SetSelectedFrameColor(FRAME_COLOR_TYPE.FRAME_WHITE);
                 _pageController.ChangePage(PAGE_TYPE.PAGE_SELECT_CARTOON_STYLE);
                 break;
             case CONTENT_TYPE.AI_PROFILE:
                 UserDataManager.inst.SelectContent(CONTENT_TYPE.AI_PROFILE);
+                UserDataManager.inst.SelectContent(contentKey);
                 UserDataManager.inst.SetSelectedFrameColor(FRAME_COLOR_TYPE.FRAME_WHITE);
                 _pageController.ChangePage(PAGE_TYPE.PAGE_SELECT_AI_PROFILE);
                 break;
             case CONTENT_TYPE.AI_BEAUTY:
                 UserDataManager.inst.SelectContent(CONTENT_TYPE.AI_BEAUTY);
+                UserDataManager.inst.SelectContent(contentKey);
                 UserDataManager.inst.SetSelectedFrameColor(FRAME_COLOR_TYPE.FRAME_WHITE);
                 _pageController.ChangePage(PAGE_TYPE.PAGE_SELECT_FRAME);
                 break;
             case CONTENT_TYPE.WHAT_IF:
                 UserDataManager.inst.SelectContent(CONTENT_TYPE.WHAT_IF);
+                UserDataManager.inst.SelectContent(contentKey);
                 UserDataManager.inst.SetSelectedFrameColor(FRAME_COLOR_TYPE.FRAME_JTBC_SI);
                 _pageController.ChangePage(PAGE_TYPE.PAGE_SELECT_WHAT_IF);
                 break;
