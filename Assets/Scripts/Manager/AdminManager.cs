@@ -179,7 +179,7 @@ public class AdminManager : SingletonBehaviour<AdminManager>
 
             if(item.Value.ImageThumbnail != null && item.Value.ImageThumbnail != string.Empty)
             {
-                ApiCall.Instance.GetSequently<Texture2D>
+                ApiCall.Instance.GetSequently<Sprite>
                     (item.Value.ImageThumbnail, (texture) => {item.Value.ImageThumbnail_data = texture;}, true);
             }
 
@@ -191,22 +191,30 @@ public class AdminManager : SingletonBehaviour<AdminManager>
 
             if (item.Value.GuideImage != null && item.Value.GuideImage != string.Empty)
             {
-                ApiCall.Instance.GetSequently<Texture2D>
+                ApiCall.Instance.GetSequently<Sprite>
                     (item.Value.GuideImage, (texture) => { item.Value.GuideImage_data = texture; }, true);
             }
 
             if (item.Value.BGGuideImage != null && item.Value.BGGuideImage != string.Empty)
             {
-                ApiCall.Instance.GetSequently<Texture2D>
+                ApiCall.Instance.GetSequently<Sprite>
                     (item.Value.BGGuideImage, (texture) => { item.Value.BGGuideImage_data = texture; }, true);
             }
 
             if (item.Value.ShootGuideImage != null && item.Value.ShootGuideImage != string.Empty)
             {
-                ApiCall.Instance.GetSequently<Texture2D>
+                ApiCall.Instance.GetSequently<Sprite>
                     (item.Value.ShootGuideImage, (texture) => { item.Value.ShootGuideImage_data = texture; }, true);
             }
         }
 
+        foreach (var item in _serviceData.ContentsDetail)
+        {
+            if (item.Value.Thumbnail != null && item.Value.Thumbnail != string.Empty)
+            {
+                ApiCall.Instance.GetSequently<Sprite>
+                    (item.Value.Thumbnail, (texture) => { item.Value.Thumbnail_data = texture; }, true);
+            }
+        }
     }
 }

@@ -182,7 +182,12 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
                     byte[] data = www.downloadHandler.data;
                     Texture2D texture = new Texture2D(0, 0, TextureFormat.ARGB32, false);
                     texture.LoadImage(data);
-                    result = texture;
+
+                    Rect rect = new Rect(0, 0, texture.width, texture.height);
+                    Vector2 pivot = new Vector2(0.5f, 0.5f);
+                    Sprite sprite = Sprite.Create(texture, rect, pivot);
+
+                    result = sprite;
                 }
                 else if (contentType.StartsWith("video/"))
                 {
