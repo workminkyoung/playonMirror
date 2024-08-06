@@ -12,10 +12,16 @@ public class UP_SelectGender : UP_BaseSelectContent, IPageTimeLimit
 
     [SerializeField]
     private Button _prevBtn;
+    //[SerializeField]
+    //private PROFILE_TYPE[] _profileContents;
+    //[SerializeField]
+    //private GENDER_TYPE[] _genderType;
     [SerializeField]
-    private PROFILE_TYPE[] _profileContents;
+    private GameObject _styleContent;
     [SerializeField]
-    private GENDER_TYPE[] _genderType;
+    private Transform _contentParent;
+
+    private List<UC_ProfileContent> _profileContents = new List<UC_ProfileContent>();
 
     public override void InitPage()
     {
@@ -47,10 +53,10 @@ public class UP_SelectGender : UP_BaseSelectContent, IPageTimeLimit
 
     public override void OnPageEnable()
     {
-        //for (int i = 0; i < _contents.Length; i++)
-        //{
-        //    (_contents[i] as UC_ProfileContent).Select(false);
-        //}
+        if (!_isContentCreated)
+        {
+            CreateContent();
+        }
     }
 
     protected override void OnPageReset()
@@ -58,11 +64,47 @@ public class UP_SelectGender : UP_BaseSelectContent, IPageTimeLimit
 
     }
 
-    protected override void OnClickContent(int index)
+    private void CreateContent()
     {
-        UserDataManager.inst.SelectProfile(_profileContents[index]);
-        UserDataManager.inst.SelectContentCode(_profileContents[index]);
-        UserDataManager.inst.SetGender(_genderType[index]);
+        string key = StringCacheManager.Instance.GetContentKey(CONTENT_TYPE.WHAT_IF);
+
+        foreach (var item in AdminManager.Instance.ServiceData.ContentsDetail)
+        {
+            if (item.Value.Category.Contains(key) && item.Value.Use.ToLower() == "true")
+            {
+                GameObject content = Instantiate(_styleContent, _contentParent);
+                UC_ProfileContent styleContent = content.GetComponent<UC_ProfileContent>();
+                styleContent.SetThumbnail(item.Value.Thumbnail_data, true);
+                styleContent.SetContentDetail(item.Value);
+                styleContent.SetTitle("");
+                styleContent.SetDescription("");
+                styleContent.SetGenderActive(false);
+
+                styleContent.Select(false);
+                styleContent.pointerClickAction += () => OnClickContent(styleContent.ContentDetail);
+
+                _profileContents.Add(styleContent);
+            }
+        }
+
+        _isContentCreated = true;
+    }
+
+    //protected override void OnClickContent(int index)
+    //{
+    //    UserDataManager.inst.SelectProfile(_profileContents[index]);
+    //    UserDataManager.inst.SelectContentCode(_profileContents[index]);
+    //    UserDataManager.inst.SetGender(_genderType[index]);
+    //    (_pageController as PC_Main)?.globalPage?.OpenAIProfileAlert(() =>
+    //    {
+    //        _pageController.ChangePage(PAGE_TYPE.PAGE_SELECT_FRAME);
+    //    });
+    //}
+
+    private void OnClickContent(ServiceData.ContentsDetailEntry contentDetail)
+    {
+        UserDataManager.Instance.SelectSubContent(contentDetail.Key);
+
         (_pageController as PC_Main)?.globalPage?.OpenAIProfileAlert(() =>
         {
             _pageController.ChangePage(PAGE_TYPE.PAGE_SELECT_FRAME);

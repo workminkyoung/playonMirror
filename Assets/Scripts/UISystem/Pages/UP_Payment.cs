@@ -261,11 +261,11 @@ public class UP_Payment : UP_BasePage
                 break;
             case CONTENT_TYPE.WHAT_IF:
                 _selectedContentText.text = AdminManager.Instance.ServiceData.Contents[UserDataManager.Instance.selectedContentKey].Korean_Title;
-                _content.SetThumbnail(AdminManager.Instance.ServiceData.ContentsDetail[UserDataManager.Instance.selectedSubContentKey].Thumbnail_data);
-                _content.SetTitle(AdminManager.Instance.ServiceData.ContentsDetail[UserDataManager.Instance.selectedSubContentKey].Korean_Title);
-                _content.SetDescription(AdminManager.Instance.ServiceData.ContentsDetail[UserDataManager.Instance.selectedSubContentKey].Korean_SubText);
-                _content.SetGenderActive(true);
-                _content.SetGender(UserDataManager.inst.selectedGender);
+                _content.SetThumbnail(AdminManager.Instance.ServiceData.ContentsDetail[UserDataManager.Instance.selectedSubContentKey].Thumbnail_data, true);
+                _content.SetTitle("");
+                _content.SetDescription("");
+                _content.SetGenderActive(false);
+                //_content.SetGender(UserDataManager.inst.selectedGender);
                 break;
             default:
                 _selectedContentText.text = StringCacheManager.inst.GetContentTitle(CONTENT_TYPE.AI_CARTOON);
