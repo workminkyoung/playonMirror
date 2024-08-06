@@ -153,6 +153,30 @@ public class AdminManager : SingletonBehaviour<AdminManager>
     {
         foreach (var item in _serviceData.Contents)
         {
+            if(item.Value.Key != null && item.Value.Key != string.Empty)
+            {
+                switch (item.Value.Key)
+                {
+                    case "BT":
+                        item.Value.ContentType = CONTENT_TYPE.AI_BEAUTY;
+                        break;
+                    case "CA":
+                        item.Value.ContentType = CONTENT_TYPE.AI_CARTOON;
+                        break;
+                    case "PR":
+                        item.Value.ContentType = CONTENT_TYPE.AI_PROFILE;
+                        break;
+                    case "TM":
+                        item.Value.ContentType = CONTENT_TYPE.AI_TIME_MACHINE;
+                        break;
+                    case "WF":
+                        item.Value.ContentType = CONTENT_TYPE.WHAT_IF;
+                        break;
+                    default:
+                        break;
+                }
+            }
+
             if(item.Value.ImageThumbnail != null && item.Value.ImageThumbnail != string.Empty)
             {
                 ApiCall.Instance.GetSequently<Texture2D>

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -38,50 +39,41 @@ public class UP_SelectContent : UP_BaseSelectContent, IPageTimeLimit
                 content.SetMaxPlayer(item.Value.Korean_People);
                 content.SetVideo(item.Value.VideoThumbnail_path);
                 content.SetThumbnail(item.Value.ImageThumbnail_data);
+                content.pointerClickAction += () => OnClickContent(item.Value.ContentType);
                 content.Select(false);
                 _styleContents.Add(content);
             }
         }
-        
-
-        //for (int i = 0; i < _activeContentType.Count; i++)
-        //{
-        //    GameObject contentObj = Instantiate(_contentPrefab, _contentParent);
-        //    UC_StyleVideoContent content = contentObj.GetComponentInChildren<UC_StyleVideoContent>();
-        //    content.SetTitle(StringCacheManager.inst.GetContentTitle(_activeContentType[i]));
-        //    content.SetDescription(StringCacheManager.inst.GetContentDescription(_activeContentType[i]));
-        //    content.SetMaxPlayer(StringCacheManager.inst.GetContentPlayerNum(_activeContentType[i]));
-        //    content.SetVideo(ResourceCacheManager.inst.GetContentVideoThumbnail(_activeContentType[i]));
-        //    content.Select(false);
-        //    _styleContents.Add(content);
-        //}
     }
 
     public override void BindDelegates()
     {
-        base.BindDelegates();
     }
 
     protected override void OnClickContent(int index)
     {
-        switch (index)
+    }
+
+    private void OnClickContent(CONTENT_TYPE contentType)
+    {
+        switch (contentType)
         {
-            case 0:
+            case CONTENT_TYPE.AI_CARTOON:
                 UserDataManager.inst.SelectContent(CONTENT_TYPE.AI_CARTOON);
                 UserDataManager.inst.SetSelectedFrameColor(FRAME_COLOR_TYPE.FRAME_WHITE);
                 _pageController.ChangePage(PAGE_TYPE.PAGE_SELECT_CARTOON_STYLE);
                 break;
-            case 1:
+            case CONTENT_TYPE.AI_PROFILE:
                 UserDataManager.inst.SelectContent(CONTENT_TYPE.AI_PROFILE);
                 UserDataManager.inst.SetSelectedFrameColor(FRAME_COLOR_TYPE.FRAME_WHITE);
                 _pageController.ChangePage(PAGE_TYPE.PAGE_SELECT_AI_PROFILE);
                 break;
-            case 2:
+            case CONTENT_TYPE.AI_BEAUTY:
                 UserDataManager.inst.SelectContent(CONTENT_TYPE.AI_BEAUTY);
                 UserDataManager.inst.SetSelectedFrameColor(FRAME_COLOR_TYPE.FRAME_WHITE);
                 _pageController.ChangePage(PAGE_TYPE.PAGE_SELECT_FRAME);
                 break;
-            case 3:
+            case CONTENT_TYPE.WHAT_IF:
                 UserDataManager.inst.SelectContent(CONTENT_TYPE.WHAT_IF);
                 UserDataManager.inst.SetSelectedFrameColor(FRAME_COLOR_TYPE.FRAME_JTBC_SI);
                 _pageController.ChangePage(PAGE_TYPE.PAGE_SELECT_WHAT_IF);

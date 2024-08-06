@@ -170,6 +170,7 @@ namespace ServiceData
     public class ContentsEntry
     {
         public string Key;
+        public CONTENT_TYPE ContentType;
         public string Use;
         public string Sorting;
         public string Sequence;
