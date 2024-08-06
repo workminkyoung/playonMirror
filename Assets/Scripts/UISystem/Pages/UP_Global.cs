@@ -15,6 +15,8 @@ public class UP_Global : UP_BasePage
     [SerializeField]
     private UC_ConfirmPopup _confirmPopup;
     [SerializeField]
+    private UC_ConfirmPopup _confirmPopupWide;
+    [SerializeField]
     private UC_ConfirmPopup _privacyPopup;
     [SerializeField]
     private UC_ConfirmPopup _alertPopup;
@@ -60,6 +62,7 @@ public class UP_Global : UP_BasePage
     {
         GameManager.inst.SetGlobalPage(this);
         _confirmPopup.gameObject.SetActive(false);
+        _confirmPopupWide.gameObject.SetActive(false);
         _dimImg.gameObject.SetActive(false);
         _alertPopup.gameObject.SetActive(false);
         _serviceErrorPage.gameObject.SetActive(false);
@@ -72,7 +75,7 @@ public class UP_Global : UP_BasePage
 
     public override void BindDelegates()
     {
-        _confirmPopup.OnConfirmAction += CloseConfirmPopup;
+        //_confirmPopup.OnConfirmAction += CloseConfirmPopup;
         _PolicyPopup.OnConfirmAction += ClosePolicyPopup;
 
         _resetPhotoPaperPopup.OnConfirmAction += () =>
@@ -88,13 +91,18 @@ public class UP_Global : UP_BasePage
         };
     }
 
-    public void OpenConfirmPopup(string title, string description, Sprite sprite)
+    public void OpenConfirmPopup(string title, string description, Sprite sprite, bool isWide = false)
     {
-        _confirmPopup.gameObject.SetActive(true);
-        _confirmPopup.SetTitle(title);
-        _confirmPopup.SetDescription(description);
-        _confirmPopup.SetImage(sprite);
-        _confirmPopup.OpenPopup(true);
+        UC_ConfirmPopup popup = _confirmPopup;
+        if (isWide)
+        {
+            popup = _confirmPopupWide;
+        }
+        popup.gameObject.SetActive(true);
+        popup.SetTitle(title);
+        popup.SetDescription(description);
+        popup.SetImage(sprite);
+        popup.OpenPopup(true);
     }
 
     public void OpenPolicyPopup(POLICY_TYPE type)
@@ -122,9 +130,16 @@ public class UP_Global : UP_BasePage
         _privacyPopup.OpenPopup(false);
     }
 
-    public void CloseConfirmPopup()
+    public void CloseConfirmPopup(bool isWide = false)
     {
-        _confirmPopup.OpenPopup(false);
+        if (isWide)
+        {
+            _confirmPopupWide.OpenPopup(false);
+        }
+        else
+        {
+            _confirmPopup.OpenPopup(false);
+        }
     }
 
     public void OpenTimerToast(int num)

@@ -17,7 +17,6 @@ public class UC_ConfirmPopup : UC_BaseComponent
     [SerializeField]
     private Button _confirmBtn = null;
 
-    public Action OnConfirmAction = null;
     private delegate void OnConfirmDelegate();
     private OnConfirmDelegate onConfirmDelegate;
 
@@ -27,7 +26,7 @@ public class UC_ConfirmPopup : UC_BaseComponent
 
         _confirmBtn.onClick.AddListener(() =>
         {
-            OnConfirmAction?.Invoke();
+            //OpenPopup(false);
             if(onConfirmDelegate != null)
             {
                 onConfirmDelegate();

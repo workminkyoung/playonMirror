@@ -89,7 +89,8 @@ public class UP_SelectCartoonStyle : UP_BaseSelectContent, IPageTimeLimit
 
     private void OnClickDescription()
     {
-        (_pageController as PC_Main).globalPage.OpenConfirmPopup(_popupTitle, _popupDescription, ResourceCacheManager.inst.cartoonPopupThumbnailSprite);
+        string key = StringCacheManager.Instance.GetContentKey(CONTENT_TYPE.AI_CARTOON);
+        (_pageController as PC_Main).globalPage.OpenConfirmPopup(_popupTitle, _popupDescription, AdminManager.Instance.ServiceData.Contents[key].GuideImage_data);
     }
 
     public override void OnPageEnable()
