@@ -26,7 +26,9 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
     private int _selectedChromaKeyNum = 0;
 
     [SerializeField]
-    private int _selectedSubContentNum = 0;
+    private string _selectedContentKey;
+    [SerializeField]
+    private string _selectedSubContentKey;
     [SerializeField]
     private PROFILE_TYPE _selectedProfileType = PROFILE_TYPE.PR00001;
     [SerializeField]
@@ -52,7 +54,9 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
     public bool isChromaKeyOn => _isChromaKeyOn;
     public int selectedChromaKeyNum => _selectedChromaKeyNum;
 
-    public int selectedSubContentNum => _selectedSubContentNum;
+    //public int selectedSubContentNum => _selectedSubContentNum;
+    public string selectedSubContentKey => _selectedSubContentKey;
+    public string selectedContentKey => _selectedContentKey;
     public int selectedProfilePicNum => _selectedProfilePicNum;
     public int curPicAmount => _curPicAmount;
     public int curPrice => _curPrice;
@@ -130,9 +134,14 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
         _selectedFrameColor = type;
     }
 
-    public void SelectSubContent(int subContent)
+    public void SelectSubContent(string subContentKey)
     {
-        _selectedSubContentNum = subContent;
+        _selectedSubContentKey = subContentKey;
+    }
+
+    public void SelectContent(string contentKey)
+    {
+        _selectedContentKey = contentKey;
     }
 
     public void SelectProfile(PROFILE_TYPE type)

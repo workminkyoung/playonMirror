@@ -8,6 +8,8 @@ using Vivestudios.UI;
 public class StringCacheManager : SingletonBehaviour<StringCacheManager>
 {
     [SerializeField]
+    private ContentStringDicBase _contentKey;
+    [SerializeField]
     private CartoonStringDicBase _cartoonTitles;
     [SerializeField]
     private CartoonStringDicBase _cartoonDescriptions;
@@ -38,6 +40,11 @@ public class StringCacheManager : SingletonBehaviour<StringCacheManager>
     public List<string> ProfileWhatIfName => _profileWhatIfName;
     public string DividerLine => _dividerLine;
     public string PointLine => _pointLine;
+
+    public string GetContentKey(CONTENT_TYPE type)
+    {
+        return _contentKey[type];
+    }
 
     public string GetCartoonTitle(CARTOON_TYPE type)
     {
