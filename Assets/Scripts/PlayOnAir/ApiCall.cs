@@ -179,6 +179,11 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
                     File.WriteAllBytes(_downloadPath, data);
                     result = _downloadPath;
                 }
+                else if(contentType.Contains("application/octet-stream")) // SVG 인 경우 혹은 data인 경우
+                {
+                    byte[] data = www.downloadHandler.data;
+                    result = data;
+                }
                 else
                 {
                     Debug.Log($"Unknown file type. : {contentType}");

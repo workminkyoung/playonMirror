@@ -126,9 +126,9 @@ public class UC_ChromaKeySetting : UC_BaseComponent, IPointerClickHandler
     private void NextBG ()
     {
         Texture curImg = ChromaKeyModule.inst.options[_optionIndex].images[_imageIndex];
-        if(_imageIndex + 1 >= ChromaKeyModule.inst.options[_optionIndex].images.Length)
+        if(_imageIndex + 1 >= ChromaKeyModule.inst.options[_optionIndex].images.Count)
         {
-            if(_optionIndex + 1 >= ChromaKeyModule.inst.options.Length)
+            if(_optionIndex + 1 >= ChromaKeyModule.inst.options.Count)
             {
                 _optionIndex = 0;
                 _imageIndex = 0;
@@ -158,13 +158,13 @@ public class UC_ChromaKeySetting : UC_BaseComponent, IPointerClickHandler
         {
             if(_optionIndex - 1 < 0)
             {
-                _optionIndex = ChromaKeyModule.inst.options.Length - 1;
-                _imageIndex = ChromaKeyModule.inst.options[_optionIndex].images.Length - 1;
+                _optionIndex = ChromaKeyModule.inst.options.Count - 1;
+                _imageIndex = ChromaKeyModule.inst.options[_optionIndex].images.Count - 1;
             }
             else
             {
                 _optionIndex--;
-                _imageIndex = ChromaKeyModule.inst.options[_optionIndex].images.Length - 1;
+                _imageIndex = ChromaKeyModule.inst.options[_optionIndex].images.Count - 1;
             }
         }
         else
@@ -304,8 +304,6 @@ public class UC_ChromaKeySetting : UC_BaseComponent, IPointerClickHandler
 
     public void OnPointerClick (PointerEventData eventData)
     {
-        Debug.Log(eventData);
-
         if(_colorPicker.gameObject.activeInHierarchy == false)
         {
             return;
