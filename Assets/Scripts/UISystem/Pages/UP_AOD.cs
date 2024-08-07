@@ -12,6 +12,8 @@ public class UP_AOD : UP_BasePage, IPointerClickHandler
     private Button _privacyPolicyBtn;
     [SerializeField]
     private Button _termsOfUseBtn;
+    [SerializeField]
+    private Image _bgImage;
 
     public override void InitPage()
     {
@@ -39,7 +41,27 @@ public class UP_AOD : UP_BasePage, IPointerClickHandler
     public override void OnPageEnable()
     {
         CustomLogger.Log(StringCacheManager.inst.DividerLine + " Session Starting " + StringCacheManager.inst.DividerLine);
+
     }
+
+    public override void ApplyAdminData()
+    {
+        base.ApplyAdminData();
+
+        if (AdminManager.Instance.BasicSetting.Config.StartImage_data != null)
+        {
+            _bgImage.sprite = AdminManager.Instance.BasicSetting.Config.StartImage_data;
+        }
+        else if (AdminManager.Instance.BasicSetting.Config.BGImage_data != null)
+        {
+            _bgImage.sprite = AdminManager.Instance.BasicSetting.Config.BGImage_data;
+        }
+        else if (!string.IsNullOrEmpty(AdminManager.Instance.BasicSetting.Config.ColorCode))
+        {
+            _bgImage.color = ColorExtension.HexToColor(AdminManager.Instance.BasicSetting.Config.ColorCode);
+        }
+    }
+
 
     public override void OnPageDisable()
     {

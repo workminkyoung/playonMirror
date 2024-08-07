@@ -240,12 +240,15 @@ namespace BasicData
         public string PRMenu;
         public string WFMenu;
         public string BGImage;
+        public Sprite BGImage_data;
         public string EndImage;
+        public Sprite EndImage_data;
         public string Printing;
         public string ColorCode;
         public string OtherMenu;
         public string PayConfirm;
         public string StartImage;
+        public Sprite StartImage_data;
         public string DefaultUsed;
         public string FrameSelect;
         public string OptionalUse;
@@ -258,16 +261,23 @@ namespace BasicData
         public string PaymentTermUse;
         public string PaymentTermUsed;
         public string PrintErrorImage;
+        public Sprite PrintErrorImage_data;
         public string StartMediaVideo;
+        public string StartMediaVideo_path;
         public string MarketingTermUse;
         public string MultiLanguageUse;
-        public List<string> PaymentTermImage;
-        public List<string> ServiceTermImage;
+        public string PersonalPolicyImage;
+        public Sprite PersonalPolicyImage_data;
+        public string ServiceTermImage;
+        public Sprite ServiceTermImage_data;
+        public string PaymentTermImage;
+        public Sprite PaymentTermImage_data;
+        public string MarketingTermImage;
+        public Sprite MarketingTermImage_data;
         public string ServieErrorImage;
+        public Sprite ServieErrorImage_data;
         public string ShootingPRSelect;
         public string MarketingTermUsed;
-        public List<string> MarketingTermImage;
-        public List<string> PersonalPolicyImage;
     }
 
     [Serializable]

@@ -35,6 +35,7 @@ public class GameManager : SingletonBehaviour<GameManager>
 
     public static Action OnGameLateInitAction;
     public static Action OnGameResetAction;
+    public static Action OnGoogleDownloadEnd;
 
     public void SetPaymentOn(bool paymentOn)
     {

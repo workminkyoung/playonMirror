@@ -54,6 +54,7 @@ public class UP_Global : UP_BasePage
     public Action TempErrorOpenAction;
     public Action TempErrorClossAction;
 
+
     public bool isToastOn { get { return _toast.isOn; } }
 
     private const string TOAST_MSG = "{0}초 뒤 첫 화면으로 이동합니다. 화면을 터치해주세요.";
@@ -89,6 +90,15 @@ public class UP_Global : UP_BasePage
         {
             ResetPhotopaperPopupOn(false);
         };
+    }
+
+    //TODO : activate on aodPage
+    public void SetAIAlertPopupBG(Sprite sprite)
+    {
+        if(sprite != null)
+        {
+            _aiAlertPopup.SetBGImage(sprite);
+        }
     }
 
     public void OpenConfirmPopup(string title, string description, Sprite sprite, bool isWide = false)
@@ -269,6 +279,7 @@ public class UP_Global : UP_BasePage
     public void CloseDownloadLoading()
     {
         _downloadLoading.SetActivate(false);
+        GameManager.OnGoogleDownloadEnd?.Invoke();
     }
 
     private void Update()

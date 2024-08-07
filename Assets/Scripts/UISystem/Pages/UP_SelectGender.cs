@@ -90,17 +90,6 @@ public class UP_SelectGender : UP_BaseSelectContent, IPageTimeLimit
         _isContentCreated = true;
     }
 
-    //protected override void OnClickContent(int index)
-    //{
-    //    UserDataManager.inst.SelectProfile(_profileContents[index]);
-    //    UserDataManager.inst.SelectContentCode(_profileContents[index]);
-    //    UserDataManager.inst.SetGender(_genderType[index]);
-    //    (_pageController as PC_Main)?.globalPage?.OpenAIProfileAlert(() =>
-    //    {
-    //        _pageController.ChangePage(PAGE_TYPE.PAGE_SELECT_FRAME);
-    //    });
-    //}
-
     private void OnClickContent(ServiceData.ContentsDetailEntry contentDetail)
     {
         UserDataManager.Instance.SelectSubContent(contentDetail.Key);

@@ -1,5 +1,6 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using UnityEditor.UIElements;
 using UnityEngine;
 
 public class AdminManager : SingletonBehaviour<AdminManager>
@@ -82,6 +83,7 @@ public class AdminManager : SingletonBehaviour<AdminManager>
     {
         string result = _configDefaultData.config_default_set.result.BasicSetting.ToString();
         _basicSetting = JsonConvert.DeserializeObject<BasicData.BasicSetting>(result);
+        DownloadBasicData();
     }
 
     private void SetChromakeyFrameData()
@@ -153,7 +155,7 @@ public class AdminManager : SingletonBehaviour<AdminManager>
     {
         foreach (var item in _serviceData.Contents)
         {
-            if(item.Value.Key != null && item.Value.Key != string.Empty)
+            if( !string.IsNullOrEmpty(item.Value.Key))
             {
                 switch (item.Value.Key)
                 {
@@ -177,31 +179,31 @@ public class AdminManager : SingletonBehaviour<AdminManager>
                 }
             }
 
-            if(item.Value.ImageThumbnail != null && item.Value.ImageThumbnail != string.Empty)
+            if(!string.IsNullOrEmpty(item.Value.ImageThumbnail))
             {
                 ApiCall.Instance.GetSequently<Sprite>
                     (item.Value.ImageThumbnail, (texture) => {item.Value.ImageThumbnail_data = texture;}, true);
             }
 
-            if (item.Value.VideoThumbnail !=  null && item.Value.VideoThumbnail != string.Empty)
+            if (!string.IsNullOrEmpty(item.Value.VideoThumbnail))
             {
                 ApiCall.Instance.GetSequently<string>
                     (item.Value.VideoThumbnail, (path) => { item.Value.VideoThumbnail_path = path; }, true);
             }
 
-            if (item.Value.GuideImage != null && item.Value.GuideImage != string.Empty)
+            if (!string.IsNullOrEmpty(item.Value.GuideImage))
             {
                 ApiCall.Instance.GetSequently<Sprite>
                     (item.Value.GuideImage, (texture) => { item.Value.GuideImage_data = texture; }, true);
             }
 
-            if (item.Value.BGGuideImage != null && item.Value.BGGuideImage != string.Empty)
+            if (!string.IsNullOrEmpty(item.Value.BGGuideImage))
             {
                 ApiCall.Instance.GetSequently<Sprite>
                     (item.Value.BGGuideImage, (texture) => { item.Value.BGGuideImage_data = texture; }, true);
             }
 
-            if (item.Value.ShootGuideImage != null && item.Value.ShootGuideImage != string.Empty)
+            if (!string.IsNullOrEmpty(item.Value.ShootGuideImage))
             {
                 ApiCall.Instance.GetSequently<Sprite>
                     (item.Value.ShootGuideImage, (texture) => { item.Value.ShootGuideImage_data = texture; }, true);
@@ -210,13 +212,13 @@ public class AdminManager : SingletonBehaviour<AdminManager>
 
         foreach (var item in _serviceData.ContentsDetail)
         {
-            if (item.Value.Thumbnail != null && item.Value.Thumbnail != string.Empty)
+            if (!string.IsNullOrEmpty(item.Value.Thumbnail))
             {
                 ApiCall.Instance.GetSequently<Sprite>
                     (item.Value.Thumbnail, (texture) => { item.Value.Thumbnail_data = texture; }, true);
             }
 
-            if (item.Value.Gender != null && item.Value.Gender != string.Empty)
+            if (!string.IsNullOrEmpty(item.Value.Gender))
             {
                 switch (item.Value.Gender.ToLower())
                 {
@@ -230,6 +232,69 @@ public class AdminManager : SingletonBehaviour<AdminManager>
                         break;
                 }
             }
+        }
+    }
+
+    public void DownloadBasicData()
+    {
+        if(!string.IsNullOrEmpty(_basicSetting.Config.BGImage))
+        {
+            ApiCall.Instance.GetSequently<Sprite>
+                (_basicSetting.Config.BGImage, (texture) => { _basicSetting.Config.BGImage_data = texture; }, true);
+        }
+
+        if (!string.IsNullOrEmpty(_basicSetting.Config.EndImage))
+        {
+            ApiCall.Instance.GetSequently<Sprite>
+                (_basicSetting.Config.EndImage, (texture) => { _basicSetting.Config.EndImage_data = texture; }, true);
+        }
+
+        if (!string.IsNullOrEmpty(_basicSetting.Config.StartImage))
+        {
+            ApiCall.Instance.GetSequently<Sprite>
+                (_basicSetting.Config.StartImage, (texture) => { _basicSetting.Config.StartImage_data = texture; }, true);
+        }
+
+        if (!string.IsNullOrEmpty(_basicSetting.Config.PrintErrorImage))
+        {
+            ApiCall.Instance.GetSequently<Sprite>
+                (_basicSetting.Config.PrintErrorImage, (texture) => { _basicSetting.Config.PrintErrorImage_data = texture; }, true);
+        }
+
+        if (!string.IsNullOrEmpty(_basicSetting.Config.StartMediaVideo))
+        {
+            ApiCall.Instance.GetSequently<string>
+                (_basicSetting.Config.StartMediaVideo, (path) => { _basicSetting.Config.StartMediaVideo_path = path; }, true);
+        }
+
+        if (!string.IsNullOrEmpty(_basicSetting.Config.PersonalPolicyImage))
+        {
+            ApiCall.Instance.GetSequently<Sprite>
+                (_basicSetting.Config.PersonalPolicyImage, (texture) => { _basicSetting.Config.PersonalPolicyImage_data = texture; }, true);
+        }
+
+        if (!string.IsNullOrEmpty(_basicSetting.Config.ServiceTermImage))
+        {
+            ApiCall.Instance.GetSequently<Sprite>
+                (_basicSetting.Config.ServiceTermImage, (texture) => { _basicSetting.Config.ServiceTermImage_data = texture; }, true);
+        }
+
+        if (!string.IsNullOrEmpty(_basicSetting.Config.PaymentTermImage))
+        {
+            ApiCall.Instance.GetSequently<Sprite>
+                (_basicSetting.Config.PaymentTermImage, (texture) => { _basicSetting.Config.PaymentTermImage_data = texture; }, true);
+        }
+
+        if (!string.IsNullOrEmpty(_basicSetting.Config.MarketingTermImage))
+        {
+            ApiCall.Instance.GetSequently<Sprite>
+                (_basicSetting.Config.MarketingTermImage, (texture) => { _basicSetting.Config.MarketingTermImage_data = texture; }, true);
+        }
+
+        if (!string.IsNullOrEmpty(_basicSetting.Config.ServieErrorImage))
+        {
+            ApiCall.Instance.GetSequently<Sprite>
+                (_basicSetting.Config.ServieErrorImage, (texture) => { _basicSetting.Config.ServieErrorImage_data = texture; }, true);
         }
     }
 }
