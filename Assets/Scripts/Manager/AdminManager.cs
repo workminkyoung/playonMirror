@@ -197,6 +197,12 @@ public class AdminManager : SingletonBehaviour<AdminManager>
                     (item.Value.GuideImage, (texture) => { item.Value.GuideImage_data = texture; }, true);
             }
 
+            if (!string.IsNullOrEmpty(item.Value.PopupGuideImage))
+            {
+                ApiCall.Instance.GetSequently<Sprite>
+                    (item.Value.PopupGuideImage, (texture) => { item.Value.PopupGuideImage_data = texture; }, true);
+            }
+
             if (!string.IsNullOrEmpty(item.Value.BGGuideImage))
             {
                 ApiCall.Instance.GetSequently<Sprite>

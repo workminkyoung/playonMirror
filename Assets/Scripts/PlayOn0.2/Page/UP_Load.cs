@@ -78,7 +78,6 @@ public class UP_Load : UP_BasePage
     void RequestAIProfile()
     {
         ProfileModule.inst.GetProfileImages(PhotoDataManager.inst.selectedAIProfile,
-                                            UserDataManager.inst.selectedProfileType,
                                             (value) =>
                                             {
                                                 CustomLogger.Log("complet ai");
@@ -90,7 +89,6 @@ public class UP_Load : UP_BasePage
     void RequestWhatIf()
     {
         ProfileModule.inst.GetWhatIfImages(PhotoDataManager.inst.selectedAIProfile,
-                                            UserDataManager.inst.selectedProfileType,
                                             (value) =>
                                             {
                                                 CustomLogger.Log("complet ai");

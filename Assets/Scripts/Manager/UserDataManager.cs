@@ -26,9 +26,9 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
     private int _selectedChromaKeyNum = 0;
 
     [SerializeField]
-    private string _selectedContentKey;
+    private string _selectedContentKey;//CA, PR, BT...
     [SerializeField]
-    private string _selectedSubContentKey;
+    private string _selectedSubContentKey;//CA00001...
     //[SerializeField]
     //private PROFILE_TYPE _selectedProfileType = PROFILE_TYPE.PR00001;
     [SerializeField]
@@ -38,10 +38,6 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
     private int _curPicAmount;
     [SerializeField]
     private int _curPrice;
-
-    //private Dictionary<Enum, string> _selectedContentCodeDict = new Dictionary<Enum, string>();
-    [SerializeField]
-    private string _selectedContentCode;
 
     public CONTENT_TYPE selectedContent => _selectedContent;
     public FRAME_TYPE selectedFrame => _selectedFrame;
@@ -60,9 +56,6 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
     public int selectedProfilePicNum => _selectedProfilePicNum;
     public int curPicAmount => _curPicAmount;
     public int curPrice => _curPrice;
-
-    public string selectedContentCode => _selectedContentCode;
-
 
     protected override void Init()
     {
@@ -97,11 +90,6 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
     public void SelectFrame(FRAME_TYPE type)
     {
         _selectedFrame = type;
-    }
-
-    public void SelectContentCode(string contentCode)
-    {
-        _selectedContentCode = contentCode;
     }
 
     public void SetFrameRatioType(FRAME_RATIO_TYPE type)

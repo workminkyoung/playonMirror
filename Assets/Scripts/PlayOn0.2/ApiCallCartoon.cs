@@ -79,7 +79,7 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
     {
         CartoonRequestData data = new CartoonRequestData();
 
-        data.menu_code = UserDataManager.Instance.selectedContentCode;
+        data.menu_code = UserDataManager.Instance.selectedSubContentKey;
         data.encoded_source_image = _targetEncodeText;
 
         string json = JsonUtility.ToJson(data);
