@@ -16,13 +16,15 @@ public class UP_Caution : UP_BasePage
     private RectTransform _btnEnableArea;
     [SerializeField]
     private RectTransform _btnDisbaleArea;
+    [SerializeField]
+    private Image _cautionImage;
 
-    [SerializeField]
-    private RectTransform _contentAreaDefault;
-    [SerializeField]
-    private RectTransform _contentAreaProfile;
-    [SerializeField]
-    private RectTransform _contentAreaBeauty;
+    //[SerializeField]
+    //private RectTransform _contentAreaDefault;
+    //[SerializeField]
+    //private RectTransform _contentAreaProfile;
+    //[SerializeField]
+    //private RectTransform _contentAreaBeauty;
 
     [SerializeField]
     private TextMeshProUGUI _timerText;
@@ -73,10 +75,11 @@ public class UP_Caution : UP_BasePage
         if (_pageController == null)
             return;
 
-        _contentAreaDefault.gameObject.SetActive(UserDataManager.inst.selectedContent == CONTENT_TYPE.AI_CARTOON);
-        _contentAreaProfile.gameObject.SetActive(UserDataManager.inst.selectedContent == CONTENT_TYPE.AI_PROFILE ||
-                                                 UserDataManager.inst.selectedContent == CONTENT_TYPE.WHAT_IF);
-        _contentAreaBeauty.gameObject.SetActive(UserDataManager.inst.selectedContent == CONTENT_TYPE.AI_BEAUTY);
+        _cautionImage.sprite = AdminManager.Instance.ServiceData.Contents[UserDataManager.inst.selectedContentKey].ShootGuideImage_data;
+        //_contentAreaDefault.gameObject.SetActive(UserDataManager.inst.selectedContent == CONTENT_TYPE.AI_CARTOON);
+        //_contentAreaProfile.gameObject.SetActive(UserDataManager.inst.selectedContent == CONTENT_TYPE.AI_PROFILE ||
+        //                                         UserDataManager.inst.selectedContent == CONTENT_TYPE.WHAT_IF);
+        //_contentAreaBeauty.gameObject.SetActive(UserDataManager.inst.selectedContent == CONTENT_TYPE.AI_BEAUTY);
         _timerCoroutine = StartCoroutine(TimerRoutine());
         _btnTextCoroutine = StartCoroutine(BtnTextRoutine());
 
