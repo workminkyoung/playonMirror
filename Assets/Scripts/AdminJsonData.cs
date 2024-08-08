@@ -180,6 +180,8 @@ namespace ServiceData
         public string VideoThumbnail_path;
         public string GuideImage;
         public Sprite GuideImage_data;
+        public string PopupGuideImage;
+        public Sprite PopupGuideImage_data;
         public string BGGuideImage;
         public Sprite BGGuideImage_data;
         public string People_Icon;

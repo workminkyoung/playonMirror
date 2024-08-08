@@ -83,7 +83,7 @@ public class UP_SelectCartoonStyle : UP_BaseSelectContent, IPageTimeLimit
         _contents = contents.ToArray();
         _shuffledContentParents = _contentParents.ToList();
 
-        _guideImage = AdminManager.Instance.ServiceData.Contents[key].GuideImage_data;
+        _guideImage = AdminManager.Instance.ServiceData.Contents[key].PopupGuideImage_data;
         _isContentCreated = true;
     }
 
