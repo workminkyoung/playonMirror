@@ -12,14 +12,11 @@ public class UP_SelectGender : UP_BaseSelectContent, IPageTimeLimit
 
     [SerializeField]
     private Button _prevBtn;
-    //[SerializeField]
-    //private PROFILE_TYPE[] _profileContents;
-    //[SerializeField]
-    //private GENDER_TYPE[] _genderType;
     [SerializeField]
     private GameObject _styleContent;
     [SerializeField]
     private Transform _contentParent;
+    private string key;
 
     private List<UC_ProfileContent> _profileContents = new List<UC_ProfileContent>();
 
@@ -66,7 +63,7 @@ public class UP_SelectGender : UP_BaseSelectContent, IPageTimeLimit
 
     private void CreateContent()
     {
-        string key = StringCacheManager.Instance.GetContentKey(CONTENT_TYPE.WHAT_IF);
+        key = StringCacheManager.Instance.GetContentKey(CONTENT_TYPE.WHAT_IF);
 
         foreach (var item in AdminManager.Instance.ServiceData.ContentsDetail)
         {
@@ -94,9 +91,8 @@ public class UP_SelectGender : UP_BaseSelectContent, IPageTimeLimit
     {
         UserDataManager.Instance.SelectSubContent(contentDetail.Key);
 
-        (_pageController as PC_Main)?.globalPage?.OpenAIProfileAlert(() =>
-        {
-            _pageController.ChangePage(PAGE_TYPE.PAGE_SELECT_FRAME);
-        });
+        (_pageController as PC_Main)?.globalPage?.OpenAIProfileAlert(
+            AdminManager.Instance.ServiceData.Contents[key].GuideImage_data, 
+            () => { _pageController.ChangePage(PAGE_TYPE.PAGE_SELECT_FRAME); });
     }
 }

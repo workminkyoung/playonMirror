@@ -21,6 +21,7 @@ public class UP_SelectProfile : UP_BaseSelectContent, IPageTimeLimit
     [SerializeField]
     private Transform _contentParent;
     private List<UC_ProfileContent> _profileContents = new List<UC_ProfileContent>();
+    private string key;// = StringCacheManager.Instance.GetContentKey(CONTENT_TYPE.AI_PROFILE);
     //private Sprite _guideImage;
 
     private bool _requirePopup = true;
@@ -62,7 +63,7 @@ public class UP_SelectProfile : UP_BaseSelectContent, IPageTimeLimit
 
     private void CreateContent()
     {
-        string key = StringCacheManager.Instance.GetContentKey(CONTENT_TYPE.AI_PROFILE);
+        key = StringCacheManager.Instance.GetContentKey(CONTENT_TYPE.AI_PROFILE);
 
         foreach (var item in AdminManager.Instance.ServiceData.ContentsDetail)
         {
@@ -84,7 +85,6 @@ public class UP_SelectProfile : UP_BaseSelectContent, IPageTimeLimit
             }
         }
 
-        //_guideImage = AdminManager.Instance.ServiceData.Contents[key].GuideImage_data;
         _isContentCreated = true;
     }
 
@@ -93,10 +93,9 @@ public class UP_SelectProfile : UP_BaseSelectContent, IPageTimeLimit
         _requirePopup = false;
         UserDataManager.Instance.SelectSubContent(contentDetail.Key);
 
-        (_pageController as PC_Main)?.globalPage?.OpenAIProfileAlert(() =>
-        {
-            _pageController.ChangePage(PAGE_TYPE.PAGE_SELECT_FRAME);
-        });
+        (_pageController as PC_Main)?.globalPage?.OpenAIProfileAlert(
+            AdminManager.Instance.ServiceData.Contents[key].GuideImage_data,
+            () => { _pageController.ChangePage(PAGE_TYPE.PAGE_SELECT_FRAME); });
     }
 
     public override void OnPageEnable()

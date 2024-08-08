@@ -92,15 +92,6 @@ public class UP_Global : UP_BasePage
         };
     }
 
-    //TODO : activate on aodPage
-    public void SetAIAlertPopupBG(Sprite sprite)
-    {
-        if(sprite != null)
-        {
-            _aiAlertPopup.SetBGImage(sprite);
-        }
-    }
-
     public void OpenConfirmPopup(string title, string description, Sprite sprite, bool isWide = false)
     {
         UC_ConfirmPopup popup = _confirmPopup;
@@ -255,10 +246,14 @@ public class UP_Global : UP_BasePage
             TempErrorClossAction?.Invoke();
     }
 
-    public void OpenAIProfileAlert(Action OnAlertClosed = null)
+    public void OpenAIProfileAlert(Sprite image, Action OnAlertClosed = null)
     {
-        _aiAlertPopup.OnAlertClosed = OnAlertClosed;
-        _aiAlertPopup.gameObject.SetActive(true);
+        if(OnAlertClosed != null)
+        {
+            _aiAlertPopup.SetBGImage(image);
+            _aiAlertPopup.OnAlertClosed = OnAlertClosed;
+            _aiAlertPopup.gameObject.SetActive(true);
+        }
     }
 
     public void OpenChromaKeySetting()

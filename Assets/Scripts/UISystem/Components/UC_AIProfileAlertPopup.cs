@@ -12,6 +12,7 @@ namespace Vivestudios.UI
         public Action OnAlertClosed;
         [SerializeField]
         private Button _okBtn;
+        private Image _bgImage;
 
         public override void InitComponent()
         {
@@ -20,6 +21,13 @@ namespace Vivestudios.UI
                 OnAlertClosed?.Invoke();
                 gameObject.SetActive(false); 
             });
+
+            _bgImage = GetComponent<Image>();
+        }
+
+        public void SetBGImage(Sprite sprite)
+        {
+            _bgImage.sprite = sprite;
         }
     }
 }
