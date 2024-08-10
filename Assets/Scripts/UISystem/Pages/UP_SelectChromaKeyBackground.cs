@@ -24,6 +24,7 @@ public class UP_SelectChromaKeyBackground : UP_DecoratePageBase, IPageTimeLimit
     [SerializeField]
     private UC_SelectableContent[] _contents;
 
+    private bool _pageInitDone = false;
 
     public TextMeshProUGUI timeText { get => _timeText; set => _timeText = value; }
     public int MaxTime { get => _maxTime; set => _maxTime = value; }
@@ -34,17 +35,30 @@ public class UP_SelectChromaKeyBackground : UP_DecoratePageBase, IPageTimeLimit
 
         // TODO : Set MaxTime
         _maxTime = ConfigData.config.frameSelectTime;
-        InitContents();
+        _pageInitDone = true;
+        
     }
 
     private void InitContents ()
     {
         for(int i = 0; i < _contents.Length; i++)
         {
-            if(ChromaKeyModule.inst.options.Length > i)
+            if(ChromaKeyModule.inst.options.Count > i)
             {
                 _contents[i].gameObject.SetActive(true);
-                _contents[i].SetNameText(ChromaKeyModule.inst.options[i].name_kor);
+                switch(AdminManager.Instance.Language)
+                {
+                    case LANGUAGE_TYPE.KOR:
+                        _contents[i].SetNameText(ChromaKeyModule.inst.options[i].name_kor);
+                        break;
+                    case LANGUAGE_TYPE.ENG:
+                        _contents[i].SetNameText(ChromaKeyModule.inst.options[i].name_eng);
+                        break;
+                    case LANGUAGE_TYPE.CHN:
+                        _contents[i].SetNameText(ChromaKeyModule.inst.options[i].name_chn);
+                        break;
+                }
+                
                 _contents[i].SetThumbnail(ChromaKeyModule.inst.options[i].thumbnail);
                 int index = i;
                 _contents[i].pointerClickAction += () => OnClickContent(index);
@@ -115,6 +129,15 @@ public class UP_SelectChromaKeyBackground : UP_DecoratePageBase, IPageTimeLimit
         {
             StartTimer();
         }
+
+        if(_pageInitDone == true)
+        {
+            ChromaKeyModule.inst.UpdateOption(UserDataManager.inst.selectedContent);
+            InitContents();
+
+            FrameEnable();
+            UpdateFrame();
+        }
     }
 
     protected override void OnPageReset ()
@@ -167,11 +190,5 @@ public class UP_SelectChromaKeyBackground : UP_DecoratePageBase, IPageTimeLimit
         {
             StopCoroutine(_timerCoroutine);
         }
-    }
-
-    protected override void OnEnable ()
-    {
-        FrameEnable();
-        UpdateFrame();
     }
 }

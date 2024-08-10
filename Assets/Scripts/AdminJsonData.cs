@@ -331,18 +331,12 @@ namespace ChromakeyFrameData
     public class ChromakeyToneTableEntry
     {
         public string Key;
-        public string Color;
+        public int Sequence;
+        public string Category;
         public string Korean;
-        public string Chinese;
         public string English;
-        public string Sequence;
+        public string Chinese;
         public string Thumbnail;
-    }
-
-    [Serializable]
-    public class ChromakeyFrameTableEntry
-    {
-        public string Key;
         public string Image1;
         public string Image2;
         public string Image3;
@@ -351,12 +345,32 @@ namespace ChromakeyFrameData
         public string Image6;
         public string Image7;
         public string Image8;
-        public string Korean;
-        public string Chinese;
-        public string English;
+
+        public Sprite Thumbnail_data;
+        public List<Texture2D> Image_data = new List<Texture2D>();
+    }
+
+    [Serializable]
+    public class ChromakeyFrameTableEntry
+    {
+        public string Key;
+        public int Sequence;
         public string Category;
-        public string Sequence;
+        public string Korean;
+        public string English;
+        public string Chinese;
         public string Thumbnail;
+        public string Image1;
+        public string Image2;
+        public string Image3;
+        public string Image4;
+        public string Image5;
+        public string Image6;
+        public string Image7;
+        public string Image8;
+        
+        public Sprite Thumbnail_data;
+        public List< Texture2D> Image_data = new List<Texture2D>();
     }
 }
 

@@ -92,6 +92,7 @@ public class AdminManager : SingletonBehaviour<AdminManager>
     {
         string result = _configDefaultData.config_default_set.result.ChromakeyFrame.ToString();
         _chromakeyFrame = JsonConvert.DeserializeObject<ChromakeyFrameData.ChromakeyFrame>(result);
+        DownloadChromaKeyData();
     }
 
     private void SetShootScreenData ()
@@ -186,6 +187,43 @@ public class AdminManager : SingletonBehaviour<AdminManager>
                 ApiCall.Instance.GetSequently<Texture2D>
                     (item.Value.ShootGuideImage, (texture) => { item.Value.ShootGuideImage_data = texture; }, true);
             }
+        }
+    }
+
+    public void DownloadChromaKeyData()
+    {
+        foreach(var item in _chromakeyFrame.ChromakeyToneTable)
+        {
+            ApiCall.Instance.GetSequently<Texture2D>(item.Value.Thumbnail, (texture) =>
+            {
+                Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+                item.Value.Thumbnail_data = sprite;
+            }, true);
+            ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image1, (texture) => item.Value.Image_data.Add(texture), true);
+            ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image2, (texture) => item.Value.Image_data.Add(texture), true);
+            ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image3, (texture) => item.Value.Image_data.Add(texture), true);
+            ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image4, (texture) => item.Value.Image_data.Add(texture), true);
+            ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image5, (texture) => item.Value.Image_data.Add(texture), true);
+            ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image6, (texture) => item.Value.Image_data.Add(texture), true);
+            ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image7, (texture) => item.Value.Image_data.Add(texture), true);
+            ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image8, (texture) => item.Value.Image_data.Add(texture), true);
+        }
+
+        foreach(var item in _chromakeyFrame.ChromakeyFrameTable)
+        {
+            ApiCall.Instance.GetSequently<Texture2D>(item.Value.Thumbnail, (texture) =>
+            {
+                Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+                item.Value.Thumbnail_data = sprite;
+            }, true);
+            ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image1, (texture) => item.Value.Image_data.Add(texture), true);
+            ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image2, (texture) => item.Value.Image_data.Add(texture), true);
+            ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image3, (texture) => item.Value.Image_data.Add(texture), true);
+            ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image4, (texture) => item.Value.Image_data.Add(texture), true);
+            ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image5, (texture) => item.Value.Image_data.Add(texture), true);
+            ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image6, (texture) => item.Value.Image_data.Add(texture), true);
+            ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image7, (texture) => item.Value.Image_data.Add(texture), true);
+            ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image8, (texture) => item.Value.Image_data.Add(texture), true);
         }
     }
 

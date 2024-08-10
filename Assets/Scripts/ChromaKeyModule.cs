@@ -2,6 +2,7 @@ using Nexweron.FragFilter;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,7 +31,7 @@ public class ChromaKeyModule : SingletonBehaviour<ChromaKeyModule>
 
     [Header("Options")]
     [SerializeField]
-    private ChromaKeyOptions[] m_options;
+    private List<ChromaKeyOptions> m_options;
 
     [Header("Combine")]
     [SerializeField]
@@ -50,7 +51,7 @@ public class ChromaKeyModule : SingletonBehaviour<ChromaKeyModule>
     [SerializeField]
     private Texture m_combinedTex;
 
-    public ChromaKeyOptions[] options => m_options;
+    public List<ChromaKeyOptions> options => m_options;
     public RenderTexture resultRT => m_resultRT;
     public Texture bgTex => m_bg.texture;
 
@@ -199,17 +200,76 @@ public class ChromaKeyModule : SingletonBehaviour<ChromaKeyModule>
             elem.alphaEdge = ConfigData.config.chromaKey.alphaEdge;
         }
     }
+
+    public void UpdateOption (CONTENT_TYPE type)
+    {
+        int i = 0;
+        switch(type)
+        {
+            case CONTENT_TYPE.AI_CARTOON:
+                foreach (var elem in AdminManager.Instance.ChromakeyFrame.ChromakeyFrameTable)
+                {
+                    if(m_options.Count > i && m_options[i] != null)
+                    {
+                        m_options[i].key = elem.Value.Key;
+                        m_options[i].category = elem.Value.Category;
+                        m_options[i].name_kor = elem.Value.Korean;
+                        m_options[i].name_eng = elem.Value.English;
+                        m_options[i].name_chn = elem.Value.Chinese;
+                        m_options[i].thumbnail = elem.Value.Thumbnail_data;
+                        m_options[i].images = elem.Value.Image_data;
+                    }
+                    else
+                    {
+                        ChromaKeyOptions option = new ChromaKeyOptions();
+                        option.key = elem.Value.Key;
+
+                        m_options.Add(option);
+                    }
+                    i++;
+                }
+                //for(int i = 0; i < AdminManager.Instance.ChromakeyFrame.ChromakeyFrameTable.Count; i++)
+                //{
+                    
+                //}
+                break;
+            case CONTENT_TYPE.AI_BEAUTY:
+                //for(int i = 0; i < AdminManager.Instance.ChromakeyFrame.ChromakeyToneTable.Count; i++)
+                //{
+                //    if(m_options.Count > i && m_options[i] != null)
+                //    {
+                //        m_options[i].key = AdminManager.Instance.ChromakeyFrame.ChromakeyToneTable.Values.ToArray()[i].Key;
+                //        m_options[i].category = AdminManager.Instance.ChromakeyFrame.ChromakeyToneTable.Values.ToArray()[i].Category;
+                //        m_options[i].name_kor = AdminManager.Instance.ChromakeyFrame.ChromakeyToneTable.Values.ToArray()[i].Korean;
+                //        m_options[i].name_eng = AdminManager.Instance.ChromakeyFrame.ChromakeyToneTable.Values.ToArray()[i].English;
+                //        m_options[i].name_chn = AdminManager.Instance.ChromakeyFrame.ChromakeyToneTable.Values.ToArray()[i].Chinese;
+                //        m_options[i].thumbnail = AdminManager.Instance.ChromakeyFrame.ChromakeyToneTable.Values.ToArray()[i].Thumbnail_data;
+                //        m_options[i].images = AdminManager.Instance.ChromakeyFrame.ChromakeyToneTable.Values.ToArray()[i].Image_data;
+                //    }else
+                //    {
+                //        ChromaKeyOptions option = new ChromaKeyOptions();
+                //        option.key = AdminManager.Instance.ChromakeyFrame.ChromakeyToneTable.Values.ToArray()[i].Key;
+
+                //        m_options.Add(option);
+                //    }
+                //}
+                break;
+            default:
+
+                break;
+        }
+    }
 }
 
 [Serializable]
 public class ChromaKeyOptions
 {
     public string key;
-    public string kategory;
+    public string category;
     public string name_kor;
     public string name_eng;
     public string name_chn;
 
     public Sprite thumbnail;
-    public Texture2D[] images;
+    public List<Texture2D> images;
 }
