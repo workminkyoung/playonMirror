@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using RotaryHeart.Lib.SerializableDictionary;
-using BasicData;
-using System.IO;
 
 [System.Serializable]
 public class ConfigDefaultData
@@ -22,6 +20,7 @@ public class ConfigDefaultSet
 [Serializable]
 public class Result
 {
+    public object FrameData;
     public object BubbleData;
     public object FilterData;
     public object ServiceData;
@@ -404,8 +403,62 @@ namespace FrameData
         public string Key;
         public string Code;
         public string data;
+        public FrameDefinitionEntryDic FrameDefinitions;
+    }
+
+    [Serializable]
+    public class FrameDefinitionEntry
+    {
+        public string Service;
+        public string ColorCode;
+        public string Direction;
+        public string Thumbnaillink;
+        public string ThumbnailSliced;
+        public string Righname;
+        public string PicConvert1;
+        public string PicConvert2;
+        public string PicConvert3;
+        public string PicConvert4;
+        public string PicConvert5;
+        public string PicConvert6;
+        public string PicConvert7;
+        public string PicConvert8;
+        public string DateColor;
+        public string DateRect;
+        public string DatefontSize;
+        public string DateFont;
+        public string Default;
+        public int DefaultFont;
+        public string QRRect;
+        public string ShootRatio;
+        public string OriginCropRatio;
+        public string ShootingUrl;
+        public string sellingPrice1;
+        public string sellingPrice2;
+        public string sellingPrice3;
+        public int sellingPrice4;
+        public int sellingPrice5;
+        public int sellingPrice6;
+        public int sellingPrice7;
+        public int sellingPrice8;
+        public List<FrameRectTransform> picRects;
+        public FrameRectTransform dateRect;
+        public FrameRectTransform qrRect;
+    }
+
+    [Serializable]
+    public class FrameRectTransform
+    {
+        public Vector2 anchoredPosition;
+        public Vector2 sizeDelta;
+        public Vector2 anchorMin;
+        public Vector2 anchorMax;
+        public Vector2 pivot;
+        public Vector3 rotation;
     }
 
     [Serializable]
     public class FrameEntryDic : SerializableDictionaryBase<string, FrameEntry> { }
+    [Serializable]
+    public class FrameDefinitionEntryDic : SerializableDictionaryBase<Tuple<string, string>, FrameDefinitionEntry> { }
 }

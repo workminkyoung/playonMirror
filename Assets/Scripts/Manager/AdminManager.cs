@@ -1,7 +1,9 @@
+using FrameData;
 using Newtonsoft.Json;
 using System.Collections.Generic;
-using UnityEditor.UIElements;
+using System.Text.RegularExpressions;
 using UnityEngine;
+using System;
 
 public class AdminManager : SingletonBehaviour<AdminManager>
 {
@@ -19,6 +21,8 @@ public class AdminManager : SingletonBehaviour<AdminManager>
     private ChromakeyFrameData.ChromakeyFrame _chromakeyFrame;
     [SerializeField]
     private ShootingScreenData.ShootScreenDic _shootScreen;
+    [SerializeField]
+    private FrameData.FrameEntryDic _frameData;
 
     [SerializeField]
     private LANGUAGE_TYPE _language = LANGUAGE_TYPE.KOR;
@@ -31,6 +35,7 @@ public class AdminManager : SingletonBehaviour<AdminManager>
     public BasicData.BasicSetting BasicSetting => _basicSetting;
     public ChromakeyFrameData.ChromakeyFrame ChromakeyFrame => _chromakeyFrame;
     public ShootingScreenData.ShootScreenDic ShootScreen => _shootScreen;
+    public FrameData.FrameEntryDic FrameData => _frameData;
     public LANGUAGE_TYPE Language => _language;
 
     protected override void Init()
@@ -58,6 +63,7 @@ public class AdminManager : SingletonBehaviour<AdminManager>
         SetBasicData();
         SetChromakeyFrameData();
         SetShootScreenData();
+        SetFrameData();
     }
 
     private void SetBubbleData()
@@ -148,6 +154,85 @@ public class AdminManager : SingletonBehaviour<AdminManager>
             }
 
             _shootScreen.Add(shootScreen.Key, shootScreen);
+        }
+    }
+
+    private void SetFrameData()
+    {
+        string result = _configDefaultData.config_default_set.result.FrameData.ToString();
+        _frameData = JsonConvert.DeserializeObject<FrameData.FrameEntryDic>(result);
+        
+        foreach (var entry in _frameData)
+        {
+            if (!string.IsNullOrEmpty(entry.Value.data))
+            {
+                SplitFrameDefinition(entry.Value);
+                //entry.Value.FrameDefinitions = JsonConvert.DeserializeObject<FrameData.FrameDefinitionEntryDic>(entry.Value.data);
+            }
+        }
+        Debug.Log("e");
+    }
+
+    private void SplitFrameDefinition(FrameEntry entry)
+    {
+        //List<FrameDefinitionEntry> listEntry = new List<FrameDefinitionEntry>();
+        //FrameDefinitionEntryDic 
+        // 정규 표현식 패턴
+        string pattern = @"\{.*?\}";
+        entry.FrameDefinitions = new FrameDefinitionEntryDic();
+
+        // 정규 표현식으로 일치하는 부분을 찾습니다.
+        MatchCollection matches = Regex.Matches(entry.data, pattern);
+
+        // 찾은 모든 매치를 출력
+        foreach (Match match in matches)
+        {
+            FrameDefinitionEntry definition = JsonConvert.DeserializeObject<FrameDefinitionEntry>(match.Value);
+            definition.picRects = new List<FrameRectTransform>();
+            if (!string.IsNullOrEmpty(definition.PicConvert1))
+            {
+                definition.picRects.Add(ParseRectData(definition.PicConvert1));
+            }
+            if (!string.IsNullOrEmpty(definition.PicConvert2))
+            {
+                definition.picRects.Add(ParseRectData(definition.PicConvert2));
+            }
+            if (!string.IsNullOrEmpty(definition.PicConvert3))
+            {
+                definition.picRects.Add(ParseRectData(definition.PicConvert3));
+            }
+            if (!string.IsNullOrEmpty(definition.PicConvert4))
+            {
+                definition.picRects.Add(ParseRectData(definition.PicConvert4));
+            }
+            if (!string.IsNullOrEmpty(definition.PicConvert5))
+            {
+                definition.picRects.Add(ParseRectData(definition.PicConvert5));
+            }
+            if (!string.IsNullOrEmpty(definition.PicConvert6))
+            {
+                definition.picRects.Add(ParseRectData(definition.PicConvert6));
+            }
+            if (!string.IsNullOrEmpty(definition.PicConvert7))
+            {
+                definition.picRects.Add(ParseRectData(definition.PicConvert7));
+            }
+            if (!string.IsNullOrEmpty(definition.PicConvert8))
+            {
+                definition.picRects.Add(ParseRectData(definition.PicConvert8));
+            }
+
+
+            if (!string.IsNullOrEmpty(definition.DateRect))
+            {
+                definition.dateRect = ParseRectData(definition.DateRect);
+            }
+            if (!string.IsNullOrEmpty(definition.QRRect))
+            {
+                definition.qrRect = ParseRectData(definition.QRRect);
+            }
+
+            entry.FrameDefinitions[Tuple.Create(definition.Service, definition.ColorCode)] = definition;
         }
     }
 
@@ -302,5 +387,78 @@ public class AdminManager : SingletonBehaviour<AdminManager>
             ApiCall.Instance.GetSequently<Sprite>
                 (_basicSetting.Config.ServieErrorImage, (texture) => { _basicSetting.Config.ServieErrorImage_data = texture; }, true);
         }
+    }
+
+    public void DownloadFrameData()
+    {
+
+    }
+
+    FrameRectTransform ParseRectData(string data)
+    {
+        FrameRectTransform rectData = new FrameRectTransform();
+
+        // Extract Position
+        var posMatch = Regex.Match(data, @"Pos\.X:(?<x>[\-0-9]+)\tPos\.Y:(?<y>[\-0-9]+)");
+        if (posMatch.Success)
+        {
+            rectData.anchoredPosition = new Vector2(
+                float.Parse(posMatch.Groups["x"].Value),
+                float.Parse(posMatch.Groups["y"].Value)
+            );
+        }
+
+        // Extract Size (Width and Height)
+        var sizeMatch = Regex.Match(data, @"Width:(?<width>[\-0-9]+)\tHeight:(?<height>[\-0-9]+)");
+        if (sizeMatch.Success)
+        {
+            rectData.sizeDelta = new Vector2(
+                float.Parse(sizeMatch.Groups["width"].Value),
+                float.Parse(sizeMatch.Groups["height"].Value)
+            );
+        }
+
+        // Extract Anchor Min
+        var anchorMinMatch = Regex.Match(data, @"Min:\t\[X:(?<minX>[\-0-9\.]+)\tY:(?<minY>[\-0-9\.]+)\]");
+        if (anchorMinMatch.Success)
+        {
+            rectData.anchorMin = new Vector2(
+                float.Parse(anchorMinMatch.Groups["minX"].Value),
+                float.Parse(anchorMinMatch.Groups["minY"].Value)
+            );
+        }
+
+        // Extract Anchor Max
+        var anchorMaxMatch = Regex.Match(data, @"Max:\t\[X:(?<maxX>[\-0-9\.]+)\tY:(?<maxY>[\-0-9\.]+)\]");
+        if (anchorMaxMatch.Success)
+        {
+            rectData.anchorMax = new Vector2(
+                float.Parse(anchorMaxMatch.Groups["maxX"].Value),
+                float.Parse(anchorMaxMatch.Groups["maxY"].Value)
+            );
+        }
+
+        // Extract Pivot
+        var pivotMatch = Regex.Match(data, @"Pivot:\t\[X:(?<pivotX>[\-0-9\.]+)\tY:(?<pivotY>[\-0-9\.]+)\]");
+        if (pivotMatch.Success)
+        {
+            rectData.pivot = new Vector2(
+                float.Parse(pivotMatch.Groups["pivotX"].Value),
+                float.Parse(pivotMatch.Groups["pivotY"].Value)
+            );
+        }
+
+        // Extract Rotation
+        var rotationMatch = Regex.Match(data, @"Rotation:\t\[X:(?<rotX>[\-0-9\.]+)\tY:(?<rotY>[\-0-9\.]+)\tZ:(?<rotZ>[\-0-9\.]+)\]");
+        if (rotationMatch.Success)
+        {
+            rectData.rotation = new Vector3(
+                float.Parse(rotationMatch.Groups["rotX"].Value),
+                float.Parse(rotationMatch.Groups["rotY"].Value),
+                float.Parse(rotationMatch.Groups["rotZ"].Value)
+                );
+        }
+
+        return rectData;
     }
 }
