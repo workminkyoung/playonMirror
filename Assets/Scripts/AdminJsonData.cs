@@ -395,3 +395,17 @@ namespace ShootingScreenData
     [Serializable]
     public class ShootScreenDic : SerializableDictionaryBase<string, ShootScreenEntry> { }
 }
+
+namespace FrameData
+{
+    [Serializable]
+    public class FrameEntry
+    {
+        public string Key;
+        public string Code;
+        public string data;
+    }
+
+    [Serializable]
+    public class FrameEntryDic : SerializableDictionaryBase<string, FrameEntry> { }
+}
