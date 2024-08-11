@@ -373,18 +373,19 @@ namespace ChromakeyFrameData
 
 namespace ShootingScreenData
 {
-
     [Serializable]
     public class ShootScreenEntry
     {
         public string Key;
         public ShootScreenEntryDic url;
-        public ShootScreenEntryDic ratio;
-        public ShootScreenEntryDic korean;
-        public ShootScreenEntryDic chinese;
-        public ShootScreenEntryDic english;
+        public List<Sprite> url_datas;
+        public List<string> ratio;
+        public List<string> korean;
+        public List<string> chinese;
+        public List<string> english;
         public string ConversionTime;
         public string ConversionVideo;
+        public string ConversionVideo_path;
 
     }
 

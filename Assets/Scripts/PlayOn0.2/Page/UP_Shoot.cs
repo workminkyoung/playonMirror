@@ -317,7 +317,7 @@ public class UP_Shoot : UP_BasePage
             NextPage();
             ChromaKeyModule.inst.SetCamImg(null);
         }
-        else
+        else if (ConfigData.config.camType == 2)
         {
             DSLRManager.inst.ErrorOnCamera();
             CustomLogger.Log("Failed to Loaded All Photo list");

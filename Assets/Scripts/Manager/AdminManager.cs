@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using UnityEngine;
 using System;
 using static UnityEditor.Progress;
+using System.Security.Policy;
 
 public class AdminManager : SingletonBehaviour<AdminManager>
 {
@@ -114,10 +115,10 @@ public class AdminManager : SingletonBehaviour<AdminManager>
 
             ShootingScreenData.ShootScreenEntry shootScreen = new ShootingScreenData.ShootScreenEntry();
             shootScreen.url = new ShootingScreenData.ShootScreenEntryDic();
-            shootScreen.ratio = new ShootingScreenData.ShootScreenEntryDic();
-            shootScreen.korean = new ShootingScreenData.ShootScreenEntryDic();
-            shootScreen.chinese = new ShootingScreenData.ShootScreenEntryDic();
-            shootScreen.english = new ShootingScreenData.ShootScreenEntryDic();
+            shootScreen.ratio = new List<string>();
+            shootScreen.korean = new List<string>();
+            shootScreen.chinese = new List<string>();
+            shootScreen.english = new List<string>();
             foreach (var entry in shootScreenEntryDic)
             {
                 if (entry.Key.Contains("Key"))
@@ -130,19 +131,19 @@ public class AdminManager : SingletonBehaviour<AdminManager>
                 }
                 else if (entry.Key.Contains("ratio"))
                 {
-                    shootScreen.ratio.Add(entry.Key, entry.Value);
+                    shootScreen.ratio.Add(entry.Value);
                 }
                 else if (entry.Key.Contains("Korean"))
                 {
-                    shootScreen.korean.Add(entry.Key, entry.Value);
+                    shootScreen.korean.Add(entry.Value);
                 }
                 else if (entry.Key.Contains("Chinese"))
                 {
-                    shootScreen.chinese.Add(entry.Key, entry.Value);
+                    shootScreen.chinese.Add(entry.Value);
                 }
                 else if (entry.Key.Contains("English"))
                 {
-                    shootScreen.english.Add(entry.Key, entry.Value);
+                    shootScreen.english.Add(entry.Value);
                 }
                 else if (entry.Key.Contains("ConversionTime"))
                 {
@@ -156,6 +157,8 @@ public class AdminManager : SingletonBehaviour<AdminManager>
 
             _shootScreen.Add(shootScreen.Key, shootScreen);
         }
+
+        DownloadShootData();
     }
 
     private void SetFrameData()
@@ -412,6 +415,31 @@ public class AdminManager : SingletonBehaviour<AdminManager>
     public void DownloadFrameData()
     {
 
+    }
+
+    public void DownloadShootData()
+    {
+        foreach (var item in _shootScreen)
+        {
+            foreach (var urlItem in item.Value.url)
+            {
+                if (!string.IsNullOrEmpty(urlItem.Value))
+                {
+                    if(item.Value.url_datas == null)
+                    {
+                        item.Value.url_datas = new List<Sprite>();
+                    }
+                    ApiCall.Instance.GetSequently<Sprite>
+                        (urlItem.Value, (texture) => { item.Value.url_datas.Add(texture); }, true);
+                }
+            }
+
+            if (!string.IsNullOrEmpty(item.Value.ConversionVideo))
+            {
+                ApiCall.Instance.GetSequently<string>
+                    (item.Value.ConversionVideo, (path) => { item.Value.ConversionVideo_path = path; }, true);
+            }
+        }
     }
 
     FrameRectTransform ParseRectData(string data)

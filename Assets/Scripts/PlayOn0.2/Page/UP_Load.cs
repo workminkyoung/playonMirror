@@ -3,12 +3,21 @@ using System.Collections.Generic;
 using System.Threading;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using Vivestudios.UI;
 
 public class UP_Load : UP_BasePage
 {
     [SerializeField]
-    private TextMeshProUGUI _loadingText;
+    private TextMeshProUGUI _loadingTitle;
+    [SerializeField]
+    private TextMeshProUGUI _loadingSubtitle;
+    [SerializeField]
+    private RectTransform _loadingFill;
+    [SerializeField]
+    private RectTransform _loadingIconTarget;
+    [SerializeField]
+    private Image _loadingIcon;
     [SerializeField]
     private bool _isReady = false;
 
@@ -16,63 +25,22 @@ public class UP_Load : UP_BasePage
     private int _curStep = 0;
     private float _curInterval;
     private float _interval;
-    private string[] _loadingTexts;
+    private ShootingScreenData.ShootScreenEntry _shootEntry;
 
     public float time;
 
     public override void InitPage()
     {
+        _loadingTime = ConfigData.config.loadingTime;
     }
 
     public override void BindDelegates()
     {
     }
 
-    public override void EnablePage(bool isEnable)
+    private void CreateContent()
     {
-        _loadingTime = ConfigData.config.loadingTime;
-        _interval = _loadingTime / StringCacheManager.inst.loadingTexts.Length;
-        base.EnablePage(isEnable);
-        if (isEnable)
-        {
-            //(_pageController as PC_Main).selectedContent
-            //if (ConfigData.config.camType == (int)CAMERA_TYPE.DSLR)
-            //    DSLRManager.Instance.ReleaseCamera();
-
-            _isReady = false;
-            _loadingTexts = StringCacheManager.inst.loadingTexts;
-            switch (UserDataManager.inst.selectedContent)
-            {
-                case CONTENT_TYPE.AI_CARTOON:
-                    StartCoroutine(CheckReady());
-                    break;
-                case CONTENT_TYPE.AI_PROFILE:
-                    RequestAIProfile();
-                    break;
-                case CONTENT_TYPE.AI_TIME_MACHINE:
-                    _isReady = true;
-                    break;
-                case CONTENT_TYPE.AI_BEAUTY:
-                    _loadingTime = ConfigData.config.loadingTimeBeauty;
-                    _interval = (float)_loadingTime / StringCacheManager.inst.loadingTexts.Length;
-                    LoadBeautyPhotos();
-                    break;
-                case CONTENT_TYPE.WHAT_IF:
-                    _loadingTexts = StringCacheManager.inst.loadingTextsWhatIf;
-                    RequestWhatIf();
-                    break;
-                default:
-                    break;
-            }
-
-            _curStep = 0;
-            _curInterval = _interval;
-            _loadingText.text = _loadingTexts[_curStep];
-
-            DSLRManager.Instance.EndEVF();
-            DSLRManager.Instance.CloseSession();
-            StartCoroutine(Loading());
-        }
+        _shootEntry = AdminManager.inst.ShootScreen[UserDataManager.inst.selectedContentKey];
     }
 
     void RequestAIProfile()
@@ -193,28 +161,23 @@ public class UP_Load : UP_BasePage
                 break;
             t += Time.deltaTime;
             time = t;
+            _loadingIcon.rectTransform.anchoredPosition = _loadingIconTarget.anchoredPosition;
 
             if (t >= _curInterval)
             {
-                if (_curStep < _loadingTexts.Length - 1)
+                if (_curStep < _shootEntry.korean.Count - 1)
                 {
                     _curStep++;
                     if(_curInterval < _loadingTime)
                     {
                         _curInterval += _interval;
                     }
-                    _loadingText.text = _loadingTexts[_curStep];
+                    _loadingSubtitle.text = _shootEntry.korean[_curStep];
+                    _loadingIcon.sprite = _shootEntry.url_datas[_curStep];
                 }
             }
             yield return null;
         }
-
-        //if(UserDataManager.inst.selectedContent != CONTENT_TYPE.AI_BEAUTY)
-        //{
-        //    //beauty가 아니라면 get image 기다리기
-        //    yield return new WaitUntil(() => _isReady);
-        //}
-
 
         while (!_isReady)
         {
@@ -257,6 +220,38 @@ public class UP_Load : UP_BasePage
 
     public override void OnPageEnable()
     {
+        CreateContent();
+
+        _interval = _loadingTime / _shootEntry.url_datas.Count;
+        _isReady = false;
+        switch (UserDataManager.inst.selectedContent)
+        {
+            case CONTENT_TYPE.AI_CARTOON:
+                StartCoroutine(CheckReady());
+                break;
+            case CONTENT_TYPE.AI_PROFILE:
+                RequestAIProfile();
+                break;
+            case CONTENT_TYPE.AI_TIME_MACHINE:
+                _isReady = true;
+                break;
+            case CONTENT_TYPE.AI_BEAUTY:
+                _loadingTime = ConfigData.config.loadingTimeBeauty;
+                LoadBeautyPhotos();
+                break;
+            case CONTENT_TYPE.WHAT_IF:
+                RequestWhatIf();
+                break;
+            default:
+                break;
+        }
+
+        _curStep = 0;
+        _curInterval = _interval;
+
+        DSLRManager.Instance.EndEVF();
+        DSLRManager.Instance.CloseSession();
+        StartCoroutine(Loading());
     }
 
     public override void OnPageDisable()
