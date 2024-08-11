@@ -378,7 +378,8 @@ namespace ShootingScreenData
     {
         public string Key;
         public ShootScreenEntryDic url;
-        public List<Sprite> url_datas;
+        public URLDataDic url_datas;
+        public List<string> url_orderdKey;
         public List<string> ratio;
         public List<string> korean;
         public List<string> chinese;
@@ -389,6 +390,8 @@ namespace ShootingScreenData
 
     }
 
+    [Serializable]
+    public class URLDataDic : SerializableDictionaryBase<string, Sprite> { }
     [Serializable]
     public class ShootScreenEntryDic : SerializableDictionaryBase<string, string> { }
 

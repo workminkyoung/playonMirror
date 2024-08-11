@@ -6,6 +6,7 @@ using UnityEngine;
 using System;
 using static UnityEditor.Progress;
 using System.Security.Policy;
+using ShootingScreenData;
 
 public class AdminManager : SingletonBehaviour<AdminManager>
 {
@@ -128,6 +129,11 @@ public class AdminManager : SingletonBehaviour<AdminManager>
                 else if (entry.Key.Contains("url"))
                 {
                     shootScreen.url.Add(entry.Key, entry.Value);
+                    if(shootScreen.url_orderdKey == null)
+                    {
+                        shootScreen.url_orderdKey = new List<string>();
+                    }
+                    shootScreen.url_orderdKey.Add(entry.Key);
                 }
                 else if (entry.Key.Contains("ratio"))
                 {
@@ -427,10 +433,10 @@ public class AdminManager : SingletonBehaviour<AdminManager>
                 {
                     if(item.Value.url_datas == null)
                     {
-                        item.Value.url_datas = new List<Sprite>();
+                        item.Value.url_datas = new URLDataDic();
                     }
                     ApiCall.Instance.GetSequently<Sprite>
-                        (urlItem.Value, (texture) => { item.Value.url_datas.Add(texture); }, true);
+                        (urlItem.Value, (texture) => { item.Value.url_datas[urlItem.Key] = texture; }, true);
                 }
             }
 

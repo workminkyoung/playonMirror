@@ -26,12 +26,14 @@ public class UP_Load : UP_BasePage
     private float _curInterval;
     private float _interval;
     private ShootingScreenData.ShootScreenEntry _shootEntry;
+    private float _fillMax;
 
     public float time;
 
     public override void InitPage()
     {
         _loadingTime = ConfigData.config.loadingTime;
+        _fillMax = _loadingFill.sizeDelta.x;
     }
 
     public override void BindDelegates()
@@ -155,13 +157,22 @@ public class UP_Load : UP_BasePage
     IEnumerator Loading()
     {
         float t = 0;
+        float point = 0;
+        float fill = 0;
+        _loadingIcon.sprite = _shootEntry.url_datas[_shootEntry.url_orderdKey[_curStep]];
         while (t < _loadingTime)
         {
             if (UserDataManager.inst.selectedContent != CONTENT_TYPE.AI_BEAUTY && _isReady)
                 break;
             t += Time.deltaTime;
             time = t;
-            _loadingIcon.rectTransform.anchoredPosition = _loadingIconTarget.anchoredPosition;
+
+            fill = UtilityExtensions.Remap(t, 0, _loadingTime, 0, _fillMax);
+            point = UtilityExtensions.Remap(t, 0, _loadingTime, _loadingFill.anchoredPosition.x, _loadingFill.anchoredPosition.x + _fillMax);
+            if (!float.IsNaN(point))
+                _loadingIcon.rectTransform.anchoredPosition = new Vector2(point, _loadingIcon.rectTransform.anchoredPosition.y);
+            if(!float.IsNaN(fill))
+                _loadingFill.sizeDelta = new Vector2(fill, _loadingFill.sizeDelta.y);
 
             if (t >= _curInterval)
             {
@@ -173,7 +184,7 @@ public class UP_Load : UP_BasePage
                         _curInterval += _interval;
                     }
                     _loadingSubtitle.text = _shootEntry.korean[_curStep];
-                    _loadingIcon.sprite = _shootEntry.url_datas[_curStep];
+                    _loadingIcon.sprite = _shootEntry.url_datas[_shootEntry.url_orderdKey[_curStep]];
                 }
             }
             yield return null;
@@ -222,6 +233,7 @@ public class UP_Load : UP_BasePage
     {
         CreateContent();
 
+        _loadingFill.sizeDelta = new Vector2(0, _loadingFill.sizeDelta.y);
         _interval = _loadingTime / _shootEntry.url_datas.Count;
         _isReady = false;
         switch (UserDataManager.inst.selectedContent)

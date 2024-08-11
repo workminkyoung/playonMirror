@@ -294,34 +294,42 @@ public class UP_Shoot : UP_BasePage
     {
         yield return new WaitForSeconds(3);
 
-        int checkCount = 0;
-        int photoCount = 0;
-        while(checkCount < _checkCountMax)
+        if(ConfigData.config.camType == 2)
         {
-            photoCount = DSLRManager.inst.LoadPhotoCounts();
-            if(photoCount == _photoCountMax)
+            int checkCount = 0;
+            int photoCount = 0;
+            while (checkCount < _checkCountMax)
             {
-                CustomLogger.Log("Loaded All Photo list, Page will be change");
-                break;
+                photoCount = DSLRManager.inst.LoadPhotoCounts();
+                if (photoCount == _photoCountMax)
+                {
+                    CustomLogger.Log("Loaded All Photo list, Page will be change");
+                    break;
+                }
+                else
+                {
+                    CustomLogger.Log("Not Loaded All Photo list, Check Count : " + checkCount + ", File Loaded : " + photoCount);
+                    checkCount++;
+                }
+                yield return null;
+            }
+            if (photoCount == _photoCountMax)
+            {
+                NextPage();
+                ChromaKeyModule.inst.SetCamImg(null);
             }
             else
             {
-                CustomLogger.Log("Not Loaded All Photo list, Check Count : " + checkCount + ", File Loaded : " + photoCount);
-                checkCount++;
+                DSLRManager.inst.ErrorOnCamera();
+                CustomLogger.Log("Failed to Loaded All Photo list");
             }
-            yield return null;
         }
-
-        if(photoCount == _photoCountMax)
+        else
         {
             NextPage();
             ChromaKeyModule.inst.SetCamImg(null);
         }
-        else if (ConfigData.config.camType == 2)
-        {
-            DSLRManager.inst.ErrorOnCamera();
-            CustomLogger.Log("Failed to Loaded All Photo list");
-        }
+
     }
 
     protected Texture2D CropTexture (Texture2D sourceTexture, Rect cropRect, bool flip)
