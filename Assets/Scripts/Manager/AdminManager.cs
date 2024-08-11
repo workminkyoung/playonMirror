@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using System;
+using static UnityEditor.Progress;
 
 public class AdminManager : SingletonBehaviour<AdminManager>
 {
@@ -167,7 +168,7 @@ public class AdminManager : SingletonBehaviour<AdminManager>
             if (!string.IsNullOrEmpty(entry.Value.data))
             {
                 SplitFrameDefinition(entry.Value);
-                //entry.Value.FrameDefinitions = JsonConvert.DeserializeObject<FrameData.FrameDefinitionEntryDic>(entry.Value.data);
+
             }
         }
         Debug.Log("e");
@@ -189,6 +190,7 @@ public class AdminManager : SingletonBehaviour<AdminManager>
         {
             FrameDefinitionEntry definition = JsonConvert.DeserializeObject<FrameDefinitionEntry>(match.Value);
             definition.picRects = new List<FrameRectTransform>();
+
             if (!string.IsNullOrEmpty(definition.PicConvert1))
             {
                 definition.picRects.Add(ParseRectData(definition.PicConvert1));
@@ -233,6 +235,24 @@ public class AdminManager : SingletonBehaviour<AdminManager>
             }
 
             entry.FrameDefinitions[Tuple.Create(definition.Service, definition.ColorCode)] = definition;
+
+            //Find Thumbnail tlqkf
+            if (entry.ThumbnailUnselect == null)
+            {
+                if (!string.IsNullOrEmpty(definition.Thumbnaillink))
+                {
+                    ApiCall.Instance.GetSequently<Sprite>
+                        (definition.Thumbnaillink, (texture) => { entry.ThumbnailUnselect = texture; }, true);
+                }
+            }
+            if (entry.ThumbnailSelect == null)
+            {
+                if (!string.IsNullOrEmpty(definition.ThumbnailSliced))
+                {
+                    ApiCall.Instance.GetSequently<Sprite>
+                        (definition.ThumbnailSliced, (texture) => { entry.ThumbnailSelect = texture; }, true);
+                }
+            }
         }
     }
 

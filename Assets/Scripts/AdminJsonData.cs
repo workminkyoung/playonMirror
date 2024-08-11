@@ -403,6 +403,8 @@ namespace FrameData
         public string Key;
         public string Code;
         public string data;
+        public Sprite ThumbnailUnselect;
+        public Sprite ThumbnailSelect;
         public FrameDefinitionEntryDic FrameDefinitions;
     }
 
