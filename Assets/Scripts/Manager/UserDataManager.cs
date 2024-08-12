@@ -11,8 +11,10 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
     private CONTENT_TYPE _selectedContent = CONTENT_TYPE.AI_CARTOON;
     [SerializeField]
     private FRAME_TYPE _selectedFrame = FRAME_TYPE.FRAME_1;
+    //[SerializeField]
+    //private LUT_EFFECT_TYPE _selectedLut = LUT_EFFECT_TYPE.LUT_DEFAULT;
     [SerializeField]
-    private LUT_EFFECT_TYPE _selectedLut = LUT_EFFECT_TYPE.LUT_DEFAULT;
+    private string _selectedLutKey = string.Empty;
     [SerializeField]
     private FRAME_COLOR_TYPE _selectedFrameColor = FRAME_COLOR_TYPE.FRAME_WHITE;
     [SerializeField]
@@ -42,7 +44,7 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
     public CONTENT_TYPE selectedContent => _selectedContent;
     public FRAME_TYPE selectedFrame => _selectedFrame;
     public FRAME_RATIO_TYPE frameRatioType => _frameRatioType;
-    public LUT_EFFECT_TYPE selectedLut => _selectedLut;
+    //public LUT_EFFECT_TYPE selectedLut => _selectedLut;
     public FRAME_COLOR_TYPE selectedFrameColor => _selectedFrameColor;
     //public PROFILE_TYPE selectedProfileType => _selectedProfileType;
     public GENDER_TYPE selectedGender => _selectedGender;
@@ -56,6 +58,7 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
     public int selectedProfilePicNum => _selectedProfilePicNum;
     public int curPicAmount => _curPicAmount;
     public int curPrice => _curPrice;
+    public string selectedLutKey => _selectedLutKey;
 
     protected override void Init()
     {
@@ -64,7 +67,7 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
 
     public void ResetUserData()
     {
-        _selectedLut = LUT_EFFECT_TYPE.LUT_DEFAULT;
+        //_selectedLut = LUT_EFFECT_TYPE.LUT_DEFAULT;
         _selectedFrameColor = FRAME_COLOR_TYPE.FRAME_WHITE;
         _frameRatioType = FRAME_RATIO_TYPE.HORIZONTAL;
         _curPicAmount = Mathf.Min( ConfigData.config.firstPrintAmount, PhotoPaperCheckModule.GetRemainPhotoPaper());
@@ -97,9 +100,9 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
         _frameRatioType = type;
     }
 
-    public void SetLutEffect(int index)
+    public void SetLutEffect(string lut)
     {
-        _selectedLut = (LUT_EFFECT_TYPE)index;
+        _selectedLutKey = lut;
     }
 
     public void SetSelectedFrameColor(FRAME_COLOR_TYPE type)

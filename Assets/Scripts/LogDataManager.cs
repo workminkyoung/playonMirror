@@ -87,21 +87,7 @@ public class LogDataManager : SingletonBehaviour<LogDataManager>
                 break;
         }
 
-        switch (UserDataManager.inst.selectedLut)
-        {
-            case LUT_EFFECT_TYPE.LUT_DEFAULT:
-                logFormat.color_filter = "COF_DEFAULT";
-                break;
-            case LUT_EFFECT_TYPE.LUT_BRIGHT:
-                logFormat.color_filter = "COF_BRIGHT";
-                break;
-            case LUT_EFFECT_TYPE.LUT_COOL:
-                logFormat.color_filter = "COF_COOL";
-                break;
-            case LUT_EFFECT_TYPE.LUT_GRAYSCALE:
-                logFormat.color_filter = "COF_GRAYSACLE";
-                break;
-        }
+        logFormat.color_filter = UserDataManager.inst.selectedLutKey;
 
         switch (UserDataManager.inst.selectedFrameColor)
         {

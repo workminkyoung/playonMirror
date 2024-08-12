@@ -35,12 +35,16 @@ public class StringCacheManager : SingletonBehaviour<StringCacheManager>
     private FilterStringDicBase _filterDescriptions;
     private string _dividerLine = "-----------------------------------------";
     private string _pointLine = "##### ";
+    private string _sortingSpecified = "specified";
+    private string _sortingRandomly = "random";
 
     public string[] loadingTexts => _loadingTexts;
     public string[] loadingTextsWhatIf => _loadingTextsWhatIf;
     public List<string> ProfileWhatIfName => _profileWhatIfName;
     public string DividerLine => _dividerLine;
     public string PointLine => _pointLine;
+    public string SortingSpecified => _sortingSpecified;
+    public string SortingRandomly => _sortingRandomly;
 
     public string GetContentKey(CONTENT_TYPE type)
     {
