@@ -169,9 +169,10 @@ public class UP_Load : UP_BasePage
 
             fill = UtilityExtensions.Remap(t, 0, _loadingTime, 0, _fillMax);
             point = UtilityExtensions.Remap(t, 0, _loadingTime, _loadingFill.anchoredPosition.x, _loadingFill.anchoredPosition.x + _fillMax);
-            if (!float.IsNaN(point))
+
+            if (!float.IsNaN(point) && !float.IsInfinity(point))
                 _loadingIcon.rectTransform.anchoredPosition = new Vector2(point, _loadingIcon.rectTransform.anchoredPosition.y);
-            if(!float.IsNaN(fill))
+            if (!float.IsNaN(fill) && !float.IsInfinity(fill) && fill > 1)
                 _loadingFill.sizeDelta = new Vector2(fill, _loadingFill.sizeDelta.y);
 
             if (t >= _curInterval)
