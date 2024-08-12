@@ -42,6 +42,7 @@ public class UP_SelectFrame : UP_BaseSelectContent, IPageTimeLimit
     private int _maxPrintAmount;
     private int[] _originalPrices;
     private int[] _discountPrices;
+    private ShootingScreenData.ShootScreenEntry _shootScreenEntry;
 
     private readonly Color BTN_BACK_DISABLE_COLOR = new Color(0.88f, 0.88f, 0.88f);
     private readonly Color BTN_BACK_ENABLE_COLOR = new Color(0.74f, 0.74f, 0.74f);
@@ -353,6 +354,18 @@ public class UP_SelectFrame : UP_BaseSelectContent, IPageTimeLimit
             {
                 OnTouchContent(i);
             }
+        }
+    }
+
+    public void CreateContent()
+    {
+        if (AdminManager.Instance.ShootScreen.ContainsKey(UserDataManager.Instance.selectedContentKey))
+        {
+            _shootScreenEntry = AdminManager.Instance.ShootScreen[UserDataManager.Instance.selectedContentKey];
+        }
+        else
+        {
+            CustomLogger.LogError("Empty ShootingScreen Data");
         }
     }
 

@@ -11,8 +11,10 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
     private CONTENT_TYPE _selectedContent = CONTENT_TYPE.AI_CARTOON;
     [SerializeField]
     private FRAME_TYPE _selectedFrame = FRAME_TYPE.FRAME_1;
+    //[SerializeField]
+    //private LUT_EFFECT_TYPE _selectedLut = LUT_EFFECT_TYPE.LUT_DEFAULT;
     [SerializeField]
-    private LUT_EFFECT_TYPE _selectedLut = LUT_EFFECT_TYPE.LUT_DEFAULT;
+    private string _selectedLutKey = string.Empty;
     [SerializeField]
     private FRAME_COLOR_TYPE _selectedFrameColor = FRAME_COLOR_TYPE.FRAME_WHITE;
     [SerializeField]
@@ -26,9 +28,11 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
     private int _selectedChromaKeyNum = 0;
 
     [SerializeField]
-    private int _selectedSubContentNum = 0;
+    private string _selectedContentKey;//CA, PR, BT...
     [SerializeField]
-    private PROFILE_TYPE _selectedProfileType = PROFILE_TYPE.PR00001;
+    private string _selectedSubContentKey;//CA00001...
+    //[SerializeField]
+    //private PROFILE_TYPE _selectedProfileType = PROFILE_TYPE.PR00001;
     [SerializeField]
     private int _selectedProfilePicNum = 0;
 
@@ -37,52 +41,33 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
     [SerializeField]
     private int _curPrice;
 
-    private Dictionary<Enum, string> _selectedContentCodeDict = new Dictionary<Enum, string>();
-    [SerializeField]
-    private string _selectedContentCode;
-
     public CONTENT_TYPE selectedContent => _selectedContent;
     public FRAME_TYPE selectedFrame => _selectedFrame;
     public FRAME_RATIO_TYPE frameRatioType => _frameRatioType;
-    public LUT_EFFECT_TYPE selectedLut => _selectedLut;
+    //public LUT_EFFECT_TYPE selectedLut => _selectedLut;
     public FRAME_COLOR_TYPE selectedFrameColor => _selectedFrameColor;
-    public PROFILE_TYPE selectedProfileType => _selectedProfileType;
+    //public PROFILE_TYPE selectedProfileType => _selectedProfileType;
     public GENDER_TYPE selectedGender => _selectedGender;
 
     public bool isChromaKeyOn => _isChromaKeyOn;
     public int selectedChromaKeyNum => _selectedChromaKeyNum;
 
-    public int selectedSubContentNum => _selectedSubContentNum;
+    //public int selectedSubContentNum => _selectedSubContentNum;
+    public string selectedSubContentKey => _selectedSubContentKey;
+    public string selectedContentKey => _selectedContentKey;
     public int selectedProfilePicNum => _selectedProfilePicNum;
     public int curPicAmount => _curPicAmount;
     public int curPrice => _curPrice;
-
-    public string selectedContentCode => _selectedContentCode;
-
-    private void SetAllContentCode()
-    {
-        //cartoon
-        for (int i = (int)CARTOON_TYPE.CA00001; i < (int)CARTOON_TYPE.END; i++)
-        {
-            _selectedContentCodeDict.Add((CARTOON_TYPE)i, "CA" + string.Format("{0:D5}", i+1));
-        }
-
-        //profile
-        for (int i = (int)PROFILE_TYPE.PR00001; i < (int)PROFILE_TYPE.END; i++)
-        {
-            _selectedContentCodeDict.Add((PROFILE_TYPE)i, "PR" + string.Format("{0:D5}", i+1));
-        }
-    }
+    public string selectedLutKey => _selectedLutKey;
 
     protected override void Init()
     {
         GameManager.OnGameResetAction += ResetUserData;
-        SetAllContentCode();
     }
 
     public void ResetUserData()
     {
-        _selectedLut = LUT_EFFECT_TYPE.LUT_DEFAULT;
+        //_selectedLut = LUT_EFFECT_TYPE.LUT_DEFAULT;
         _selectedFrameColor = FRAME_COLOR_TYPE.FRAME_WHITE;
         _frameRatioType = FRAME_RATIO_TYPE.HORIZONTAL;
         _curPicAmount = Mathf.Min( ConfigData.config.firstPrintAmount, PhotoPaperCheckModule.GetRemainPhotoPaper());
@@ -110,19 +95,14 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
         _selectedFrame = type;
     }
 
-    public void SelectContentCode(Enum contentType)
-    {
-        _selectedContentCode = _selectedContentCodeDict[contentType];
-    }
-
     public void SetFrameRatioType(FRAME_RATIO_TYPE type)
     {
         _frameRatioType = type;
     }
 
-    public void SetLutEffect(int index)
+    public void SetLutEffect(string lut)
     {
-        _selectedLut = (LUT_EFFECT_TYPE)index;
+        _selectedLutKey = lut;
     }
 
     public void SetSelectedFrameColor(FRAME_COLOR_TYPE type)
@@ -130,15 +110,20 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
         _selectedFrameColor = type;
     }
 
-    public void SelectSubContent(int subContent)
+    public void SelectSubContent(string subContentKey)
     {
-        _selectedSubContentNum = subContent;
+        _selectedSubContentKey = subContentKey;
     }
 
-    public void SelectProfile(PROFILE_TYPE type)
+    public void SelectContent(string contentKey)
     {
-        _selectedProfileType = type;
+        _selectedContentKey = contentKey;
     }
+
+    //public void SelectProfile(PROFILE_TYPE type)
+    //{
+    //    _selectedProfileType = type;
+    //}
 
     public void SelectProfilePic(int picNum)
     {

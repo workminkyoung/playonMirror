@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7136257267931397050
 RectTransform:
   m_ObjectHideFlags: 0
@@ -686,6 +686,7 @@ MonoBehaviour:
   _pageType: 0
   _privacyPolicyBtn: {fileID: 4455606914588299534}
   _termsOfUseBtn: {fileID: 1909762464528937287}
+  _bgImage: {fileID: 9001686379058703526}
 --- !u!1 &5066191389235936446
 GameObject:
   m_ObjectHideFlags: 0

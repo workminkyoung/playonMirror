@@ -87,7 +87,7 @@ public class UP_SelectChromaKeyBackground : UP_DecoratePageBase, IPageTimeLimit
     private void UpdateTempFrame ()
     {
         _frameAreaDic[UserDataManager.inst.selectedFrame].SetPics(ChromaKeyModule.inst.options[UserDataManager.inst.selectedChromaKeyNum].images.ToList().GetRange(0, _frameAreaDic[UserDataManager.inst.selectedFrame].GetPicCount()));
-        _frameAreaDic[UserDataManager.inst.selectedFrame].SetLutEffect(null);
+        _frameAreaDic[UserDataManager.inst.selectedFrame].SetLutEffect(string.Empty);
         _frameAreaDic[UserDataManager.inst.selectedFrame].UpdateFrame();
     }
 

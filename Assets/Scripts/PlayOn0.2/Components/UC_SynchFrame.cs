@@ -92,7 +92,7 @@ public class UC_SynchFrame : MonoBehaviour //SingletonBehaviour<UC_SynchFrame>
             elem.SetPics(new List<Texture2D>());
             elem.SetRenderTexture(new List<RenderTexture>());
             elem.SetFrameColor(FRAME_COLOR_TYPE.FRAME_WHITE);
-            elem.SetLutEffect(null);
+            elem.SetLutEffect(string.Empty);
             elem.SetFilterOn(false);
             //elem.UpdateFrame();
         }
@@ -101,7 +101,7 @@ public class UC_SynchFrame : MonoBehaviour //SingletonBehaviour<UC_SynchFrame>
             elem.SetPics(new List<Texture2D>());
             elem.SetRenderTexture(new List<RenderTexture>());
             elem.SetFrameColor(FRAME_COLOR_TYPE.FRAME_WHITE);
-            elem.SetLutEffect(null);
+            elem.SetLutEffect(string.Empty);
             elem.SetFilterOn(false);
             //elem.UpdateFrame();
         }
@@ -169,7 +169,7 @@ public class UC_SynchFrame : MonoBehaviour //SingletonBehaviour<UC_SynchFrame>
         _frameAreaDic[UserDataManager.inst.selectedFrame].SetRatioType(UserDataManager.inst.frameRatioType);
         _frameAreaDic[UserDataManager.inst.selectedFrame].SetFrameColor(UserDataManager.inst.selectedFrameColor);
         _frameAreaDic[UserDataManager.inst.selectedFrame].SetPics(texs, types);
-        _frameAreaDic[UserDataManager.inst.selectedFrame].SetLutEffect(UserDataManager.inst.selectedLut);
+        _frameAreaDic[UserDataManager.inst.selectedFrame].SetLutEffect(UserDataManager.inst.selectedLutKey);
         _frameAreaDic[UserDataManager.inst.selectedFrame].UpdateFrame();
 
         _frameAreaDic_video[UserDataManager.inst.selectedFrame].SetSkinFilterOn(_mainController.isSkinFilterOn);

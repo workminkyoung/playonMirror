@@ -238,21 +238,21 @@ public class UP_Payment : UP_BasePage
         _timeMachineImg.gameObject.SetActive(UserDataManager.inst.selectedContent == CONTENT_TYPE.AI_BEAUTY);
         _content.gameObject.SetActive(UserDataManager.inst.selectedContent != CONTENT_TYPE.AI_BEAUTY);
 
+
         switch (UserDataManager.inst.selectedContent)
         {
             case CONTENT_TYPE.AI_CARTOON:
-                _selectedContentText.text = StringCacheManager.inst.GetContentTitle(CONTENT_TYPE.AI_CARTOON);
-                _content.SetThumbnail(ResourceCacheManager.inst.GetCartoonThumbnailSprite((CARTOON_TYPE)UserDataManager.inst.selectedSubContentNum));
-                _content.SetTitle(StringCacheManager.inst.GetCartoonTitle((CARTOON_TYPE)UserDataManager.inst.selectedSubContentNum));
-                _content.SetDescription(StringCacheManager.inst.GetCartoonDescription((CARTOON_TYPE)UserDataManager.inst.selectedSubContentNum));
+                _selectedContentText.text = AdminManager.Instance.ServiceData.Contents[UserDataManager.Instance.selectedContentKey].Korean_Title;
+                _content.SetThumbnail(AdminManager.Instance.ServiceData.ContentsDetail[UserDataManager.Instance.selectedSubContentKey].Thumbnail_data);
+                _content.SetTitle(AdminManager.Instance.ServiceData.ContentsDetail[UserDataManager.Instance.selectedSubContentKey].Korean_Title);
+                _content.SetDescription(AdminManager.Instance.ServiceData.ContentsDetail[UserDataManager.Instance.selectedSubContentKey].Korean_SubText);
                 _content.SetGenderActive(false);
                 break;
             case CONTENT_TYPE.AI_PROFILE:
-
-                _selectedContentText.text = StringCacheManager.inst.GetProfileTitle(UserDataManager.inst.selectedProfileType);
-                _content.SetThumbnail(ResourceCacheManager.inst.GetProfileThumbnailSprite(UserDataManager.inst.selectedProfileType));
-                _content.SetTitle(StringCacheManager.inst.GetProfileTitle(UserDataManager.inst.selectedProfileType));
-                _content.SetDescription(StringCacheManager.inst.GetProfileDescription(UserDataManager.inst.selectedProfileType));
+                _selectedContentText.text = AdminManager.Instance.ServiceData.Contents[UserDataManager.Instance.selectedContentKey].Korean_Title;
+                _content.SetThumbnail(AdminManager.Instance.ServiceData.ContentsDetail[UserDataManager.Instance.selectedSubContentKey].Thumbnail_data);
+                _content.SetTitle(AdminManager.Instance.ServiceData.ContentsDetail[UserDataManager.Instance.selectedSubContentKey].Korean_Title);
+                _content.SetDescription(AdminManager.Instance.ServiceData.ContentsDetail[UserDataManager.Instance.selectedSubContentKey].Korean_SubText);
                 _content.SetGenderActive(false);
                 break;
             case CONTENT_TYPE.AI_BEAUTY:
@@ -260,13 +260,12 @@ public class UP_Payment : UP_BasePage
                 _content.SetGenderActive(false);
                 break;
             case CONTENT_TYPE.WHAT_IF:
-
-                _selectedContentText.text = StringCacheManager.inst.GetContentTitle(CONTENT_TYPE.WHAT_IF);
-                _content.SetThumbnail(ResourceCacheManager.inst.GetProfileThumbnailSprite(UserDataManager.inst.selectedProfileType), true);
-                _content.SetTitle(StringCacheManager.inst.GetProfileTitle(UserDataManager.inst.selectedProfileType));
-                _content.SetDescription(StringCacheManager.inst.GetProfileDescription(UserDataManager.inst.selectedProfileType));
-                _content.SetGenderActive(true);
-                _content.SetGender(UserDataManager.inst.selectedGender);
+                _selectedContentText.text = AdminManager.Instance.ServiceData.Contents[UserDataManager.Instance.selectedContentKey].Korean_Title;
+                _content.SetThumbnail(AdminManager.Instance.ServiceData.ContentsDetail[UserDataManager.Instance.selectedSubContentKey].Thumbnail_data, true);
+                _content.SetTitle("");
+                _content.SetDescription("");
+                _content.SetGenderActive(false);
+                //_content.SetGender(UserDataManager.inst.selectedGender);
                 break;
             default:
                 _selectedContentText.text = StringCacheManager.inst.GetContentTitle(CONTENT_TYPE.AI_CARTOON);

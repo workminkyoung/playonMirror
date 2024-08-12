@@ -13,6 +13,7 @@ namespace Vivestudios.UI
         [SerializeField]
         protected PAGE_TYPE _pageType;
         public PAGE_TYPE pageType { get { return _pageType; } }
+        protected bool _isContentCreated = false;
 
         public virtual void AwakePage()
         {
@@ -30,11 +31,17 @@ namespace Vivestudios.UI
 
             BindDelegates();
             GameManager.OnGameResetAction += OnPageReset;
+            GameManager.OnGoogleDownloadEnd += ApplyAdminData;
         }
         protected void SetPageType(PAGE_TYPE type)
         {
             _pageType = type;
             _pageController.AddPage(this);
+        }
+        
+        public virtual void ApplyAdminData()
+        {
+
         }
 
         public abstract void InitPage();

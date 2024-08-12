@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using System;
 using System.IO;
+using System.CodeDom;
 
 public partial class ApiCall : SingletonBehaviour<ApiCall>
 {
@@ -15,6 +16,7 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
     private const int _requestMaxNum = 3;
     private const string _googleDownUrl = "https://drive.google.com/uc?export=download&id=";
     private string _downloadPath;
+    private List<bool> _requestCompleted = new List<bool>();
 
     protected override void Init ()
     {
@@ -119,11 +121,18 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
         www.Dispose();
     }
 
-    public IEnumerator GetRequestGoogleLink<T> (string url, Action<T> response = null, bool isReRequest = false, bool isSequential = false)
+    public IEnumerator GetRequestGoogleLink<T>(string url, Action<T> response = null, bool isReRequest = false, bool isSequential = false, int? reRequestedIndex = null)
     {
         if(!isReRequest)
         {
             _requestNum = 0;
+            _requestCompleted.Add(false);
+        }
+
+        int requestIndex = _requestCompleted.Count - 1;
+        if(reRequestedIndex != null)
+        {
+            requestIndex = (int)reRequestedIndex;
         }
 
         string key = ExtractGoogleDownKey(url);
@@ -150,6 +159,10 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
                 {
                     _getCoroutine = StartCoroutine(GetRequestGoogleLink(url, response, true));
                 }
+                else
+                {
+                    StartCoroutine(GetRequestGoogleLink(url, response, true, true, requestIndex));
+                }
                 yield break;
             }
             else
@@ -167,16 +180,32 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
             {
                 if(contentType.StartsWith("image/"))
                 {
+
                     byte[] data = www.downloadHandler.data;
                     Texture2D texture = new Texture2D(0, 0, TextureFormat.ARGB32, false);
                     texture.LoadImage(data);
-                    result = texture;
+
+                    if (typeof(T) == typeof(Sprite))
+                    {
+                        Rect rect = new Rect(0, 0, texture.width, texture.height);
+                        Vector2 pivot = new Vector2(0.5f, 0.5f);
+                        Sprite sprite = Sprite.Create(texture, rect, pivot);
+
+                        result = sprite;
+                    }
+                    else
+                    {
+                        result = texture;
+                    }
                 }
                 else if(contentType.StartsWith("video/"))
                 {
                     _downloadPath = Path.Combine(Application.streamingAssetsPath, $"Video/{key}.mp4");
-                    byte[] data = www.downloadHandler.data;
-                    File.WriteAllBytes(_downloadPath, data);
+                    if(!File.Exists(_downloadPath))
+                    {
+                        byte[] data = www.downloadHandler.data;
+                        File.WriteAllBytes(_downloadPath, data);
+                    }
                     result = _downloadPath;
                 }
                 else if(contentType.Contains("application/octet-stream")) // SVG 인 경우 혹은 data인 경우
@@ -193,6 +222,14 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
             response?.Invoke((T)result);
         }
         www.Dispose();
+
+        _requestCompleted[requestIndex] = true;
+
+        if(_requestCompleted.TrueForAll(x => x))
+        {
+            CustomLogger.Log("All Google Download completed");
+            GameManager.Instance.globalPage.CloseDownloadLoading();
+        }
     }
 
     public void Post (string url, string json, Action<string> response = null)

@@ -4,11 +4,12 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Vivestudios.UI;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class UP_DecoSelectEffects : UP_DecoratePageBase
 {
     [SerializeField]
-    private UC_SelectableContent[] _contents;
+    private List<UC_SelectableContent> _contents;
     [SerializeField]
     private RectTransform _skinTransform;
 
@@ -27,13 +28,20 @@ public class UP_DecoSelectEffects : UP_DecoratePageBase
     [SerializeField]
     private GameObject stickerContainer;
 
+    // Filter Data
+    [SerializeField]
+    private Transform _filterContainer;
+    [SerializeField]
+    private GameObject _filterPrefab;
+
+    private bool _isSkinUsed = false;
+    private bool _isSorting = false;
+
     protected const int DISABLE_STROKE_SIZE = 2;
 
     public override void InitPage()
     {
         base.InitPage();
-
-        _contents = GetComponentsInChildren<UC_SelectableContent>(true);
     }
 
     public override void BindDelegates()
@@ -43,11 +51,11 @@ public class UP_DecoSelectEffects : UP_DecoratePageBase
         _prevBtn.onClick.AddListener(OnClickPrev);
         _nextBtn.onClick.AddListener(OnClickNext);
 
-        for (int i = 0; i < _contents.Length; i++)
-        {
-            int index = i;
-            _contents[i].pointerDownAction += () => OnClickFilter(index);
-        }
+        //for (int i = 0; i < _contents.Count; i++)
+        //{
+        //    int index = i;
+        //    _contents[i].pointerDownAction += () => OnClickFilter(index);
+        //}
 
         _skinToggle.onValueChanged.AddListener(OnChangeSkin);
 
@@ -93,17 +101,91 @@ public class UP_DecoSelectEffects : UP_DecoratePageBase
         (_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_DECO_SELECT_FRAME);
     }
 
-    protected override void OnEnable()
+    private void OnClickFilter(UC_SelectableFilter selected)
     {
-        if(!_pageController)
+        UserDataManager.inst.SetLutEffect(selected.FilterKey);
+
+        for (int i = 0; i < _contents.Count; i++)
+        {
+            _contents[i].Select(_contents[i] == selected);
+        }
+
+        (_pageController as PC_Main).UpdateFrame();
+    }
+
+    private void OnChangeSkin(bool isOn)
+    {
+        (_pageController as PC_Main).SkinFilterOn(isOn);
+        (_pageController as PC_Main).UpdateFrame();
+    }
+
+    protected override void OnTimeLimitDone()
+    {
+        if (gameObject.activeInHierarchy)
+        {
+            (_pageController as PC_Main).StopTimeLimit();
+            (_pageController as PC_Main).StartTimeLimit(10);
+            (_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_DECO_SELECT_FRAME);
+        }
+    }
+
+    private void CreateContent()
+    {
+        FilterData.FilterData filterData = AdminManager.Instance.FilterData;
+
+        _isSkinUsed = bool.Parse(filterData.Config.BilateralDefaultCheck.ToLower());
+        _isSorting = filterData.Config.Sorting.ToLower() == StringCacheManager.inst.SortingSpecified ? true : false;
+
+        if (_isSorting)
+        {
+            for (int i = 1; i <= filterData.FilterTable.Count; i++)
+            {
+                FilterData.FilterTableEntry entry = filterData.OrderedFilterTable[i];
+                GameObject filterObj = Instantiate(_filterPrefab, _filterContainer);
+                UC_SelectableFilter filter = filterObj.GetComponent<UC_SelectableFilter>();
+                filter.SetThumbnail(entry.Thumbnail_data);
+                filter.SetNameText(entry.Korean);
+                filter.SetlutTex(entry.LutFile_data);
+                filter.SetFilterKey(entry.Key);
+                filter.pointerDownAction += () => OnClickFilter(filter);
+
+                _contents.Add(filter);
+            }
+        }
+        else
+        {
+            foreach (var item in filterData.FilterTable)
+            {
+                GameObject filterObj = Instantiate(_filterPrefab, _filterContainer);
+                UC_SelectableFilter filter = filterObj.GetComponent<UC_SelectableFilter>();
+                filter.SetThumbnail(item.Value.Thumbnail_data);
+                filter.SetNameText(item.Value.Korean);
+                filter.SetlutTex(item.Value.LutFile_data);
+                filter.SetFilterKey(item.Value.Key);
+                filter.pointerDownAction += () => OnClickFilter(filter);
+
+                _contents.Add(filter);
+            }
+        }
+
+        _isContentCreated = true;
+    }
+
+    public override void OnPageEnable()
+    {
+        if (!_isContentCreated)
+        {
+            CreateContent();
+        }
+
+        if (!_pageController)
         {
             return;
         }
 
-        base.OnEnable();
+        _contents[0].Select(true);
 
-        _contents[(int)UserDataManager.inst.selectedLut].Select(true);
-
+        //bilateral 필터 사용여부 정리되면 다시 진행하기
         bool originalContains = false;
         switch (UserDataManager.inst.selectedContent)
         {
@@ -164,38 +246,6 @@ public class UP_DecoSelectEffects : UP_DecoratePageBase
         {
             _prevBtn.interactable = true;
         }
-    }
-
-    private void OnClickFilter(int index)
-    {
-        UserDataManager.inst.SetLutEffect(index);
-
-        for (int i = 0; i < _contents.Length; i++)
-        {
-            _contents[i].Select(index == i);
-        }
-
-        (_pageController as PC_Main).UpdateFrame();
-    }
-
-    private void OnChangeSkin(bool isOn)
-    {
-        (_pageController as PC_Main).SkinFilterOn(isOn);
-        (_pageController as PC_Main).UpdateFrame();
-    }
-
-    protected override void OnTimeLimitDone()
-    {
-        if (gameObject.activeInHierarchy)
-        {
-            (_pageController as PC_Main).StopTimeLimit();
-            (_pageController as PC_Main).StartTimeLimit(10);
-            (_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_DECO_SELECT_FRAME);
-        }
-    }
-
-    public override void OnPageEnable()
-    {
     }
 
     public override void OnPageDisable()

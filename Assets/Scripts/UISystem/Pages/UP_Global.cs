@@ -15,6 +15,8 @@ public class UP_Global : UP_BasePage
     [SerializeField]
     private UC_ConfirmPopup _confirmPopup;
     [SerializeField]
+    private UC_ConfirmPopup _confirmPopupWide;
+    [SerializeField]
     private UC_ConfirmPopup _privacyPopup;
     [SerializeField]
     private UC_ConfirmPopup _alertPopup;
@@ -40,6 +42,8 @@ public class UP_Global : UP_BasePage
     private TextMeshProUGUI _versionText;
     [SerializeField]
     private UC_ChromaKeySetting _chromaKeySetting;
+    [SerializeField]
+    private UC_DownloadLoading _downloadLoading;
 
     private Coroutine _timerToastCoroutine = null;
     private Coroutine _showToastCoroutine = null;
@@ -50,6 +54,7 @@ public class UP_Global : UP_BasePage
     public Action TempErrorOpenAction;
     public Action TempErrorClossAction;
 
+
     public bool isToastOn { get { return _toast.isOn; } }
 
     private const string TOAST_MSG = "{0}초 뒤 첫 화면으로 이동합니다. 화면을 터치해주세요.";
@@ -58,6 +63,7 @@ public class UP_Global : UP_BasePage
     {
         GameManager.inst.SetGlobalPage(this);
         _confirmPopup.gameObject.SetActive(false);
+        _confirmPopupWide.gameObject.SetActive(false);
         _dimImg.gameObject.SetActive(false);
         _alertPopup.gameObject.SetActive(false);
         _serviceErrorPage.gameObject.SetActive(false);
@@ -70,7 +76,7 @@ public class UP_Global : UP_BasePage
 
     public override void BindDelegates()
     {
-        _confirmPopup.OnConfirmAction += CloseConfirmPopup;
+        //_confirmPopup.OnConfirmAction += CloseConfirmPopup;
         _PolicyPopup.OnConfirmAction += ClosePolicyPopup;
 
         _resetPhotoPaperPopup.OnConfirmAction += () =>
@@ -86,13 +92,18 @@ public class UP_Global : UP_BasePage
         };
     }
 
-    public void OpenConfirmPopup(string title, string description, Sprite sprite)
+    public void OpenConfirmPopup(string title, string description, Sprite sprite, bool isWide = false)
     {
-        _confirmPopup.gameObject.SetActive(true);
-        _confirmPopup.SetTitle(title);
-        _confirmPopup.SetDescription(description);
-        _confirmPopup.SetImage(sprite);
-        _confirmPopup.OpenPopup(true);
+        UC_ConfirmPopup popup = _confirmPopup;
+        if (isWide)
+        {
+            popup = _confirmPopupWide;
+        }
+        popup.gameObject.SetActive(true);
+        popup.SetTitle(title);
+        popup.SetDescription(description);
+        popup.SetImage(sprite);
+        popup.OpenPopup(true);
     }
 
     public void OpenPolicyPopup(POLICY_TYPE type)
@@ -120,9 +131,16 @@ public class UP_Global : UP_BasePage
         _privacyPopup.OpenPopup(false);
     }
 
-    public void CloseConfirmPopup()
+    public void CloseConfirmPopup(bool isWide = false)
     {
-        _confirmPopup.OpenPopup(false);
+        if (isWide)
+        {
+            _confirmPopupWide.OpenPopup(false);
+        }
+        else
+        {
+            _confirmPopup.OpenPopup(false);
+        }
     }
 
     public void OpenTimerToast(int num)
@@ -228,10 +246,14 @@ public class UP_Global : UP_BasePage
             TempErrorClossAction?.Invoke();
     }
 
-    public void OpenAIProfileAlert(Action OnAlertClosed = null)
+    public void OpenAIProfileAlert(Sprite image, Action OnAlertClosed = null)
     {
-        _aiAlertPopup.OnAlertClosed = OnAlertClosed;
-        _aiAlertPopup.gameObject.SetActive(true);
+        if(OnAlertClosed != null)
+        {
+            _aiAlertPopup.SetBGImage(image);
+            _aiAlertPopup.OnAlertClosed = OnAlertClosed;
+            _aiAlertPopup.gameObject.SetActive(true);
+        }
     }
 
     public void OpenChromaKeySetting()
@@ -242,6 +264,17 @@ public class UP_Global : UP_BasePage
     public void CloseChromaKeySetting()
     {
         _chromaKeySetting.gameObject.SetActive(false);
+    }
+
+    public void OpenDownloadLoading()
+    {
+        _downloadLoading.SetActivate(true);
+    }
+
+    public void CloseDownloadLoading()
+    {
+        _downloadLoading.SetActivate(false);
+        GameManager.OnGoogleDownloadEnd?.Invoke();
     }
 
     private void Update()

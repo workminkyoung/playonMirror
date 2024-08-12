@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using RotaryHeart.Lib.SerializableDictionary;
-using BasicData;
-using System.IO;
 
 [System.Serializable]
 public class ConfigDefaultData
@@ -22,6 +20,7 @@ public class ConfigDefaultSet
 [Serializable]
 public class Result
 {
+    public object FrameData;
     public object BubbleData;
     public object FilterData;
     public object ServiceData;
@@ -116,9 +115,12 @@ namespace FilterData
     {
         public ConfigEntry Config;
         public FilterTableEntryDic FilterTable;
+        public OrderedFilterTableDic OrderedFilterTable;
 
         [Serializable]
         public class FilterTableEntryDic : SerializableDictionaryBase<string, FilterTableEntry> { }
+        [Serializable]
+        public class OrderedFilterTableDic : SerializableDictionaryBase<int, FilterTableEntry> { }
     }
 
     [Serializable]
@@ -137,12 +139,14 @@ namespace FilterData
     {
         public string Key;
         public string File;
+        public Texture2D LutFile_data;
         public string Used;
         public string Korean;
         public string Chinese;
         public string English;
         public string Sequence;
         public string Thumbnail;
+        public Sprite Thumbnail_data;
     }
 
 }
@@ -172,17 +176,20 @@ namespace ServiceData
     public class ContentsEntry
     {
         public string Key;
+        public CONTENT_TYPE ContentType;
         public string Use;
         public string Sorting;
         public string Sequence;
         public string ImageThumbnail;
-        public Texture2D ImageThumbnail_data;
+        public Sprite ImageThumbnail_data;
         public string VideoThumbnail;
         public string VideoThumbnail_path;
         public string GuideImage;
-        public Texture2D GuideImage_data;
+        public Sprite GuideImage_data;
+        public string PopupGuideImage;
+        public Sprite PopupGuideImage_data;
         public string BGGuideImage;
-        public Texture2D BGGuideImage_data;
+        public Sprite BGGuideImage_data;
         public string People_Icon;
         public string Korean_Title;
         public string Chinese_Title;
@@ -194,7 +201,7 @@ namespace ServiceData
         public string Chinese_SubText;
         public string English_SubText;
         public string ShootGuideImage;
-        public Texture2D ShootGuideImage_data;
+        public Sprite ShootGuideImage_data;
     }
 
     [Serializable]
@@ -204,18 +211,19 @@ namespace ServiceData
         public string Use;
         public string Model;
         public string Gender;
+        public GENDER_TYPE Gender_type;
         public string Category;
         public string Property;
         public string Sequence;
         public string Thumbnail;
-        public Texture2D Thumbnail_data;
+        public Sprite Thumbnail_data;
         public string References;
-        public string KoreanTitle;
-        public string ChineseTitle;
-        public string EnglishTitle;
-        public string KoreanSubtext;
-        public string ChineseSubtext;
-        public string EnglishSubtext;
+        public string Korean_Title;
+        public string Chinese_Title;
+        public string English_Title;
+        public string Korean_SubText;
+        public string Chinese_SubText;
+        public string English_SubText;
     }
 }
 
@@ -240,12 +248,15 @@ namespace BasicData
         public string PRMenu;
         public string WFMenu;
         public string BGImage;
+        public Sprite BGImage_data;
         public string EndImage;
+        public Sprite EndImage_data;
         public string Printing;
         public string ColorCode;
         public string OtherMenu;
         public string PayConfirm;
         public string StartImage;
+        public Sprite StartImage_data;
         public string DefaultUsed;
         public string FrameSelect;
         public string OptionalUse;
@@ -258,16 +269,23 @@ namespace BasicData
         public string PaymentTermUse;
         public string PaymentTermUsed;
         public string PrintErrorImage;
+        public Sprite PrintErrorImage_data;
         public string StartMediaVideo;
+        public string StartMediaVideo_path;
         public string MarketingTermUse;
         public string MultiLanguageUse;
-        public List<string> PaymentTermImage;
-        public List<string> ServiceTermImage;
+        public string PersonalPolicyImage;
+        public Sprite PersonalPolicyImage_data;
+        public string ServiceTermImage;
+        public Sprite ServiceTermImage_data;
+        public string PaymentTermImage;
+        public Sprite PaymentTermImage_data;
+        public string MarketingTermImage;
+        public Sprite MarketingTermImage_data;
         public string ServieErrorImage;
+        public Sprite ServieErrorImage_data;
         public string ShootingPRSelect;
         public string MarketingTermUsed;
-        public List<string> MarketingTermImage;
-        public List<string> PersonalPolicyImage;
     }
 
     [Serializable]
@@ -376,24 +394,100 @@ namespace ChromakeyFrameData
 
 namespace ShootingScreenData
 {
-
     [Serializable]
     public class ShootScreenEntry
     {
         public string Key;
         public ShootScreenEntryDic url;
-        public ShootScreenEntryDic ratio;
-        public ShootScreenEntryDic korean;
-        public ShootScreenEntryDic chinese;
-        public ShootScreenEntryDic english;
+        public URLDataDic url_datas;
+        public List<string> url_orderdKey;
+        public List<string> ratio;
+        public List<string> korean;
+        public List<string> chinese;
+        public List<string> english;
         public string ConversionTime;
+        public string ConversionImage;
+        public Texture2D ConversionImage_data;
         public string ConversionVideo;
+        public string ConversionVideo_path;
 
     }
 
+    [Serializable]
+    public class URLDataDic : SerializableDictionaryBase<string, Sprite> { }
     [Serializable]
     public class ShootScreenEntryDic : SerializableDictionaryBase<string, string> { }
 
     [Serializable]
     public class ShootScreenDic : SerializableDictionaryBase<string, ShootScreenEntry> { }
+}
+
+namespace FrameData
+{
+    [Serializable]
+    public class FrameEntry
+    {
+        public string Key;
+        public string Code;
+        public string data;
+        public Sprite ThumbnailUnselect;
+        public Sprite ThumbnailSelect;
+        public FrameDefinitionEntryDic FrameDefinitions;
+    }
+
+    [Serializable]
+    public class FrameDefinitionEntry
+    {
+        public string Service;
+        public string ColorCode;
+        public string Direction;
+        public string Thumbnaillink;
+        public string ThumbnailSliced;
+        public string Righname;
+        public string PicConvert1;
+        public string PicConvert2;
+        public string PicConvert3;
+        public string PicConvert4;
+        public string PicConvert5;
+        public string PicConvert6;
+        public string PicConvert7;
+        public string PicConvert8;
+        public string DateColor;
+        public string DateRect;
+        public string DatefontSize;
+        public string DateFont;
+        public string Default;
+        public int DefaultFont;
+        public string QRRect;
+        public string ShootRatio;
+        public string OriginCropRatio;
+        public string ShootingUrl;
+        public string sellingPrice1;
+        public string sellingPrice2;
+        public string sellingPrice3;
+        public int sellingPrice4;
+        public int sellingPrice5;
+        public int sellingPrice6;
+        public int sellingPrice7;
+        public int sellingPrice8;
+        public List<FrameRectTransform> picRects;
+        public FrameRectTransform dateRect;
+        public FrameRectTransform qrRect;
+    }
+
+    [Serializable]
+    public class FrameRectTransform
+    {
+        public Vector2 anchoredPosition;
+        public Vector2 sizeDelta;
+        public Vector2 anchorMin;
+        public Vector2 anchorMax;
+        public Vector2 pivot;
+        public Vector3 rotation;
+    }
+
+    [Serializable]
+    public class FrameEntryDic : SerializableDictionaryBase<string, FrameEntry> { }
+    [Serializable]
+    public class FrameDefinitionEntryDic : SerializableDictionaryBase<Tuple<string, string>, FrameDefinitionEntry> { }
 }

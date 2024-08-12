@@ -83,6 +83,8 @@ public class UC_SelectableContent : UC_BaseComponent, IPointerDownHandler, IPoin
 
     public virtual void SetThumbnail(Sprite thumbnail)
     {
+        if (_thumbnailImg == null || thumbnail == null)
+            return;
         _thumbnailImg.sprite = thumbnail;
     }
 

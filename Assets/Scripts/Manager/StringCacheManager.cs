@@ -4,9 +4,12 @@ using UnityEngine;
 using RotaryHeart.Lib.SerializableDictionary;
 using System;
 using Vivestudios.UI;
+using static UnityEditor.Progress;
 
 public class StringCacheManager : SingletonBehaviour<StringCacheManager>
 {
+    [SerializeField]
+    private ContentStringDicBase _contentKey;
     [SerializeField]
     private CartoonStringDicBase _cartoonTitles;
     [SerializeField]
@@ -32,12 +35,33 @@ public class StringCacheManager : SingletonBehaviour<StringCacheManager>
     private FilterStringDicBase _filterDescriptions;
     private string _dividerLine = "-----------------------------------------";
     private string _pointLine = "##### ";
+    private string _sortingSpecified = "specified";
+    private string _sortingRandomly = "random";
 
     public string[] loadingTexts => _loadingTexts;
     public string[] loadingTextsWhatIf => _loadingTextsWhatIf;
     public List<string> ProfileWhatIfName => _profileWhatIfName;
     public string DividerLine => _dividerLine;
     public string PointLine => _pointLine;
+    public string SortingSpecified => _sortingSpecified;
+    public string SortingRandomly => _sortingRandomly;
+
+    public string GetContentKey(CONTENT_TYPE type)
+    {
+        return _contentKey[type];
+    }
+    
+    public CONTENT_TYPE GetContentType(string key)
+    {
+        foreach (var item in _contentKey)
+        {
+            if(item.Value == key)
+            {
+                return item.Key;
+            }
+        }
+        return CONTENT_TYPE.AI_CARTOON;
+    }
 
     public string GetCartoonTitle(CARTOON_TYPE type)
     {

@@ -9,17 +9,17 @@ using Vivestudios.UI;
 
 public class ProfileModule : SingletonBehaviour<ProfileModule>
 {
-    public void GetProfileImages(Texture2D origin, PROFILE_TYPE type, Action<List<Texture2D>> OnEnd)
+    public void GetProfileImages(Texture2D origin, Action<List<Texture2D>> OnEnd)
     {
         string targetEncodeTexture = Convert.ToBase64String(origin.EncodeToPNG());
-        List<int> indexes = GetRandomIndexes(_profileSampleImagesDic[type].Count, CONVERT_IMAGE_NUM);
+        List<int> indexes = GetRandomIndexes(CONVERT_IMAGE_NUM);
 
         List<string> convertedJsons = new List<string>();
 
         for (int i = 0; i < indexes.Count; i++)
         {
             ProfileRequestData requestData = new ProfileRequestData();
-            requestData.menu_code = UserDataManager.inst.selectedContentCode;
+            requestData.menu_code = UserDataManager.inst.selectedSubContentKey;
             requestData.encoded_source_image = targetEncodeTexture;
             requestData.image_index = indexes[i];
 
@@ -31,10 +31,10 @@ public class ProfileModule : SingletonBehaviour<ProfileModule>
         StartCoroutine(PostProfile(convertedJsons, OnEnd));
     }
 
-    public void GetWhatIfImages(Texture2D origin, PROFILE_TYPE type, Action<List<Texture2D>> OnEnd)
+    public void GetWhatIfImages(Texture2D origin, Action<List<Texture2D>> OnEnd)
     {
         string targetEncodeTexture = Convert.ToBase64String(origin.EncodeToPNG());
-        List<int> indexes = GetRandomIndexes(_profileSampleImagesDic[type].Count, CONVERT_IMAGE_NUM);
+        List<int> indexes = GetRandomIndexes(CONVERT_IMAGE_NUM);
         _profileReorderName = new List<string>();
 
         List<string> convertedJsons = new List<string>();
@@ -42,7 +42,7 @@ public class ProfileModule : SingletonBehaviour<ProfileModule>
         for (int i = 0; i < indexes.Count; i++)
         {
             ProfileRequestData requestData = new ProfileRequestData();
-            requestData.menu_code = UserDataManager.inst.selectedContentCode;
+            requestData.menu_code = UserDataManager.inst.selectedSubContentKey;
             requestData.encoded_source_image = targetEncodeTexture;
             requestData.image_index = indexes[i];
 
@@ -99,6 +99,21 @@ public class ProfileModule : SingletonBehaviour<ProfileModule>
         List<int> result = new List<int>();
         int randomNum = 0;
         while (result.Count < n)
+        {
+            randomNum = UnityEngine.Random.Range(0, length);
+            if (!result.Contains(randomNum))
+            {
+                result.Add(randomNum);
+            }
+        }
+
+        return result;
+    }
+    private List<int> GetRandomIndexes(int length)
+    {
+        List<int> result = new List<int>();
+        int randomNum = 0;
+        while (result.Count < length)
         {
             randomNum = UnityEngine.Random.Range(0, length);
             if (!result.Contains(randomNum))

@@ -195,6 +195,14 @@ public class UC_FrameArea : UC_BaseComponent
         _lutTex = lutTex;
     }
 
+    public void SetLutEffect(string lutKey)
+    {
+        if(AdminManager.Instance.FilterData != null && AdminManager.Instance.FilterData.FilterTable.ContainsKey(lutKey))
+        {
+            _lutTex = AdminManager.Instance.FilterData.FilterTable[lutKey].LutFile_data;
+        }
+    }
+
     public void SetLutEffect(LUT_EFFECT_TYPE type)
     {
         _lutTex = ResourceCacheManager.inst.GetLutTexture(type);

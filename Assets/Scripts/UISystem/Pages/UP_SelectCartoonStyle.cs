@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -21,6 +23,7 @@ public class UP_SelectCartoonStyle : UP_BaseSelectContent, IPageTimeLimit
     private HorizontalLayoutGroup _contentParent;
     [SerializeField]
     private Button _prevBtn;
+    private Sprite _guideImage;
 
     [SerializeField]
     private CARTOON_TYPE[] _activeCartoonTypes;
@@ -30,17 +33,7 @@ public class UP_SelectCartoonStyle : UP_BaseSelectContent, IPageTimeLimit
 
     public override void InitPage()
     {
-        CreatStyleContent();
         _maxTime = ConfigData.config.cartoonStyleSelectTime;
-
-        for (int i = 0; i < _activeCartoonTypes.Length; i++)
-        {
-            int index = i;
-
-            (_contents[i] as UC_StyleContent).SetThumbnail(ResourceCacheManager.inst.GetCartoonThumbnailSprite(_activeCartoonTypes[index]));
-            (_contents[i] as UC_StyleContent).SetTitle(StringCacheManager.inst.GetCartoonTitle(_activeCartoonTypes[index]));
-            (_contents[i] as UC_StyleContent).SetDescription(StringCacheManager.inst.GetCartoonDescription(_activeCartoonTypes[index]));
-        }
     }
 
     public override void BindDelegates()
@@ -57,36 +50,54 @@ public class UP_SelectCartoonStyle : UP_BaseSelectContent, IPageTimeLimit
         (_pageController as PC_Main).OnShuffleAction += ShuffleContents;
     }
 
-    protected override void OnClickContent(int index)
+    private void OnClickContent(string cartoonKey)
     {
-        UserDataManager.inst.SelectSubContent(index);
-        UserDataManager.inst.SelectContentCode(_activeCartoonTypes[index]);
+        UserDataManager.inst.SelectSubContent(cartoonKey);
+        //UserDataManager.inst.SelectContentCode(_activeCartoonTypes[index]);
         _pageController.ChangePage(PAGE_TYPE.PAGE_SELECT_FRAME);
     }
 
-    private void CreatStyleContent()
+    private void CreateStyleContent()
     {
         List<UC_SelectableContent> contents = new List<UC_SelectableContent>();
-        for (int i = 0; i < _activeCartoonTypes.Length; i++)
+        string key = StringCacheManager.Instance.GetContentKey(CONTENT_TYPE.AI_CARTOON);
+
+        foreach (var item in AdminManager.Instance.ServiceData.ContentsDetail)
         {
-            GameObject content = Instantiate(_styleContent, _contentParent.transform);
-            UC_StyleContent styleContent = content.GetComponentInChildren<UC_StyleContent>();
-            styleContent.InitComponent();
-            contents.Add(styleContent);
-            _contentParents.Add(styleContent.transform.parent);
+            if (item.Key.Contains(key) && item.Value.Use.ToLower() == "true")
+            {
+                GameObject content = Instantiate(_styleContent, _contentParent.transform);
+                UC_StyleContent styleContent = content.GetComponentInChildren<UC_StyleContent>();
+                contents.Add(styleContent);
+                styleContent.InitComponent();
+
+                styleContent.SetThumbnail(item.Value.Thumbnail_data);
+                styleContent.SetTitle(item.Value.Korean_Title);
+                styleContent.SetDescription(item.Value.Korean_SubText);
+                styleContent.pointerClickAction += () => OnClickContent(item.Key);
+
+                _contentParents.Add(styleContent.transform.parent);
+            }
         }
 
         _contents = contents.ToArray();
         _shuffledContentParents = _contentParents.ToList();
+
+        _guideImage = AdminManager.Instance.ServiceData.Contents[key].PopupGuideImage_data;
+        _isContentCreated = true;
     }
 
     private void OnClickDescription()
     {
-        (_pageController as PC_Main).globalPage.OpenConfirmPopup(_popupTitle, _popupDescription, ResourceCacheManager.inst.cartoonPopupThumbnailSprite);
+        (_pageController as PC_Main).globalPage.OpenConfirmPopup(_popupTitle, _popupDescription, _guideImage);
     }
 
     public override void OnPageEnable()
     {
+        if (!_isContentCreated)
+        {
+            CreateStyleContent();
+        }
     }
 
     public override void OnPageDisable()

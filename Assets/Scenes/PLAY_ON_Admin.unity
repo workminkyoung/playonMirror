@@ -818,6 +818,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 75342219158103314, guid: 35587569804474847b16cca4730d41d2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 536356109882992879, guid: 35587569804474847b16cca4730d41d2, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
@@ -2198,6 +2202,7 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 84363bbaa6a1241499291d13278ebd67, type: 3}
   - {fileID: 0}
   dropGroup: {fileID: 1860963935}
+  stickerContainerPrefab: {fileID: 0}
 --- !u!114 &319188281 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5877391397266644262, guid: 69af8fb749135d3498667dc5f20e4b62, type: 3}
