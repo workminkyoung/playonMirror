@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using System;
 using System.IO;
+using System.CodeDom;
 
 public partial class ApiCall : SingletonBehaviour<ApiCall>
 {
@@ -179,15 +180,23 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
             {
                 if (contentType.StartsWith("image/"))
                 {
+
                     byte[] data = www.downloadHandler.data;
                     Texture2D texture = new Texture2D(0, 0, TextureFormat.ARGB32, false);
                     texture.LoadImage(data);
 
-                    Rect rect = new Rect(0, 0, texture.width, texture.height);
-                    Vector2 pivot = new Vector2(0.5f, 0.5f);
-                    Sprite sprite = Sprite.Create(texture, rect, pivot);
+                    if (typeof(T) == typeof(Sprite))
+                    {
+                        Rect rect = new Rect(0, 0, texture.width, texture.height);
+                        Vector2 pivot = new Vector2(0.5f, 0.5f);
+                        Sprite sprite = Sprite.Create(texture, rect, pivot);
 
-                    result = sprite;
+                        result = sprite;
+                    }
+                    else
+                    {
+                        result = texture;
+                    }
                 }
                 else if (contentType.StartsWith("video/"))
                 {
