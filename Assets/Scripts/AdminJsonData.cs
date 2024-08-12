@@ -113,9 +113,12 @@ namespace FilterData
     {
         public ConfigEntry Config;
         public FilterTableEntryDic FilterTable;
+        public OrderedFilterTableDic OrderedFilterTable;
 
         [Serializable]
         public class FilterTableEntryDic : SerializableDictionaryBase<string, FilterTableEntry> { }
+        [Serializable]
+        public class OrderedFilterTableDic : SerializableDictionaryBase<int, FilterTableEntry> { }
     }
 
     [Serializable]
@@ -134,12 +137,14 @@ namespace FilterData
     {
         public string Key;
         public string File;
+        public Texture2D LutFile_data;
         public string Used;
         public string Korean;
         public string Chinese;
         public string English;
         public string Sequence;
         public string Thumbnail;
+        public Sprite Thumbnail_data;
     }
 
 }

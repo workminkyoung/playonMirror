@@ -7,6 +7,7 @@ using System;
 using static UnityEditor.Progress;
 using System.Security.Policy;
 using ShootingScreenData;
+using System.Linq;
 
 public class AdminManager : SingletonBehaviour<AdminManager>
 {
@@ -79,6 +80,7 @@ public class AdminManager : SingletonBehaviour<AdminManager>
     {
         string result = _configDefaultData.config_default_set.result.FilterData.ToString();
         _filterData = JsonConvert.DeserializeObject<FilterData.FilterData>(result);
+        DownloadFilterData();
     }
 
     private void SetServiceData()
@@ -450,6 +452,32 @@ public class AdminManager : SingletonBehaviour<AdminManager>
             {
                 ApiCall.Instance.GetSequently<string>
                     (item.Value.ConversionVideo, (path) => { item.Value.ConversionVideo_path = path; }, true);
+            }
+        }
+    }
+
+    public void DownloadFilterData()
+    {
+        List<string> orderKey = new List<string>();
+        _filterData.OrderedFilterTable = new FilterData.FilterData.OrderedFilterTableDic();
+
+        foreach (var item in _filterData.FilterTable)
+        {
+            if (!string.IsNullOrEmpty(item.Value.File))
+            {
+                ApiCall.Instance.GetSequently<Texture2D>
+                    (item.Value.File, (texture) => { item.Value.LutFile_data = texture; }, true);
+            }
+
+            if (!string.IsNullOrEmpty(item.Value.Thumbnail))
+            {
+                ApiCall.Instance.GetSequently<Sprite>
+                    (item.Value.Thumbnail, (texure) => { item.Value.Thumbnail_data = texure; }, true);
+            }
+
+            if (bool.Parse(item.Value.Used.ToLower()))
+            {
+                _filterData.OrderedFilterTable[int.Parse(item.Value.Sequence)] = item.Value;
             }
         }
     }
