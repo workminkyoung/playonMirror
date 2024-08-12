@@ -385,6 +385,8 @@ namespace ShootingScreenData
         public List<string> chinese;
         public List<string> english;
         public string ConversionTime;
+        public string ConversionImage;
+        public Texture2D ConversionImage_data;
         public string ConversionVideo;
         public string ConversionVideo_path;
 

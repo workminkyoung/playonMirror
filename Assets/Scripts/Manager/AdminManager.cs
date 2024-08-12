@@ -66,7 +66,7 @@ public class AdminManager : SingletonBehaviour<AdminManager>
         SetBasicData();
         SetChromakeyFrameData();
         SetShootScreenData();
-        SetFrameData();
+        //SetFrameData();
     }
 
     private void SetBubbleData()
@@ -438,6 +438,12 @@ public class AdminManager : SingletonBehaviour<AdminManager>
                     ApiCall.Instance.GetSequently<Sprite>
                         (urlItem.Value, (texture) => { item.Value.url_datas[urlItem.Key] = texture; }, true);
                 }
+            }
+
+            if (!string.IsNullOrEmpty(item.Value.ConversionImage))
+            {
+                ApiCall.Instance.GetSequently<Texture2D>
+                    (item.Value.ConversionImage, (texture) => { item.Value.ConversionImage_data = texture; }, true);
             }
 
             if (!string.IsNullOrEmpty(item.Value.ConversionVideo))

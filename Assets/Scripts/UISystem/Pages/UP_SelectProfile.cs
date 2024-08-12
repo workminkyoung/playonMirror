@@ -47,7 +47,7 @@ public class UP_SelectProfile : UP_BaseSelectContent, IPageTimeLimit
         {
             int index = i;
             _contents[i].pointerClickAction += () => OnClickContent(index);
-        } 
+        }
         
         _prevBtn?.onClick.AddListener(() =>
         {
