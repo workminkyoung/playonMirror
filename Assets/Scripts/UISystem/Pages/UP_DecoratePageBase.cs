@@ -59,7 +59,6 @@ public abstract class UP_DecoratePageBase : UP_BasePage
         (_pageController as PC_Main).StartTimeLimit();
 
         FrameEnable();
-
         UpdateFrame();
     }
 
@@ -104,7 +103,7 @@ public abstract class UP_DecoratePageBase : UP_BasePage
         _frameAreaDic[UserDataManager.inst.selectedFrame].SetRatioType(UserDataManager.inst.frameRatioType);
         _frameAreaDic[UserDataManager.inst.selectedFrame].SetFrameColor(UserDataManager.inst.selectedFrameColor);
         _frameAreaDic[UserDataManager.inst.selectedFrame].SetPics(texs, types);
-        _frameAreaDic[UserDataManager.inst.selectedFrame].SetLutEffect(UserDataManager.inst.selectedLut);
+        _frameAreaDic[UserDataManager.inst.selectedFrame].SetLutEffect(UserDataManager.inst.selectedLutKey);
         _frameAreaDic[UserDataManager.inst.selectedFrame].UpdateFrame();
     }
 
