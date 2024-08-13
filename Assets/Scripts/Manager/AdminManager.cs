@@ -168,6 +168,11 @@ public class AdminManager : SingletonBehaviour<AdminManager>
                 {
                     shootScreen.ConversionVideo = entry.Value.ToString();
                 }
+                else if (entry.Key.Contains("ConversionImage"))
+                {
+                    shootScreen.ConversionImage = entry.Value.ToString();
+                }
+
             }
 
             _shootScreen.Add(shootScreen.Key, shootScreen);

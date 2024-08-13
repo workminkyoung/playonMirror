@@ -311,6 +311,9 @@ public class UP_Load : UP_BasePage
         DSLRManager.Instance.EndEVF();
         DSLRManager.Instance.CloseSession();
 
+        _defaultLoad.SetActive(false);
+        _eventLoad.SetActive(false);
+
         if (!string.IsNullOrEmpty(_shootEntry.ConversionVideo_path))
         {
             // Event Video Load
@@ -406,7 +409,7 @@ public class UP_Load : UP_BasePage
 
     private void LoadEventImagePage()
     {
-        _eventLoad.SetActive(false);
+        _eventLoad.SetActive(true);
         _loadType = LOAD_TYPE.EVENT_IMAGE;
         _loadingTime = int.Parse(_shootEntry.ConversionTime);
         _isReady = false;
@@ -421,9 +424,6 @@ public class UP_Load : UP_BasePage
         {
             _eventVideoPlayer.Stop();
         }
-
-        _defaultLoad.SetActive(false);
-        _eventLoad.SetActive(false);
     }
 
     protected override void OnPageReset()
