@@ -6,10 +6,7 @@ using System.IO;
 using Unity.VectorGraphics;
 using UnityEngine;
 using System;
-using static UnityEditor.Progress;
-using System.Security.Policy;
 using ShootingScreenData;
-using System.Linq;
 
 public class AdminManager : SingletonBehaviour<AdminManager>
 {
@@ -32,7 +29,7 @@ public class AdminManager : SingletonBehaviour<AdminManager>
 
     [SerializeField]
     private LANGUAGE_TYPE _language = LANGUAGE_TYPE.KOR;
-    private string _configDefaultAPI = "http://api.playon-vive.com/config/default/latest";
+    private string _configDefaultAPI = "http://api.playon-vive.com/machine-admin/machine/latest?uuid=";
 
     public ConfigDefaultData ConfigDefaultData => _configDefaultData;
     public BubbleData.BubbleData BubbleData => _bubbleData;
@@ -47,6 +44,12 @@ public class AdminManager : SingletonBehaviour<AdminManager>
     protected override void Init ()
     {
         GameManager.OnGameResetAction += ResetAdminData;
+
+        string uuid = SystemInfo.deviceUniqueIdentifier;
+#if UNITY_EDITOR
+        uuid = "temp_kway";
+#endif
+        _configDefaultAPI += uuid;
         ApiCall.Instance.Get<string>(_configDefaultAPI, GetResponse);
     }
 
@@ -74,35 +77,35 @@ public class AdminManager : SingletonBehaviour<AdminManager>
 
     private void SetBubbleData ()
     {
-        string result = _configDefaultData.config_default_set.result.BubbleData.ToString();
+        string result = _configDefaultData.machine_config.BubbleData.ToString();
         _bubbleData = JsonConvert.DeserializeObject<BubbleData.BubbleData>(result);
         DownloadBubbleData();
     }
 
     private void SetFilterData ()
     {
-        string result = _configDefaultData.config_default_set.result.FilterData.ToString();
+        string result = _configDefaultData.machine_config.FilterData.ToString();
         _filterData = JsonConvert.DeserializeObject<FilterData.FilterData>(result);
         DownloadFilterData();
     }
 
     private void SetServiceData ()
     {
-        string result = _configDefaultData.config_default_set.result.ServiceData.ToString();
+        string result = _configDefaultData.machine_config.ServiceData.ToString();
         _serviceData = JsonConvert.DeserializeObject<ServiceData.ServiceData>(result);
         DownloadServiceData();
     }
 
     private void SetBasicData ()
     {
-        string result = _configDefaultData.config_default_set.result.BasicSetting.ToString();
+        string result = _configDefaultData.machine_config.BasicSetting.ToString();
         _basicSetting = JsonConvert.DeserializeObject<BasicData.BasicSetting>(result);
         DownloadBasicData();
     }
 
     private void SetChromakeyFrameData ()
     {
-        string result = _configDefaultData.config_default_set.result.ChromakeyFrame.ToString();
+        string result = _configDefaultData.machine_config.ChromakeyFrame.ToString();
         _chromakeyFrame = JsonConvert.DeserializeObject<ChromakeyFrameData.ChromakeyFrame>(result);
         DownloadChromaKeyData();
     }
@@ -110,7 +113,7 @@ public class AdminManager : SingletonBehaviour<AdminManager>
     private void SetShootScreenData ()
     {
         Dictionary<string, object> shootScreenPair = new Dictionary<string, object>();
-        string result = _configDefaultData.config_default_set.result.ShootingScreen.ToString();
+        string result = _configDefaultData.machine_config.ShootingScreen.ToString();
         shootScreenPair = JsonConvert.DeserializeObject<Dictionary<string, object>>(result);
 
         _shootScreen = new ShootingScreenData.ShootScreenDic();
@@ -175,7 +178,7 @@ public class AdminManager : SingletonBehaviour<AdminManager>
 
     private void SetFrameData()
     {
-        string result = _configDefaultData.config_default_set.result.FrameData.ToString();
+        string result = _configDefaultData.machine_config.FrameData.ToString();
         _frameData = JsonConvert.DeserializeObject<FrameData.FrameEntryDic>(result);
         
         foreach (var entry in _frameData)
@@ -421,6 +424,18 @@ public class AdminManager : SingletonBehaviour<AdminManager>
         {
             ApiCall.Instance.GetSequently<Sprite>
                 (_basicSetting.Config.ServieErrorImage, (texture) => { _basicSetting.Config.ServieErrorImage_data = texture; }, true);
+        }
+
+        if (!string.IsNullOrEmpty(_basicSetting.Config.PromotionImage))
+        {
+            ApiCall.Instance.GetSequently<Texture2D>
+                (_basicSetting.Config.PromotionImage, (texture) => { _basicSetting.Config.PromotionImage_data = texture; }, true);
+        }
+
+        if (!string.IsNullOrEmpty(_basicSetting.Config.PromotionVideo))
+        {
+            ApiCall.Instance.GetSequently<string>
+                (_basicSetting.Config.PromotionVideo, (path) => { _basicSetting.Config.PromotionVideo_path = path; }, true);
         }
     }
 

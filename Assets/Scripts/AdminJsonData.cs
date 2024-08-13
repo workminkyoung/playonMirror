@@ -8,14 +8,14 @@ using RotaryHeart.Lib.SerializableDictionary;
 public class ConfigDefaultData
 {
     public int id;
-    public ConfigDefaultSet config_default_set;
+    public Result machine_config;
 }
 
-[System.Serializable]
-public class ConfigDefaultSet
-{
-    public Result result;
-}
+//[System.Serializable]
+//public class ConfigDefaultSet
+//{
+//    public Result result;
+//}
 
 [Serializable]
 public class Result
@@ -266,6 +266,10 @@ namespace BasicData
         public string PhotoStandby;
         public string Age14TermUsed;
         public string PlayShotMovie;
+        public string PromotionImage;
+        public Texture2D PromotionImage_data;
+        public string PromotionVideo;
+        public string PromotionVideo_path;
         public string PaymentTermUse;
         public string PaymentTermUsed;
         public string PrintErrorImage;
