@@ -259,7 +259,6 @@ public class UP_Load : UP_BasePage
             normalT = UtilityExtensions.Remap(t, 0, _loadingTime, 0, 1);
             if( normalT > 0.0002f)
             {
-                Debug.Log($"Normal t : {normalT}");
                 _eventFill.value = normalT;
             }
 

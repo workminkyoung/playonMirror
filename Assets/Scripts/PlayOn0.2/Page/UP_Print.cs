@@ -10,50 +10,102 @@ using Vivestudios.UI;
 using ZXing.QrCode;
 using ZXing;
 using sdimage = System.Drawing.Imaging;
+using Image = UnityEngine.UI.Image;
+using UnityEngine.Video;
+using DG.Tweening;
 
 public class UP_Print : UP_BasePage
 {
     [SerializeField]
-    RenderTexture _videoRT;
-    RawImage _rawimage;
-
+    private RenderTexture _videoRT;
     [SerializeField]
-    UC_SynchFrame _synchFrame;
+    private RawImage _rawimageDefault;
+    [SerializeField]
+    private RawImage _rawimagePromotion;
+    [SerializeField]
+    private RawImage _rawImageQR;
+    [SerializeField]
+    private GameObject _defaultObj;
+    [SerializeField] 
+    private GameObject _promotionObj;
+    [SerializeField]
+    private Image _progressBar;
+    [SerializeField]
+    private UC_SynchFrame _synchFrame;
+    [SerializeField]
+    private VideoPlayer _promotionPlayer;
+    [SerializeField]
+    private float _speed = 10;
+
+    private bool _isPromotion = false;
+    private LOAD_TYPE _loadType;
+    private RenderTexture _promotionRT = null;
 
     public override void InitPage()
     {
-        _rawimage = GetComponentInChildren<RawImage>();
         _synchFrame.mainController = _pageController as PC_Main;
+        _promotionRT = new RenderTexture(
+            (int)_rawimagePromotion.rectTransform.sizeDelta.x, (int)_rawimagePromotion.rectTransform.sizeDelta.y, 16);
+        _promotionRT.Create();
+        _promotionPlayer.targetTexture = _promotionRT;
     }
 
     public override void BindDelegates()
     {
     }
 
-    public override void EnablePage(bool isEnable)
+    private void FrameUpdate()
     {
-        base.EnablePage(isEnable);
-        if (isEnable)
-        {
-            _synchFrame.OnEndSaveImage = null;
-            _synchFrame.OnEndSaveImage = LoadVideo;
-            _synchFrame.SetPrintImageActive(false);
-            _synchFrame.UpdateFrame();
-        }
+        _synchFrame.OnEndSaveImage = null;
+        _synchFrame.OnEndSaveImage = LoadVideo;
+        _synchFrame.SetPrintImageActive(false);
+        _synchFrame.UpdateFrame();
     }
 
-    public void LoadImage()
+    private void OpenDefaultLoading()
+    {
+        _defaultObj.SetActive(true);
+        _promotionObj.SetActive(false);
+
+        FrameUpdate();
+    }
+
+    private void OpenEventVideoLoading()
+    {
+        _defaultObj.SetActive(false);
+        _promotionObj.SetActive(true);
+
+        _promotionPlayer.source = VideoSource.Url;
+        _promotionPlayer.url = AdminManager.Instance.BasicSetting.Config.PromotionVideo_path;
+        _promotionPlayer.Play();
+        _rawimagePromotion.texture = _promotionRT;
+        FrameUpdate();
+    }
+
+    private void OpenEventImageLoading()
+    {
+        _defaultObj.SetActive(false);
+        _promotionObj.SetActive(true);
+
+        _rawimagePromotion.texture = AdminManager.Instance.BasicSetting.Config.PromotionImage_data;
+        FrameUpdate();
+    }
+
+    public void LoadPrintResultImage()
     {
         byte[] bytes = File.ReadAllBytes(TextData.printPath);
         Texture2D texture = new Texture2D(0, 0);
         texture.LoadImage(bytes);
 
-        _rawimage.texture = texture;
+        _rawimageDefault.texture = texture;
     }
 
-    void LoadVideo()
+    private void LoadVideo()
     {
-        _rawimage.texture = _videoRT;
+        if(_loadType == LOAD_TYPE.DEFAULT)
+        {
+            _rawimageDefault.texture = _videoRT;
+        }
         _synchFrame.PlayVideo();
         StartCoroutine(WaitVideoLoad());
     }
@@ -114,6 +166,8 @@ public class UP_Print : UP_BasePage
 
     public void MakeQrCode(string link)
     {
+        _rawImageQR.texture = null;
+        _rawImageQR.enabled = true;
         ZXing.BarcodeWriter barcode = new BarcodeWriter
         {
             Format = BarcodeFormat.QR_CODE,
@@ -131,6 +185,7 @@ public class UP_Print : UP_BasePage
         qrcode = Convert(bitmap);
         qrcode.Apply();
 
+        _rawImageQR.texture = qrcode;
         _synchFrame.SetPrintImage(qrcode);
     }
 
@@ -155,6 +210,55 @@ public class UP_Print : UP_BasePage
 
     public override void OnPageEnable()
     {
+        if (!_isContentCreated)
+        {
+            CreateContent();
+        }
+        _rawImageQR.enabled = false;
+
+        if (!_isPromotion)
+        {
+            OpenDefaultLoading();
+        }
+        else if (_loadType == LOAD_TYPE.EVENT_VIDEO)
+        {
+            OpenEventVideoLoading();
+        }
+        else
+        {
+            OpenEventImageLoading();
+        }
+
+        StartCoroutine(RotateProgress());
+    }
+
+    private void CreateContent()
+    {
+        _isPromotion = bool.Parse(AdminManager.Instance.BasicSetting.Config.PlayShotMovie.ToLower());
+
+        if (!string.IsNullOrEmpty(AdminManager.Instance.BasicSetting.Config.PromotionVideo_path))
+        {
+            _loadType = LOAD_TYPE.EVENT_VIDEO;
+        }
+        else if(AdminManager.Instance.BasicSetting.Config.PromotionImage_data != null)
+        {
+            _loadType = LOAD_TYPE.EVENT_IMAGE;
+        }
+        else
+        {
+            _loadType = LOAD_TYPE.DEFAULT;
+        }
+
+        _isContentCreated = true;
+    }
+
+    private IEnumerator RotateProgress()
+    {
+        while (gameObject.activeSelf)
+        {
+            _progressBar.rectTransform.Rotate(0f, 0f, _speed * Time.deltaTime);
+            yield return null;
+        }
     }
 
     public override void OnPageDisable()
@@ -163,5 +267,12 @@ public class UP_Print : UP_BasePage
 
     protected override void OnPageReset()
     {
+    }
+
+    enum LOAD_TYPE
+    {
+        EVENT_VIDEO = 0,
+        EVENT_IMAGE,
+        DEFAULT
     }
 }
