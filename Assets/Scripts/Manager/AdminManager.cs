@@ -428,6 +428,12 @@ public class AdminManager : SingletonBehaviour<AdminManager>
                 (_basicSetting.Config.PrintErrorImage, (texture) => { _basicSetting.Config.PrintErrorImage_data = texture; }, true);
         }
 
+        if (!string.IsNullOrEmpty(_basicSetting.Config.StartMediaImage))
+        {
+            ApiCall.Instance.GetSequently<Sprite>
+                (_basicSetting.Config.StartMediaImage, (texture) => { _basicSetting.Config.StartMediaImage_data = texture; }, true);
+        }
+
         if (!string.IsNullOrEmpty(_basicSetting.Config.StartMediaVideo))
         {
             ApiCall.Instance.GetSequently<string>

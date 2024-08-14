@@ -270,6 +270,8 @@ namespace BasicData
         public Sprite PrintErrorImage_data;
         public string StartMediaVideo;
         public string StartMediaVideo_path;
+        public string StartMediaImage;
+        public Sprite StartMediaImage_data;
         public string MarketingTermUse;
         public string MultiLanguageUse;
         public string PersonalPolicyImage;

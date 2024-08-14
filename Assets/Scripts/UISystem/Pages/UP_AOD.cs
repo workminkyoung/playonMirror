@@ -47,7 +47,24 @@ public class UP_AOD : UP_BasePage, IPointerClickHandler
     {
         base.ApplyAdminData();
 
-        if (AdminManager.Instance.BasicSetting.Config.StartImage_data != null)
+
+        if (!string.IsNullOrEmpty(AdminManager.Instance.BasicSetting.Config.StartMediaVideo_path))
+        {
+            if (AdminManager.Instance.BasicSetting.Config.StartMediaImage_data != null)
+            {
+                // 비디오 이미지 동시 플레이
+            }
+            else
+            {
+                // 비디오 ONLY 플레이
+                _bgImage.sprite = AdminManager.Instance.BasicSetting.Config.StartMediaImage_data;
+            }
+        }
+        else if (AdminManager.Instance.BasicSetting.Config.StartMediaImage_data != null)
+        {
+            _bgImage.sprite = AdminManager.Instance.BasicSetting.Config.StartMediaImage_data;
+        }
+        else if (AdminManager.Instance.BasicSetting.Config.StartImage_data != null)
         {
             _bgImage.sprite = AdminManager.Instance.BasicSetting.Config.StartImage_data;
         }
