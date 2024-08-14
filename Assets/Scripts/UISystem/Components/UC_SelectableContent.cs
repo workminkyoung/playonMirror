@@ -11,6 +11,8 @@ using Vivestudios.UI;
 public class UC_SelectableContent : UC_BaseComponent, IPointerDownHandler, IPointerClickHandler
 {
     [SerializeField]
+    private string _key;
+    [SerializeField]
     private Image _touchFeedback = null;
     [SerializeField]
     private Image _stroke = null;
@@ -22,6 +24,7 @@ public class UC_SelectableContent : UC_BaseComponent, IPointerDownHandler, IPoin
     protected TextMeshProUGUI _nameText = null;
 
     public Image thumbnailImg => _thumbnailImg;
+    public string Key => _key;
 
     protected const int DISABLE_STROKE_SIZE = 1;
     protected const int ENABLE_STROKE_SIZE = 4;
@@ -96,6 +99,11 @@ public class UC_SelectableContent : UC_BaseComponent, IPointerDownHandler, IPoin
     public void SetNameText(string name)
     {
         _nameText.text = name;
+    }
+
+    public void SetKey(string key)
+    {
+        _key = key;
     }
 
     //public void OnPointerUp(PointerEventData eventData)

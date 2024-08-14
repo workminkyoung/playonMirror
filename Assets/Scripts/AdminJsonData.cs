@@ -437,11 +437,13 @@ namespace FrameData
     {
         public string Sorting;
         public ColorCodeEntryDic ColorCode;
+        public OrderedColorCodeEntryDic OrderedColorCode;
     }
 
     [Serializable]
     public class ColorCodeEntry
     {
+        public string key;
         public bool Use;
         public string korean;
         public string chinese;
@@ -450,12 +452,6 @@ namespace FrameData
         public string Thumbnail;
         public Sprite Thumbnail_data;
     }
-
-    //[Serializable]
-    //public class Definition
-    //{
-    //    public DefinitionEntryDic Definitions;
-    //}
 
     [Serializable]
     public class DefinitionEntry
@@ -581,6 +577,8 @@ namespace FrameData
     public class DefinitionEntryDic : SerializableDictionaryBase<string, List<DefinitionEntry>> { }
     [Serializable]
     public class ColorCodeEntryDic : SerializableDictionaryBase<string, ColorCodeEntry> { }
+    [Serializable]
+    public class OrderedColorCodeEntryDic : SerializableDictionaryBase<int, ColorCodeEntry> { }
     //[Serializable]
     //public class FrameEntryDic : SerializableDictionaryBase<string, FrameEntry> { }
     //[Serializable]

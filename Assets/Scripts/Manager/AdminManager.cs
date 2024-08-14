@@ -7,6 +7,8 @@ using Unity.VectorGraphics;
 using UnityEngine;
 using System;
 using ShootingScreenData;
+using UnityEditor.Build;
+using UnityEngine.Playables;
 
 public class AdminManager : SingletonBehaviour<AdminManager>
 {
@@ -190,12 +192,37 @@ public class AdminManager : SingletonBehaviour<AdminManager>
 
     private void DownloadFrameData()
     {
+        bool isColorCodeSorting = _frameData.Theme.Sorting.ToLower() == StringCacheManager.inst.SortingSpecified.ToLower() ? true : false;
+        if (isColorCodeSorting)
+        {
+            _frameData.Theme.OrderedColorCode = new OrderedColorCodeEntryDic();
+        }
+
         foreach (var item in _frameData.Theme.ColorCode)
         {
+
+            if (!item.Value.Use)
+            {
+                continue;
+            }
+
+            item.Value.key = item.Key;
+
             if (!string.IsNullOrEmpty(item.Value.Thumbnail))
             {
                 ApiCall.Instance.GetSequently<Sprite>
                     (item.Value.Thumbnail, (texture) => { item.Value.Thumbnail_data = texture; }, true);
+            }
+
+            if (isColorCodeSorting)
+            {
+                _frameData.Theme.OrderedColorCode[int.Parse(item.Value.Sequence.ToLower())] = item.Value;
+            }
+
+            // random 적용안됨
+            if (string.IsNullOrEmpty(UserDataManager.Instance.defaultFrameColor))
+            {
+                UserDataManager.Instance.SetDefaultFrameColor(item.Key);
             }
         }
 

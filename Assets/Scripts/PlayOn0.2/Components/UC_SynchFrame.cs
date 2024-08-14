@@ -91,7 +91,7 @@ public class UC_SynchFrame : MonoBehaviour //SingletonBehaviour<UC_SynchFrame>
         {
             elem.SetPics(new List<Texture2D>());
             elem.SetRenderTexture(new List<RenderTexture>());
-            elem.SetFrameColor(FRAME_COLOR_TYPE.FRAME_WHITE);
+            elem.SetFrameColor("default frame color key");//FRAME_COLOR_TYPE.FRAME_WHITE);
             elem.SetLutEffect(string.Empty);
             elem.SetFilterOn(false);
             //elem.UpdateFrame();
@@ -100,7 +100,7 @@ public class UC_SynchFrame : MonoBehaviour //SingletonBehaviour<UC_SynchFrame>
         {
             elem.SetPics(new List<Texture2D>());
             elem.SetRenderTexture(new List<RenderTexture>());
-            elem.SetFrameColor(FRAME_COLOR_TYPE.FRAME_WHITE);
+            elem.SetFrameColor("default frame color key");//FRAME_COLOR_TYPE.FRAME_WHITE);
             elem.SetLutEffect(string.Empty);
             elem.SetFilterOn(false);
             //elem.UpdateFrame();

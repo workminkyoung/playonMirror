@@ -103,7 +103,7 @@ public class UP_DecoSelectEffects : UP_DecoratePageBase
 
     private void OnClickFilter(UC_SelectableFilter selected)
     {
-        UserDataManager.inst.SetLutEffect(selected.FilterKey);
+        UserDataManager.inst.SetLutEffect(selected.Key);
 
         for (int i = 0; i < _contents.Count; i++)
         {
@@ -146,7 +146,7 @@ public class UP_DecoSelectEffects : UP_DecoratePageBase
                 filter.SetThumbnail(entry.Thumbnail_data);
                 filter.SetNameText(entry.Korean);
                 filter.SetlutTex(entry.LutFile_data);
-                filter.SetFilterKey(entry.Key);
+                filter.SetKey(entry.Key);
                 filter.pointerDownAction += () => OnClickFilter(filter);
 
                 _contents.Add(filter);
@@ -161,7 +161,7 @@ public class UP_DecoSelectEffects : UP_DecoratePageBase
                 filter.SetThumbnail(item.Value.Thumbnail_data);
                 filter.SetNameText(item.Value.Korean);
                 filter.SetlutTex(item.Value.LutFile_data);
-                filter.SetFilterKey(item.Value.Key);
+                filter.SetKey(item.Value.Key);
                 filter.pointerDownAction += () => OnClickFilter(filter);
 
                 _contents.Add(filter);

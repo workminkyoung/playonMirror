@@ -10,13 +10,15 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
     [SerializeField]
     private CONTENT_TYPE _selectedContent = CONTENT_TYPE.AI_CARTOON;
     [SerializeField]
-    private FRAME_TYPE _selectedFrame = FRAME_TYPE.FRAME_1;
+    private string _selectedFrame;// = FRAME_TYPE.FRAME_1;
     //[SerializeField]
     //private LUT_EFFECT_TYPE _selectedLut = LUT_EFFECT_TYPE.LUT_DEFAULT;
     [SerializeField]
     private string _selectedLutKey = string.Empty;
     [SerializeField]
-    private FRAME_COLOR_TYPE _selectedFrameColor = FRAME_COLOR_TYPE.FRAME_WHITE;
+    private string _selectedFrameColorKey;// = FRAME_COLOR_TYPE.FRAME_WHITE;
+    [SerializeField]
+    private string _defaultFrameColorKey = string.Empty;// = FRAME_COLOR_TYPE.FRAME_WHITE;
     [SerializeField]
     private FRAME_RATIO_TYPE _frameRatioType = FRAME_RATIO_TYPE.HORIZONTAL;
     [SerializeField]
@@ -42,10 +44,11 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
     private int _curPrice;
 
     public CONTENT_TYPE selectedContent => _selectedContent;
-    public FRAME_TYPE selectedFrame => _selectedFrame;
+    public string selectedFrame => _selectedFrame;
     public FRAME_RATIO_TYPE frameRatioType => _frameRatioType;
     //public LUT_EFFECT_TYPE selectedLut => _selectedLut;
-    public FRAME_COLOR_TYPE selectedFrameColor => _selectedFrameColor;
+    public string selectedFrameColor => _selectedFrameColorKey;
+    public string defaultFrameColor => _defaultFrameColorKey;
     //public PROFILE_TYPE selectedProfileType => _selectedProfileType;
     public GENDER_TYPE selectedGender => _selectedGender;
 
@@ -68,7 +71,7 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
     public void ResetUserData()
     {
         //_selectedLut = LUT_EFFECT_TYPE.LUT_DEFAULT;
-        _selectedFrameColor = FRAME_COLOR_TYPE.FRAME_WHITE;
+        _selectedFrameColorKey = _defaultFrameColorKey;
         _frameRatioType = FRAME_RATIO_TYPE.HORIZONTAL;
         _curPicAmount = Mathf.Min( ConfigData.config.firstPrintAmount, PhotoPaperCheckModule.GetRemainPhotoPaper());
         _selectedChromaKeyNum = 0;
@@ -90,7 +93,7 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
         }
     }
 
-    public void SelectFrame(FRAME_TYPE type)
+    public void SelectFrame(string type)
     {
         _selectedFrame = type;
     }
@@ -105,9 +108,14 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
         _selectedLutKey = lut;
     }
 
-    public void SetSelectedFrameColor(FRAME_COLOR_TYPE type)
+    public void SetSelectedFrameColor(string key)
     {
-        _selectedFrameColor = type;
+        _selectedFrameColorKey = key;
+    }
+
+    public void SetDefaultFrameColor(string key)
+    {
+        _defaultFrameColorKey = key;
     }
 
     public void SelectSubContent(string subContentKey)

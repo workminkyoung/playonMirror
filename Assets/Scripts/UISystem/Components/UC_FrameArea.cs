@@ -1,3 +1,4 @@
+using FrameData;
 using Klak.Ndi.Interop;
 using RotaryHeart.Lib.SerializableDictionary;
 using System;
@@ -14,7 +15,7 @@ public class UC_FrameArea : UC_BaseComponent
     [SerializeField]
     private FRAME_TYPE _frameType;
     [SerializeField]
-    private FRAME_COLOR_TYPE _frameColor;
+    private string _frameColor;
     [SerializeField]
     private bool _isFilterOn;
 
@@ -185,7 +186,7 @@ public class UC_FrameArea : UC_BaseComponent
         _renderTextures = renderTextures;
     }
 
-    public void SetFrameColor(FRAME_COLOR_TYPE type)
+    public void SetFrameColor(string type)
     {
         _frameColor = type;
     }
@@ -353,16 +354,45 @@ public class UC_FrameArea : UC_BaseComponent
         }
     }
 
+    private DefinitionEntry GetFrameDefinition()
+    {
+        FrameData.DefinitionEntry definition = null;
+        string frameType = UserDataManager.Instance.selectedFrame;
+        List<FrameData.DefinitionEntry> entries = AdminManager.Instance.FrameData.Definition[frameType];
+
+        foreach (var item in entries)
+        {
+            if(item.ColorCode == _frameColor)
+            {
+                definition = item;
+                break;
+            }
+        }
+
+        return definition;
+    }
+
     private void UpdateFrameColor()
     {
-        _upperLayers.sprite = ResourceCacheManager.inst.GetFrameSprite(_frameColor, _frameType);
-        _upperLayers.color = ResourceCacheManager.inst.GetFrameColor(_frameColor);
+        FrameData.DefinitionEntry entry = GetFrameDefinition();
+        _upperLayers.sprite = entry.LayerImage_data;
+        _upperLayers.color = Color.white;// ResourceCacheManager.inst.GetFrameColor(_frameColor);
 
         foreach (Image logo in _logoImgs)
         {
-            logo.color = Color.black;
+            logo.color = Color.clear;
         }
 
+        //여기 진행중
+        foreach (var elem in _dateTexts)
+        {
+            elem.color = UtilityExtensions.HexToColor(entry.DateColor);
+            //elem.font = ResourceCacheManager.inst.GetFrameFont(_frameColor);
+            elem.alignment = TextAlignmentOptions.MidlineLeft;
+            elem.characterSpacing = 6;
+        }
+
+        /*
         switch (_frameColor)
         {
             case FRAME_COLOR_TYPE.FRAME_WHITE:
@@ -589,7 +619,7 @@ public class UC_FrameArea : UC_BaseComponent
                 elem.rectTransform.offsetMin = _dateTextTransformDic[_frameColor].offsetMin;
                 elem.rectTransform.offsetMax = _dateTextTransformDic[_frameColor].offsetMax;
             }
-        }
+        }*/
     }
 
     private void UpdateLutEffect()
