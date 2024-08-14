@@ -25,7 +25,7 @@ public class AdminManager : SingletonBehaviour<AdminManager>
     [SerializeField]
     private ShootingScreenData.ShootScreenDic _shootScreen;
     [SerializeField]
-    private FrameData.FrameEntryDic _frameData;
+    private FrameData.FrameData _frameData;
 
     [SerializeField]
     private LANGUAGE_TYPE _language = LANGUAGE_TYPE.KOR;
@@ -38,7 +38,7 @@ public class AdminManager : SingletonBehaviour<AdminManager>
     public BasicData.BasicSetting BasicSetting => _basicSetting;
     public ChromakeyFrameData.ChromakeyFrame ChromakeyFrame => _chromakeyFrame;
     public ShootingScreenData.ShootScreenDic ShootScreen => _shootScreen;
-    public FrameData.FrameEntryDic FrameData => _frameData;
+    public FrameData.FrameData FrameData => _frameData;
     public LANGUAGE_TYPE Language => _language;
 
     protected override void Init ()
@@ -72,7 +72,7 @@ public class AdminManager : SingletonBehaviour<AdminManager>
         SetBasicData();
         SetChromakeyFrameData();
         SetShootScreenData();
-        //SetFrameData();
+        SetFrameData();
     }
 
     private void SetBubbleData ()
@@ -184,98 +184,131 @@ public class AdminManager : SingletonBehaviour<AdminManager>
     private void SetFrameData()
     {
         string result = _configDefaultData.machine_config.FrameData.ToString();
-        _frameData = JsonConvert.DeserializeObject<FrameData.FrameEntryDic>(result);
-        
-        foreach (var entry in _frameData)
-        {
-            if (!string.IsNullOrEmpty(entry.Value.data))
-            {
-                SplitFrameDefinition(entry.Value);
-
-            }
-        }
-        Debug.Log("e");
+        _frameData = JsonConvert.DeserializeObject<FrameData.FrameData>(result);
+        DownloadFrameData();
     }
 
-    private void SplitFrameDefinition(FrameEntry entry)
+    private void DownloadFrameData()
     {
-        //List<FrameDefinitionEntry> listEntry = new List<FrameDefinitionEntry>();
-        //FrameDefinitionEntryDic 
-        // 정규 표현식 패턴
-        string pattern = @"\{.*?\}";
-        entry.FrameDefinitions = new FrameDefinitionEntryDic();
-
-        // 정규 표현식으로 일치하는 부분을 찾습니다.
-        MatchCollection matches = Regex.Matches(entry.data, pattern);
-
-        // 찾은 모든 매치를 출력
-        foreach (Match match in matches)
+        foreach (var item in _frameData.Theme.ColorCode)
         {
-            FrameDefinitionEntry definition = JsonConvert.DeserializeObject<FrameDefinitionEntry>(match.Value);
-            definition.picRects = new List<FrameRectTransform>();
+            if (!string.IsNullOrEmpty(item.Value.Thumbnail))
+            {
+                ApiCall.Instance.GetSequently<Sprite>
+                    (item.Value.Thumbnail, (texture) => { item.Value.Thumbnail_data = texture; }, true);
+            }
+        }
 
-            if (!string.IsNullOrEmpty(definition.PicConvert1))
+        foreach (var item in _frameData.Definition)
+        {
+            for (int i = 0; i < item.Value.Count; i++)
             {
-                definition.picRects.Add(ParseRectData(definition.PicConvert1));
-            }
-            if (!string.IsNullOrEmpty(definition.PicConvert2))
-            {
-                definition.picRects.Add(ParseRectData(definition.PicConvert2));
-            }
-            if (!string.IsNullOrEmpty(definition.PicConvert3))
-            {
-                definition.picRects.Add(ParseRectData(definition.PicConvert3));
-            }
-            if (!string.IsNullOrEmpty(definition.PicConvert4))
-            {
-                definition.picRects.Add(ParseRectData(definition.PicConvert4));
-            }
-            if (!string.IsNullOrEmpty(definition.PicConvert5))
-            {
-                definition.picRects.Add(ParseRectData(definition.PicConvert5));
-            }
-            if (!string.IsNullOrEmpty(definition.PicConvert6))
-            {
-                definition.picRects.Add(ParseRectData(definition.PicConvert6));
-            }
-            if (!string.IsNullOrEmpty(definition.PicConvert7))
-            {
-                definition.picRects.Add(ParseRectData(definition.PicConvert7));
-            }
-            if (!string.IsNullOrEmpty(definition.PicConvert8))
-            {
-                definition.picRects.Add(ParseRectData(definition.PicConvert8));
-            }
+                int index = i;
+                Debug.Log($"Frame Definition Key:{item.Key}, Count:{i}");
+                item.Value[i].picRects = new List<FrameRectTransform>();
+                item.Value[i].dateRects = new List<FrameRectTransform>();
+                item.Value[i].qrRects = new List<FrameRectTransform>();
+
+                // Parsing Data
+                if (!string.IsNullOrEmpty(item.Value[i].PicCanvas1))
+                {
+                    item.Value[i].picRects.Add(ParseRectData(item.Value[i].PicCanvas1));
+                }
+                if (!string.IsNullOrEmpty(item.Value[i].PicCanvas2))
+                {
+                    item.Value[i].picRects.Add(ParseRectData(item.Value[i].PicCanvas2));
+                }
+                if (!string.IsNullOrEmpty(item.Value[i].PicCanvas3))
+                {
+                    item.Value[i].picRects.Add(ParseRectData(item.Value[i].PicCanvas3));
+                }
+                if (!string.IsNullOrEmpty(item.Value[i].PicCanvas4))
+                {
+                    item.Value[i].picRects.Add(ParseRectData(item.Value[i].PicCanvas4));
+                }
+                if (!string.IsNullOrEmpty(item.Value[i].PicCanvas5))
+                {
+                    item.Value[i].picRects.Add(ParseRectData(item.Value[i].PicCanvas5));
+                }
+                if (!string.IsNullOrEmpty(item.Value[i].PicCanvas6))
+                {
+                    item.Value[i].picRects.Add(ParseRectData(item.Value[i].PicCanvas6));
+                }
+                if (!string.IsNullOrEmpty(item.Value[i].PicCanvas7))
+                {
+                    item.Value[i].picRects.Add(ParseRectData(item.Value[i].PicCanvas7));
+                }
+                if (!string.IsNullOrEmpty(item.Value[i].PicCanvas8))
+                {
+                    item.Value[i].picRects.Add(ParseRectData(item.Value[i].PicCanvas8));
+                }
 
 
-            if (!string.IsNullOrEmpty(definition.DateRect))
-            {
-                definition.dateRect = ParseRectData(definition.DateRect);
-            }
-            if (!string.IsNullOrEmpty(definition.QRRect))
-            {
-                definition.qrRect = ParseRectData(definition.QRRect);
+                if (!string.IsNullOrEmpty(item.Value[i].DateRect_1))
+                {
+                    item.Value[i].dateRects.Add(ParseRectData(item.Value[i].DateRect_1));
+                }
+                if (!string.IsNullOrEmpty(item.Value[i].DateRect_2))
+                {
+                    item.Value[i].dateRects.Add(ParseRectData(item.Value[i].DateRect_2));
+                }
+
+                if (!string.IsNullOrEmpty(item.Value[i].QRRect_1))
+                {
+                    item.Value[i].qrRects.Add(ParseRectData(item.Value[i].QRRect_1));
+                }
+                if (!string.IsNullOrEmpty(item.Value[i].QRRect_2))
+                {
+                    item.Value[i].qrRects.Add(ParseRectData(item.Value[i].QRRect_2));
+                }
+
+                // Download Texture Data
+                if (!string.IsNullOrEmpty(item.Value[i].BgImage))
+                {
+                    ApiCall.Instance.GetSequently<Sprite>
+                        (item.Value[index].BgImage, (texture) => { item.Value[index].BgImage_data = texture; }, true);
+                }
+                if (!string.IsNullOrEmpty(item.Value[i].LayerImage))
+                {
+                    ApiCall.Instance.GetSequently<Sprite>
+                        (item.Value[index].LayerImage, (texture) => { item.Value[index].LayerImage_data = texture; }, true);
+                }
+                if (!string.IsNullOrEmpty(item.Value[i].ShootingDim))
+                {
+                    ApiCall.Instance.GetSequently<Sprite>
+                        (item.Value[index].ShootingDim, (texture) => { item.Value[index].ShootingDim_data = texture; }, true);
+                }
+                if (!string.IsNullOrEmpty(item.Value[i].ThumbnailSelect))
+                {
+                    ApiCall.Instance.GetSequently<Sprite>
+                        (item.Value[index].ThumbnailSelect, (texture) => { item.Value[index].ThumbnailSelect_data = texture; }, true);
+                }
+                if (!string.IsNullOrEmpty(item.Value[i].ThumbnailUnselect))
+                {
+                    ApiCall.Instance.GetSequently<Sprite>
+                        (item.Value[index].ThumbnailUnselect, (texture) => { item.Value[index].ThumbnailUnselect_data = texture; }, true);
+                }
             }
 
-            entry.FrameDefinitions[Tuple.Create(definition.Service, definition.ColorCode)] = definition;
+            //entry.FrameDefinitions[Tuple.Create(definition.Service, definition.ColorCode)] = definition;
 
             //Find Thumbnail tlqkf
-            if (entry.ThumbnailUnselect == null)
-            {
-                if (!string.IsNullOrEmpty(definition.Thumbnaillink))
-                {
-                    ApiCall.Instance.GetSequently<Sprite>
-                        (definition.Thumbnaillink, (texture) => { entry.ThumbnailUnselect = texture; }, true);
-                }
-            }
-            if (entry.ThumbnailSelect == null)
-            {
-                if (!string.IsNullOrEmpty(definition.ThumbnailSliced))
-                {
-                    ApiCall.Instance.GetSequently<Sprite>
-                        (definition.ThumbnailSliced, (texture) => { entry.ThumbnailSelect = texture; }, true);
-                }
-            }
+            //if (entry.ThumbnailUnselect == null)
+            //{
+            //    if (!string.IsNullOrEmpty(definition.Thumbnaillink))
+            //    {
+            //        ApiCall.Instance.GetSequently<Sprite>
+            //            (definition.Thumbnaillink, (texture) => { entry.ThumbnailUnselect = texture; }, true);
+            //    }
+            //}
+            //if (entry.ThumbnailSelect == null)
+            //{
+            //    if (!string.IsNullOrEmpty(definition.ThumbnailSliced))
+            //    {
+            //        ApiCall.Instance.GetSequently<Sprite>
+            //            (definition.ThumbnailSliced, (texture) => { entry.ThumbnailSelect = texture; }, true);
+            //    }
+            //}
         }
     }
 
@@ -442,11 +475,6 @@ public class AdminManager : SingletonBehaviour<AdminManager>
             ApiCall.Instance.GetSequently<string>
                 (_basicSetting.Config.PromotionVideo, (path) => { _basicSetting.Config.PromotionVideo_path = path; }, true);
         }
-    }
-
-    public void DownloadFrameData()
-    {
-
     }
 
     public void DownloadShootData()

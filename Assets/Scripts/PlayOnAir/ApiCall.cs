@@ -5,6 +5,7 @@ using UnityEngine.Networking;
 using System;
 using System.IO;
 using System.CodeDom;
+using UnityEditor.Experimental.GraphView;
 
 public partial class ApiCall : SingletonBehaviour<ApiCall>
 {
@@ -219,7 +220,26 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
                 }
             }
 
-            response?.Invoke((T)result);
+
+            try
+            {
+                response?.Invoke((T)result);
+            }
+            catch (Exception ex)
+            {
+                Debug.Log(ex);
+                Debug.Log($"{url} data is nevigative Size");
+                //throw;
+            }
+
+            //if(result != null)
+            //{
+            //    response?.Invoke((T)result);
+            //}
+            //else
+            //{
+            //    Debug.Log($"{url} data is nevigative Size");
+            //}
         }
         www.Dispose();
 
@@ -234,7 +254,12 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
 
     public void Post (string url, string json, Action<string> response = null)
     {
-        if(_postCoroutine != null)
+        if (string.IsNullOrEmpty(url) || url.Length <= 3)
+        {
+            return;
+        }
+
+        if (_postCoroutine != null)
         {
             StopCoroutine(_postCoroutine);
             _postCoroutine = null;
@@ -244,7 +269,12 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
 
     public void Get<T> (string url, Action<T> response = null, bool isGoogleDownload = false)
     {
-        if(_getCoroutine != null)
+        if (string.IsNullOrEmpty(url) || url.Length <= 3)
+        {
+            return;
+        }
+
+        if (_getCoroutine != null)
         {
             StopCoroutine(_getCoroutine);
             _getCoroutine = null;
@@ -262,6 +292,11 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
 
     public void GetSequently<T> (string url, Action<T> response = null, bool isGoogleDownload = false)
     {
+        if(string.IsNullOrEmpty(url) || url.Length <= 3)
+        {
+            return;
+        }
+
         if(isGoogleDownload)
         {
             StartCoroutine(GetRequestGoogleLink(url, response, false, true));

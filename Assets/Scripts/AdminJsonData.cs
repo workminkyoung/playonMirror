@@ -11,12 +11,6 @@ public class ConfigDefaultData
     public Result machine_config;
 }
 
-//[System.Serializable]
-//public class ConfigDefaultSet
-//{
-//    public Result result;
-//}
-
 [Serializable]
 public class Result
 {
@@ -429,54 +423,121 @@ namespace ShootingScreenData
 namespace FrameData
 {
     [Serializable]
-    public class FrameEntry
+    public class FrameData
     {
-        public string Key;
-        public string Code;
-        public string data;
-        public Sprite ThumbnailUnselect;
-        public Sprite ThumbnailSelect;
-        public FrameDefinitionEntryDic FrameDefinitions;
+        public Theme Theme;
+        public DefinitionEntryDic Definition;
+        public FrameCode ServiceFrame;
     }
 
     [Serializable]
-    public class FrameDefinitionEntry
+    public class Theme
     {
+        public string Sorting;
+        public ColorCodeEntryDic ColorCode;
+    }
+
+    [Serializable]
+    public class ColorCodeEntry
+    {
+        public bool Use;
+        public string korean;
+        public string chinese;
+        public string english;
+        public string Sequence;
+        public string Thumbnail;
+        public Sprite Thumbnail_data;
+    }
+
+    //[Serializable]
+    //public class Definition
+    //{
+    //    public DefinitionEntryDic Definitions;
+    //}
+
+    [Serializable]
+    public class DefinitionEntry
+    {
+        // Background Image
+        public string BgImage;
+        public Sprite BgImage_data;
+
+        // Layer Image
+        public string LayerImage;
+        public Sprite LayerImage_data;
+
+        // Service type
         public string Service;
-        public string ColorCode;
-        public string Direction;
-        public string Thumbnaillink;
-        public string ThumbnailSliced;
-        public string Righname;
-        public string PicConvert1;
-        public string PicConvert2;
-        public string PicConvert3;
-        public string PicConvert4;
-        public string PicConvert5;
-        public string PicConvert6;
-        public string PicConvert7;
-        public string PicConvert8;
+
+        // Date font and color
+        public string Datefont;
         public string DateColor;
-        public string DateRect;
-        public string DatefontSize;
-        public string DateFont;
-        public string Default;
-        public int DefaultFont;
-        public string QRRect;
-        public string ShootRatio;
-        public string OriginCropRatio;
-        public string ShootingUrl;
-        public string sellingPrice1;
-        public string sellingPrice2;
-        public string sellingPrice3;
+        public int DatefontSize;
+
+        // Direction
+        public string Direction;
+
+        // Shoot Rate
+        public string ShootRate;
+
+        // Date format
+        public string DateFormat;
+
+        // Color code
+        public string ColorCode;
+
+        // QR and Date Rects
+        public string QRRect_1;
+        public string QRRect_2;
+        public string DateRect_1;
+        public string DateRect_2;
+
+        // Picture Canvases
+        public string PicCanvas1;
+        public string PicCanvas2;
+        public string PicCanvas3;
+        public string PicCanvas4;
+        public string PicCanvas5;
+        public string PicCanvas6;
+        public string PicCanvas7;
+        public string PicCanvas8;
+
+        // Shooting Dimension
+        public string ShootingDim;
+        public Sprite ShootingDim_data;
+
+        // Prices
+        public int Price1;
+        public int Price2;
+        public int Price3;
+        public int Price4;
+        public int Price5;
+        public int Price6;
+        public int Price7;
+        public int Price8;
+
+        // Selling Prices
+        public int sellingPrice1;
+        public int sellingPrice2;
+        public int sellingPrice3;
         public int sellingPrice4;
         public int sellingPrice5;
         public int sellingPrice6;
         public int sellingPrice7;
         public int sellingPrice8;
+
+        // Origin Crop Rate
+        public string OriginCropRate;
+
+        // Thumbnails
+        public string ThumbnailSelect;
+        public Sprite ThumbnailSelect_data;
+        public string ThumbnailUnselect;
+        public Sprite ThumbnailUnselect_data;
+
         public List<FrameRectTransform> picRects;
-        public FrameRectTransform dateRect;
-        public FrameRectTransform qrRect;
+        public List<FrameRectTransform> dateRects;
+        public List<FrameRectTransform> qrRects;
     }
 
     [Serializable]
@@ -491,7 +552,35 @@ namespace FrameData
     }
 
     [Serializable]
-    public class FrameEntryDic : SerializableDictionaryBase<string, FrameEntry> { }
+    public class FrameCode
+    {
+        public FrameCodeEntryDic Code;
+    }
+
     [Serializable]
-    public class FrameDefinitionEntryDic : SerializableDictionaryBase<Tuple<string, string>, FrameDefinitionEntry> { }
+    public class CodeEntry
+    {
+        public string SelectFrame1;
+        public string SelectFrame2;
+        public string SelectFrame3;
+        public string SelectFrame4;
+        public string SelectFrame5;
+        public string SelectFrame6;
+        public string SelectFrame7;
+        public string SelectFrame8;
+        public string SelectFrame9;
+        public string SelectFrame10;
+        public int DefaultSellAmount;
+    }
+
+    [Serializable]
+    public class FrameCodeEntryDic : SerializableDictionaryBase<string, CodeEntry> { }
+    [Serializable]
+    public class DefinitionEntryDic : SerializableDictionaryBase<string, List<DefinitionEntry>> { }
+    [Serializable]
+    public class ColorCodeEntryDic : SerializableDictionaryBase<string, ColorCodeEntry> { }
+    //[Serializable]
+    //public class FrameEntryDic : SerializableDictionaryBase<string, FrameEntry> { }
+    //[Serializable]
+    //public class FrameDefinitionEntryDic : SerializableDictionaryBase<Tuple<string, string>, DefinitionEntry> { }
 }
