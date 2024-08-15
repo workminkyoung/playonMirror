@@ -124,10 +124,13 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
 
     public IEnumerator GetRequestGoogleLink<T>(string url, Action<T> response = null, bool isReRequest = false, bool isSequential = false, int? reRequestedIndex = null)
     {
-        if(!isReRequest)
+        string key = ExtractGoogleDownKey(url);
+
+        if (!isReRequest)
         {
             _requestNum = 0;
             _requestCompleted.Add(false);
+            url = _googleDownUrl + key;
         }
 
         int requestIndex = _requestCompleted.Count - 1;
@@ -135,9 +138,6 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
         {
             requestIndex = (int)reRequestedIndex;
         }
-
-        string key = ExtractGoogleDownKey(url);
-        url = _googleDownUrl + key;
 
         _requestNum++;
         UnityWebRequest www = new UnityWebRequest(url, UnityWebRequest.kHttpVerbGET);
@@ -331,7 +331,7 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
         }
         catch(Exception ex)
         {
-            CustomLogger.LogError(ex);
+            CustomLogger.LogError($"Ex) {ex}, FROM [{url}]");
             return string.Empty;
         }
     }
