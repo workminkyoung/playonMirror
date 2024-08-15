@@ -80,6 +80,7 @@ public class UP_DecoSelectFrame : UP_DecoratePageBase
         (_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_PRINT);
     }
 
+    /*
     //Tempt Test On Develop
     protected override void OnEnable()
     {
@@ -131,7 +132,6 @@ public class UP_DecoSelectFrame : UP_DecoratePageBase
 
         //FrameShapeBtnSelectCheck();
     }
-    /*
     */
 
     protected override void OnTimeLimitDone()

@@ -488,75 +488,13 @@ MonoBehaviour:
     - {fileID: 7196703213443896089}
     - {fileID: 429947144654205922}
   _timeText: {fileID: 7470953752217256658}
-  _frameShapes:
-  - {fileID: 2604632831616398447}
-  - {fileID: 2588655299325166571}
-  - {fileID: 5323377040127577692}
-  _frameShapeArea: {fileID: 195886133542550619}
+  _frameColors: []
   _prevBtn: {fileID: 8879568785859618560}
   _printBtn: {fileID: 5378383262474516272}
-  _frameColorDic:
-    reorderableList:
-      canAdd: 1
-      canRemove: 1
-      draggable: 1
-      expandable: 1
-      multipleSelection: 1
-      isExpanded: 1
-      label:
-        m_Text: Keys
-        m_Image: {fileID: 0}
-        m_Tooltip: 
-      headerHeight: 18
-      footerHeight: 13
-      slideEasing: 0.15
-      verticalSpacing: 2
-      showDefaultBackground: 1
-      elementDisplayType: 0
-      elementNameProperty: 
-      elementNameOverride: 
-      elementIcon: {fileID: 0}
-    reqReferences: {fileID: 0}
-    isExpanded: 1
-    _keyValues: 0000000001000000060000000700000008000000
-    _keys: 0000000001000000060000000700000008000000
-    _values:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-  _frameColorDicWhatIf:
-    reorderableList:
-      canAdd: 1
-      canRemove: 1
-      draggable: 1
-      expandable: 1
-      multipleSelection: 1
-      isExpanded: 1
-      label:
-        m_Text: Keys
-        m_Image: {fileID: 0}
-        m_Tooltip: 
-      headerHeight: 18
-      footerHeight: 13
-      slideEasing: 0.15
-      verticalSpacing: 2
-      showDefaultBackground: 1
-      elementDisplayType: 0
-      elementNameProperty: 
-      elementNameOverride: 
-      elementIcon: {fileID: 0}
-    reqReferences: {fileID: 0}
-    isExpanded: 1
-    _keyValues: 0b000000090000000a000000
-    _keys: 0b000000090000000a000000
-    _values:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
   stickerContainerParent: {fileID: 3676857302117150763}
   stickerContainer: {fileID: 0}
+  _colorPrefab: {fileID: 1467613236405870462, guid: b4e093dd24a8d0747982a931fb5d37e2, type: 3}
+  _colorContainer: {fileID: 4020457914991039573}
 --- !u!1 &2779193632019176277
 GameObject:
   m_ObjectHideFlags: 0
@@ -1932,10 +1870,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e758565b14fe2974ebbf4675f910f78b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _key: 
   _touchFeedback: {fileID: 5549067265302034174}
   _stroke: {fileID: 1077697539181582726}
   isViewOnly: 0
   _thumbnailImg: {fileID: 0}
+  _thumbnailUnselectImg: {fileID: 0}
+  _thumbnailSelectImg: {fileID: 0}
   _nameText: {fileID: 0}
 --- !u!1 &4010188491270329598
 GameObject:
@@ -3836,10 +3777,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e758565b14fe2974ebbf4675f910f78b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _key: 
   _touchFeedback: {fileID: 6288697267896438939}
   _stroke: {fileID: 1206675159464809900}
   isViewOnly: 0
   _thumbnailImg: {fileID: 0}
+  _thumbnailUnselectImg: {fileID: 0}
+  _thumbnailSelectImg: {fileID: 0}
   _nameText: {fileID: 0}
 --- !u!1 &7583808914231159643
 GameObject:
@@ -4363,10 +4307,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e758565b14fe2974ebbf4675f910f78b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _key: 
   _touchFeedback: {fileID: 335011212466658387}
   _stroke: {fileID: 3124510111288494061}
   isViewOnly: 0
   _thumbnailImg: {fileID: 0}
+  _thumbnailUnselectImg: {fileID: 0}
+  _thumbnailSelectImg: {fileID: 0}
   _nameText: {fileID: 0}
 --- !u!1 &8408967345156853338
 GameObject:

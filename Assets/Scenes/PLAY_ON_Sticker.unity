@@ -1079,7 +1079,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4570291030867166991, guid: 35587569804474847b16cca4730d41d2, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 4570291030867166991, guid: 35587569804474847b16cca4730d41d2, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -5684,6 +5684,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 601487192}
     m_Modifications:
+    - target: {fileID: 487886727033890856, guid: bd7233b5a18a046498a07b97b56e60d7, type: 3}
+      propertyPath: _frameAreaDic._values.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 487886727033890856, guid: bd7233b5a18a046498a07b97b56e60d7, type: 3}
+      propertyPath: _frameAreaDic._keyValues.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 487886727033890856, guid: bd7233b5a18a046498a07b97b56e60d7, type: 3}
+      propertyPath: _frameAreaDic._keyValues.Array.data[0]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 487886727033890856, guid: bd7233b5a18a046498a07b97b56e60d7, type: 3}
+      propertyPath: _frameAreaDic._keyValues.Array.data[2]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 487886727033890856, guid: bd7233b5a18a046498a07b97b56e60d7, type: 3}
+      propertyPath: _frameAreaDic._keyValues.Array.data[3]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 487886727033890856, guid: bd7233b5a18a046498a07b97b56e60d7, type: 3}
+      propertyPath: _frameAreaDic._keyValues.Array.data[4]
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 1456555229546950006, guid: bd7233b5a18a046498a07b97b56e60d7, type: 3}
       propertyPath: m_AnchorMax.x
       value: 1

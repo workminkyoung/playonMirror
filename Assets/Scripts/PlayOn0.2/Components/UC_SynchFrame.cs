@@ -128,8 +128,8 @@ public class UC_SynchFrame : MonoBehaviour //SingletonBehaviour<UC_SynchFrame>
     {
         foreach (var elem in _frameAreaDic.Keys)
         {
-            _frameAreaDic[elem].gameObject.SetActive(UserDataManager.inst.selectedFrameKey == elem);
-            _frameAreaDic_video[elem].gameObject.SetActive(UserDataManager.inst.selectedFrameKey == elem);
+            _frameAreaDic[elem].gameObject.SetActive(UserDataManager.inst.selectedFrameType == elem);
+            _frameAreaDic_video[elem].gameObject.SetActive(UserDataManager.inst.selectedFrameType == elem);
         }
 
         List<Texture2D> texs = new List<Texture2D>();
@@ -160,18 +160,18 @@ public class UC_SynchFrame : MonoBehaviour //SingletonBehaviour<UC_SynchFrame>
             index++;
         }
 
-        _frameAreaDic[UserDataManager.inst.selectedFrameKey].SetSkinFilterOn(_mainController.isSkinFilterOn);
-        _frameAreaDic[UserDataManager.inst.selectedFrameKey].SetRatioType(UserDataManager.inst.frameRatioType);
-        _frameAreaDic[UserDataManager.inst.selectedFrameKey].SetFrameColor(UserDataManager.inst.selectedFrameColor);
-        _frameAreaDic[UserDataManager.inst.selectedFrameKey].SetPics(texs, types);
-        _frameAreaDic[UserDataManager.inst.selectedFrameKey].SetLutEffect(UserDataManager.inst.selectedLutKey);
-        _frameAreaDic[UserDataManager.inst.selectedFrameKey].UpdateFrame();
+        _frameAreaDic[UserDataManager.inst.selectedFrameType].SetSkinFilterOn(_mainController.isSkinFilterOn);
+        _frameAreaDic[UserDataManager.inst.selectedFrameType].SetRatioType(UserDataManager.inst.frameRatioType);
+        _frameAreaDic[UserDataManager.inst.selectedFrameType].SetFrameColor(UserDataManager.inst.selectedFrameColor);
+        _frameAreaDic[UserDataManager.inst.selectedFrameType].SetPics(texs, types);
+        _frameAreaDic[UserDataManager.inst.selectedFrameType].SetLutEffect(UserDataManager.inst.selectedLutKey);
+        _frameAreaDic[UserDataManager.inst.selectedFrameType].UpdateFrame();
 
-        _frameAreaDic_video[UserDataManager.inst.selectedFrameKey].SetSkinFilterOn(_mainController.isSkinFilterOn);
-        _frameAreaDic_video[UserDataManager.inst.selectedFrameKey].SetRatioType(UserDataManager.inst.frameRatioType);
-        _frameAreaDic_video[UserDataManager.inst.selectedFrameKey].SetFrameColor(UserDataManager.inst.selectedFrameColor);
-        _frameAreaDic_video[UserDataManager.inst.selectedFrameKey].SetPics(texs, types);
-        _frameAreaDic_video[UserDataManager.inst.selectedFrameKey].UpdateFrame();
+        _frameAreaDic_video[UserDataManager.inst.selectedFrameType].SetSkinFilterOn(_mainController.isSkinFilterOn);
+        _frameAreaDic_video[UserDataManager.inst.selectedFrameType].SetRatioType(UserDataManager.inst.frameRatioType);
+        _frameAreaDic_video[UserDataManager.inst.selectedFrameType].SetFrameColor(UserDataManager.inst.selectedFrameColor);
+        _frameAreaDic_video[UserDataManager.inst.selectedFrameType].SetPics(texs, types);
+        _frameAreaDic_video[UserDataManager.inst.selectedFrameType].UpdateFrame();
 
         ScreenShoot();
     }
@@ -229,7 +229,7 @@ public class UC_SynchFrame : MonoBehaviour //SingletonBehaviour<UC_SynchFrame>
         {
             foreach (var elem in _frameAreaDic_video.Keys)
             {
-                _frameAreaDic_video[elem].gameObject.SetActive("FR1X1001" == elem);
+                _frameAreaDic_video[elem].gameObject.SetActive(FRAME_TYPE.FRAME_1 == elem);
             }
 
             //get activated video path
@@ -243,11 +243,11 @@ public class UC_SynchFrame : MonoBehaviour //SingletonBehaviour<UC_SynchFrame>
             _videoPlayers[0].targetTexture = renderTexture;
             setPics.Add(renderTexture);
 
-            _frameAreaDic_video["FR1X1001"].SetPics(new List<Texture2D>());
-            _frameAreaDic_video["FR1X1001"].SetRatioType(ratioType);
-            _frameAreaDic_video["FR1X1001"].SetRenderTexture(setPics);
-            _frameAreaDic_video["FR1X1001"].SetFrameColor(UserDataManager.inst.selectedFrameColor);
-            _frameAreaDic_video["FR1X1001"].UpdateFrame();
+            _frameAreaDic_video[FRAME_TYPE.FRAME_1].SetPics(new List<Texture2D>());
+            _frameAreaDic_video[FRAME_TYPE.FRAME_1].SetRatioType(ratioType);
+            _frameAreaDic_video[FRAME_TYPE.FRAME_1].SetRenderTexture(setPics);
+            _frameAreaDic_video[FRAME_TYPE.FRAME_1].SetFrameColor(UserDataManager.inst.selectedFrameColor);
+            _frameAreaDic_video[FRAME_TYPE.FRAME_1].UpdateFrame();
         }
         else
         {
@@ -272,11 +272,11 @@ public class UC_SynchFrame : MonoBehaviour //SingletonBehaviour<UC_SynchFrame>
                 setPics.Add(renderTexture);
             }
 
-            _frameAreaDic_video[UserDataManager.inst.selectedFrameKey].SetPics(new List<Texture2D>());
-            _frameAreaDic_video[UserDataManager.inst.selectedFrameKey].SetRatioType(ratioType);
-            _frameAreaDic_video[UserDataManager.inst.selectedFrameKey].SetRenderTexture(setPics);
-            _frameAreaDic_video[UserDataManager.inst.selectedFrameKey].SetFrameColor(UserDataManager.inst.selectedFrameColor);
-            _frameAreaDic_video[UserDataManager.inst.selectedFrameKey].UpdatePhotos();
+            _frameAreaDic_video[UserDataManager.inst.selectedFrameType].SetPics(new List<Texture2D>());
+            _frameAreaDic_video[UserDataManager.inst.selectedFrameType].SetRatioType(ratioType);
+            _frameAreaDic_video[UserDataManager.inst.selectedFrameType].SetRenderTexture(setPics);
+            _frameAreaDic_video[UserDataManager.inst.selectedFrameType].SetFrameColor(UserDataManager.inst.selectedFrameColor);
+            _frameAreaDic_video[UserDataManager.inst.selectedFrameType].UpdatePhotos();
         }
 
         CustomLogger.Log("Loaded");
@@ -415,5 +415,5 @@ public class UC_SynchFrame : MonoBehaviour //SingletonBehaviour<UC_SynchFrame>
     }
 
     [Serializable]
-    private class FrameAreaDicBase : SerializableDictionaryBase<string, UC_FrameArea> { };
+    private class FrameAreaDicBase : SerializableDictionaryBase<FRAME_TYPE, UC_FrameArea> { };
 }

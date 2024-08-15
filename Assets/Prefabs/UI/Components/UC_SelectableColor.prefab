@@ -65,11 +65,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e758565b14fe2974ebbf4675f910f78b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _key: 
   _touchFeedback: {fileID: 5402445506323157844}
   _stroke: {fileID: 2877341760534890919}
   isViewOnly: 0
-  _thumbnailImg: {fileID: 0}
-  _nameText: {fileID: 0}
+  _thumbnailImg: {fileID: 6960658286037936883}
+  _thumbnailUnselectImg: {fileID: 0}
+  _thumbnailSelectImg: {fileID: 0}
+  _nameText: {fileID: 4595455894997478816}
 --- !u!1 &2419146180624687231
 GameObject:
   m_ObjectHideFlags: 0

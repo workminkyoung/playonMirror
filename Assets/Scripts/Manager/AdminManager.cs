@@ -226,7 +226,7 @@ public class AdminManager : SingletonBehaviour<AdminManager>
             for (int i = 0; i < item.Value.Count; i++)
             {
                 int index = i;
-                Debug.Log($"Frame Definition Key:{item.Key}, Count:{i}");
+                //Debug.Log($"Frame Definition Key:{item.Key}, Count:{i}");
                 item.Value[i].picRects = new List<FrameRectTransform>();
                 item.Value[i].dateRects = new List<FrameRectTransform>();
                 item.Value[i].qrRects = new List<FrameRectTransform>();
@@ -648,66 +648,99 @@ public class AdminManager : SingletonBehaviour<AdminManager>
     {
         FrameRectTransform rectData = new FrameRectTransform();
 
+        // 정규식 패턴
+        //string pattern = @"Pos\.X:(?<PosX>-?\d+\.?\d*)\s+Pos\.Y:(?<PosY>-?\d+\.?\d*)\s+Width:(?<Width>\d+\.?\d*)\s+Height:(?<Height>\d+\.?\d*)\s+Min:\s+\[X:(?<AnchorMinX>\d+\.?\d*)\s+Y:(?<AnchorMinY>\d+\.?\d*)\]\s+Max:\s+\[X:(?<AnchorMaxX>\d+\.?\d*)\s+Y:(?<AnchorMaxY>\d+\.?\d*)\]\s+Pivot:\s+\[X:(?<PivotX>\d+\.?\d*)\s+Y:(?<PivotY>\d+\.?\d*)\]\s+Rotation:\s+\[X:(?<RotationX>\d+\.?\d*)\s+Y:(?<RotationY>\d+\.?\d*)\s+Z:(?<RotationZ>\d+\.?\d*)\]";
+
+        string pattern = @"Pos\.X:\s*(?<PosX>-?\d+\.?\d*)\s*Pos\.Y:\s*(?<PosY>-?\d+\.?\d*)\s*Width:\s*(?<Width>\d+\.?\d*)\s*Height:\s*(?<Height>\d+\.?\d*)\s*Min:\s*\[X:\s*(?<AnchorMinX>\d+\.?\d*)\s*Y:\s*(?<AnchorMinY>\d+\.?\d*)\]\s*Max:\s*\[X:\s*(?<AnchorMaxX>\d+\.?\d*)\s*Y:\s*(?<AnchorMaxY>\d+\.?\d*)\]\s*Pivot:\s*\[X:\s*(?<PivotX>\d+\.?\d*)\s*Y:\s*(?<PivotY>\d+\.?\d*)\]\s*Rotation:\s*\[X:\s*(?<RotationX>\d+\.?\d*)\s*Y:\s*(?<RotationY>\d+\.?\d*)\s*Z:\s*(?<RotationZ>\d+\.?\d*)\]";
+
+        Regex regex = new Regex(pattern);
+        Match match = regex.Match(data);
+
         // Extract Position
-        var posMatch = Regex.Match(data, @"Pos\.X:(?<x>[\-0-9]+)\tPos\.Y:(?<y>[\-0-9]+)");
-        if (posMatch.Success)
+        if (match.Success)
         {
             rectData.anchoredPosition = new Vector2(
-                float.Parse(posMatch.Groups["x"].Value),
-                float.Parse(posMatch.Groups["y"].Value)
+                float.Parse(match.Groups["PosX"].Value),
+                float.Parse(match.Groups["PosY"].Value)
             );
-        }
 
-        // Extract Size (Width and Height)
-        var sizeMatch = Regex.Match(data, @"Width:(?<width>[\-0-9]+)\tHeight:(?<height>[\-0-9]+)");
-        if (sizeMatch.Success)
-        {
             rectData.sizeDelta = new Vector2(
-                float.Parse(sizeMatch.Groups["width"].Value),
-                float.Parse(sizeMatch.Groups["height"].Value)
+                float.Parse(match.Groups["Width"].Value),
+                float.Parse(match.Groups["Height"].Value)
             );
-        }
 
-        // Extract Anchor Min
-        var anchorMinMatch = Regex.Match(data, @"Min:\t\[X:(?<minX>[\-0-9\.]+)\tY:(?<minY>[\-0-9\.]+)\]");
-        if (anchorMinMatch.Success)
-        {
             rectData.anchorMin = new Vector2(
-                float.Parse(anchorMinMatch.Groups["minX"].Value),
-                float.Parse(anchorMinMatch.Groups["minY"].Value)
+                float.Parse(match.Groups["AnchorMinX"].Value),
+                float.Parse(match.Groups["AnchorMinY"].Value)
             );
-        }
 
-        // Extract Anchor Max
-        var anchorMaxMatch = Regex.Match(data, @"Max:\t\[X:(?<maxX>[\-0-9\.]+)\tY:(?<maxY>[\-0-9\.]+)\]");
-        if (anchorMaxMatch.Success)
-        {
             rectData.anchorMax = new Vector2(
-                float.Parse(anchorMaxMatch.Groups["maxX"].Value),
-                float.Parse(anchorMaxMatch.Groups["maxY"].Value)
+                float.Parse(match.Groups["AnchorMaxX"].Value),
+                float.Parse(match.Groups["AnchorMaxY"].Value)
             );
-        }
 
-        // Extract Pivot
-        var pivotMatch = Regex.Match(data, @"Pivot:\t\[X:(?<pivotX>[\-0-9\.]+)\tY:(?<pivotY>[\-0-9\.]+)\]");
-        if (pivotMatch.Success)
-        {
             rectData.pivot = new Vector2(
-                float.Parse(pivotMatch.Groups["pivotX"].Value),
-                float.Parse(pivotMatch.Groups["pivotY"].Value)
+                float.Parse(match.Groups["PivotX"].Value),
+                float.Parse(match.Groups["PivotY"].Value)
             );
-        }
 
-        // Extract Rotation
-        var rotationMatch = Regex.Match(data, @"Rotation:\t\[X:(?<rotX>[\-0-9\.]+)\tY:(?<rotY>[\-0-9\.]+)\tZ:(?<rotZ>[\-0-9\.]+)\]");
-        if (rotationMatch.Success)
-        {
             rectData.rotation = new Vector3(
-                float.Parse(rotationMatch.Groups["rotX"].Value),
-                float.Parse(rotationMatch.Groups["rotY"].Value),
-                float.Parse(rotationMatch.Groups["rotZ"].Value)
+                float.Parse(match.Groups["RotationX"].Value),
+                float.Parse(match.Groups["RotationY"].Value),
+                float.Parse(match.Groups["RotationZ"].Value)
                 );
         }
+
+        //// Extract Size (Width and Height)
+        //var sizeMatch = Regex.Match(data, @"Width:(?<width>[\-0-9]+)\tHeight:(?<height>[\-0-9]+)");
+        //if (sizeMatch.Success)
+        //{
+        //    rectData.sizeDelta = new Vector2(
+        //        float.Parse(sizeMatch.Groups["width"].Value),
+        //        float.Parse(sizeMatch.Groups["height"].Value)
+        //    );
+        //}
+
+        //// Extract Anchor Min
+        //var anchorMinMatch = Regex.Match(data, @"Min:\t\[X:(?<minX>[\-0-9\.]+)\tY:(?<minY>[\-0-9\.]+)\]");
+        //if (anchorMinMatch.Success)
+        //{
+        //    rectData.anchorMin = new Vector2(
+        //        float.Parse(anchorMinMatch.Groups["minX"].Value),
+        //        float.Parse(anchorMinMatch.Groups["minY"].Value)
+        //    );
+        //}
+
+        //// Extract Anchor Max
+        //var anchorMaxMatch = Regex.Match(data, @"Max:\t\[X:(?<maxX>[\-0-9\.]+)\tY:(?<maxY>[\-0-9\.]+)\]");
+        //if (anchorMaxMatch.Success)
+        //{
+        //    rectData.anchorMax = new Vector2(
+        //        float.Parse(anchorMaxMatch.Groups["maxX"].Value),
+        //        float.Parse(anchorMaxMatch.Groups["maxY"].Value)
+        //    );
+        //}
+
+        //// Extract Pivot
+        //var pivotMatch = Regex.Match(data, @"Pivot:\t\[X:(?<pivotX>[\-0-9\.]+)\tY:(?<pivotY>[\-0-9\.]+)\]");
+        //if (pivotMatch.Success)
+        //{
+        //    rectData.pivot = new Vector2(
+        //        float.Parse(pivotMatch.Groups["pivotX"].Value),
+        //        float.Parse(pivotMatch.Groups["pivotY"].Value)
+        //    );
+        //}
+
+        //// Extract Rotation
+        //var rotationMatch = Regex.Match(data, @"Rotation:\t\[X:(?<rotX>[\-0-9\.]+)\tY:(?<rotY>[\-0-9\.]+)\tZ:(?<rotZ>[\-0-9\.]+)\]");
+        //if (rotationMatch.Success)
+        //{
+        //    rectData.rotation = new Vector3(
+        //        float.Parse(rotationMatch.Groups["rotX"].Value),
+        //        float.Parse(rotationMatch.Groups["rotY"].Value),
+        //        float.Parse(rotationMatch.Groups["rotZ"].Value)
+        //        );
+        //}
 
         return rectData;
     }
