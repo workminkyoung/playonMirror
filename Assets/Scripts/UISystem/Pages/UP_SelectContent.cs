@@ -63,25 +63,25 @@ public class UP_SelectContent : UP_BaseSelectContent, IPageTimeLimit
             case CONTENT_TYPE.AI_CARTOON:
                 UserDataManager.inst.SelectContent(CONTENT_TYPE.AI_CARTOON);
                 UserDataManager.inst.SelectContent(contentKey);
-                UserDataManager.inst.SetSelectedFrameColor(FRAME_COLOR_TYPE.FRAME_WHITE);
+                UserDataManager.inst.SetSelectedFrameColor(UserDataManager.inst.defaultFrameColor);
                 _pageController.ChangePage(PAGE_TYPE.PAGE_SELECT_CARTOON_STYLE);
                 break;
             case CONTENT_TYPE.AI_PROFILE:
                 UserDataManager.inst.SelectContent(CONTENT_TYPE.AI_PROFILE);
                 UserDataManager.inst.SelectContent(contentKey);
-                UserDataManager.inst.SetSelectedFrameColor(FRAME_COLOR_TYPE.FRAME_WHITE);
+                UserDataManager.inst.SetSelectedFrameColor(UserDataManager.inst.defaultFrameColor);
                 _pageController.ChangePage(PAGE_TYPE.PAGE_SELECT_AI_PROFILE);
                 break;
             case CONTENT_TYPE.AI_BEAUTY:
                 UserDataManager.inst.SelectContent(CONTENT_TYPE.AI_BEAUTY);
                 UserDataManager.inst.SelectContent(contentKey);
-                UserDataManager.inst.SetSelectedFrameColor(FRAME_COLOR_TYPE.FRAME_WHITE);
+                UserDataManager.inst.SetSelectedFrameColor(UserDataManager.inst.defaultFrameColor);
                 _pageController.ChangePage(PAGE_TYPE.PAGE_SELECT_FRAME);
                 break;
             case CONTENT_TYPE.WHAT_IF:
                 UserDataManager.inst.SelectContent(CONTENT_TYPE.WHAT_IF);
                 UserDataManager.inst.SelectContent(contentKey);
-                UserDataManager.inst.SetSelectedFrameColor(FRAME_COLOR_TYPE.FRAME_JTBC_SI);
+                UserDataManager.inst.SetSelectedFrameColor(UserDataManager.inst.defaultFrameColor);
                 _pageController.ChangePage(PAGE_TYPE.PAGE_SELECT_WHAT_IF);
                 break;
         }

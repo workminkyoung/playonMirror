@@ -42,11 +42,6 @@ public class UC_SynchFrame : MonoBehaviour //SingletonBehaviour<UC_SynchFrame>
 
     public PC_Main mainController { set { _mainController = value; } }
 
-    /*protected override void Init()
-    {
-        //throw new NotImplementedException();
-        //_listRaw.AddRange(UtilityExtensions.GetComponentsOnlyInChildren_NonRecursive<RawImage>(transform));
-    }*/
 
     private void Awake()
     {
@@ -91,7 +86,7 @@ public class UC_SynchFrame : MonoBehaviour //SingletonBehaviour<UC_SynchFrame>
         {
             elem.SetPics(new List<Texture2D>());
             elem.SetRenderTexture(new List<RenderTexture>());
-            elem.SetFrameColor("default frame color key");//FRAME_COLOR_TYPE.FRAME_WHITE);
+            elem.SetFrameColor(UserDataManager.Instance.defaultFrameColor);//FRAME_COLOR_TYPE.FRAME_WHITE);
             elem.SetLutEffect(string.Empty);
             elem.SetFilterOn(false);
             //elem.UpdateFrame();
@@ -100,7 +95,7 @@ public class UC_SynchFrame : MonoBehaviour //SingletonBehaviour<UC_SynchFrame>
         {
             elem.SetPics(new List<Texture2D>());
             elem.SetRenderTexture(new List<RenderTexture>());
-            elem.SetFrameColor("default frame color key");//FRAME_COLOR_TYPE.FRAME_WHITE);
+            elem.SetFrameColor(UserDataManager.Instance.defaultFrameColor);//FRAME_COLOR_TYPE.FRAME_WHITE);
             elem.SetLutEffect(string.Empty);
             elem.SetFilterOn(false);
             //elem.UpdateFrame();
@@ -133,8 +128,8 @@ public class UC_SynchFrame : MonoBehaviour //SingletonBehaviour<UC_SynchFrame>
     {
         foreach (var elem in _frameAreaDic.Keys)
         {
-            _frameAreaDic[elem].gameObject.SetActive(UserDataManager.inst.selectedFrame == elem);
-            _frameAreaDic_video[elem].gameObject.SetActive(UserDataManager.inst.selectedFrame == elem);
+            _frameAreaDic[elem].gameObject.SetActive(UserDataManager.inst.selectedFrameKey == elem);
+            _frameAreaDic_video[elem].gameObject.SetActive(UserDataManager.inst.selectedFrameKey == elem);
         }
 
         List<Texture2D> texs = new List<Texture2D>();
@@ -165,18 +160,18 @@ public class UC_SynchFrame : MonoBehaviour //SingletonBehaviour<UC_SynchFrame>
             index++;
         }
 
-        _frameAreaDic[UserDataManager.inst.selectedFrame].SetSkinFilterOn(_mainController.isSkinFilterOn);
-        _frameAreaDic[UserDataManager.inst.selectedFrame].SetRatioType(UserDataManager.inst.frameRatioType);
-        _frameAreaDic[UserDataManager.inst.selectedFrame].SetFrameColor(UserDataManager.inst.selectedFrameColor);
-        _frameAreaDic[UserDataManager.inst.selectedFrame].SetPics(texs, types);
-        _frameAreaDic[UserDataManager.inst.selectedFrame].SetLutEffect(UserDataManager.inst.selectedLutKey);
-        _frameAreaDic[UserDataManager.inst.selectedFrame].UpdateFrame();
+        _frameAreaDic[UserDataManager.inst.selectedFrameKey].SetSkinFilterOn(_mainController.isSkinFilterOn);
+        _frameAreaDic[UserDataManager.inst.selectedFrameKey].SetRatioType(UserDataManager.inst.frameRatioType);
+        _frameAreaDic[UserDataManager.inst.selectedFrameKey].SetFrameColor(UserDataManager.inst.selectedFrameColor);
+        _frameAreaDic[UserDataManager.inst.selectedFrameKey].SetPics(texs, types);
+        _frameAreaDic[UserDataManager.inst.selectedFrameKey].SetLutEffect(UserDataManager.inst.selectedLutKey);
+        _frameAreaDic[UserDataManager.inst.selectedFrameKey].UpdateFrame();
 
-        _frameAreaDic_video[UserDataManager.inst.selectedFrame].SetSkinFilterOn(_mainController.isSkinFilterOn);
-        _frameAreaDic_video[UserDataManager.inst.selectedFrame].SetRatioType(UserDataManager.inst.frameRatioType);
-        _frameAreaDic_video[UserDataManager.inst.selectedFrame].SetFrameColor(UserDataManager.inst.selectedFrameColor);
-        _frameAreaDic_video[UserDataManager.inst.selectedFrame].SetPics(texs, types);
-        _frameAreaDic_video[UserDataManager.inst.selectedFrame].UpdateFrame();
+        _frameAreaDic_video[UserDataManager.inst.selectedFrameKey].SetSkinFilterOn(_mainController.isSkinFilterOn);
+        _frameAreaDic_video[UserDataManager.inst.selectedFrameKey].SetRatioType(UserDataManager.inst.frameRatioType);
+        _frameAreaDic_video[UserDataManager.inst.selectedFrameKey].SetFrameColor(UserDataManager.inst.selectedFrameColor);
+        _frameAreaDic_video[UserDataManager.inst.selectedFrameKey].SetPics(texs, types);
+        _frameAreaDic_video[UserDataManager.inst.selectedFrameKey].UpdateFrame();
 
         ScreenShoot();
     }
@@ -234,7 +229,7 @@ public class UC_SynchFrame : MonoBehaviour //SingletonBehaviour<UC_SynchFrame>
         {
             foreach (var elem in _frameAreaDic_video.Keys)
             {
-                _frameAreaDic_video[elem].gameObject.SetActive(FRAME_TYPE.FRAME_1 == elem);
+                _frameAreaDic_video[elem].gameObject.SetActive("FR1X1001" == elem);
             }
 
             //get activated video path
@@ -248,11 +243,11 @@ public class UC_SynchFrame : MonoBehaviour //SingletonBehaviour<UC_SynchFrame>
             _videoPlayers[0].targetTexture = renderTexture;
             setPics.Add(renderTexture);
 
-            _frameAreaDic_video[FRAME_TYPE.FRAME_1].SetPics(new List<Texture2D>());
-            _frameAreaDic_video[FRAME_TYPE.FRAME_1].SetRatioType(ratioType);
-            _frameAreaDic_video[FRAME_TYPE.FRAME_1].SetRenderTexture(setPics);
-            _frameAreaDic_video[FRAME_TYPE.FRAME_1].SetFrameColor(UserDataManager.inst.selectedFrameColor);
-            _frameAreaDic_video[FRAME_TYPE.FRAME_1].UpdateFrame();
+            _frameAreaDic_video["FR1X1001"].SetPics(new List<Texture2D>());
+            _frameAreaDic_video["FR1X1001"].SetRatioType(ratioType);
+            _frameAreaDic_video["FR1X1001"].SetRenderTexture(setPics);
+            _frameAreaDic_video["FR1X1001"].SetFrameColor(UserDataManager.inst.selectedFrameColor);
+            _frameAreaDic_video["FR1X1001"].UpdateFrame();
         }
         else
         {
@@ -277,11 +272,11 @@ public class UC_SynchFrame : MonoBehaviour //SingletonBehaviour<UC_SynchFrame>
                 setPics.Add(renderTexture);
             }
 
-            _frameAreaDic_video[UserDataManager.inst.selectedFrame].SetPics(new List<Texture2D>());
-            _frameAreaDic_video[UserDataManager.inst.selectedFrame].SetRatioType(ratioType);
-            _frameAreaDic_video[UserDataManager.inst.selectedFrame].SetRenderTexture(setPics);
-            _frameAreaDic_video[UserDataManager.inst.selectedFrame].SetFrameColor(UserDataManager.inst.selectedFrameColor);
-            _frameAreaDic_video[UserDataManager.inst.selectedFrame].UpdatePhotos();
+            _frameAreaDic_video[UserDataManager.inst.selectedFrameKey].SetPics(new List<Texture2D>());
+            _frameAreaDic_video[UserDataManager.inst.selectedFrameKey].SetRatioType(ratioType);
+            _frameAreaDic_video[UserDataManager.inst.selectedFrameKey].SetRenderTexture(setPics);
+            _frameAreaDic_video[UserDataManager.inst.selectedFrameKey].SetFrameColor(UserDataManager.inst.selectedFrameColor);
+            _frameAreaDic_video[UserDataManager.inst.selectedFrameKey].UpdatePhotos();
         }
 
         CustomLogger.Log("Loaded");
@@ -292,84 +287,98 @@ public class UC_SynchFrame : MonoBehaviour //SingletonBehaviour<UC_SynchFrame>
         _listRaw[(int)RAW_TYPE.PHOTO].gameObject.SetActive(true);
         _listRaw[(int)RAW_TYPE.PHOTO].texture = _saveTexture;
 
-        if (UserDataManager.inst.selectedFrame == FRAME_TYPE.FRAME_8)
+        FrameData.DefinitionEntry entry = UserDataManager.Instance.selectedFrameDefinition;
+
+        for (int i = 0; i < entry.qrRects.Count; i++)
         {
-            if (UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_BLACK || 
-                UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_WHITE ||
-                UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_INK ||
-                UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_LIMEYELLOW ||
-                UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_SKYBLUE ||
-                UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_GREEN)
-            {
-                _listRaw[(int)RAW_TYPE.QR_WhiteBlack_8_1].gameObject.SetActive(true);
-                _listRaw[(int)RAW_TYPE.QR_WhiteBlack_8_2].gameObject.SetActive(true);
+            _listRaw[i].gameObject.SetActive(true);
+            _listRaw[i].texture = qrImage;
 
-                _listRaw[(int)RAW_TYPE.QR_WhiteBlack_8_1].texture = qrImage;
-                _listRaw[(int)RAW_TYPE.QR_WhiteBlack_8_2].texture = qrImage;
-            }
-            else if (UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_JTBC_WH ||
-                     UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_JTBC_BL ||
-                     UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_JTBC_SI
-                    )
-            {
-                _listRaw[(int)RAW_TYPE.QR_JTBC_8_1].gameObject.SetActive(true);
-                _listRaw[(int)RAW_TYPE.QR_JTBC_8_2].gameObject.SetActive(true);
-
-                _listRaw[(int)RAW_TYPE.QR_JTBC_8_1].texture = qrImage;
-                _listRaw[(int)RAW_TYPE.QR_JTBC_8_2].texture = qrImage;
-            }
-            else
-            {
-                _listRaw[(int)RAW_TYPE.QR_GreenRedSnow_8_1].gameObject.SetActive(true);
-                _listRaw[(int)RAW_TYPE.QR_GreenRedSnow_8_2].gameObject.SetActive(true);
-
-                _listRaw[(int)RAW_TYPE.QR_GreenRedSnow_8_1].texture = qrImage;
-                _listRaw[(int)RAW_TYPE.QR_GreenRedSnow_8_2].texture = qrImage;
-            }
+            _listRaw[i].rectTransform.pivot = entry.qrRects[i].pivot;
+            _listRaw[i].rectTransform.anchorMin = entry.qrRects[i].anchorMin;
+            _listRaw[i].rectTransform.anchorMax = entry.qrRects[i].anchorMax;
+            _listRaw[i].rectTransform.sizeDelta = entry.qrRects[i].sizeDelta;
+            _listRaw[i].rectTransform.anchoredPosition = entry.qrRects[i].anchoredPosition;
         }
-        else
-        {
-            if (UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_BLACK ||
-                UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_WHITE ||
-                UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_LIMEYELLOW ||
-                UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_SKYBLUE ||
-                UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_GREEN)
-            {
-                _listRaw[(int)RAW_TYPE.QR_WhiteBlack].gameObject.SetActive(true);
-                _listRaw[(int)RAW_TYPE.QR_WhiteBlack].texture = qrImage;
-            }
-            else if (UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_GREENNIT)
-            {
-                _listRaw[(int)RAW_TYPE.QR_Green].gameObject.SetActive(true);
-                _listRaw[(int)RAW_TYPE.QR_Green].texture = qrImage;
-            }
-            else if (UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_INK)
-            {
-                _listRaw[(int)RAW_TYPE.QR_Ink].gameObject.SetActive(true);
-                _listRaw[(int)RAW_TYPE.QR_Ink].texture = qrImage;
-            }
-            else if (UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_JTBC_WH ||
-                     UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_JTBC_BL ||
-                     UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_JTBC_SI
-                    )
-            {
-                if (UserDataManager.inst.selectedFrame == FRAME_TYPE.FRAME_1)
-                {
-                    _listRaw[(int)RAW_TYPE.QR_JTBC_Left].gameObject.SetActive(true);
-                    _listRaw[(int)RAW_TYPE.QR_JTBC_Left].texture = qrImage;
-                }
-                else
-                {
-                    _listRaw[(int)RAW_TYPE.QR_JTBC_Right].gameObject.SetActive(true);
-                    _listRaw[(int)RAW_TYPE.QR_JTBC_Right].texture = qrImage;
-                }
-            }
-            else
-            {
-                _listRaw[(int)RAW_TYPE.QR_RedSnow].gameObject.SetActive(true);
-                _listRaw[(int)RAW_TYPE.QR_RedSnow].texture = qrImage;
-            }
-        }
+
+        //if (UserDataManager.inst.selectedFrame == FRAME_TYPE.FRAME_8)
+        //{
+        //    if (UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_BLACK || 
+        //        UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_WHITE ||
+        //        UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_INK ||
+        //        UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_LIMEYELLOW ||
+        //        UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_SKYBLUE ||
+        //        UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_GREEN)
+        //    {
+        //        _listRaw[(int)RAW_TYPE.QR_WhiteBlack_8_1].gameObject.SetActive(true);
+        //        _listRaw[(int)RAW_TYPE.QR_WhiteBlack_8_2].gameObject.SetActive(true);
+
+        //        _listRaw[(int)RAW_TYPE.QR_WhiteBlack_8_1].texture = qrImage;
+        //        _listRaw[(int)RAW_TYPE.QR_WhiteBlack_8_2].texture = qrImage;
+        //    }
+        //    else if (UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_JTBC_WH ||
+        //             UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_JTBC_BL ||
+        //             UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_JTBC_SI
+        //            )
+        //    {
+        //        _listRaw[(int)RAW_TYPE.QR_JTBC_8_1].gameObject.SetActive(true);
+        //        _listRaw[(int)RAW_TYPE.QR_JTBC_8_2].gameObject.SetActive(true);
+
+        //        _listRaw[(int)RAW_TYPE.QR_JTBC_8_1].texture = qrImage;
+        //        _listRaw[(int)RAW_TYPE.QR_JTBC_8_2].texture = qrImage;
+        //    }
+        //    else
+        //    {
+        //        _listRaw[(int)RAW_TYPE.QR_GreenRedSnow_8_1].gameObject.SetActive(true);
+        //        _listRaw[(int)RAW_TYPE.QR_GreenRedSnow_8_2].gameObject.SetActive(true);
+
+        //        _listRaw[(int)RAW_TYPE.QR_GreenRedSnow_8_1].texture = qrImage;
+        //        _listRaw[(int)RAW_TYPE.QR_GreenRedSnow_8_2].texture = qrImage;
+        //    }
+        //}
+        //else
+        //{
+        //    if (UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_BLACK ||
+        //        UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_WHITE ||
+        //        UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_LIMEYELLOW ||
+        //        UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_SKYBLUE ||
+        //        UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_GREEN)
+        //    {
+        //        _listRaw[(int)RAW_TYPE.QR_WhiteBlack].gameObject.SetActive(true);
+        //        _listRaw[(int)RAW_TYPE.QR_WhiteBlack].texture = qrImage;
+        //    }
+        //    else if (UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_GREENNIT)
+        //    {
+        //        _listRaw[(int)RAW_TYPE.QR_Green].gameObject.SetActive(true);
+        //        _listRaw[(int)RAW_TYPE.QR_Green].texture = qrImage;
+        //    }
+        //    else if (UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_INK)
+        //    {
+        //        _listRaw[(int)RAW_TYPE.QR_Ink].gameObject.SetActive(true);
+        //        _listRaw[(int)RAW_TYPE.QR_Ink].texture = qrImage;
+        //    }
+        //    else if (UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_JTBC_WH ||
+        //             UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_JTBC_BL ||
+        //             UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_JTBC_SI
+        //            )
+        //    {
+        //        if (UserDataManager.inst.selectedFrame == FRAME_TYPE.FRAME_1)
+        //        {
+        //            _listRaw[(int)RAW_TYPE.QR_JTBC_Left].gameObject.SetActive(true);
+        //            _listRaw[(int)RAW_TYPE.QR_JTBC_Left].texture = qrImage;
+        //        }
+        //        else
+        //        {
+        //            _listRaw[(int)RAW_TYPE.QR_JTBC_Right].gameObject.SetActive(true);
+        //            _listRaw[(int)RAW_TYPE.QR_JTBC_Right].texture = qrImage;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        _listRaw[(int)RAW_TYPE.QR_RedSnow].gameObject.SetActive(true);
+        //        _listRaw[(int)RAW_TYPE.QR_RedSnow].texture = qrImage;
+        //    }
+        //}
 
         OnEndSaveImage += () =>
         {
@@ -406,5 +415,5 @@ public class UC_SynchFrame : MonoBehaviour //SingletonBehaviour<UC_SynchFrame>
     }
 
     [Serializable]
-    private class FrameAreaDicBase : SerializableDictionaryBase<FRAME_TYPE, UC_FrameArea> { };
+    private class FrameAreaDicBase : SerializableDictionaryBase<string, UC_FrameArea> { };
 }

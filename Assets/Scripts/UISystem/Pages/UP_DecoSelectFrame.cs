@@ -76,7 +76,7 @@ public class UP_DecoSelectFrame : UP_DecoratePageBase
     private void OnClickPrint()
     {
         (_pageController as PC_Main).StopTimeLimit();
-        (_pageController as PC_Main).SetResultTextures(_frameAreaDic[UserDataManager.inst.selectedFrame].GetResultPics());
+        (_pageController as PC_Main).SetResultTextures(_frameAreaDic[UserDataManager.inst.selectedFrameType].GetResultPics());
         (_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_PRINT);
     }
 

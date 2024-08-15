@@ -66,7 +66,7 @@ public abstract class UP_DecoratePageBase : UP_BasePage
     {
         foreach (var elem in _frameAreaDic.Keys)
         {
-            _frameAreaDic[elem].gameObject.SetActive(UserDataManager.inst.selectedFrame == elem);
+            _frameAreaDic[elem].gameObject.SetActive(UserDataManager.inst.selectedFrameType == elem);
         }
     }
     protected void UpdateFrame()
@@ -99,12 +99,12 @@ public abstract class UP_DecoratePageBase : UP_BasePage
             index++;
         }
 
-        _frameAreaDic[UserDataManager.inst.selectedFrame].SetSkinFilterOn((_pageController as PC_Main).isSkinFilterOn);
-        _frameAreaDic[UserDataManager.inst.selectedFrame].SetRatioType(UserDataManager.inst.frameRatioType);
-        _frameAreaDic[UserDataManager.inst.selectedFrame].SetFrameColor(UserDataManager.inst.selectedFrameColor);
-        _frameAreaDic[UserDataManager.inst.selectedFrame].SetPics(texs, types);
-        _frameAreaDic[UserDataManager.inst.selectedFrame].SetLutEffect(UserDataManager.inst.selectedLutKey);
-        _frameAreaDic[UserDataManager.inst.selectedFrame].UpdateFrame();
+        _frameAreaDic[UserDataManager.inst.selectedFrameType].SetSkinFilterOn((_pageController as PC_Main).isSkinFilterOn);
+        _frameAreaDic[UserDataManager.inst.selectedFrameType].SetRatioType(UserDataManager.inst.frameRatioType);
+        _frameAreaDic[UserDataManager.inst.selectedFrameType].SetFrameColor(UserDataManager.inst.selectedFrameColor);
+        _frameAreaDic[UserDataManager.inst.selectedFrameType].SetPics(texs, types);
+        _frameAreaDic[UserDataManager.inst.selectedFrameType].SetLutEffect(UserDataManager.inst.selectedLutKey);
+        _frameAreaDic[UserDataManager.inst.selectedFrameType].UpdateFrame();
     }
 
     [Serializable]
