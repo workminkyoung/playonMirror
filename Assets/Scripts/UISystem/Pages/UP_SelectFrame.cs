@@ -1,11 +1,16 @@
+using FrameData;
+using RotaryHeart.Lib.SerializableDictionary;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using Vivestudios.UI;
+using static UnityEditor.Progress;
 
 public class UP_SelectFrame : UP_BaseSelectContent, IPageTimeLimit
 {
@@ -37,12 +42,24 @@ public class UP_SelectFrame : UP_BaseSelectContent, IPageTimeLimit
     [SerializeField]
     private RectTransform _sumArea;
 
+    [SerializeField]
+    private GameObject _framePrefab;
+    [SerializeField]
+    private Transform _frameContainer;
+    [SerializeField]
+    private FrameKeyDic _allFrameDic = new FrameKeyDic();
+    [SerializeField]
+    private FramePriceDic _allPriceDic = new FramePriceDic();
+    [SerializeField]
+    private List<string> selectableFrameKeys = new List<string>();
+
     private Vector2 _priceAreaOriginPos;
     private int _curAmount = 1;
     private int _maxPrintAmount;
     private int[] _originalPrices;
     private int[] _discountPrices;
-    private ShootingScreenData.ShootScreenEntry _shootScreenEntry;
+    private FrameData.FrameData _frameData;
+    private bool _isSorting = false;
 
     private readonly Color BTN_BACK_DISABLE_COLOR = new Color(0.88f, 0.88f, 0.88f);
     private readonly Color BTN_BACK_ENABLE_COLOR = new Color(0.74f, 0.74f, 0.74f);
@@ -64,11 +81,11 @@ public class UP_SelectFrame : UP_BaseSelectContent, IPageTimeLimit
     {
         base.BindDelegates();
 
-        for (int i = 0; i < _contents.Length; i++)
-        {
-            int index = i;
-            _contents[i].pointerDownAction += () => OnTouchContent(index);
-        }
+        //for (int i = 0; i < _contents.Length; i++)
+        //{
+        //    int index = i;
+        //    _contents[i].pointerDownAction += () => OnTouchContent(index);
+        //}
 
         _prevBtn?.onClick.AddListener(OnClickPrev);
         _nextBtn?.onClick.AddListener(OnClickNext);
@@ -112,7 +129,7 @@ public class UP_SelectFrame : UP_BaseSelectContent, IPageTimeLimit
 
     private void OnClickNext()
     {
-        switch (UserDataManager.inst.selectedFrame)
+        switch (UserDataManager.inst.selectedFrameType)
         {
             case FRAME_TYPE.FRAME_4:
                 PhotoDataManager.inst.SetLandscape(false);
@@ -160,62 +177,71 @@ public class UP_SelectFrame : UP_BaseSelectContent, IPageTimeLimit
         {
             (_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_PAYMENT);
         }
+
+        // Set Defalt Frame Definition
+        Tuple<string, string> tupleKey = new Tuple<string, string>(UserDataManager.Instance.selectedContentKey, UserDataManager.Instance.defaultFrameColor);
+        UserDataManager.Instance.SetSelectedFrameDefinition(_frameData.DefinitionTuple[UserDataManager.inst.selectedFrameKey][tupleKey]);
     }
 
     private void ResetContents()
     {
-        switch (UserDataManager.inst.selectedContent)
+        // Activate Frame Object
+        foreach (var item in _allFrameDic)
         {
-
-            case CONTENT_TYPE.AI_CARTOON:
-                foreach (var item in _contentParents)
-                {
-                    item.gameObject.SetActive(true);
-                }
-                break;
-            case CONTENT_TYPE.AI_PROFILE:
-                for (int i = 0; i < _contents.Length; i++)
-                {
-                    _contents[i].transform.parent.gameObject.SetActive(i == 0 || i == 3);
-                }
-                break;
-            case CONTENT_TYPE.AI_BEAUTY:
-                foreach (var item in _contentParents)
-                {
-                    item.gameObject.SetActive(true);
-                }
-                break;
-            case CONTENT_TYPE.WHAT_IF:
-                for (int i = 0; i < _contents.Length; i++)
-                {
-                    _contents[i].transform.parent.gameObject.SetActive(i == 0 || i == 3);
-                }
-                break;
-            default:
-                foreach (var item in _contentParents)
-                {
-                    item.gameObject.SetActive(true);
-                }
-                break;
+            item.Value.gameObject.SetActive(false);
         }
-    }
-
-    private void OnTouchContent(int index)
-    {
-        for (int i = 0; i < _contents.Length; i++)
+        for (int i = 0; i < selectableFrameKeys.Count; i++)
         {
-            _contents[i].Select(index == i);
+            _allFrameDic[selectableFrameKeys[i]].gameObject.SetActive(true);
         }
 
-        UserDataManager.inst.SelectFrame((FRAME_TYPE)index);
+        //switch (UserDataManager.inst.selectedContent)
+        //{
 
-        CurPriceCheck();
+        //    case CONTENT_TYPE.AI_CARTOON:
+        //        foreach (var item in _contentParents)
+        //        {
+        //            item.gameObject.SetActive(true);
+        //        }
+        //        break;
+        //    case CONTENT_TYPE.AI_PROFILE:
+        //        for (int i = 0; i < _contents.Length; i++)
+        //        {
+        //            _contents[i].transform.parent.gameObject.SetActive(i == 0 || i == 3);
+        //        }
+        //        break;
+        //    case CONTENT_TYPE.AI_BEAUTY:
+        //        foreach (var item in _contentParents)
+        //        {
+        //            item.gameObject.SetActive(true);
+        //        }
+        //        break;
+        //    case CONTENT_TYPE.WHAT_IF:
+        //        for (int i = 0; i < _contents.Length; i++)
+        //        {
+        //            _contents[i].transform.parent.gameObject.SetActive(i == 0 || i == 3);
+        //        }
+        //        break;
+        //    default:
+        //        foreach (var item in _contentParents)
+        //        {
+        //            item.gameObject.SetActive(true);
+        //        }
+        //        break;
+        //}
     }
 
-    protected override void OnClickContent(int index)
-    {
+    //private void OnTouchContent(int index)
+    //{
+    //    for (int i = 0; i < _contents.Length; i++)
+    //    {
+    //        _contents[i].Select(index == i);
+    //    }
 
-    }
+    //    //UserDataManager.inst.SelectFrame((FRAME_TYPE)index);
+
+    //    CurPriceCheck();
+    //}
 
     private void OnClickPlus()
     {
@@ -301,28 +327,17 @@ public class UP_SelectFrame : UP_BaseSelectContent, IPageTimeLimit
 
     public override void OnPageEnable()
     {
-        //set price
-        PriceConfig priceConfig = new PriceConfig();
-        switch (UserDataManager.inst.selectedContent)
+        if (!_isContentCreated)
         {
-            case CONTENT_TYPE.AI_CARTOON:
-                priceConfig = ConfigData.config.priceConfigCartoon;
-                break;
-            case CONTENT_TYPE.AI_PROFILE:
-                priceConfig = ConfigData.config.priceConfigProfile;
-                break;
-            case CONTENT_TYPE.AI_BEAUTY:
-                priceConfig = ConfigData.config.priceConfigBeauty;
-                break;
-            case CONTENT_TYPE.WHAT_IF:
-                priceConfig = ConfigData.config.priceConfigWhatIf;
-                break;
-            default:
-                break;
+            CreateContent();
         }
 
+        selectableFrameKeys = _frameData.ServiceFrame.Code[UserDataManager.Instance.selectedContentKey].SelectFrames;
+
+        //set price
+        PriceConfig priceConfig = _allPriceDic[selectableFrameKeys[0]];
+
         _maxPrintAmount = priceConfig.priceNum;
-        _curAmount = ConfigData.config.firstPrintAmount;
         _originalPrices = new int[_maxPrintAmount];
         _discountPrices = new int[_maxPrintAmount];
 
@@ -346,27 +361,64 @@ public class UP_SelectFrame : UP_BaseSelectContent, IPageTimeLimit
         CurAmountCheck();
         CurPriceCheck();
 
-        UC_SelectableContent firstSelectable = GetComponentInChildren<UC_SelectableContent>(false);
+        //UC_SelectableContent firstSelectable = GetComponentInChildren<UC_SelectableContent>(false);
 
-        for (int i = 0; i < _contents.Length; i++)
-        {
-            if (firstSelectable == _contents[i])
-            {
-                OnTouchContent(i);
-            }
-        }
+        //for (int i = 0; i < _contents.Length; i++)
+        //{
+        //    if (firstSelectable == _contents[i])
+        //    {
+        //        OnTouchContent(i);
+        //    }
+        //}
     }
 
+    //여기서부터 다시 진행
     public void CreateContent()
     {
-        if (AdminManager.Instance.ShootScreen.ContainsKey(UserDataManager.Instance.selectedContentKey))
+        _isSorting = AdminManager.Instance.FrameData.ServiceFrame.Sorting.ToLower() == StringCacheManager.Instance.SortingSpecified;
+        _frameData = AdminManager.Instance.FrameData;
+
+        foreach (var item in _frameData.Definition)
         {
-            _shootScreenEntry = AdminManager.Instance.ShootScreen[UserDataManager.Instance.selectedContentKey];
+            GameObject frameObj = Instantiate(_framePrefab, _frameContainer);
+            UC_SelectableContent frame = frameObj.GetComponent<UC_SelectableContent>();
+            frame.SetThumbnail(item.Value[0].ThumbnailSelect_data, item.Value[0].ThumbnailUnselect_data);
+            frame.SetKey(item.Key);
+            frame.pointerDownAction += () => OnTouchContent(item.Key, item.Value[0].FrameType);
+
+            PriceConfig priceConfig = new PriceConfig();
+            priceConfig.originalPrices = item.Value[0].prices.ToArray();
+            priceConfig.discountPrices = item.Value[0].sellingPrices.ToArray();
+            priceConfig.priceNum = priceConfig.originalPrices.Length;
+
+            _allFrameDic.Add(item.Key, frame);
+            _allPriceDic.Add(item.Key, priceConfig);
         }
-        else
+
+        _isContentCreated = true;
+    }
+
+    private void OnTouchContent(string key, FRAME_TYPE type)
+    {
+        foreach (var item in _allFrameDic)
         {
-            CustomLogger.LogError("Empty ShootingScreen Data");
+            if (item.Value.gameObject.activeSelf)
+            {
+                item.Value.Select(item.Value.Key ==  key);
+            }
         }
+
+        PriceConfig priceConfig = _allPriceDic[key];
+
+        _maxPrintAmount = priceConfig.priceNum;
+        _curAmount = ConfigData.config.firstPrintAmount;
+        _originalPrices = new int[_maxPrintAmount];
+        _discountPrices = new int[_maxPrintAmount];
+
+        CurPriceCheck();
+
+        UserDataManager.inst.SelectFrameKey(key);
+        UserDataManager.inst.SelectFrameType(type);
     }
 
     public override void OnPageDisable()
@@ -377,4 +429,11 @@ public class UP_SelectFrame : UP_BaseSelectContent, IPageTimeLimit
     {
         _curAmount = UserDataManager.inst.curPicAmount;
     }
+
+    [Serializable]
+    public class FrameKeyDic : SerializableDictionaryBase<string, UC_SelectableContent> { }
+
+    [Serializable]
+    public class FramePriceDic : SerializableDictionaryBase<string, PriceConfig> { }
+
 }

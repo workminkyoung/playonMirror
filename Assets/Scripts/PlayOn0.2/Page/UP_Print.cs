@@ -142,7 +142,7 @@ public class UP_Print : UP_BasePage
 
         argument += " --copies " + copy;
         argument += " --file " + TextData.printPath;
-        if (UserDataManager.inst.selectedFrame == FRAME_TYPE.FRAME_8)
+        if (UserDataManager.inst.selectedFrameType == FRAME_TYPE.FRAME_8)
             argument += " --cut";
 
 #if UNITY_EDITOR

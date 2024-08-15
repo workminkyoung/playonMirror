@@ -86,9 +86,9 @@ public class UP_SelectChromaKeyBackground : UP_DecoratePageBase, IPageTimeLimit
 
     private void UpdateTempFrame ()
     {
-        _frameAreaDic[UserDataManager.inst.selectedFrame].SetPics(ChromaKeyModule.inst.options[UserDataManager.inst.selectedChromaKeyNum].images.ToList().GetRange(0, _frameAreaDic[UserDataManager.inst.selectedFrame].GetPicCount()));
-        _frameAreaDic[UserDataManager.inst.selectedFrame].SetLutEffect(string.Empty);
-        _frameAreaDic[UserDataManager.inst.selectedFrame].UpdateFrame();
+        _frameAreaDic[UserDataManager.inst.selectedFrameType].SetPics(ChromaKeyModule.inst.options[UserDataManager.inst.selectedChromaKeyNum].images.ToList().GetRange(0, _frameAreaDic[UserDataManager.inst.selectedFrameType].GetPicCount()));
+        _frameAreaDic[UserDataManager.inst.selectedFrameType].SetLutEffect(string.Empty);
+        _frameAreaDic[UserDataManager.inst.selectedFrameType].UpdateFrame();
     }
 
     public override void BindDelegates ()
@@ -115,8 +115,8 @@ public class UP_SelectChromaKeyBackground : UP_DecoratePageBase, IPageTimeLimit
         (_pageController as PC_Main)?.globalPage?.CloseToast();
         (_pageController as PC_Main)?.globalPage?.CloseConfirmPopup();
 
-        _frameAreaDic[UserDataManager.inst.selectedFrame].SetPics(null);
-        _frameAreaDic[UserDataManager.inst.selectedFrame].UpdateFrame();
+        _frameAreaDic[UserDataManager.inst.selectedFrameType].SetPics(null);
+        _frameAreaDic[UserDataManager.inst.selectedFrameType].UpdateFrame();
     }
 
     public override void OnPageEnable ()

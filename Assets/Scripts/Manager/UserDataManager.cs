@@ -10,57 +10,68 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
     [SerializeField]
     private CONTENT_TYPE _selectedContent = CONTENT_TYPE.AI_CARTOON;
     [SerializeField]
-    private string _selectedFrame;// = FRAME_TYPE.FRAME_1;
-    //[SerializeField]
-    //private LUT_EFFECT_TYPE _selectedLut = LUT_EFFECT_TYPE.LUT_DEFAULT;
+    private FRAME_RATIO_TYPE _frameRatioType = FRAME_RATIO_TYPE.HORIZONTAL;
+    [SerializeField]
+    private GENDER_TYPE _selectedGender = GENDER_TYPE.FEMALE;
+    [SerializeField]
+    private FRAME_TYPE _selectedFrameType = FRAME_TYPE.FRAME_1;
+
+    // Content Key Data
+    [SerializeField]
+    private string _selectedContentKey;//CA, PR, BT...
+    [SerializeField]
+    private string _selectedSubContentKey;//CA00001...
+
+    // Frame Key Data
+    [SerializeField]
+    private string _selectedFrameKey;
     [SerializeField]
     private string _selectedLutKey = string.Empty;
     [SerializeField]
     private string _selectedFrameColorKey;// = FRAME_COLOR_TYPE.FRAME_WHITE;
     [SerializeField]
     private string _defaultFrameColorKey = string.Empty;// = FRAME_COLOR_TYPE.FRAME_WHITE;
-    [SerializeField]
-    private FRAME_RATIO_TYPE _frameRatioType = FRAME_RATIO_TYPE.HORIZONTAL;
-    [SerializeField]
-    private GENDER_TYPE _selectedGender = GENDER_TYPE.FEMALE;
 
+    // Chromakey Data
     [SerializeField]
     private bool _isChromaKeyOn = false;
     [SerializeField]
     private int _selectedChromaKeyNum = 0;
 
-    [SerializeField]
-    private string _selectedContentKey;//CA, PR, BT...
-    [SerializeField]
-    private string _selectedSubContentKey;//CA00001...
-    //[SerializeField]
-    //private PROFILE_TYPE _selectedProfileType = PROFILE_TYPE.PR00001;
+    // Result Data
     [SerializeField]
     private int _selectedProfilePicNum = 0;
-
     [SerializeField]
     private int _curPicAmount;
     [SerializeField]
     private int _curPrice;
 
+    [SerializeField]
+    private FrameData.DefinitionEntry _selectedFrameDefinition;
+
     public CONTENT_TYPE selectedContent => _selectedContent;
-    public string selectedFrame => _selectedFrame;
+    public FRAME_TYPE selectedFrameType => _selectedFrameType;
     public FRAME_RATIO_TYPE frameRatioType => _frameRatioType;
-    //public LUT_EFFECT_TYPE selectedLut => _selectedLut;
-    public string selectedFrameColor => _selectedFrameColorKey;
-    public string defaultFrameColor => _defaultFrameColorKey;
-    //public PROFILE_TYPE selectedProfileType => _selectedProfileType;
     public GENDER_TYPE selectedGender => _selectedGender;
 
-    public bool isChromaKeyOn => _isChromaKeyOn;
-    public int selectedChromaKeyNum => _selectedChromaKeyNum;
-
-    //public int selectedSubContentNum => _selectedSubContentNum;
+    // Content Key Data
     public string selectedSubContentKey => _selectedSubContentKey;
     public string selectedContentKey => _selectedContentKey;
+    public int curPrice => _curPrice;
+
+    // Frame Key Data
+    public string selectedFrameKey => _selectedFrameKey;
+    public string selectedFrameColor => _selectedFrameColorKey;
+    public string defaultFrameColor => _defaultFrameColorKey;
+    public FrameData.DefinitionEntry selectedFrameDefinition => _selectedFrameDefinition;
+
+    // Chromakey Data
+    public int selectedChromaKeyNum => _selectedChromaKeyNum;
+    public bool isChromaKeyOn => _isChromaKeyOn;
+
+    // Result Data
     public int selectedProfilePicNum => _selectedProfilePicNum;
     public int curPicAmount => _curPicAmount;
-    public int curPrice => _curPrice;
     public string selectedLutKey => _selectedLutKey;
 
     protected override void Init()
@@ -93,9 +104,14 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
         }
     }
 
-    public void SelectFrame(string type)
+    public void SelectFrameKey(string key)
     {
-        _selectedFrame = type;
+        _selectedFrameKey = key;
+    }
+
+    public void SelectFrameType(FRAME_TYPE type)
+    {
+        _selectedFrameType = type;
     }
 
     public void SetFrameRatioType(FRAME_RATIO_TYPE type)
@@ -161,5 +177,10 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
     public void SetSelectedChromaKeyNum(int index)
     {
         _selectedChromaKeyNum = index;
+    }
+
+    public void SetSelectedFrameDefinition(FrameData.DefinitionEntry entry)
+    {
+        _selectedFrameDefinition = entry;
     }
 }

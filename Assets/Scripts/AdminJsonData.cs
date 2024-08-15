@@ -429,6 +429,7 @@ namespace FrameData
     {
         public Theme Theme;
         public DefinitionEntryDic Definition;
+        public FrameDefinitionEntryDic DefinitionTuple;
         public FrameCode ServiceFrame;
     }
 
@@ -456,6 +457,9 @@ namespace FrameData
     [Serializable]
     public class DefinitionEntry
     {
+        public string key;
+        public FRAME_TYPE FrameType;
+
         // Background Image
         public string BgImage;
         public Sprite BgImage_data;
@@ -536,6 +540,9 @@ namespace FrameData
         public List<FrameRectTransform> picRects;
         public List<FrameRectTransform> dateRects;
         public List<FrameRectTransform> qrRects;
+
+        public List<int> prices;
+        public List<int> sellingPrices;
     }
 
     [Serializable]
@@ -552,6 +559,7 @@ namespace FrameData
     [Serializable]
     public class FrameCode
     {
+        public string Sorting;
         public FrameCodeEntryDic Code;
     }
 
@@ -569,6 +577,8 @@ namespace FrameData
         public string SelectFrame9;
         public string SelectFrame10;
         public int DefaultSellAmount;
+
+        public List<string> SelectFrames;
     }
 
     [Serializable]
@@ -581,6 +591,8 @@ namespace FrameData
     public class OrderedColorCodeEntryDic : SerializableDictionaryBase<int, ColorCodeEntry> { }
     //[Serializable]
     //public class FrameEntryDic : SerializableDictionaryBase<string, FrameEntry> { }
-    //[Serializable]
-    //public class FrameDefinitionEntryDic : SerializableDictionaryBase<Tuple<string, string>, DefinitionEntry> { }
+    [Serializable]
+    public class FrameDefinitionServiceColorDic : SerializableDictionaryBase<Tuple<string, string>, DefinitionEntry> { }
+    [Serializable]
+    public class FrameDefinitionEntryDic : SerializableDictionaryBase<string, FrameDefinitionServiceColorDic> { }
 }

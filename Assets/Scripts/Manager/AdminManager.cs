@@ -9,6 +9,9 @@ using System;
 using ShootingScreenData;
 using UnityEditor.Build;
 using UnityEngine.Playables;
+using UnityEditor.UIElements;
+using UnityEngine.Experimental.Rendering;
+using static UnityEditor.Progress;
 
 public class AdminManager : SingletonBehaviour<AdminManager>
 {
@@ -193,14 +196,11 @@ public class AdminManager : SingletonBehaviour<AdminManager>
     private void DownloadFrameData()
     {
         bool isColorCodeSorting = _frameData.Theme.Sorting.ToLower() == StringCacheManager.inst.SortingSpecified.ToLower() ? true : false;
-        if (isColorCodeSorting)
-        {
-            _frameData.Theme.OrderedColorCode = new OrderedColorCodeEntryDic();
-        }
+        _frameData.DefinitionTuple = new FrameDefinitionEntryDic();
+        _frameData.Theme.OrderedColorCode = new OrderedColorCodeEntryDic();
 
         foreach (var item in _frameData.Theme.ColorCode)
         {
-
             if (!item.Value.Use)
             {
                 continue;
@@ -214,27 +214,43 @@ public class AdminManager : SingletonBehaviour<AdminManager>
                     (item.Value.Thumbnail, (texture) => { item.Value.Thumbnail_data = texture; }, true);
             }
 
-            if (isColorCodeSorting)
-            {
-                _frameData.Theme.OrderedColorCode[int.Parse(item.Value.Sequence.ToLower())] = item.Value;
-            }
+            _frameData.Theme.OrderedColorCode[int.Parse(item.Value.Sequence.ToLower())] = item.Value;
 
-            // random 적용안됨
-            if (string.IsNullOrEmpty(UserDataManager.Instance.defaultFrameColor))
-            {
-                UserDataManager.Instance.SetDefaultFrameColor(item.Key);
-            }
         }
+
+        UserDataManager.Instance.SetDefaultFrameColor(_frameData.Theme.OrderedColorCode[1].key);
 
         foreach (var item in _frameData.Definition)
         {
+            _frameData.DefinitionTuple[item.Key] = new FrameDefinitionServiceColorDic();
             for (int i = 0; i < item.Value.Count; i++)
             {
                 int index = i;
-                Debug.Log($"Frame Definition Key:{item.Key}, Count:{i}");
+                //Debug.Log($"Frame Definition Key:{item.Key}, Count:{i}");
                 item.Value[i].picRects = new List<FrameRectTransform>();
                 item.Value[i].dateRects = new List<FrameRectTransform>();
                 item.Value[i].qrRects = new List<FrameRectTransform>();
+                item.Value[i].prices = new List<int>();
+                item.Value[i].sellingPrices = new List<int>();
+
+                item.Value[i].key = item.Key;
+                switch (item.Key)
+                {
+                    case "FR1X1001":
+                        item.Value[i].FrameType = FRAME_TYPE.FRAME_1;
+                        break;
+                    case "FR2X1001":
+                        item.Value[i].FrameType = FRAME_TYPE.FRAME_2;
+                        break;
+                    case "FR2X2001":
+                        item.Value[i].FrameType = FRAME_TYPE.FRAME_4;
+                        break;
+                    case "FR4X2001":
+                        item.Value[i].FrameType = FRAME_TYPE.FRAME_8;
+                        break;
+                    default:
+                        break;
+                }
 
                 // Parsing Data
                 if (!string.IsNullOrEmpty(item.Value[i].PicCanvas1))
@@ -289,6 +305,24 @@ public class AdminManager : SingletonBehaviour<AdminManager>
                     item.Value[i].qrRects.Add(ParseRectData(item.Value[i].QRRect_2));
                 }
 
+                item.Value[i].prices.Add(item.Value[i].Price1);
+                item.Value[i].prices.Add(item.Value[i].Price2);
+                item.Value[i].prices.Add(item.Value[i].Price3);
+                item.Value[i].prices.Add(item.Value[i].Price4);
+                item.Value[i].prices.Add(item.Value[i].Price5);
+                item.Value[i].prices.Add(item.Value[i].Price6);
+                item.Value[i].prices.Add(item.Value[i].Price7);
+                item.Value[i].prices.Add(item.Value[i].Price8);
+
+                item.Value[i].sellingPrices.Add(item.Value[i].sellingPrice1);
+                item.Value[i].sellingPrices.Add(item.Value[i].sellingPrice2);
+                item.Value[i].sellingPrices.Add(item.Value[i].sellingPrice3);
+                item.Value[i].sellingPrices.Add(item.Value[i].sellingPrice4);
+                item.Value[i].sellingPrices.Add(item.Value[i].sellingPrice5);
+                item.Value[i].sellingPrices.Add(item.Value[i].sellingPrice6);
+                item.Value[i].sellingPrices.Add(item.Value[i].sellingPrice7);
+                item.Value[i].sellingPrices.Add(item.Value[i].sellingPrice8);
+
                 // Download Texture Data
                 if (!string.IsNullOrEmpty(item.Value[i].BgImage))
                 {
@@ -315,6 +349,9 @@ public class AdminManager : SingletonBehaviour<AdminManager>
                     ApiCall.Instance.GetSequently<Sprite>
                         (item.Value[index].ThumbnailUnselect, (texture) => { item.Value[index].ThumbnailUnselect_data = texture; }, true);
                 }
+
+                Tuple<string, string> tupleKey = new Tuple<string, string>(item.Value[index].Service, item.Value[index].ColorCode);
+                _frameData.DefinitionTuple[item.Key][tupleKey] = item.Value[index];
             }
 
             //entry.FrameDefinitions[Tuple.Create(definition.Service, definition.ColorCode)] = definition;
@@ -336,6 +373,46 @@ public class AdminManager : SingletonBehaviour<AdminManager>
             //            (definition.ThumbnailSliced, (texture) => { entry.ThumbnailSelect = texture; }, true);
             //    }
             //}
+
+
+        }
+
+        foreach (var item in _frameData.ServiceFrame.Code)
+        {
+            item.Value.SelectFrames = new List<string>();
+
+            if (!string.IsNullOrEmpty(item.Value.SelectFrame1) || item.Value.SelectFrame1.Length > 0)
+            {
+                item.Value.SelectFrames.Add(item.Value.SelectFrame1);
+            }
+            if (!string.IsNullOrEmpty(item.Value.SelectFrame2) || item.Value.SelectFrame2.Length > 0)
+            {
+                item.Value.SelectFrames.Add(item.Value.SelectFrame2);
+            }
+            if (!string.IsNullOrEmpty(item.Value.SelectFrame3) || item.Value.SelectFrame3.Length > 0)
+            {
+                item.Value.SelectFrames.Add(item.Value.SelectFrame3);
+            }
+            if (!string.IsNullOrEmpty(item.Value.SelectFrame4) || item.Value.SelectFrame4.Length > 0)
+            {
+                item.Value.SelectFrames.Add(item.Value.SelectFrame4);
+            }
+            if (!string.IsNullOrEmpty(item.Value.SelectFrame5) || item.Value.SelectFrame5.Length > 0)
+            {
+                item.Value.SelectFrames.Add(item.Value.SelectFrame5);
+            }
+            if (!string.IsNullOrEmpty(item.Value.SelectFrame6) || item.Value.SelectFrame6.Length > 0)
+            {
+                item.Value.SelectFrames.Add(item.Value.SelectFrame6);
+            }
+            if (!string.IsNullOrEmpty(item.Value.SelectFrame7) || item.Value.SelectFrame7.Length > 0)
+            {
+                item.Value.SelectFrames.Add(item.Value.SelectFrame7);
+            }
+            if (!string.IsNullOrEmpty(item.Value.SelectFrame8) || item.Value.SelectFrame8.Length > 0)
+            {
+                item.Value.SelectFrames.Add(item.Value.SelectFrame8);
+            }
         }
     }
 
@@ -571,66 +648,99 @@ public class AdminManager : SingletonBehaviour<AdminManager>
     {
         FrameRectTransform rectData = new FrameRectTransform();
 
+        // 정규식 패턴
+        //string pattern = @"Pos\.X:(?<PosX>-?\d+\.?\d*)\s+Pos\.Y:(?<PosY>-?\d+\.?\d*)\s+Width:(?<Width>\d+\.?\d*)\s+Height:(?<Height>\d+\.?\d*)\s+Min:\s+\[X:(?<AnchorMinX>\d+\.?\d*)\s+Y:(?<AnchorMinY>\d+\.?\d*)\]\s+Max:\s+\[X:(?<AnchorMaxX>\d+\.?\d*)\s+Y:(?<AnchorMaxY>\d+\.?\d*)\]\s+Pivot:\s+\[X:(?<PivotX>\d+\.?\d*)\s+Y:(?<PivotY>\d+\.?\d*)\]\s+Rotation:\s+\[X:(?<RotationX>\d+\.?\d*)\s+Y:(?<RotationY>\d+\.?\d*)\s+Z:(?<RotationZ>\d+\.?\d*)\]";
+
+        string pattern = @"Pos\.X:\s*(?<PosX>-?\d+\.?\d*)\s*Pos\.Y:\s*(?<PosY>-?\d+\.?\d*)\s*Width:\s*(?<Width>\d+\.?\d*)\s*Height:\s*(?<Height>\d+\.?\d*)\s*Min:\s*\[X:\s*(?<AnchorMinX>\d+\.?\d*)\s*Y:\s*(?<AnchorMinY>\d+\.?\d*)\]\s*Max:\s*\[X:\s*(?<AnchorMaxX>\d+\.?\d*)\s*Y:\s*(?<AnchorMaxY>\d+\.?\d*)\]\s*Pivot:\s*\[X:\s*(?<PivotX>\d+\.?\d*)\s*Y:\s*(?<PivotY>\d+\.?\d*)\]\s*Rotation:\s*\[X:\s*(?<RotationX>\d+\.?\d*)\s*Y:\s*(?<RotationY>\d+\.?\d*)\s*Z:\s*(?<RotationZ>\d+\.?\d*)\]";
+
+        Regex regex = new Regex(pattern);
+        Match match = regex.Match(data);
+
         // Extract Position
-        var posMatch = Regex.Match(data, @"Pos\.X:(?<x>[\-0-9]+)\tPos\.Y:(?<y>[\-0-9]+)");
-        if (posMatch.Success)
+        if (match.Success)
         {
             rectData.anchoredPosition = new Vector2(
-                float.Parse(posMatch.Groups["x"].Value),
-                float.Parse(posMatch.Groups["y"].Value)
+                float.Parse(match.Groups["PosX"].Value),
+                float.Parse(match.Groups["PosY"].Value)
             );
-        }
 
-        // Extract Size (Width and Height)
-        var sizeMatch = Regex.Match(data, @"Width:(?<width>[\-0-9]+)\tHeight:(?<height>[\-0-9]+)");
-        if (sizeMatch.Success)
-        {
             rectData.sizeDelta = new Vector2(
-                float.Parse(sizeMatch.Groups["width"].Value),
-                float.Parse(sizeMatch.Groups["height"].Value)
+                float.Parse(match.Groups["Width"].Value),
+                float.Parse(match.Groups["Height"].Value)
             );
-        }
 
-        // Extract Anchor Min
-        var anchorMinMatch = Regex.Match(data, @"Min:\t\[X:(?<minX>[\-0-9\.]+)\tY:(?<minY>[\-0-9\.]+)\]");
-        if (anchorMinMatch.Success)
-        {
             rectData.anchorMin = new Vector2(
-                float.Parse(anchorMinMatch.Groups["minX"].Value),
-                float.Parse(anchorMinMatch.Groups["minY"].Value)
+                float.Parse(match.Groups["AnchorMinX"].Value),
+                float.Parse(match.Groups["AnchorMinY"].Value)
             );
-        }
 
-        // Extract Anchor Max
-        var anchorMaxMatch = Regex.Match(data, @"Max:\t\[X:(?<maxX>[\-0-9\.]+)\tY:(?<maxY>[\-0-9\.]+)\]");
-        if (anchorMaxMatch.Success)
-        {
             rectData.anchorMax = new Vector2(
-                float.Parse(anchorMaxMatch.Groups["maxX"].Value),
-                float.Parse(anchorMaxMatch.Groups["maxY"].Value)
+                float.Parse(match.Groups["AnchorMaxX"].Value),
+                float.Parse(match.Groups["AnchorMaxY"].Value)
             );
-        }
 
-        // Extract Pivot
-        var pivotMatch = Regex.Match(data, @"Pivot:\t\[X:(?<pivotX>[\-0-9\.]+)\tY:(?<pivotY>[\-0-9\.]+)\]");
-        if (pivotMatch.Success)
-        {
             rectData.pivot = new Vector2(
-                float.Parse(pivotMatch.Groups["pivotX"].Value),
-                float.Parse(pivotMatch.Groups["pivotY"].Value)
+                float.Parse(match.Groups["PivotX"].Value),
+                float.Parse(match.Groups["PivotY"].Value)
             );
-        }
 
-        // Extract Rotation
-        var rotationMatch = Regex.Match(data, @"Rotation:\t\[X:(?<rotX>[\-0-9\.]+)\tY:(?<rotY>[\-0-9\.]+)\tZ:(?<rotZ>[\-0-9\.]+)\]");
-        if (rotationMatch.Success)
-        {
             rectData.rotation = new Vector3(
-                float.Parse(rotationMatch.Groups["rotX"].Value),
-                float.Parse(rotationMatch.Groups["rotY"].Value),
-                float.Parse(rotationMatch.Groups["rotZ"].Value)
+                float.Parse(match.Groups["RotationX"].Value),
+                float.Parse(match.Groups["RotationY"].Value),
+                float.Parse(match.Groups["RotationZ"].Value)
                 );
         }
+
+        //// Extract Size (Width and Height)
+        //var sizeMatch = Regex.Match(data, @"Width:(?<width>[\-0-9]+)\tHeight:(?<height>[\-0-9]+)");
+        //if (sizeMatch.Success)
+        //{
+        //    rectData.sizeDelta = new Vector2(
+        //        float.Parse(sizeMatch.Groups["width"].Value),
+        //        float.Parse(sizeMatch.Groups["height"].Value)
+        //    );
+        //}
+
+        //// Extract Anchor Min
+        //var anchorMinMatch = Regex.Match(data, @"Min:\t\[X:(?<minX>[\-0-9\.]+)\tY:(?<minY>[\-0-9\.]+)\]");
+        //if (anchorMinMatch.Success)
+        //{
+        //    rectData.anchorMin = new Vector2(
+        //        float.Parse(anchorMinMatch.Groups["minX"].Value),
+        //        float.Parse(anchorMinMatch.Groups["minY"].Value)
+        //    );
+        //}
+
+        //// Extract Anchor Max
+        //var anchorMaxMatch = Regex.Match(data, @"Max:\t\[X:(?<maxX>[\-0-9\.]+)\tY:(?<maxY>[\-0-9\.]+)\]");
+        //if (anchorMaxMatch.Success)
+        //{
+        //    rectData.anchorMax = new Vector2(
+        //        float.Parse(anchorMaxMatch.Groups["maxX"].Value),
+        //        float.Parse(anchorMaxMatch.Groups["maxY"].Value)
+        //    );
+        //}
+
+        //// Extract Pivot
+        //var pivotMatch = Regex.Match(data, @"Pivot:\t\[X:(?<pivotX>[\-0-9\.]+)\tY:(?<pivotY>[\-0-9\.]+)\]");
+        //if (pivotMatch.Success)
+        //{
+        //    rectData.pivot = new Vector2(
+        //        float.Parse(pivotMatch.Groups["pivotX"].Value),
+        //        float.Parse(pivotMatch.Groups["pivotY"].Value)
+        //    );
+        //}
+
+        //// Extract Rotation
+        //var rotationMatch = Regex.Match(data, @"Rotation:\t\[X:(?<rotX>[\-0-9\.]+)\tY:(?<rotY>[\-0-9\.]+)\tZ:(?<rotZ>[\-0-9\.]+)\]");
+        //if (rotationMatch.Success)
+        //{
+        //    rectData.rotation = new Vector3(
+        //        float.Parse(rotationMatch.Groups["rotX"].Value),
+        //        float.Parse(rotationMatch.Groups["rotY"].Value),
+        //        float.Parse(rotationMatch.Groups["rotZ"].Value)
+        //        );
+        //}
 
         return rectData;
     }

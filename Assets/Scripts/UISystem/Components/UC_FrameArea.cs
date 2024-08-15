@@ -13,6 +13,8 @@ using Vivestudios.UI;
 public class UC_FrameArea : UC_BaseComponent
 {
     [SerializeField]
+    private bool _isPrintSize = false;
+    [SerializeField]
     private FRAME_TYPE _frameType;
     [SerializeField]
     private string _frameColor;
@@ -356,8 +358,13 @@ public class UC_FrameArea : UC_BaseComponent
 
     private DefinitionEntry GetFrameDefinition()
     {
+        if(AdminManager.Instance.FrameData == null)
+        {
+            return null;
+        }
+
         FrameData.DefinitionEntry definition = null;
-        string frameType = UserDataManager.Instance.selectedFrame;
+        string frameType = UserDataManager.Instance.selectedFrameKey;
         List<FrameData.DefinitionEntry> entries = AdminManager.Instance.FrameData.Definition[frameType];
 
         foreach (var item in entries)
@@ -374,9 +381,24 @@ public class UC_FrameArea : UC_BaseComponent
 
     private void UpdateFrameColor()
     {
+        // adminManager에서 파싱할때 default 컬러 정하고 업데이트
         FrameData.DefinitionEntry entry = GetFrameDefinition();
+        if(entry == null)
+        {
+            return;
+        }
         _upperLayers.sprite = entry.LayerImage_data;
         _upperLayers.color = Color.white;// ResourceCacheManager.inst.GetFrameColor(_frameColor);
+        if(_splitLine != null)
+        {
+            _splitLine.color = Color.clear;
+        }
+
+        int printSize = 1;
+        if (_isPrintSize)
+        {
+            printSize = 4;
+        }
 
         foreach (Image logo in _logoImgs)
         {
@@ -384,12 +406,18 @@ public class UC_FrameArea : UC_BaseComponent
         }
 
         //여기 진행중
-        foreach (var elem in _dateTexts)
+
+        for (int i = 0; i < _dateTexts.Length; i++)
         {
-            elem.color = UtilityExtensions.HexToColor(entry.DateColor);
-            //elem.font = ResourceCacheManager.inst.GetFrameFont(_frameColor);
-            elem.alignment = TextAlignmentOptions.MidlineLeft;
-            elem.characterSpacing = 6;
+            _dateTexts[i].color = UtilityExtensions.HexToColor(entry.DateColor);
+            _dateTexts[i].font = ResourceCacheManager.inst.GetFrameFont(_frameColor);
+            _dateTexts[i].alignment = TextAlignmentOptions.Midline;
+            _dateTexts[i].rectTransform.pivot = entry.dateRects[i].pivot;
+            _dateTexts[i].rectTransform.anchorMin = entry.dateRects[i].anchorMin;
+            _dateTexts[i].rectTransform.anchorMax = entry.dateRects[i].anchorMax;
+            _dateTexts[i].rectTransform.sizeDelta = entry.dateRects[i].sizeDelta * printSize;
+            _dateTexts[i].rectTransform.anchoredPosition = entry.dateRects[i].anchoredPosition * printSize;
+            //_dateTexts[i].characterSpacing = 6;
         }
 
         /*

@@ -105,7 +105,7 @@ public class UP_DecoSelectCartoonPics : UP_DecoSelectPicsBase
             }
         }
 
-        (_pageController as PC_Main).SetResultTextures(_frameAreaDic[UserDataManager.inst.selectedFrame].GetResultPics());
+        (_pageController as PC_Main).SetResultTextures(_frameAreaDic[UserDataManager.inst.selectedFrameType].GetResultPics());
         yield return new WaitForEndOfFrame();
 
         TimeLimitDoneCoroutine = null;

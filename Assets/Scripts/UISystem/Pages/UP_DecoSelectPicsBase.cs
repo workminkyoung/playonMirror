@@ -238,7 +238,7 @@ public class UP_DecoSelectPicsBase : UP_DecoratePageBase
             }
         }
 
-        (_pageController as PC_Main).SetResultTextures(_frameAreaDic[UserDataManager.inst.selectedFrame].GetResultPics());
+        (_pageController as PC_Main).SetResultTextures(_frameAreaDic[UserDataManager.inst.selectedFrameType].GetResultPics());
         yield return new WaitForEndOfFrame();
 
         TimeLimitDoneCoroutine = null;
@@ -288,7 +288,7 @@ public class UP_DecoSelectPicsBase : UP_DecoratePageBase
 
         _touchIgnoreArea.SetActive(false);
 
-        switch (UserDataManager.inst.selectedFrame)
+        switch (UserDataManager.inst.selectedFrameType)
         {
             case FRAME_TYPE.FRAME_1:
                 _maxSelectNum = 1;
@@ -327,7 +327,7 @@ public class UP_DecoSelectPicsBase : UP_DecoratePageBase
 
     protected override void OnPageReset()
     {
-        _frameAreaDic[UserDataManager.inst.selectedFrame].SetPics(new List<Texture2D>());
+        _frameAreaDic[UserDataManager.inst.selectedFrameType].SetPics(new List<Texture2D>());
         //_selectedPhotoIndexDic = new Dictionary<int, int>();
         _selectedPhotoIndexDic = new SelectPhotoIndexDic();
 

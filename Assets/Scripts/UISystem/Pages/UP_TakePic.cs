@@ -105,8 +105,8 @@ public class UP_TakePic : UP_BasePage, IPageTimeLimit
 
     private void SetGuideGrid()
     {
-        if (UserDataManager.inst.selectedFrame == FRAME_TYPE.FRAME_4 ||
-            UserDataManager.inst.selectedFrame == FRAME_TYPE.FRAME_1)
+        if (UserDataManager.inst.selectedFrameDefinition.FrameType == FRAME_TYPE.FRAME_4 ||
+            UserDataManager.inst.selectedFrameDefinition.FrameType == FRAME_TYPE.FRAME_1)
         {
             _guidGrid.sizeDelta = VERTICAL_GRID_SIZE;
         }

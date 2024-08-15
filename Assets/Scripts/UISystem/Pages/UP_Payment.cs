@@ -102,8 +102,8 @@ public class UP_Payment : UP_BasePage
 
         SetContent();
 
-        _frameImg.sprite = _frameSprites[(int)UserDataManager.inst.selectedFrame];
-        _frameShadowImg.sprite = UserDataManager.inst.selectedFrame == FRAME_TYPE.FRAME_8 ? _frameShadowSprites[1] : _frameShadowSprites[0];
+        _frameImg.sprite = _frameSprites[(int)UserDataManager.inst.selectedFrameDefinition.FrameType];
+        _frameShadowImg.sprite = UserDataManager.inst.selectedFrameDefinition.FrameType == FRAME_TYPE.FRAME_8 ? _frameShadowSprites[1] : _frameShadowSprites[0];
         _frameShadowImg.SetNativeSize();
         _selectedFrameText.text = UserDataManager.inst.curPicAmount.ToString("# 장");
         if (UserDataManager.inst.curPrice == 0)

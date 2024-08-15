@@ -21,6 +21,10 @@ public class UC_SelectableContent : UC_BaseComponent, IPointerDownHandler, IPoin
     [SerializeField]
     protected Image _thumbnailImg = null;
     [SerializeField]
+    protected Sprite _thumbnailUnselectImg = null;
+    [SerializeField]
+    protected Sprite _thumbnailSelectImg = null;
+    [SerializeField]
     protected TextMeshProUGUI _nameText = null;
 
     public Image thumbnailImg => _thumbnailImg;
@@ -66,7 +70,11 @@ public class UC_SelectableContent : UC_BaseComponent, IPointerDownHandler, IPoin
         {
             _touchFeedback?.gameObject.SetActive(true);
 
-            if (_stroke)
+            if (_thumbnailSelectImg != null)
+            {
+                _thumbnailImg.sprite = _thumbnailSelectImg;
+            }
+            else if (_stroke)
             {
                 (_stroke as MPImage).color = ENABLE_STROKE_COLOR;
                 (_stroke as MPImage).StrokeWidth = ENABLE_STROKE_SIZE;
@@ -76,7 +84,11 @@ public class UC_SelectableContent : UC_BaseComponent, IPointerDownHandler, IPoin
         {
             _touchFeedback?.gameObject.SetActive(false);
 
-            if (_stroke)
+            if (_thumbnailUnselectImg != null)
+            {
+                _thumbnailImg.sprite = _thumbnailUnselectImg;
+            }
+            else if (_stroke)
             {
                 (_stroke as MPImage).color = DISABLE_STROKE_COLOR;
                 (_stroke as MPImage).StrokeWidth = DISABLE_STROKE_SIZE;
@@ -89,6 +101,18 @@ public class UC_SelectableContent : UC_BaseComponent, IPointerDownHandler, IPoin
         if (_thumbnailImg == null || thumbnail == null)
             return;
         _thumbnailImg.sprite = thumbnail;
+    }
+
+    public void SetThumbnail(Sprite select, Sprite unselect)
+    {
+        if (_thumbnailImg == null || select == null)
+            return;
+
+        _thumbnailImg.sprite = select;
+        _stroke.enabled = false;
+
+        _thumbnailSelectImg = select;
+        _thumbnailUnselectImg = unselect;
     }
 
     public void SetThumbnailClear(Color color)
