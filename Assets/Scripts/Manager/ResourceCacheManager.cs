@@ -103,7 +103,7 @@ public class ResourceCacheManager : SingletonBehaviour<ResourceCacheManager>
         }
     }
 
-    public TMP_FontAsset GetFrameFont (FRAME_COLOR_TYPE type)
+    public TMP_FontAsset GetFrameFont (string type)
     {
         if(_fontDic == null || _fontDic.ContainsKey(type) == false)
         {
@@ -173,7 +173,7 @@ public class ResourceCacheManager : SingletonBehaviour<ResourceCacheManager>
     [Serializable]
     private class FrameColorCodeDicBase : SerializableDictionaryBase<FRAME_COLOR_TYPE, string> { }
     [Serializable]
-    private class ColorTypeFontDicBase : SerializableDictionaryBase<FRAME_COLOR_TYPE, TMP_FontAsset> { }
+    private class ColorTypeFontDicBase : SerializableDictionaryBase<string, TMP_FontAsset> { }
     [Serializable]
     private class ContentTypeVideoDicBase : SerializableDictionaryBase<CONTENT_TYPE, VideoClip> { }
     [Serializable]

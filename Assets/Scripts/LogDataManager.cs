@@ -59,33 +59,35 @@ public class LogDataManager : SingletonBehaviour<LogDataManager>
                 break;
         }
 
-        switch (UserDataManager.inst.selectedFrame)
-        {
-            case FRAME_TYPE.FRAME_1:
-                logFormat.frame = "FR1X1001";
-                logFormat.frame_shape = null;
-                break;
-            case FRAME_TYPE.FRAME_2:
-                logFormat.frame = "FR2X1001";
-                logFormat.frame_shape = "FRS_2X1_DEFAULT";
-                break;
-            case FRAME_TYPE.FRAME_2_1:
-                logFormat.frame = "FR2X1001";
-                logFormat.frame_shape = "FRS_2X1_STAIRS";
-                break;
-            case FRAME_TYPE.FRAME_2_2:
-                logFormat.frame = "FR2X1001";
-                logFormat.frame_shape = "FRS_2X1_SHIP";
-                break;
-            case FRAME_TYPE.FRAME_4:
-                logFormat.frame = "FR2X2001";
-                logFormat.frame_shape = null;
-                break;
-            case FRAME_TYPE.FRAME_8:
-                logFormat.frame = "FR4X2001";
-                logFormat.frame_shape = null;
-                break;
-        }
+        logFormat.frame = UserDataManager.inst.selectedFrameKey;
+        logFormat.frame_shape = null;
+        //switch (UserDataManager.inst.selectedFrame)
+        //{
+        //    case FRAME_TYPE.FRAME_1:
+        //        logFormat.frame = "FR1X1001";
+        //        logFormat.frame_shape = null;
+        //        break;
+        //    case FRAME_TYPE.FRAME_2:
+        //        logFormat.frame = "FR2X1001";
+        //        logFormat.frame_shape = "FRS_2X1_DEFAULT";
+        //        break;
+        //    case FRAME_TYPE.FRAME_2_1:
+        //        logFormat.frame = "FR2X1001";
+        //        logFormat.frame_shape = "FRS_2X1_STAIRS";
+        //        break;
+        //    case FRAME_TYPE.FRAME_2_2:
+        //        logFormat.frame = "FR2X1001";
+        //        logFormat.frame_shape = "FRS_2X1_SHIP";
+        //        break;
+        //    case FRAME_TYPE.FRAME_4:
+        //        logFormat.frame = "FR2X2001";
+        //        logFormat.frame_shape = null;
+        //        break;
+        //    case FRAME_TYPE.FRAME_8:
+        //        logFormat.frame = "FR4X2001";
+        //        logFormat.frame_shape = null;
+        //        break;
+        //}
 
         logFormat.color_filter = UserDataManager.inst.selectedLutKey;
 

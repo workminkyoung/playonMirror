@@ -9,6 +9,9 @@ using System;
 using ShootingScreenData;
 using UnityEditor.Build;
 using UnityEngine.Playables;
+using UnityEditor.UIElements;
+using UnityEngine.Experimental.Rendering;
+using static UnityEditor.Progress;
 
 public class AdminManager : SingletonBehaviour<AdminManager>
 {
@@ -193,14 +196,11 @@ public class AdminManager : SingletonBehaviour<AdminManager>
     private void DownloadFrameData()
     {
         bool isColorCodeSorting = _frameData.Theme.Sorting.ToLower() == StringCacheManager.inst.SortingSpecified.ToLower() ? true : false;
-        if (isColorCodeSorting)
-        {
-            _frameData.Theme.OrderedColorCode = new OrderedColorCodeEntryDic();
-        }
+        _frameData.DefinitionTuple = new FrameDefinitionEntryDic();
+        _frameData.Theme.OrderedColorCode = new OrderedColorCodeEntryDic();
 
         foreach (var item in _frameData.Theme.ColorCode)
         {
-
             if (!item.Value.Use)
             {
                 continue;
@@ -214,20 +214,15 @@ public class AdminManager : SingletonBehaviour<AdminManager>
                     (item.Value.Thumbnail, (texture) => { item.Value.Thumbnail_data = texture; }, true);
             }
 
-            if (isColorCodeSorting)
-            {
-                _frameData.Theme.OrderedColorCode[int.Parse(item.Value.Sequence.ToLower())] = item.Value;
-            }
+            _frameData.Theme.OrderedColorCode[int.Parse(item.Value.Sequence.ToLower())] = item.Value;
 
-            // random 적용안됨
-            if (string.IsNullOrEmpty(UserDataManager.Instance.defaultFrameColor))
-            {
-                UserDataManager.Instance.SetDefaultFrameColor(item.Key);
-            }
         }
+
+        UserDataManager.Instance.SetDefaultFrameColor(_frameData.Theme.OrderedColorCode[1].key);
 
         foreach (var item in _frameData.Definition)
         {
+            _frameData.DefinitionTuple[item.Key] = new FrameDefinitionServiceColorDic();
             for (int i = 0; i < item.Value.Count; i++)
             {
                 int index = i;
@@ -235,6 +230,27 @@ public class AdminManager : SingletonBehaviour<AdminManager>
                 item.Value[i].picRects = new List<FrameRectTransform>();
                 item.Value[i].dateRects = new List<FrameRectTransform>();
                 item.Value[i].qrRects = new List<FrameRectTransform>();
+                item.Value[i].prices = new List<int>();
+                item.Value[i].sellingPrices = new List<int>();
+
+                item.Value[i].key = item.Key;
+                switch (item.Key)
+                {
+                    case "FR1X1001":
+                        item.Value[i].FrameType = FRAME_TYPE.FRAME_1;
+                        break;
+                    case "FR2X1001":
+                        item.Value[i].FrameType = FRAME_TYPE.FRAME_2;
+                        break;
+                    case "FR2X2001":
+                        item.Value[i].FrameType = FRAME_TYPE.FRAME_4;
+                        break;
+                    case "FR4X2001":
+                        item.Value[i].FrameType = FRAME_TYPE.FRAME_8;
+                        break;
+                    default:
+                        break;
+                }
 
                 // Parsing Data
                 if (!string.IsNullOrEmpty(item.Value[i].PicCanvas1))
@@ -289,6 +305,24 @@ public class AdminManager : SingletonBehaviour<AdminManager>
                     item.Value[i].qrRects.Add(ParseRectData(item.Value[i].QRRect_2));
                 }
 
+                item.Value[i].prices.Add(item.Value[i].Price1);
+                item.Value[i].prices.Add(item.Value[i].Price2);
+                item.Value[i].prices.Add(item.Value[i].Price3);
+                item.Value[i].prices.Add(item.Value[i].Price4);
+                item.Value[i].prices.Add(item.Value[i].Price5);
+                item.Value[i].prices.Add(item.Value[i].Price6);
+                item.Value[i].prices.Add(item.Value[i].Price7);
+                item.Value[i].prices.Add(item.Value[i].Price8);
+
+                item.Value[i].sellingPrices.Add(item.Value[i].sellingPrice1);
+                item.Value[i].sellingPrices.Add(item.Value[i].sellingPrice2);
+                item.Value[i].sellingPrices.Add(item.Value[i].sellingPrice3);
+                item.Value[i].sellingPrices.Add(item.Value[i].sellingPrice4);
+                item.Value[i].sellingPrices.Add(item.Value[i].sellingPrice5);
+                item.Value[i].sellingPrices.Add(item.Value[i].sellingPrice6);
+                item.Value[i].sellingPrices.Add(item.Value[i].sellingPrice7);
+                item.Value[i].sellingPrices.Add(item.Value[i].sellingPrice8);
+
                 // Download Texture Data
                 if (!string.IsNullOrEmpty(item.Value[i].BgImage))
                 {
@@ -315,6 +349,9 @@ public class AdminManager : SingletonBehaviour<AdminManager>
                     ApiCall.Instance.GetSequently<Sprite>
                         (item.Value[index].ThumbnailUnselect, (texture) => { item.Value[index].ThumbnailUnselect_data = texture; }, true);
                 }
+
+                Tuple<string, string> tupleKey = new Tuple<string, string>(item.Value[index].Service, item.Value[index].ColorCode);
+                _frameData.DefinitionTuple[item.Key][tupleKey] = item.Value[index];
             }
 
             //entry.FrameDefinitions[Tuple.Create(definition.Service, definition.ColorCode)] = definition;
@@ -336,6 +373,46 @@ public class AdminManager : SingletonBehaviour<AdminManager>
             //            (definition.ThumbnailSliced, (texture) => { entry.ThumbnailSelect = texture; }, true);
             //    }
             //}
+
+
+        }
+
+        foreach (var item in _frameData.ServiceFrame.Code)
+        {
+            item.Value.SelectFrames = new List<string>();
+
+            if (!string.IsNullOrEmpty(item.Value.SelectFrame1) || item.Value.SelectFrame1.Length > 0)
+            {
+                item.Value.SelectFrames.Add(item.Value.SelectFrame1);
+            }
+            if (!string.IsNullOrEmpty(item.Value.SelectFrame2) || item.Value.SelectFrame2.Length > 0)
+            {
+                item.Value.SelectFrames.Add(item.Value.SelectFrame2);
+            }
+            if (!string.IsNullOrEmpty(item.Value.SelectFrame3) || item.Value.SelectFrame3.Length > 0)
+            {
+                item.Value.SelectFrames.Add(item.Value.SelectFrame3);
+            }
+            if (!string.IsNullOrEmpty(item.Value.SelectFrame4) || item.Value.SelectFrame4.Length > 0)
+            {
+                item.Value.SelectFrames.Add(item.Value.SelectFrame4);
+            }
+            if (!string.IsNullOrEmpty(item.Value.SelectFrame5) || item.Value.SelectFrame5.Length > 0)
+            {
+                item.Value.SelectFrames.Add(item.Value.SelectFrame5);
+            }
+            if (!string.IsNullOrEmpty(item.Value.SelectFrame6) || item.Value.SelectFrame6.Length > 0)
+            {
+                item.Value.SelectFrames.Add(item.Value.SelectFrame6);
+            }
+            if (!string.IsNullOrEmpty(item.Value.SelectFrame7) || item.Value.SelectFrame7.Length > 0)
+            {
+                item.Value.SelectFrames.Add(item.Value.SelectFrame7);
+            }
+            if (!string.IsNullOrEmpty(item.Value.SelectFrame8) || item.Value.SelectFrame8.Length > 0)
+            {
+                item.Value.SelectFrames.Add(item.Value.SelectFrame8);
+            }
         }
     }
 
