@@ -201,10 +201,10 @@ public class UC_FrameArea : UC_BaseComponent
         }
     }
 
-    public void SetLutEffect(LUT_EFFECT_TYPE type)
-    {
-        _lutTex = ResourceCacheManager.inst.GetLutTexture(type);
-    }
+    //public void SetLutEffect(LUT_EFFECT_TYPE type)
+    //{
+    //    _lutTex = ResourceCacheManager.inst.GetLutTexture(type);
+    //}
 
     public void SetFilterOn(bool isOn)
     {

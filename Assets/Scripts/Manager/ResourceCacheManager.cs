@@ -115,9 +115,14 @@ public class ResourceCacheManager : SingletonBehaviour<ResourceCacheManager>
         }
     }
 
-    public Texture2D GetLutTexture (LUT_EFFECT_TYPE type)
+    //public Texture2D GetLutTexture (LUT_EFFECT_TYPE type)
+    //{
+    //    return _lutTexDic[type];
+    //}
+
+    public Texture2D GetLutTexture(string key)
     {
-        return _lutTexDic[type];
+        return _lutTexDic[key];
     }
 
     public Sprite GetCartoonThumbnailSprite (CARTOON_TYPE type)
@@ -161,7 +166,7 @@ public class ResourceCacheManager : SingletonBehaviour<ResourceCacheManager>
     [Serializable]
     private class CartoonTexDicBase : SerializableDictionaryBase<CARTOON_TYPE, Sprite> { }
     [Serializable]
-    private class LutTexDicBase : SerializableDictionaryBase<LUT_EFFECT_TYPE, Texture2D> { }
+    private class LutTexDicBase : SerializableDictionaryBase<string, Texture2D> { }
     [Serializable]
     private class ProfileSpriteDicBase : SerializableDictionaryBase<PROFILE_TYPE, Sprite> { }
     [Serializable]

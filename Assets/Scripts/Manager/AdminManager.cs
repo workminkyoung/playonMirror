@@ -685,8 +685,12 @@ public class AdminManager : SingletonBehaviour<AdminManager>
         {
             if (!string.IsNullOrEmpty(item.Value.File))
             {
-                ApiCall.Instance.GetSequently<Texture2D>
-                    (item.Value.File, (texture) => { item.Value.LutFile_data = texture; }, true);
+                item.Value.LutFile_data = ResourceCacheManager.Instance.GetLutTexture(item.Key);
+                //ApiCall.Instance.GetSequently<Texture2D>
+                //    (item.Value.File, (texture) => 
+                //    {
+                //        item.Value.LutFile_data = texture; 
+                //    }, true);
             }
 
             if (!string.IsNullOrEmpty(item.Value.Thumbnail))
