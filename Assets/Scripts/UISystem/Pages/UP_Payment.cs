@@ -95,40 +95,6 @@ public class UP_Payment : UP_BasePage
         _childToggle?.onValueChanged.AddListener(OnChildToggleChanged);
         _agreeToggle?.onValueChanged.AddListener(OnAgreeToggleChanged);
     }
-    private void OnEnable()
-    {
-        if (!_pageController)
-            return;
-
-        SetContent();
-
-        _frameImg.sprite = UserDataManager.inst.selectedFrameDefinition.ThumbnailUnselect_data;
-        _frameShadowImg.sprite = UserDataManager.inst.selectedFrameDefinition.FrameType == FRAME_TYPE.FRAME_8 ? _frameShadowSprites[1] : _frameShadowSprites[0];
-        _frameShadowImg.SetNativeSize();
-        _selectedFrameText.text = UserDataManager.inst.curPicAmount.ToString("# 장");
-        if (UserDataManager.inst.curPrice == 0)
-        {
-            _titleText.text = "선택한 내용을 확인한 후 촬영해주세요";
-            _priceText.text = UserDataManager.inst.curPrice.ToString("무료");
-
-            _freeNextBtn.gameObject.SetActive(false);
-            _freeWarnBtn.gameObject.SetActive(true);
-            _nextBtn.gameObject.SetActive(false);
-            _warnBtn.gameObject.SetActive(false);
-        }
-        else
-        {
-            _titleText.text = "선택한 내용을 확인한 후 결제해주세요";
-            _priceText.text = UserDataManager.inst.curPrice.ToString("#,###원");
-
-            _freeNextBtn.gameObject.SetActive(false);
-            _freeWarnBtn.gameObject.SetActive(false);
-            _nextBtn.gameObject.SetActive(false);
-            _warnBtn.gameObject.SetActive(true);
-        }
-
-        _timerCoroutine = StartCoroutine(TimerRoutine());
-    }
 
     private void OnDisable()
     {
@@ -329,6 +295,37 @@ public class UP_Payment : UP_BasePage
 
     public override void OnPageEnable()
     {
+        if (!_pageController)
+            return;
+
+        SetContent();
+
+        _frameImg.sprite = UserDataManager.inst.selectedFrameDefinition.ThumbnailUnselect_data;
+        _frameShadowImg.sprite = UserDataManager.inst.selectedFrameDefinition.FrameType == FRAME_TYPE.FRAME_8 ? _frameShadowSprites[1] : _frameShadowSprites[0];
+        _frameShadowImg.SetNativeSize();
+        _selectedFrameText.text = UserDataManager.inst.curPicAmount.ToString("# 장");
+        if (UserDataManager.inst.curPrice == 0)
+        {
+            _titleText.text = "선택한 내용을 확인한 후 촬영해주세요";
+            _priceText.text = UserDataManager.inst.curPrice.ToString("무료");
+
+            _freeNextBtn.gameObject.SetActive(false);
+            _freeWarnBtn.gameObject.SetActive(true);
+            _nextBtn.gameObject.SetActive(false);
+            _warnBtn.gameObject.SetActive(false);
+        }
+        else
+        {
+            _titleText.text = "선택한 내용을 확인한 후 결제해주세요";
+            _priceText.text = UserDataManager.inst.curPrice.ToString("#,###원");
+
+            _freeNextBtn.gameObject.SetActive(false);
+            _freeWarnBtn.gameObject.SetActive(false);
+            _nextBtn.gameObject.SetActive(false);
+            _warnBtn.gameObject.SetActive(true);
+        }
+
+        _timerCoroutine = StartCoroutine(TimerRoutine());
     }
 
     public override void OnPageDisable()

@@ -176,9 +176,6 @@ public class UP_SelectFrame : UP_BaseSelectContent, IPageTimeLimit
             (_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_PAYMENT);
         }
 
-        // Set Defalt Frame Definition
-        Tuple<string, string> tupleKey = new Tuple<string, string>(UserDataManager.Instance.selectedContentKey, UserDataManager.Instance.defaultFrameColor);
-        UserDataManager.Instance.SetSelectedFrameDefinition(_frameData.DefinitionTuple[UserDataManager.inst.selectedFrameKey][tupleKey]);
     }
 
     private void ResetContents()
@@ -426,6 +423,10 @@ public class UP_SelectFrame : UP_BaseSelectContent, IPageTimeLimit
 
         UserDataManager.inst.SelectFrameKey(key);
         UserDataManager.inst.SelectFrameType(type);
+
+        // Set Defalt Frame Definition
+        Tuple<string, string> tupleKey = new Tuple<string, string>(UserDataManager.Instance.selectedContentKey, UserDataManager.Instance.defaultFrameColor);
+        UserDataManager.Instance.SetSelectedFrameDefinition(_frameData.DefinitionTuple[UserDataManager.inst.selectedFrameKey][tupleKey]);
     }
 
     public override void OnPageDisable()
