@@ -10,12 +10,17 @@ public class LogDataManager : SingletonBehaviour<LogDataManager>
 {
     private string url = "";
     private string fileUrl = "";
+    private string guidFilePath;
+    private string guid = null;
 
     public LogFormat logFormat = new LogFormat();
 
+    public string GetGuid => guid;
+
     protected override void Init()
     {
-        logFormat.pc_uuid = SystemInfo.deviceUniqueIdentifier;
+        GenerateGUID();
+        logFormat.pc_uuid = guid;// SystemInfo.deviceUniqueIdentifier;
 
         if (Debug.isDebugBuild)
         {
@@ -32,6 +37,42 @@ public class LogDataManager : SingletonBehaviour<LogDataManager>
         url = "http://3.35.3.44:1996/logs";
         fileUrl = "http://3.35.3.44:1996/data";
 #endif
+    }
+
+    public void GenerateGUID()
+    {
+        guidFilePath = Application.persistentDataPath + "/" + "guid.txt";
+        guid = LoadGUIDFromFile();
+
+        if (guid == null)
+        {
+            Guid newGuid = Guid.NewGuid();
+            Debug.Log("Create New GUID: " + newGuid.ToString());
+            File.WriteAllText(guidFilePath, newGuid.ToString());
+        }
+    }
+
+    string LoadGUIDFromFile()
+    {
+        try
+        {
+            if (File.Exists(guidFilePath))
+            {
+                string loadedGuid = File.ReadAllText(guidFilePath);
+                Debug.Log("Load GUID: " + loadedGuid);
+                return loadedGuid;
+            }
+            else
+            {
+                Debug.Log("GUID file does not exist.");
+                return null;
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Log("Failed to load GUID: " + e.Message);
+            return null;
+        }
     }
 
     public void SendLog()

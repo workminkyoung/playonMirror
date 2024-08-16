@@ -45,12 +45,7 @@ public class AdminManager : SingletonBehaviour<AdminManager>
     {
         GameManager.OnGameResetAction += ResetAdminData;
 
-        string uuid = SystemInfo.deviceUniqueIdentifier;
-#if UNITY_EDITOR
-        uuid = "temp_kway";
-#endif
-        uuid = "temp_kway";
-        _configDefaultAPI += uuid;
+        _configDefaultAPI += LogDataManager.Instance.GetGuid;
         ApiCall.Instance.Get<string>(_configDefaultAPI, GetResponse);
     }
 
