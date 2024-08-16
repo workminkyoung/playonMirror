@@ -33,10 +33,27 @@ public class UP_SelectChromaKeyBackground : UP_DecoratePageBase, IPageTimeLimit
     {
         base.InitPage();
 
-        // TODO : Set MaxTime
-        _maxTime = ConfigData.config.frameSelectTime;
         _pageInitDone = true;
         
+    }
+
+    public override void ApplyAdminData()
+    {
+        base.ApplyAdminData();
+        _maxTime = AdminManager.Instance.BasicSetting.Config.FrameSelect_data;//ConfigData.config.frameSelectTime;
+    }
+
+    protected override void OnEnable()
+    {
+        //base.OnEnable();
+
+        if (!_pageController)
+        {
+            return;
+        }
+
+        FrameEnable();
+        UpdateFrame();
     }
 
     private void InitContents ()

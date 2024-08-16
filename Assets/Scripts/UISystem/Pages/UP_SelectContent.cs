@@ -20,10 +20,15 @@ public class UP_SelectContent : UP_BaseSelectContent, IPageTimeLimit
 
     public override void InitPage()
     {
-        _maxTime = ConfigData.config.contentSelectTime;
         _styleContents = new List<UC_StyleVideoContent>();
 
         base.InitPage();
+    }
+
+    public override void ApplyAdminData()
+    {
+        base.ApplyAdminData();
+        _maxTime = AdminManager.Instance.BasicSetting.Config.ContentsMenu_data;//ConfigData.config.contentSelectTime;
     }
 
     private void CreateContent()

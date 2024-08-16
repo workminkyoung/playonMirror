@@ -24,7 +24,12 @@ public class UP_SelectGender : UP_BaseSelectContent, IPageTimeLimit
     {
         base.InitPage();
 
-        _maxTime = ConfigData.config.genderSelectTime;
+    }
+
+    public override void ApplyAdminData()
+    {
+        base.ApplyAdminData();
+        _maxTime = AdminManager.Instance.BasicSetting.Config.WFMenu_data;//ConfigData.config.genderSelectTime;
     }
 
     public override void BindDelegates()

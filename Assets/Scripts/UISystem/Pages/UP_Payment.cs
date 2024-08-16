@@ -74,8 +74,13 @@ public class UP_Payment : UP_BasePage
 
     public override void InitPage()
     {
-        _maxTime = ConfigData.config.paymentPageTime;
         _failTime = ConfigData.config.paymentFailTime;
+    }
+
+    public override void ApplyAdminData()
+    {
+        base.ApplyAdminData();
+        _maxTime = AdminManager.Instance.BasicSetting.Config.PayConfirm_data;//ConfigData.config.paymentPageTime;
     }
 
     public override void BindDelegates()

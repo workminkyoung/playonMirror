@@ -36,7 +36,12 @@ public class UP_Caution : UP_BasePage
 
     public override void InitPage()
     {
-        LIMIT_TIME = ConfigData.config.cautionPageTime;
+    }
+
+    public override void ApplyAdminData()
+    {
+        base.ApplyAdminData();
+        LIMIT_TIME = AdminManager.Instance.BasicSetting.Config.PhotoStandby_data;
     }
 
     public override void BindDelegates()

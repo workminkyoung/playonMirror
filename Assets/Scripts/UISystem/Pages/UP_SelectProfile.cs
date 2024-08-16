@@ -32,7 +32,12 @@ public class UP_SelectProfile : UP_BaseSelectContent, IPageTimeLimit
     {
         base.InitPage();
 
-        _maxTime = ConfigData.config.profileSelectTime;
+    }
+
+    public override void ApplyAdminData()
+    {
+        base.ApplyAdminData();
+        _maxTime = AdminManager.Instance.BasicSetting.Config.ShootingPRSelect_data;// ConfigData.config.profileSelectTime;
     }
 
     protected override void OnDisable()

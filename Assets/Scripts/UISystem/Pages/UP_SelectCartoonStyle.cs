@@ -33,7 +33,12 @@ public class UP_SelectCartoonStyle : UP_BaseSelectContent, IPageTimeLimit
 
     public override void InitPage()
     {
-        _maxTime = ConfigData.config.cartoonStyleSelectTime;
+    }
+
+    public override void ApplyAdminData()
+    {
+        base.ApplyAdminData();
+        _maxTime = AdminManager.Instance.BasicSetting.Config.CAMenu_data;//ConfigData.config.cartoonStyleSelectTime;
     }
 
     public override void BindDelegates()

@@ -29,7 +29,12 @@ public class UP_SelectProfilePic : UP_BasePage
     {
         _selectableContents = GetComponentsInChildren<UC_SelectableContent>(true);
 
-        _maxTime = ConfigData.config.profilePicSelectTime;
+    }
+
+    public override void ApplyAdminData()
+    {
+        base.ApplyAdminData();
+        _maxTime = AdminManager.Instance.BasicSetting.Config.ShootingPRSelect_data;//ConfigData.config.profilePicSelectTime;
     }
 
     public override void BindDelegates()

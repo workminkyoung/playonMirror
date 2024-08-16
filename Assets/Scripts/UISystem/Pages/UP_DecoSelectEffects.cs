@@ -171,8 +171,10 @@ public class UP_DecoSelectEffects : UP_DecoratePageBase
         _isContentCreated = true;
     }
 
-    public override void OnPageEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
+
         if (!_isContentCreated)
         {
             CreateContent();
@@ -183,6 +185,7 @@ public class UP_DecoSelectEffects : UP_DecoratePageBase
             return;
         }
 
+        //셀렉트 되는지 확인하기
         _contents[0].Select(true);
 
         //bilateral 필터 사용여부 정리되면 다시 진행하기
@@ -246,6 +249,10 @@ public class UP_DecoSelectEffects : UP_DecoratePageBase
         {
             _prevBtn.interactable = true;
         }
+    }
+
+    public override void OnPageEnable()
+    {
     }
 
     public override void OnPageDisable()

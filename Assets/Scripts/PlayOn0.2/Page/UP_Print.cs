@@ -128,7 +128,7 @@ public class UP_Print : UP_BasePage
         Print();
         LogDataManager.inst.SendLog();
 
-        yield return new WaitForSeconds(ConfigData.config.waitPrintTime);
+        yield return new WaitForSeconds(AdminManager.Instance.BasicSetting.Config.Printing_data);
 
         (_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_END);
         _synchFrame.ResetPage();

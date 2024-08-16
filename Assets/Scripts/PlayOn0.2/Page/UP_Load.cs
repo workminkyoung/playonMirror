@@ -345,7 +345,7 @@ public class UP_Load : UP_BasePage
                 _isReady = true;
                 break;
             case CONTENT_TYPE.AI_BEAUTY:
-                _loadingTime = ConfigData.config.loadingTimeBeauty;
+                //_loadingTime = ConfigData.config.loadingTimeBeauty;
                 LoadBeautyPhotos();
                 break;
             case CONTENT_TYPE.WHAT_IF:

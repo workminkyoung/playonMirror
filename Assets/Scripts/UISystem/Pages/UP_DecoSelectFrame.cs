@@ -232,8 +232,10 @@ public class UP_DecoSelectFrame : UP_DecoratePageBase
         _isContentCreated = true;
     }
 
-    public override void OnPageEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
+
         if (!_isContentCreated)
         {
             CreateContent();
@@ -253,6 +255,10 @@ public class UP_DecoSelectFrame : UP_DecoratePageBase
         {
             _prevBtn.interactable = true;
         }
+    }
+
+    public override void OnPageEnable()
+    {
     }
 
     public override void OnPageDisable()

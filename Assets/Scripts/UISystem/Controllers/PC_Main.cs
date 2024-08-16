@@ -335,7 +335,7 @@ public class PC_Main : PC_BasePageController
         int time = 0;
         if (limitTime == 0)
         {
-            limitTime = ConfigData.config.decoPageTime;
+            limitTime = AdminManager.Instance.BasicSetting.Config.OtherMenu_data;//ConfigData.config.decoPageTime;
         }
 
         while (time <= limitTime)

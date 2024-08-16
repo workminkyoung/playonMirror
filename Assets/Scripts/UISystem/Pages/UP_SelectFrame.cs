@@ -71,8 +71,13 @@ public class UP_SelectFrame : UP_BaseSelectContent, IPageTimeLimit
     {
         base.InitPage();
 
-        _maxTime = ConfigData.config.frameSelectTime;
         _priceAreaOriginPos = _priceArea.anchoredPosition;
+    }
+
+    public override void ApplyAdminData()
+    {
+        base.ApplyAdminData();
+        _maxTime = AdminManager.Instance.BasicSetting.Config.FrameSelect_data;//ConfigData.config.frameSelectTime;
     }
 
     public override void BindDelegates()

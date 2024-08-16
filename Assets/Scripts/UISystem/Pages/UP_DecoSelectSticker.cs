@@ -93,15 +93,16 @@ public class UP_DecoSelectSticker : UP_DecoratePageBase
         (_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_DECO_SELECT_EFFECT);
     }
 
-
-    public override void OnPageEnable ()
+    protected override void OnEnable()
     {
-        if(isStickerCreated == false)
+        base.OnEnable();
+
+        if (isStickerCreated == false)
         {
             _categoryArea.gameObject.SetActive(bool.Parse(AdminManager.Instance.BubbleData.Config["UseCategory"].value1) == true);
             _contentAreaLayoutGroup.padding.top = bool.Parse(AdminManager.Instance.BubbleData.Config["UseCategory"].value1) == true ? 48 : 24;
 
-            if(bool.Parse(AdminManager.Instance.BubbleData.Config["UseCategory"].value1) == true)
+            if (bool.Parse(AdminManager.Instance.BubbleData.Config["UseCategory"].value1) == true)
             {
                 CreateCategories();
                 OnClickCategory("all");
@@ -116,6 +117,20 @@ public class UP_DecoSelectSticker : UP_DecoratePageBase
 
         _allCategoryToggle.Select(true);
 
+
+        if ((_pageController as PC_Main).timeLimitDone == true)
+        {
+            _prevBtn.interactable = false;
+        }
+        else
+        {
+            _prevBtn.interactable = true;
+        }
+
+    }
+
+    public override void OnPageEnable ()
+    {
     }
 
     public override void OnPageDisable ()

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Vivestudios.UI;
 
+//NotUsed
 public class UP_ProcessLoading : UP_BasePage
 {
     private int _loadingTime = 30;
@@ -11,7 +12,7 @@ public class UP_ProcessLoading : UP_BasePage
 
     public override void InitPage()
     {
-        _loadingTime = ConfigData.config.loadingTime;
+        //_loadingTime = ConfigData.config.loadingTime;
         _loadingText = StringCacheManager.inst.loadingTexts;
         _interval = _loadingTime / _loadingText.Length;
     }
