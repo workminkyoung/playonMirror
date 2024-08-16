@@ -14,9 +14,15 @@ public class UP_DecoSelectEffects : UP_DecoratePageBase
     private RectTransform _skinTransform;
 
     [SerializeField]
+    private Image _skinToggleImage;
+    [SerializeField]
     private Toggle _skinToggle;
     [SerializeField]
     private TextMeshProUGUI _skinDescription;
+    [SerializeField]
+    private Sprite _toggleOn;
+    [SerializeField]
+    private Sprite _toggleOff;
 
     [SerializeField]
     private Button _prevBtn;
@@ -115,6 +121,7 @@ public class UP_DecoSelectEffects : UP_DecoratePageBase
 
     private void OnChangeSkin(bool isOn)
     {
+        _skinToggleImage.sprite = isOn ? _toggleOn : _toggleOff;
         (_pageController as PC_Main).SkinFilterOn(isOn);
         (_pageController as PC_Main).UpdateFrame();
     }

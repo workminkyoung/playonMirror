@@ -14,7 +14,7 @@ public class PC_Main : PC_BasePageController
 {
     [SerializeField]
     [ReadOnly]
-    private bool _isSkinFilterOn = false;
+    private bool _isSkinFilterOn = true;
     public bool isSkinFilterOn { get { return _isSkinFilterOn; } }
 
     [SerializeField]
@@ -190,7 +190,7 @@ public class PC_Main : PC_BasePageController
         //_selectedPicDic = new Dictionary<int, UC_SelectablePic>();
 
         _timeLimitDone = false;
-
+        _isSkinFilterOn = true;
         _resultTextures = new List<Texture2D>();
         _resultIndexs = new List<int>();
 
