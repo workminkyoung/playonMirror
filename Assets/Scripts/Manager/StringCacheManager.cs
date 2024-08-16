@@ -4,7 +4,6 @@ using UnityEngine;
 using RotaryHeart.Lib.SerializableDictionary;
 using System;
 using Vivestudios.UI;
-using static UnityEditor.Progress;
 
 public class StringCacheManager : SingletonBehaviour<StringCacheManager>
 {

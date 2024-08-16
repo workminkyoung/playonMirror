@@ -7,11 +7,6 @@ using Unity.VectorGraphics;
 using UnityEngine;
 using System;
 using ShootingScreenData;
-using UnityEditor.Build;
-using UnityEngine.Playables;
-using UnityEditor.UIElements;
-using UnityEngine.Experimental.Rendering;
-using static UnityEditor.Progress;
 
 public class AdminManager : SingletonBehaviour<AdminManager>
 {
@@ -54,6 +49,7 @@ public class AdminManager : SingletonBehaviour<AdminManager>
 #if UNITY_EDITOR
         uuid = "temp_kway";
 #endif
+        uuid = "temp_kway";
         _configDefaultAPI += uuid;
         ApiCall.Instance.Get<string>(_configDefaultAPI, GetResponse);
     }

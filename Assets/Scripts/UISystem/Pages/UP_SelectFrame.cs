@@ -1,16 +1,10 @@
-using FrameData;
 using RotaryHeart.Lib.SerializableDictionary;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
 using TMPro;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using Vivestudios.UI;
-using static UnityEditor.Progress;
 
 public class UP_SelectFrame : UP_BaseSelectContent, IPageTimeLimit
 {
