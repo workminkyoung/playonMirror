@@ -122,14 +122,17 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
 
     public IEnumerator GetRequestGoogleLink<T>(string url, Action<T> response = null, bool isReRequest = false, bool isSequential = false, int? reRequestedIndex = null)
     {
-        string key = ExtractGoogleDownKey(url);
+        string originUrl = url;
 
         if (!isReRequest)
         {
             _requestNum = 0;
             _requestCompleted.Add(false);
-            url = _googleDownUrl + key;
         }
+
+        string key = ExtractGoogleDownKey(url);
+        url = _googleDownUrl + key;
+
 
         int requestIndex = _requestCompleted.Count - 1;
         if(reRequestedIndex != null)
@@ -156,11 +159,11 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
                 www.Dispose();
                 if(!isSequential)
                 {
-                    _getCoroutine = StartCoroutine(GetRequestGoogleLink(url, response, true));
+                    _getCoroutine = StartCoroutine(GetRequestGoogleLink(originUrl, response, true));
                 }
                 else
                 {
-                    StartCoroutine(GetRequestGoogleLink(url, response, true, true, requestIndex));
+                    StartCoroutine(GetRequestGoogleLink(originUrl, response, true, true, requestIndex));
                 }
                 yield break;
             }
