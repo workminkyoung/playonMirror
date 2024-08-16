@@ -14,6 +14,8 @@ public class UP_AOD : UP_BasePage, IPointerClickHandler
     private Button _termsOfUseBtn;
     [SerializeField]
     private Image _bgImage;
+    [SerializeField]
+    private Image _eventLogo;
 
     public override void InitPage()
     {
@@ -47,6 +49,7 @@ public class UP_AOD : UP_BasePage, IPointerClickHandler
     {
         base.ApplyAdminData();
 
+        _eventLogo.gameObject.SetActive(false);
 
         if (!string.IsNullOrEmpty(AdminManager.Instance.BasicSetting.Config.StartMediaVideo_path))
         {
@@ -59,10 +62,12 @@ public class UP_AOD : UP_BasePage, IPointerClickHandler
                 // 비디오 ONLY 플레이
                 _bgImage.sprite = AdminManager.Instance.BasicSetting.Config.StartMediaImage_data;
             }
+            _eventLogo.gameObject.SetActive(true);
         }
         else if (AdminManager.Instance.BasicSetting.Config.StartMediaImage_data != null)
         {
             _bgImage.sprite = AdminManager.Instance.BasicSetting.Config.StartMediaImage_data;
+            _eventLogo.gameObject.SetActive(true);
         }
         else if (AdminManager.Instance.BasicSetting.Config.StartImage_data != null)
         {
