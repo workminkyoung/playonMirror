@@ -236,28 +236,43 @@ namespace BasicData
     [Serializable]
     public class ConfigEntry
     {
-        public string BTBG;
-        public string CABG;
+        // 페이지별 대기 시간
+        public string Printing;
+        public int Printing_data;
+        public string ContentsMenu;
+        public int ContentsMenu_data;
         public string CAMenu;
+        public int CAMenu_data;
         public string PRMenu;
+        public int PRMenu_data;
         public string WFMenu;
+        public int WFMenu_data;
+        public string BTBG;//basic 배경테마 선택페이지
+        public int BTBG_data;
+        public string CABG;//catoon 배경테마 선택페이지
+        public int CABG_data;
+        public string FrameSelect;
+        public int FrameSelect_data;
+        public string PayConfirm;//결제정보 확인 화면
+        public int PayConfirm_data;
+        public string PhotoStandby;//촬영 전 유의사항 페이지
+        public int PhotoStandby_data;
+        public string ShootingPRSelect;//프로필 결과물 선택 페이지
+        public int ShootingPRSelect_data;
+        public string OtherMenu;//꾸미기 화면
+        public int OtherMenu_data;
+
         public string BGImage;
         public Sprite BGImage_data;
         public string EndImage;
         public Sprite EndImage_data;
-        public string Printing;
         public string ColorCode;
-        public string OtherMenu;
-        public string PayConfirm;
         public string StartImage;
         public Sprite StartImage_data;
         public string DefaultUsed;
-        public string FrameSelect;
         public string OptionalUse;
         public string VideoVolume;
         public string Age14TermUse;
-        public string ContentsMenu;
-        public string PhotoStandby;
         public string Age14TermUsed;
         public string PlayShotMovie;
         public string PromotionImage;
@@ -284,7 +299,6 @@ namespace BasicData
         public Sprite MarketingTermImage_data;
         public string ServieErrorImage;
         public Sprite ServieErrorImage_data;
-        public string ShootingPRSelect;
         public string MarketingTermUsed;
     }
 

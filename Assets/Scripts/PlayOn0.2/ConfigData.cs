@@ -22,20 +22,20 @@ public class Config
 
     //wait times
     public int shootWarningTime;
-    public int waitPrintTime;
-    public int contentSelectTime;
-    public int genderSelectTime;
-    public int profileSelectTime;
-    public int cartoonStyleSelectTime;
-    public int profilePicSelectTime;
+    //public int waitPrintTime;
+    //public int contentSelectTime;
+    //public int genderSelectTime;
+    //public int profileSelectTime;
+    //public int cartoonStyleSelectTime;
+    //public int profilePicSelectTime;
 
-    public int frameSelectTime;
-    public int paymentPageTime;
+    //public int frameSelectTime;
+    //public int paymentPageTime;
     public int paymentFailTime;
-    public int cautionPageTime;
-    public int decoPageTime;
-    public int loadingTime;
-    public int loadingTimeBeauty;
+    //public int cautionPageTime;
+    //public int decoPageTime;
+    //public int loadingTime;
+    //public int loadingTimeBeauty;
 
     //camera setting
     public int wbIdx;

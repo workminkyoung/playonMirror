@@ -576,6 +576,73 @@ public class AdminManager : SingletonBehaviour<AdminManager>
             ApiCall.Instance.GetSequently<string>
                 (_basicSetting.Config.PromotionVideo, (path) => { _basicSetting.Config.PromotionVideo_path = path; }, true);
         }
+
+        /// 페이지별 대기 시간 파싱
+        // 프린트 페이지
+        if (!string.IsNullOrEmpty(BasicSetting.Config.Printing))
+        {
+            BasicSetting.Config.Printing_data = int.Parse(BasicSetting.Config.Printing);
+        }
+
+        // 컨텐츠 페이지
+        if (!string.IsNullOrEmpty(BasicSetting.Config.ContentsMenu))
+        {
+            BasicSetting.Config.ContentsMenu_data = int.Parse(BasicSetting.Config.ContentsMenu);
+        }
+
+        // 서브 컨텐츠 페이지
+        if (!string.IsNullOrEmpty(BasicSetting.Config.CAMenu))
+        {
+            BasicSetting.Config.CAMenu_data = int.Parse(BasicSetting.Config.CAMenu);
+        }
+        if (!string.IsNullOrEmpty(BasicSetting.Config.PRMenu))
+        {
+            BasicSetting.Config.PRMenu_data = int.Parse(BasicSetting.Config.PRMenu);
+        }
+        if (!string.IsNullOrEmpty(BasicSetting.Config.WFMenu))
+        {
+            BasicSetting.Config.WFMenu_data = int.Parse(BasicSetting.Config.WFMenu);
+        }
+
+        // 배경 테마 페이지
+        if (!string.IsNullOrEmpty(BasicSetting.Config.BTBG))
+        {
+            BasicSetting.Config.BTBG_data = int.Parse(BasicSetting.Config.BTBG);
+        }
+        if (!string.IsNullOrEmpty(BasicSetting.Config.CABG))
+        {
+            BasicSetting.Config.CABG_data = int.Parse(BasicSetting.Config.CABG);
+        }
+
+        // 프레임 선택 페이지
+        if (!string.IsNullOrEmpty(BasicSetting.Config.FrameSelect))
+        {
+            BasicSetting.Config.FrameSelect_data = int.Parse(BasicSetting.Config.FrameSelect);
+        }
+
+        // 결제 정보 확인
+        if (!string.IsNullOrEmpty(BasicSetting.Config.PayConfirm))
+        {
+            BasicSetting.Config.PayConfirm_data = int.Parse(BasicSetting.Config.PayConfirm);
+        }
+
+        // 촬영전 유의사항 페이지
+        if (!string.IsNullOrEmpty(BasicSetting.Config.PhotoStandby))
+        {
+            BasicSetting.Config.PhotoStandby_data = int.Parse(BasicSetting.Config.PhotoStandby);
+        }
+
+        // 프로필 결과물 선택 페이지
+        if (!string.IsNullOrEmpty(BasicSetting.Config.ShootingPRSelect))
+        {
+            BasicSetting.Config.ShootingPRSelect_data = int.Parse(BasicSetting.Config.ShootingPRSelect);
+        }
+
+        // 꾸미기 화면 페이지
+        if (!string.IsNullOrEmpty(BasicSetting.Config.OtherMenu))
+        {
+            BasicSetting.Config.OtherMenu_data = int.Parse(BasicSetting.Config.OtherMenu);
+        }
     }
 
     public void DownloadShootData()
