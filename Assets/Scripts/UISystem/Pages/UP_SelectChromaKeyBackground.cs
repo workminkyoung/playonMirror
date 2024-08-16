@@ -121,7 +121,6 @@ public class UP_SelectChromaKeyBackground : UP_DecoratePageBase, IPageTimeLimit
 
     public override void OnPageEnable ()
     {
-
         _contents[UserDataManager.inst.selectedChromaKeyNum].OnPointerDown(null);
         _contents[UserDataManager.inst.selectedChromaKeyNum].OnPointerClick(null);
 

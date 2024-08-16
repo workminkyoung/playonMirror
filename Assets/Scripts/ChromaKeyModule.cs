@@ -228,31 +228,29 @@ public class ChromaKeyModule : SingletonBehaviour<ChromaKeyModule>
                     }
                     i++;
                 }
-                //for(int i = 0; i < AdminManager.Instance.ChromakeyFrame.ChromakeyFrameTable.Count; i++)
-                //{
-                    
-                //}
                 break;
             case CONTENT_TYPE.AI_BEAUTY:
-                //for(int i = 0; i < AdminManager.Instance.ChromakeyFrame.ChromakeyToneTable.Count; i++)
-                //{
-                //    if(m_options.Count > i && m_options[i] != null)
-                //    {
-                //        m_options[i].key = AdminManager.Instance.ChromakeyFrame.ChromakeyToneTable.Values.ToArray()[i].Key;
-                //        m_options[i].category = AdminManager.Instance.ChromakeyFrame.ChromakeyToneTable.Values.ToArray()[i].Category;
-                //        m_options[i].name_kor = AdminManager.Instance.ChromakeyFrame.ChromakeyToneTable.Values.ToArray()[i].Korean;
-                //        m_options[i].name_eng = AdminManager.Instance.ChromakeyFrame.ChromakeyToneTable.Values.ToArray()[i].English;
-                //        m_options[i].name_chn = AdminManager.Instance.ChromakeyFrame.ChromakeyToneTable.Values.ToArray()[i].Chinese;
-                //        m_options[i].thumbnail = AdminManager.Instance.ChromakeyFrame.ChromakeyToneTable.Values.ToArray()[i].Thumbnail_data;
-                //        m_options[i].images = AdminManager.Instance.ChromakeyFrame.ChromakeyToneTable.Values.ToArray()[i].Image_data;
-                //    }else
-                //    {
-                //        ChromaKeyOptions option = new ChromaKeyOptions();
-                //        option.key = AdminManager.Instance.ChromakeyFrame.ChromakeyToneTable.Values.ToArray()[i].Key;
+                foreach (var elem in AdminManager.Instance.ChromakeyFrame.ChromakeyToneTable)
+                {
+                    if (m_options.Count > i && m_options[i] != null)
+                    {
+                        m_options[i].key = elem.Value.Key;
+                        m_options[i].category = elem.Value.Category;
+                        m_options[i].name_kor = elem.Value.Korean;
+                        m_options[i].name_eng = elem.Value.English;
+                        m_options[i].name_chn = elem.Value.Chinese;
+                        m_options[i].thumbnail = elem.Value.Thumbnail_data;
+                        m_options[i].images = elem.Value.Image_data;
+                    }
+                    else
+                    {
+                        ChromaKeyOptions option = new ChromaKeyOptions();
+                        option.key = elem.Value.Key;
 
-                //        m_options.Add(option);
-                //    }
-                //}
+                        m_options.Add(option);
+                    }
+                    i++;
+                }
                 break;
             default:
 
