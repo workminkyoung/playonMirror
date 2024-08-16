@@ -41,11 +41,15 @@ public class UP_SelectFrame : UP_BaseSelectContent, IPageTimeLimit
     [SerializeField]
     private Transform _frameContainer;
     [SerializeField]
+    private Transform _tempFrameContainer;
+    [SerializeField]
     private FrameKeyDic _allFrameDic = new FrameKeyDic();
     [SerializeField]
     private FramePriceDic _allPriceDic = new FramePriceDic();
     [SerializeField]
     private List<string> selectableFrameKeys = new List<string>();
+    [SerializeField]
+    private string _defaultFramekey;
 
     private Vector2 _priceAreaOriginPos;
     private int _curAmount = 1;
@@ -186,7 +190,13 @@ public class UP_SelectFrame : UP_BaseSelectContent, IPageTimeLimit
         }
         for (int i = 0; i < selectableFrameKeys.Count; i++)
         {
+            _allFrameDic[selectableFrameKeys[i]].transform.parent = _frameContainer;
             _allFrameDic[selectableFrameKeys[i]].gameObject.SetActive(true);
+        }
+
+        if (!string.IsNullOrEmpty(_defaultFramekey))
+        {
+            _allFrameDic[_defaultFramekey].pointerDownAction.Invoke();
         }
 
         //switch (UserDataManager.inst.selectedContent)
@@ -326,7 +336,9 @@ public class UP_SelectFrame : UP_BaseSelectContent, IPageTimeLimit
             CreateContent();
         }
 
+        _defaultFramekey = _frameData.ServiceFrame.Code[UserDataManager.Instance.selectedContentKey].SelectFrame1;
         selectableFrameKeys = _frameData.ServiceFrame.Code[UserDataManager.Instance.selectedContentKey].SelectFrames;
+        _curAmount = _frameData.ServiceFrame.Code[UserDataManager.Instance.selectedContentKey].DefaultSellAmount;
 
         //set price
         PriceConfig priceConfig = _allPriceDic[selectableFrameKeys[0]];
@@ -334,6 +346,7 @@ public class UP_SelectFrame : UP_BaseSelectContent, IPageTimeLimit
         _maxPrintAmount = priceConfig.priceNum;
         _originalPrices = new int[_maxPrintAmount];
         _discountPrices = new int[_maxPrintAmount];
+
 
         for (int i = 0; i < priceConfig.originalPrices.Length; i++)
         {
@@ -374,7 +387,7 @@ public class UP_SelectFrame : UP_BaseSelectContent, IPageTimeLimit
 
         foreach (var item in _frameData.Definition)
         {
-            GameObject frameObj = Instantiate(_framePrefab, _frameContainer);
+            GameObject frameObj = Instantiate(_framePrefab, _tempFrameContainer);
             UC_SelectableContent frame = frameObj.GetComponent<UC_SelectableContent>();
             frame.SetThumbnail(item.Value[0].ThumbnailSelect_data, item.Value[0].ThumbnailUnselect_data);
             frame.SetKey(item.Key);
@@ -405,7 +418,7 @@ public class UP_SelectFrame : UP_BaseSelectContent, IPageTimeLimit
         PriceConfig priceConfig = _allPriceDic[key];
 
         _maxPrintAmount = priceConfig.priceNum;
-        _curAmount = ConfigData.config.firstPrintAmount;
+        //_curAmount = ConfigData.config.firstPrintAmount;
         _originalPrices = new int[_maxPrintAmount];
         _discountPrices = new int[_maxPrintAmount];
 
@@ -417,11 +430,15 @@ public class UP_SelectFrame : UP_BaseSelectContent, IPageTimeLimit
 
     public override void OnPageDisable()
     {
+        foreach(var item in _allFrameDic)
+        {
+            item.Value.transform.parent = _tempFrameContainer;
+        }
     }
 
     protected override void OnPageReset()
     {
-        _curAmount = UserDataManager.inst.curPicAmount;
+        //_curAmount = UserDataManager.inst.curPicAmount;
     }
 
     [Serializable]
