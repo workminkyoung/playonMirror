@@ -110,6 +110,7 @@ namespace FilterData
         public ConfigEntry Config;
         public FilterTableEntryDic FilterTable;
         public OrderedFilterTableDic OrderedFilterTable;
+        public FilterTableEntry DefaultFilter;
 
         [Serializable]
         public class FilterTableEntryDic : SerializableDictionaryBase<string, FilterTableEntry> { }

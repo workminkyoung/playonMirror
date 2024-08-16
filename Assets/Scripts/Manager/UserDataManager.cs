@@ -28,6 +28,8 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
     [SerializeField]
     private string _selectedLutKey = string.Empty;
     [SerializeField]
+    private string _defaultLutKey = string.Empty;
+    [SerializeField]
     private string _selectedFrameColorKey;// = FRAME_COLOR_TYPE.FRAME_WHITE;
     [SerializeField]
     private string _defaultFrameColorKey = string.Empty;// = FRAME_COLOR_TYPE.FRAME_WHITE;
@@ -81,7 +83,12 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
 
     public void ResetUserData()
     {
-        //_selectedLut = LUT_EFFECT_TYPE.LUT_DEFAULT;
+        //if(AdminManager.Instance.FilterData.OrderedFilterTable != null)
+        //{
+        //    _selectedLutKey = AdminManager.Instance.FilterData.OrderedFilterTable[1].Key;
+        //    _selectedLutKey = _defaultLutKey;
+        //}
+        _selectedLutKey = _defaultLutKey;
         _selectedFrameColorKey = _defaultFrameColorKey;
         _frameRatioType = FRAME_RATIO_TYPE.HORIZONTAL;
         _curPicAmount = Mathf.Min( ConfigData.config.firstPrintAmount, PhotoPaperCheckModule.GetRemainPhotoPaper());
@@ -122,6 +129,11 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
     public void SetLutEffect(string lut)
     {
         _selectedLutKey = lut;
+    }
+
+    public void SetDefaultLutEffect(string lut)
+    {
+        _defaultLutKey = lut;
     }
 
     public void SetSelectedFrameColor(string key)

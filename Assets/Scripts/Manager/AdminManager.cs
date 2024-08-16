@@ -700,6 +700,8 @@ public class AdminManager : SingletonBehaviour<AdminManager>
                 _filterData.OrderedFilterTable[int.Parse(item.Value.Sequence)] = item.Value;
             }
         }
+
+        UserDataManager.Instance.SetDefaultLutEffect(_filterData.OrderedFilterTable[1].Key);
     }
 
     FrameRectTransform ParseRectData(string data)

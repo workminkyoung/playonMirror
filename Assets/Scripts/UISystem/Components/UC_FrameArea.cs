@@ -193,11 +193,6 @@ public class UC_FrameArea : UC_BaseComponent
         _frameColor = type;
     }
 
-    public void SetLutEffect(Texture2D lutTex)
-    {
-        _lutTex = lutTex;
-    }
-
     public void SetLutEffect(string lutKey)
     {
         if(AdminManager.Instance.FilterData != null && AdminManager.Instance.FilterData.FilterTable.ContainsKey(lutKey))
