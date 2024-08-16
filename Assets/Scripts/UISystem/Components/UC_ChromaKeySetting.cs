@@ -125,8 +125,8 @@ public class UC_ChromaKeySetting : UC_BaseComponent, IPointerClickHandler
 
     private void NextBG ()
     {
-        Texture curImg = ChromaKeyModule.inst.options[_optionIndex].images[_imageIndex];
-        if(_imageIndex + 1 >= ChromaKeyModule.inst.options[_optionIndex].images.Count)
+        Texture curImg = ChromaKeyModule.inst.options[_optionIndex].orderedImage[_imageIndex];
+        if(_imageIndex + 1 >= ChromaKeyModule.inst.options[_optionIndex].orderedImage.Count)
         {
             if(_optionIndex + 1 >= ChromaKeyModule.inst.options.Count)
             {
@@ -144,7 +144,7 @@ public class UC_ChromaKeySetting : UC_BaseComponent, IPointerClickHandler
             _imageIndex++;
         }
 
-        if(curImg == ChromaKeyModule.inst.options[_optionIndex].images[_imageIndex])
+        if(curImg == ChromaKeyModule.inst.options[_optionIndex].orderedImage[_imageIndex])
         {
             NextBG();
         }
@@ -153,25 +153,25 @@ public class UC_ChromaKeySetting : UC_BaseComponent, IPointerClickHandler
 
     private void PrevBG ()
     {
-        Texture curImg = ChromaKeyModule.inst.options[_optionIndex].images[_imageIndex];
+        Texture curImg = ChromaKeyModule.inst.options[_optionIndex].orderedImage[_imageIndex];
         if(_imageIndex - 1 < 0)
         {
             if(_optionIndex - 1 < 0)
             {
                 _optionIndex = ChromaKeyModule.inst.options.Count - 1;
-                _imageIndex = ChromaKeyModule.inst.options[_optionIndex].images.Count - 1;
+                _imageIndex = ChromaKeyModule.inst.options[_optionIndex].orderedImage.Count - 1;
             }
             else
             {
                 _optionIndex--;
-                _imageIndex = ChromaKeyModule.inst.options[_optionIndex].images.Count - 1;
+                _imageIndex = ChromaKeyModule.inst.options[_optionIndex].orderedImage.Count - 1;
             }
         }
         else
         {
             _imageIndex--;
         }
-        if(curImg == ChromaKeyModule.inst.options[_optionIndex].images[_imageIndex])
+        if(curImg == ChromaKeyModule.inst.options[_optionIndex].orderedImage[_imageIndex])
         {
             PrevBG();
         }
@@ -180,8 +180,12 @@ public class UC_ChromaKeySetting : UC_BaseComponent, IPointerClickHandler
 
     private void UpdateBG ()
     {
-        _testBgImg.texture = ChromaKeyModule.inst.options[_optionIndex].images[_imageIndex];
-        ChromaKeyModule.inst.SetBg(ChromaKeyModule.inst.options[_optionIndex].images[_imageIndex]);
+        if (ChromaKeyModule.inst.options[_optionIndex].orderedImage.Count <= 0)
+        {
+            return;
+        }
+        _testBgImg.texture = ChromaKeyModule.inst.options[_optionIndex].orderedImage[_imageIndex];
+        ChromaKeyModule.inst.SetBg(ChromaKeyModule.inst.options[_optionIndex].orderedImage[_imageIndex]);
         _colorPicker.gameObject.SetActive(false);
     }
 

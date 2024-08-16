@@ -378,11 +378,11 @@ public class UP_Shoot : UP_BasePage
     {
         if(UserDataManager.inst.isChromaKeyOn)
         {
-            ChromaKeyModule.inst.SetBg(ChromaKeyModule.inst.options[UserDataManager.inst.selectedChromaKeyNum].images[_shootState.photoCurrent]);
+            ChromaKeyModule.inst.SetBg(ChromaKeyModule.inst.options[UserDataManager.inst.selectedChromaKeyNum].orderedImage[_shootState.photoCurrent]);
 
-            if(ChromaKeyModule.inst.options[UserDataManager.inst.selectedChromaKeyNum].images.Count > _shootState.photoCurrent + 1 && ChromaKeyModule.inst.options[UserDataManager.inst.selectedChromaKeyNum].images[_shootState.photoCurrent + 1] != null)
+            if(ChromaKeyModule.inst.options[UserDataManager.inst.selectedChromaKeyNum].orderedImage.Count > _shootState.photoCurrent + 1 && ChromaKeyModule.inst.options[UserDataManager.inst.selectedChromaKeyNum].orderedImage[_shootState.photoCurrent + 1] != null)
             {
-                _nextChromakeyBG.SetBgImg(ChromaKeyModule.inst.options[UserDataManager.inst.selectedChromaKeyNum].images[_shootState.photoCurrent + 1]);
+                _nextChromakeyBG.SetBgImg(ChromaKeyModule.inst.options[UserDataManager.inst.selectedChromaKeyNum].orderedImage[_shootState.photoCurrent + 1]);
             }
             else
             {

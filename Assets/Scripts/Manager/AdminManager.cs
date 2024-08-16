@@ -818,14 +818,17 @@ public class AdminManager : SingletonBehaviour<AdminManager>
                 Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
                 item.Value.Thumbnail_data = sprite;
             }, true);
-            ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image1, (texture) => item.Value.Image_data.Add(texture), true);
-            ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image2, (texture) => item.Value.Image_data.Add(texture), true);
-            ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image3, (texture) => item.Value.Image_data.Add(texture), true);
-            ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image4, (texture) => item.Value.Image_data.Add(texture), true);
-            ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image5, (texture) => item.Value.Image_data.Add(texture), true);
-            ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image6, (texture) => item.Value.Image_data.Add(texture), true);
-            ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image7, (texture) => item.Value.Image_data.Add(texture), true);
-            ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image8, (texture) => item.Value.Image_data.Add(texture), true);
+
+            item.Value.orderedImage = new ChromakeyFrameData.ImageOrderedDic();
+
+            ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image1, (texture) => item.Value.orderedImage[0] = texture, true);
+            ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image2, (texture) => item.Value.orderedImage[1] = texture, true);
+            ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image3, (texture) => item.Value.orderedImage[2] = texture, true);
+            ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image4, (texture) => item.Value.orderedImage[3] = texture, true);
+            ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image5, (texture) => item.Value.orderedImage[4] = texture, true);
+            ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image6, (texture) => item.Value.orderedImage[5] = texture, true);
+            ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image7, (texture) => item.Value.orderedImage[6] = texture, true);
+            ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image8, (texture) => item.Value.orderedImage[7] = texture, true);
         }
 
         foreach(var item in _chromakeyFrame.ChromakeyFrameTable)
@@ -835,14 +838,17 @@ public class AdminManager : SingletonBehaviour<AdminManager>
                 Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
                 item.Value.Thumbnail_data = sprite;
             }, true);
-            ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image1, (texture) => item.Value.Image_data.Add(texture), true);
-            ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image2, (texture) => item.Value.Image_data.Add(texture), true);
-            ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image3, (texture) => item.Value.Image_data.Add(texture), true);
-            ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image4, (texture) => item.Value.Image_data.Add(texture), true);
-            ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image5, (texture) => item.Value.Image_data.Add(texture), true);
-            ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image6, (texture) => item.Value.Image_data.Add(texture), true);
-            ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image7, (texture) => item.Value.Image_data.Add(texture), true);
-            ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image8, (texture) => item.Value.Image_data.Add(texture), true);
+
+            item.Value.orderedImage = new ChromakeyFrameData.ImageOrderedDic();
+
+            ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image1, (texture) => item.Value.orderedImage[0] = texture, true);
+            ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image2, (texture) => item.Value.orderedImage[1] = texture, true);
+            ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image3, (texture) => item.Value.orderedImage[2] = texture, true);
+            ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image4, (texture) => item.Value.orderedImage[3] = texture, true);
+            ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image5, (texture) => item.Value.orderedImage[4] = texture, true);
+            ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image6, (texture) => item.Value.orderedImage[5] = texture, true);
+            ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image7, (texture) => item.Value.orderedImage[6] = texture, true);
+            ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image8, (texture) => item.Value.orderedImage[7] = texture, true);
         }
     }
 

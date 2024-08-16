@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using RotaryHeart.Lib.SerializableDictionary;
+using ShootingScreenData;
 
 [System.Serializable]
 public class ConfigDefaultData
@@ -380,7 +381,8 @@ namespace ChromakeyFrameData
         public string Image8;
 
         public Sprite Thumbnail_data;
-        public List<Texture2D> Image_data = new List<Texture2D>();
+        //public List<Texture2D> Image_data = new List<Texture2D>();
+        public ImageOrderedDic orderedImage;
     }
 
     [Serializable]
@@ -405,6 +407,8 @@ namespace ChromakeyFrameData
         public Sprite Thumbnail_data;
         public List< Texture2D> Image_data = new List<Texture2D>();
     }
+    [Serializable]
+    public class ImageOrderedDic : SerializableDictionaryBase<int, Texture2D> { }
 }
 
 namespace ShootingScreenData

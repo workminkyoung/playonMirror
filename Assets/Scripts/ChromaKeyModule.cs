@@ -217,7 +217,7 @@ public class ChromaKeyModule : SingletonBehaviour<ChromaKeyModule>
                         m_options[i].name_eng = elem.Value.English;
                         m_options[i].name_chn = elem.Value.Chinese;
                         m_options[i].thumbnail = elem.Value.Thumbnail_data;
-                        m_options[i].images = elem.Value.Image_data;
+                        m_options[i].orderedImage = elem.Value.orderedImage;
                     }
                     else
                     {
@@ -240,7 +240,7 @@ public class ChromaKeyModule : SingletonBehaviour<ChromaKeyModule>
                         m_options[i].name_eng = elem.Value.English;
                         m_options[i].name_chn = elem.Value.Chinese;
                         m_options[i].thumbnail = elem.Value.Thumbnail_data;
-                        m_options[i].images = elem.Value.Image_data;
+                        m_options[i].orderedImage = elem.Value.orderedImage;
                     }
                     else
                     {
@@ -269,5 +269,6 @@ public class ChromaKeyOptions
     public string name_chn;
 
     public Sprite thumbnail;
-    public List<Texture2D> images;
+    //public List<Texture2D> images;
+    public ChromakeyFrameData.ImageOrderedDic orderedImage;
 }

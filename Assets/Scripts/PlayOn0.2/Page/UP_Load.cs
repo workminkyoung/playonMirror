@@ -111,7 +111,7 @@ public class UP_Load : UP_BasePage
 
             if(UserDataManager.inst.isChromaKeyOn)
             {
-                Texture2D combined = ChromaKeyModule.inst.CombineImage(ChromaKeyModule.inst.options[UserDataManager.inst.selectedChromaKeyNum].images[PhotoDataManager.inst.photoOrigin.Count], cropped);
+                Texture2D combined = ChromaKeyModule.inst.CombineImage(ChromaKeyModule.inst.options[UserDataManager.inst.selectedChromaKeyNum].orderedImage[PhotoDataManager.inst.photoOrigin.Count], cropped);
 
                 while(combined == null)
                 {
