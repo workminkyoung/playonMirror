@@ -133,10 +133,11 @@ public class UP_SelectChromaKeyBackground : UP_DecoratePageBase, IPageTimeLimit
         {
             ChromaKeyModule.inst.UpdateOption(UserDataManager.inst.selectedContent);
             InitContents();
-
             FrameEnable();
             UpdateFrame();
         }
+
+        _contents[0].pointerClickAction.Invoke();
     }
 
     protected override void OnPageReset ()
