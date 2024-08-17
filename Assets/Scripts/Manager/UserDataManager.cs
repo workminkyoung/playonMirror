@@ -1,6 +1,8 @@
+using Newtonsoft.Json.Bson;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing.Printing;
 using System.Security.AccessControl;
 using UnityEngine;
 using Vivestudios.UI;
@@ -47,6 +49,8 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
     private int _curPicAmount;
     [SerializeField]
     private int _curPrice;
+    [SerializeField]
+    private bool _isQRPrint = false;
 
     [SerializeField]
     private FrameData.DefinitionEntry _selectedFrameDefinition;
@@ -75,6 +79,8 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
     public int selectedProfilePicNum => _selectedProfilePicNum;
     public int curPicAmount => _curPicAmount;
     public string selectedLutKey => _selectedLutKey;
+    public bool IsQRPrint => _isQRPrint;
+
 
     protected override void Init()
     {
@@ -194,5 +200,10 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
     public void SetSelectedFrameDefinition(FrameData.DefinitionEntry entry)
     {
         _selectedFrameDefinition = entry;
+    }
+
+    public void SetIsQRPrint(bool state)
+    {
+        _isQRPrint = state;
     }
 }

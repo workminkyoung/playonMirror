@@ -495,6 +495,12 @@ MonoBehaviour:
   stickerContainer: {fileID: 0}
   _colorPrefab: {fileID: 1467613236405870462, guid: b4e093dd24a8d0747982a931fb5d37e2, type: 3}
   _colorContainer: {fileID: 4020457914991039573}
+  _qrToggleImage: {fileID: 7527311276096211279}
+  _qrToggle: {fileID: 7539719571571563555}
+  _toggleOn: {fileID: 21300000, guid: 15501fa689be6fc419f267492a776585, type: 3}
+  _toggleOff: {fileID: 21300000, guid: 7e7df1538d6d1504b9e6febb349f462c, type: 3}
+  _isQRUse: 0
+  _qrDefaultUsed: 0
 --- !u!1 &2779193632019176277
 GameObject:
   m_ObjectHideFlags: 0
@@ -855,7 +861,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &479890222663373750
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2380,14 +2386,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.10980392, g: 0.10980392, b: 0.11372549, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 15501fa689be6fc419f267492a776585, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2401,9 +2407,9 @@ MonoBehaviour:
   m_ImageType: 0
   m_MaterialMode: 0
   m_StrokeWidth: 0
-  m_OutlineWidth: 2
+  m_OutlineWidth: 0
   m_OutlineColor: {r: 0.15686275, g: 0.15686275, b: 0.15686275, a: 1}
-  m_FalloffDistance: 0.5
+  m_FalloffDistance: 0
   m_ConstrainRotation: 1
   m_ShapeRotation: 0
   m_FlipHorizontal: 0
@@ -4432,7 +4438,7 @@ MonoBehaviour:
   m_Interactable: 1
   m_TargetGraphic: {fileID: 7527311276096211279}
   toggleTransition: 1
-  graphic: {fileID: 4773891724382366695}
+  graphic: {fileID: 0}
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:

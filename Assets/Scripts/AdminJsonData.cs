@@ -264,6 +264,10 @@ namespace BasicData
         public string OtherMenu;//꾸미기 화면
         public int OtherMenu_data;
 
+        // QR 인화 사용여부 데이터
+        public string DefaultUsed; // 기본상태
+        public string OptionalUse; // QR 인화 체크박스 사용여부
+
         public string BGImage;
         public Sprite BGImage_data;
         public string EndImage;
@@ -271,8 +275,6 @@ namespace BasicData
         public string ColorCode;
         public string StartImage;
         public Sprite StartImage_data;
-        public string DefaultUsed;
-        public string OptionalUse;
         public string VideoVolume;
         public string Age14TermUse;
         public string Age14TermUsed;

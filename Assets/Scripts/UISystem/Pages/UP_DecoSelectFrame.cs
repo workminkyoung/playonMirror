@@ -29,29 +29,38 @@ public class UP_DecoSelectFrame : UP_DecoratePageBase
     [SerializeField]
     private Transform _colorContainer;
 
+    // QR 인화 Toggle
+    [SerializeField]
+    private Image _qrToggleImage;
+    [SerializeField]
+    private Toggle _qrToggle;
+    [SerializeField]
+    private Sprite _toggleOn;
+    [SerializeField]
+    private Sprite _toggleOff;
+    [SerializeField]
+    private bool _isQRUse = false;
+    [SerializeField]
+    private bool _qrDefaultUsed = false;
+
     public override void BindDelegates()
     {
         base.BindDelegates();
 
         _prevBtn.onClick.AddListener(OnClickPrev);
         _printBtn.onClick.AddListener(OnClickPrint);
-
-        //foreach (var pair in _frameColorDic)
-        //{
-        //    pair.Value.pointerDownAction += () => OnClickColor(pair.Key);
-        //}
-        //foreach (var pair in _frameColorDicWhatIf)
-        //{
-        //    pair.Value.pointerDownAction += () => OnClickColor(pair.Key);
-        //}
-
-        //for (int i = 0; i < _frameShapes.Length; i++)
-        //{
-        //    int index = i;
-        //    _frameShapes[i].pointerDownAction += () => OnClickShape(index);
-        //}
+        _qrToggle.onValueChanged.AddListener(OnChangeQRToggle);
 
         (pageController as PC_Main).StickerUpdateAction += UpdateSticker;
+    }
+
+    private void OnChangeQRToggle(bool isOn)
+    {
+        if (!_isQRUse)
+            return;
+
+        _qrToggleImage.sprite = isOn ? _toggleOn : _toggleOff;
+        UserDataManager.Instance.SetIsQRPrint(isOn);
     }
 
     private void UpdateSticker ()
@@ -80,60 +89,6 @@ public class UP_DecoSelectFrame : UP_DecoratePageBase
         (_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_PRINT);
     }
 
-    /*
-    //Tempt Test On Develop
-    protected override void OnEnable()
-    {
-        if (!_pageController)
-        {
-            return;
-        }
-
-        base.OnEnable();
-
-
-        //if(UserDataManager.inst.selectedContent == CONTENT_TYPE.WHAT_IF)
-        //{
-        //    foreach (var pair in _frameColorDic)
-        //    {
-        //        pair.Value.gameObject.SetActive(false);
-        //    }
-        //    foreach (var pair in _frameColorDicWhatIf)
-        //    {
-        //        pair.Value.gameObject.SetActive(true);
-        //    }
-
-        //    _frameColorDicWhatIf[UserDataManager.inst.selectedFrameColor].Select(true);
-        //}
-        //else
-        //{
-        //    foreach (var pair in _frameColorDic)
-        //    {
-        //        pair.Value.gameObject.SetActive(true);
-        //    }
-        //    foreach (var pair in _frameColorDicWhatIf)
-        //    {
-        //        pair.Value.gameObject.SetActive(false);
-        //    }
-
-        //    _frameColorDic[UserDataManager.inst.selectedFrameColor].Select(true);
-        //}
-
-        _frameColors[0].Select(true);
-
-        if ((_pageController as PC_Main).timeLimitDone == true)
-        {
-            _prevBtn.interactable = false;
-        }
-        else
-        {
-            _prevBtn.interactable = true;
-        }
-
-        //FrameShapeBtnSelectCheck();
-    }
-    */
-
     protected override void OnTimeLimitDone()
     {
         if (gameObject.activeInHierarchy)
@@ -141,22 +96,6 @@ public class UP_DecoSelectFrame : UP_DecoratePageBase
             OnClickPrint();
         } 
     }
-
-    //private void FrameShapeBtnSelectCheck()
-    //{
-    //    switch (UserDataManager.inst.selectedFrame)
-    //    {
-    //        case FRAME_TYPE.FRAME_2:
-    //            OnClickShape(0);
-    //            break;
-    //        case FRAME_TYPE.FRAME_2_1:
-    //            OnClickShape(1);
-    //            break;
-    //        case FRAME_TYPE.FRAME_2_2:
-    //            OnClickShape(2);
-    //            break;
-    //    }
-    //}
 
     private void OnClickColor(string key)
     {
@@ -170,34 +109,14 @@ public class UP_DecoSelectFrame : UP_DecoratePageBase
         (_pageController as PC_Main).UpdateFrame();
     }
 
-    //private void OnClickShape(int index)
-    //{
-    //    for (int i = 0; i < _frameShapes.Length; i++)
-    //    {
-    //        _frameShapes[i].Select(index == i);
-    //    }
-
-    //    switch (index)
-    //    {
-    //        case 1:
-    //            UserDataManager.inst.SelectFrame(FRAME_TYPE.FRAME_2_1);
-    //            break;
-    //        case 2:
-    //            UserDataManager.inst.SelectFrame(FRAME_TYPE.FRAME_2_2);
-    //            break;
-    //        default:
-    //            UserDataManager.inst.SelectFrame(FRAME_TYPE.FRAME_2);
-    //            break;
-    //    }
-
-    //    FrameEnable();
-    //    UpdateFrame();
-    //}
-
     private void CreateContent()
     {
+        // Check Used
+        _isQRUse = bool.Parse(AdminManager.Instance.BasicSetting.Config.OptionalUse.ToLower());
+        _qrDefaultUsed = bool.Parse(AdminManager.Instance.BasicSetting.Config.DefaultUsed.ToLower());
+
         // Create Frame Color
-        if(AdminManager.Instance.FrameData.Theme.Sorting.ToLower() == StringCacheManager.inst.SortingSpecified)
+        if (AdminManager.Instance.FrameData.Theme.Sorting.ToLower() == StringCacheManager.inst.SortingSpecified)
         {
             for (int i = 1; i <= AdminManager.Instance.FrameData.Theme.OrderedColorCode.Count; i++)
             {
@@ -255,6 +174,9 @@ public class UP_DecoSelectFrame : UP_DecoratePageBase
         {
             _prevBtn.interactable = true;
         }
+
+        _qrToggle.isOn = _qrDefaultUsed;
+        _qrToggle.gameObject.SetActive(_isQRUse);
     }
 
     public override void OnPageEnable()
