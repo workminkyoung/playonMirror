@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -160,12 +161,12 @@ public class UP_SelectChromaKeyBackground : UP_DecoratePageBase, IPageTimeLimit
             UpdateFrame();
         }
 
-        _contents[0].pointerClickAction.Invoke();
+        _contents[UserDataManager.Instance.selectedChromaKeyNum].pointerClickAction();
     }
 
     protected override void OnPageReset ()
     {
-
+        UserDataManager.inst.SetSelectedChromaKeyNum(0);
     }
 
     private void OnClickPrev ()

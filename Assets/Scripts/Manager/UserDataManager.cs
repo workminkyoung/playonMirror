@@ -28,6 +28,8 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
     [SerializeField]
     private string _selectedFrameKey;
     [SerializeField]
+    private string _defaultFrameKey;
+    [SerializeField]
     private string _selectedLutKey = string.Empty;
     [SerializeField]
     private string _defaultLutKey = string.Empty;
@@ -67,6 +69,7 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
 
     // Frame Key Data
     public string selectedFrameKey => _selectedFrameKey;
+    public string defaultFrameKey => _defaultFrameKey;
     public string selectedFrameColor => _selectedFrameColorKey;
     public string defaultFrameColor => _defaultFrameColorKey;
     public FrameData.DefinitionEntry selectedFrameDefinition => _selectedFrameDefinition;
@@ -120,6 +123,11 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
     public void SelectFrameKey(string key)
     {
         _selectedFrameKey = key;
+    }
+
+    public void SetDefaultFrameKey(string key)
+    {
+        _defaultFrameKey = key;
     }
 
     public void SelectFrameType(FRAME_TYPE type)
