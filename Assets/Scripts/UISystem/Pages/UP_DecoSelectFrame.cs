@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Vivestudios.UI;
+using static UnityEditor.Progress;
 
 public class UP_DecoSelectFrame : UP_DecoratePageBase
 {
@@ -42,6 +43,8 @@ public class UP_DecoSelectFrame : UP_DecoratePageBase
     private bool _isQRUse = false;
     [SerializeField]
     private bool _qrDefaultUsed = false;
+
+    private UC_SelectableContent _selectedColor = null;
 
     public override void BindDelegates()
     {
@@ -164,8 +167,6 @@ public class UP_DecoSelectFrame : UP_DecoratePageBase
             return;
         }
 
-        _frameColors[0].Select(true);
-
         if ((_pageController as PC_Main).timeLimitDone == true)
         {
             _prevBtn.interactable = false;
@@ -177,6 +178,14 @@ public class UP_DecoSelectFrame : UP_DecoratePageBase
 
         _qrToggle.isOn = _qrDefaultUsed;
         _qrToggle.gameObject.SetActive(_isQRUse);
+
+        for (int i = 0; i < _frameColors.Count; i++)
+        {
+            if (_frameColors[i].Key == UserDataManager.Instance.selectedFrameColor)
+            {
+                _frameColors[i].pointerDownAction();
+            }
+        }
     }
 
     public override void OnPageEnable()
@@ -193,5 +202,6 @@ public class UP_DecoSelectFrame : UP_DecoratePageBase
         {
             Destroy(stickerContainer);
         }
+
     }
 }

@@ -42,6 +42,7 @@ public class UP_DecoSelectEffects : UP_DecoratePageBase
 
     private bool _isSkinUsed = false;
     private bool _isSorting = false;
+    private UC_SelectableContent _selectedFilter = null;
 
     protected const int DISABLE_STROKE_SIZE = 2;
 
@@ -109,6 +110,7 @@ public class UP_DecoSelectEffects : UP_DecoratePageBase
 
     private void OnClickFilter(UC_SelectableFilter selected)
     {
+        _selectedFilter = selected;
         UserDataManager.inst.SetLutEffect(selected.Key);
 
         for (int i = 0; i < _contents.Count; i++)
@@ -156,6 +158,10 @@ public class UP_DecoSelectEffects : UP_DecoratePageBase
                 filter.SetKey(entry.Key);
                 filter.pointerDownAction += () => OnClickFilter(filter);
 
+                if(_selectedFilter == null)
+                {
+                    _selectedFilter = filter;
+                }
                 _contents.Add(filter);
             }
         }
@@ -171,6 +177,10 @@ public class UP_DecoSelectEffects : UP_DecoratePageBase
                 filter.SetKey(item.Value.Key);
                 filter.pointerDownAction += () => OnClickFilter(filter);
 
+                if (_selectedFilter == null)
+                {
+                    _selectedFilter = filter;
+                }
                 _contents.Add(filter);
             }
         }
@@ -191,9 +201,6 @@ public class UP_DecoSelectEffects : UP_DecoratePageBase
         {
             return;
         }
-
-        //셀렉트 되는지 확인하기
-        _contents[0].Select(true);
 
         //bilateral 필터 사용여부 정리되면 다시 진행하기
         bool originalContains = false;
@@ -256,6 +263,11 @@ public class UP_DecoSelectEffects : UP_DecoratePageBase
         {
             _prevBtn.interactable = true;
         }
+
+        if(_selectedFilter != null)
+        {
+            _selectedFilter.pointerDownAction();
+        }
     }
 
     public override void OnPageEnable()
@@ -271,6 +283,11 @@ public class UP_DecoSelectEffects : UP_DecoratePageBase
         if(stickerContainer != null)
         {
             Destroy(stickerContainer);
+        }
+
+        if(_contents != null && _contents.Count > 0)
+        {
+            _selectedFilter = _contents[0];
         }
     }
 }
