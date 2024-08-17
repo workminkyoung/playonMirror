@@ -43,6 +43,8 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
     private bool _isChromaKeyOn = false;
     [SerializeField]
     private int _selectedChromaKeyNum = 0;
+    [SerializeField]
+    private string _selectedChromaKey;
 
     // Result Data
     [SerializeField]
@@ -77,6 +79,7 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
     // Chromakey Data
     public int selectedChromaKeyNum => _selectedChromaKeyNum;
     public bool isChromaKeyOn => _isChromaKeyOn;
+    public string selectedChromaKey => _selectedChromaKey;
 
     // Result Data
     public int selectedProfilePicNum => _selectedProfilePicNum;
@@ -213,5 +216,10 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
     public void SetIsQRPrint(bool state)
     {
         _isQRPrint = state;
+    }
+
+    public void SetChromaKey(string key)
+    {
+        _selectedChromaKey = key;
     }
 }

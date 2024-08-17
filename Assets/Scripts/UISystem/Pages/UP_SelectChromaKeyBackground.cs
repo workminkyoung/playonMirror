@@ -79,7 +79,7 @@ public class UP_SelectChromaKeyBackground : UP_DecoratePageBase, IPageTimeLimit
                 
                 _contents[i].SetThumbnail(ChromaKeyModule.inst.options[i].thumbnail);
                 int index = i;
-                _contents[i].pointerClickAction += () => OnClickContent(index);
+                _contents[i].pointerClickAction += () => OnClickContent(index, ChromaKeyModule.inst.options[index].key);
             }
             else
             {
@@ -88,7 +88,7 @@ public class UP_SelectChromaKeyBackground : UP_DecoratePageBase, IPageTimeLimit
         }
     }
 
-    private void OnClickContent (int index)
+    private void OnClickContent (int index, string key)
     {
         UserDataManager.inst.SetSelectedChromaKeyNum(index);
         for(int i = 0; i < _contents.Length; i++)
@@ -99,6 +99,7 @@ public class UP_SelectChromaKeyBackground : UP_DecoratePageBase, IPageTimeLimit
             }
         }
 
+        UserDataManager.Instance.SetChromaKey(key);
         UpdateTempFrame();
     }
 

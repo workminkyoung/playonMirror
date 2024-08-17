@@ -1,4 +1,7 @@
+using ChromakeyFrameData;
 using MPUIKIT;
+using RotaryHeart.Lib.SerializableDictionary;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -25,8 +28,6 @@ public class UP_Payment : UP_BasePage
     [SerializeField]
     private Button _freeNextBtn;
 
-    //[SerializeField]
-    //private UC_StyleContent _styleContent;
     [SerializeField]
     private UC_ProfileContent _content;
     [SerializeField]
@@ -53,12 +54,6 @@ public class UP_Payment : UP_BasePage
     [SerializeField]
     private string _alertString;
 
-    //[SerializeField]
-    //private Sprite[] _cartoonSprites;
-    //[SerializeField]
-    //private string[] _cartoonTitles;
-    //[SerializeField]
-    //private string[] _cartoonDescriptions;
     [SerializeField]
     private Sprite[] _frameSprites;
     [SerializeField]
@@ -66,6 +61,10 @@ public class UP_Payment : UP_BasePage
 
     [SerializeField]
     private TextMeshProUGUI _timeText;
+    [SerializeField]
+    private GameObject _bgTheme;
+    [SerializeField]
+    private FrameTypeTextureDic _bgThemeImageDict;
 
     protected int _maxTime;
     protected int _failTime;
@@ -75,6 +74,11 @@ public class UP_Payment : UP_BasePage
     public override void InitPage()
     {
         _failTime = ConfigData.config.paymentFailTime;
+
+        foreach (var item in _bgThemeImageDict)
+        {
+            item.Value.Init();
+        }
     }
 
     public override void ApplyAdminData()
@@ -209,7 +213,7 @@ public class UP_Payment : UP_BasePage
         _timeMachineImg.gameObject.SetActive(UserDataManager.inst.selectedContent == CONTENT_TYPE.AI_BEAUTY);
         _content.gameObject.SetActive(UserDataManager.inst.selectedContent != CONTENT_TYPE.AI_BEAUTY);
 
-
+        _bgTheme.SetActive(false);
         switch (UserDataManager.inst.selectedContent)
         {
             case CONTENT_TYPE.AI_CARTOON:
@@ -218,6 +222,7 @@ public class UP_Payment : UP_BasePage
                 _content.SetTitle(AdminManager.Instance.ServiceData.ContentsDetail[UserDataManager.Instance.selectedSubContentKey].Korean_Title);
                 _content.SetDescription(AdminManager.Instance.ServiceData.ContentsDetail[UserDataManager.Instance.selectedSubContentKey].Korean_SubText);
                 _content.SetGenderActive(false);
+                _bgTheme.SetActive(true);
                 break;
             case CONTENT_TYPE.AI_PROFILE:
                 _selectedContentText.text = AdminManager.Instance.ServiceData.Contents[UserDataManager.Instance.selectedContentKey].Korean_Title;
@@ -229,6 +234,7 @@ public class UP_Payment : UP_BasePage
             case CONTENT_TYPE.AI_BEAUTY:
                 _selectedContentText.text = StringCacheManager.inst.GetContentTitle(CONTENT_TYPE.AI_BEAUTY);
                 _content.SetGenderActive(false);
+                _bgTheme.SetActive(true);
                 break;
             case CONTENT_TYPE.WHAT_IF:
                 _selectedContentText.text = AdminManager.Instance.ServiceData.Contents[UserDataManager.Instance.selectedContentKey].Korean_Title;
@@ -242,6 +248,34 @@ public class UP_Payment : UP_BasePage
                 _selectedContentText.text = StringCacheManager.inst.GetContentTitle(CONTENT_TYPE.AI_CARTOON);
                 break;
         }
+    }
+
+    private void SetBGTexture()
+    {
+        if (!_bgTheme.activeSelf)
+        {
+            return;
+        }
+
+        foreach (var item in _bgThemeImageDict)
+        {
+            item.Value.gameObject.SetActive(item.Key == UserDataManager.Instance.selectedFrameType);
+        }
+
+        ImageOrderedDic orderedTexture = new ImageOrderedDic();
+        switch (UserDataManager.inst.selectedContent)
+        {
+            case CONTENT_TYPE.AI_CARTOON:
+                orderedTexture = AdminManager.Instance.ChromakeyFrame.ChromakeyFrameTable[UserDataManager.Instance.selectedChromaKey].orderedImage;
+                break;
+            case CONTENT_TYPE.AI_BEAUTY:
+                orderedTexture = AdminManager.Instance.ChromakeyFrame.ChromakeyToneTable[UserDataManager.Instance.selectedChromaKey].orderedImage;
+                break;
+            default:
+                break;
+        }
+
+        _bgThemeImageDict[UserDataManager.Instance.selectedFrameType].SetTextures(orderedTexture);
     }
 
     public void StartTimer()
@@ -304,6 +338,7 @@ public class UP_Payment : UP_BasePage
             return;
 
         SetContent();
+        SetBGTexture();
 
         _frameImg.sprite = UserDataManager.inst.selectedFrameDefinition.ThumbnailUnselect_data;
         _frameShadowImg.sprite = UserDataManager.inst.selectedFrameDefinition.FrameType == FRAME_TYPE.FRAME_8 ? _frameShadowSprites[1] : _frameShadowSprites[0];
@@ -350,4 +385,7 @@ public class UP_Payment : UP_BasePage
         OnChildToggleChanged(_childToggle.isOn);
         OnAgreeToggleChanged(_agreeToggle.isOn);
     }
+
+    [Serializable]
+    public class FrameTypeTextureDic : SerializableDictionaryBase<FRAME_TYPE, UC_FrameMask> { }
 }
