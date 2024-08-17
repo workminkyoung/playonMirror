@@ -186,7 +186,10 @@ public class UP_Print : UP_BasePage
         qrcode.Apply();
 
         _rawImageQR.texture = qrcode;
-        _synchFrame.SetPrintImage(qrcode);
+        if (UserDataManager.Instance.IsQRPrint)
+        {
+            _synchFrame.SetPrintImage(qrcode);
+        }
     }
 
     public Texture2D Convert(Bitmap bitmap)
