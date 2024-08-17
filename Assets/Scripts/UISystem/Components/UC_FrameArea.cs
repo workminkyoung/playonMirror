@@ -15,6 +15,8 @@ public class UC_FrameArea : UC_BaseComponent
     [SerializeField]
     private bool _isPrintSize = false;
     [SerializeField]
+    private bool _isVideoSize = false;
+    [SerializeField]
     private FRAME_TYPE _frameType;
     [SerializeField]
     private string _frameColor;
@@ -393,14 +395,15 @@ public class UC_FrameArea : UC_BaseComponent
         if (_isPrintSize)
         {
             printSize = 4;
+        }else if (_isVideoSize)
+        {
+            printSize = 2;
         }
 
         foreach (Image logo in _logoImgs)
         {
             logo.color = Color.clear;
         }
-
-        //여기 진행중
 
         for (int i = 0; i < _dateTexts.Length; i++)
         {
@@ -412,7 +415,7 @@ public class UC_FrameArea : UC_BaseComponent
             _dateTexts[i].rectTransform.anchorMax = entry.dateRects[i].anchorMax;
             _dateTexts[i].rectTransform.sizeDelta = entry.dateRects[i].sizeDelta * printSize;
             _dateTexts[i].rectTransform.anchoredPosition = entry.dateRects[i].anchoredPosition * printSize;
-            //_dateTexts[i].characterSpacing = 6;
+            _dateTexts[i].characterSpacing = 6;
         }
 
         /*

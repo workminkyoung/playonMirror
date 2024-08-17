@@ -8648,6 +8648,18 @@ PrefabInstance:
       propertyPath: m_hasFontAssetChanged
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2904630147683172445, guid: 69af8fb749135d3498667dc5f20e4b62, type: 3}
+      propertyPath: _isPrintSize
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2904630147683172445, guid: 69af8fb749135d3498667dc5f20e4b62, type: 3}
+      propertyPath: _qrTransformDic.isExpanded
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2904630147683172445, guid: 69af8fb749135d3498667dc5f20e4b62, type: 3}
+      propertyPath: _qrTransformDic.reorderableList.isExpanded
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2910725544345822604, guid: 69af8fb749135d3498667dc5f20e4b62, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
@@ -8728,6 +8740,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3773798004586787058, guid: 69af8fb749135d3498667dc5f20e4b62, type: 3}
+      propertyPath: _isVideoSize
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3805273942627745365, guid: 69af8fb749135d3498667dc5f20e4b62, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
@@ -8760,6 +8776,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4079146105225508925, guid: 69af8fb749135d3498667dc5f20e4b62, type: 3}
+      propertyPath: _isVideoSize
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4160015540044400787, guid: 69af8fb749135d3498667dc5f20e4b62, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
@@ -8778,6 +8798,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4401575532078420791, guid: 69af8fb749135d3498667dc5f20e4b62, type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4419138936593164047, guid: 69af8fb749135d3498667dc5f20e4b62, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4472454689240881079, guid: 69af8fb749135d3498667dc5f20e4b62, type: 3}
+      propertyPath: _isVideoSize
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4711123716939486529, guid: 69af8fb749135d3498667dc5f20e4b62, type: 3}
@@ -9096,6 +9124,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7114505462045883048, guid: 69af8fb749135d3498667dc5f20e4b62, type: 3}
+      propertyPath: _isPrintSize
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7177784344516479494, guid: 69af8fb749135d3498667dc5f20e4b62, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
@@ -9107,6 +9139,10 @@ PrefabInstance:
     - target: {fileID: 7193664083710776311, guid: 69af8fb749135d3498667dc5f20e4b62, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7221131792882586914, guid: 69af8fb749135d3498667dc5f20e4b62, type: 3}
+      propertyPath: _isPrintSize
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7395963749080354260, guid: 69af8fb749135d3498667dc5f20e4b62, type: 3}
       propertyPath: m_SizeDelta.y
@@ -9140,6 +9176,14 @@ PrefabInstance:
       propertyPath: _Camera
       value: 
       objectReference: {fileID: 596233349}
+    - target: {fileID: 7960391107576689255, guid: 69af8fb749135d3498667dc5f20e4b62, type: 3}
+      propertyPath: _frameType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7960391107576689255, guid: 69af8fb749135d3498667dc5f20e4b62, type: 3}
+      propertyPath: _isPrintSize
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7991858258921929920, guid: 69af8fb749135d3498667dc5f20e4b62, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
@@ -9175,6 +9219,10 @@ PrefabInstance:
     - target: {fileID: 8233492398883415833, guid: 69af8fb749135d3498667dc5f20e4b62, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8244003468612436680, guid: 69af8fb749135d3498667dc5f20e4b62, type: 3}
+      propertyPath: _isVideoSize
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8244881145123137292, guid: 69af8fb749135d3498667dc5f20e4b62, type: 3}
       propertyPath: m_fontSize

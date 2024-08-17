@@ -29,8 +29,10 @@ public class UC_SynchFrame : MonoBehaviour //SingletonBehaviour<UC_SynchFrame>
     private List<VideoPlayer> _videoPlayers = new List<VideoPlayer>();
     [SerializeField]
     private RenderTexture _videoRT;
+    //[SerializeField]
+    //private RawImage _RawPhoto;// = new List<RawImage>();
     [SerializeField]
-    private List<RawImage> _listRaw = new List<RawImage>();
+    private List<RawImage> _RawQRs = new List<RawImage>();
     [SerializeField]
     private Texture2D _saveTexture;
     [SerializeField]
@@ -45,8 +47,6 @@ public class UC_SynchFrame : MonoBehaviour //SingletonBehaviour<UC_SynchFrame>
 
     private void Awake()
     {
-        _listRaw.AddRange(UtilityExtensions.GetComponentsOnlyInChildren_NonRecursive<RawImage>(transform));
-
         _mainController.StickerUpdateAction += UpdateSticker;
     }
 
@@ -108,9 +108,9 @@ public class UC_SynchFrame : MonoBehaviour //SingletonBehaviour<UC_SynchFrame>
             _videoPlayers[i].targetTexture = null;
         }
 
-        for (int i = 0; i < _listRaw.Count; i++)
+        for (int i = 0; i < _RawQRs.Count; i++)
         {
-            _listRaw[i].gameObject.SetActive(false);
+            _RawQRs[i].gameObject.SetActive(false);
         }
 
         if(photoStickerContainer != null)
@@ -284,101 +284,32 @@ public class UC_SynchFrame : MonoBehaviour //SingletonBehaviour<UC_SynchFrame>
 
     public void SetPrintImage(Texture2D qrImage)
     {
-        _listRaw[(int)RAW_TYPE.PHOTO].gameObject.SetActive(true);
-        _listRaw[(int)RAW_TYPE.PHOTO].texture = _saveTexture;
+        //_RawPhoto.gameObject.SetActive(true);
+        //_RawPhoto.texture = _saveTexture;
 
         FrameData.DefinitionEntry entry = UserDataManager.Instance.selectedFrameDefinition;
 
-        for (int i = 0; i < entry.qrRects.Count; i++)
+        if(qrImage != null)
         {
-            _listRaw[i].gameObject.SetActive(true);
-            _listRaw[i].texture = qrImage;
+            for (int i = 0; i < entry.qrRects.Count; i++)
+            {
+                _RawQRs[i].gameObject.SetActive(true);
+                _RawQRs[i].texture = qrImage;
 
-            _listRaw[i].rectTransform.pivot = entry.qrRects[i].pivot;
-            _listRaw[i].rectTransform.anchorMin = entry.qrRects[i].anchorMin;
-            _listRaw[i].rectTransform.anchorMax = entry.qrRects[i].anchorMax;
-            _listRaw[i].rectTransform.sizeDelta = entry.qrRects[i].sizeDelta;
-            _listRaw[i].rectTransform.anchoredPosition = entry.qrRects[i].anchoredPosition;
+                _RawQRs[i].rectTransform.pivot = entry.qrRects[i].pivot;
+                _RawQRs[i].rectTransform.anchorMin = entry.qrRects[i].anchorMin;
+                _RawQRs[i].rectTransform.anchorMax = entry.qrRects[i].anchorMax;
+                _RawQRs[i].rectTransform.sizeDelta = entry.qrRects[i].sizeDelta * 4;
+                _RawQRs[i].rectTransform.anchoredPosition = entry.qrRects[i].anchoredPosition * 4;
+            }
         }
-
-        //if (UserDataManager.inst.selectedFrame == FRAME_TYPE.FRAME_8)
-        //{
-        //    if (UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_BLACK || 
-        //        UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_WHITE ||
-        //        UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_INK ||
-        //        UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_LIMEYELLOW ||
-        //        UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_SKYBLUE ||
-        //        UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_GREEN)
-        //    {
-        //        _listRaw[(int)RAW_TYPE.QR_WhiteBlack_8_1].gameObject.SetActive(true);
-        //        _listRaw[(int)RAW_TYPE.QR_WhiteBlack_8_2].gameObject.SetActive(true);
-
-        //        _listRaw[(int)RAW_TYPE.QR_WhiteBlack_8_1].texture = qrImage;
-        //        _listRaw[(int)RAW_TYPE.QR_WhiteBlack_8_2].texture = qrImage;
-        //    }
-        //    else if (UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_JTBC_WH ||
-        //             UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_JTBC_BL ||
-        //             UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_JTBC_SI
-        //            )
-        //    {
-        //        _listRaw[(int)RAW_TYPE.QR_JTBC_8_1].gameObject.SetActive(true);
-        //        _listRaw[(int)RAW_TYPE.QR_JTBC_8_2].gameObject.SetActive(true);
-
-        //        _listRaw[(int)RAW_TYPE.QR_JTBC_8_1].texture = qrImage;
-        //        _listRaw[(int)RAW_TYPE.QR_JTBC_8_2].texture = qrImage;
-        //    }
-        //    else
-        //    {
-        //        _listRaw[(int)RAW_TYPE.QR_GreenRedSnow_8_1].gameObject.SetActive(true);
-        //        _listRaw[(int)RAW_TYPE.QR_GreenRedSnow_8_2].gameObject.SetActive(true);
-
-        //        _listRaw[(int)RAW_TYPE.QR_GreenRedSnow_8_1].texture = qrImage;
-        //        _listRaw[(int)RAW_TYPE.QR_GreenRedSnow_8_2].texture = qrImage;
-        //    }
-        //}
-        //else
-        //{
-        //    if (UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_BLACK ||
-        //        UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_WHITE ||
-        //        UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_LIMEYELLOW ||
-        //        UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_SKYBLUE ||
-        //        UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_GREEN)
-        //    {
-        //        _listRaw[(int)RAW_TYPE.QR_WhiteBlack].gameObject.SetActive(true);
-        //        _listRaw[(int)RAW_TYPE.QR_WhiteBlack].texture = qrImage;
-        //    }
-        //    else if (UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_GREENNIT)
-        //    {
-        //        _listRaw[(int)RAW_TYPE.QR_Green].gameObject.SetActive(true);
-        //        _listRaw[(int)RAW_TYPE.QR_Green].texture = qrImage;
-        //    }
-        //    else if (UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_INK)
-        //    {
-        //        _listRaw[(int)RAW_TYPE.QR_Ink].gameObject.SetActive(true);
-        //        _listRaw[(int)RAW_TYPE.QR_Ink].texture = qrImage;
-        //    }
-        //    else if (UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_JTBC_WH ||
-        //             UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_JTBC_BL ||
-        //             UserDataManager.inst.selectedFrameColor == FRAME_COLOR_TYPE.FRAME_JTBC_SI
-        //            )
-        //    {
-        //        if (UserDataManager.inst.selectedFrame == FRAME_TYPE.FRAME_1)
-        //        {
-        //            _listRaw[(int)RAW_TYPE.QR_JTBC_Left].gameObject.SetActive(true);
-        //            _listRaw[(int)RAW_TYPE.QR_JTBC_Left].texture = qrImage;
-        //        }
-        //        else
-        //        {
-        //            _listRaw[(int)RAW_TYPE.QR_JTBC_Right].gameObject.SetActive(true);
-        //            _listRaw[(int)RAW_TYPE.QR_JTBC_Right].texture = qrImage;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        _listRaw[(int)RAW_TYPE.QR_RedSnow].gameObject.SetActive(true);
-        //        _listRaw[(int)RAW_TYPE.QR_RedSnow].texture = qrImage;
-        //    }
-        //}
+        else
+        {
+            for (int i = 0; i < entry.qrRects.Count; i++)
+            {
+                _RawQRs[i].gameObject.SetActive(false);
+            }
+        }
 
         OnEndSaveImage += () =>
         {
@@ -390,28 +321,10 @@ public class UC_SynchFrame : MonoBehaviour //SingletonBehaviour<UC_SynchFrame>
 
     public void SetPrintImageActive(bool state)
     {
-        for (int i = 0; i < _listRaw.Count; i++)
+        for (int i = 0; i < _RawQRs.Count; i++)
         {
-            _listRaw[i].gameObject.SetActive(state);
+            _RawQRs[i].gameObject.SetActive(state);
         }
-    }
-
-    enum RAW_TYPE
-    {
-        PHOTO = 0,
-        QR_WhiteBlack,
-        QR_WhiteBlack_8_1,
-        QR_WhiteBlack_8_2,
-        QR_Green,
-        QR_RedSnow,
-        QR_GreenRedSnow_8_1,
-        QR_GreenRedSnow_8_2,
-        QR_Ink,
-
-        QR_JTBC_Left,
-        QR_JTBC_Right,
-        QR_JTBC_8_1,
-        QR_JTBC_8_2
     }
 
     [Serializable]

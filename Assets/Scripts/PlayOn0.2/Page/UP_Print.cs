@@ -190,6 +190,10 @@ public class UP_Print : UP_BasePage
         {
             _synchFrame.SetPrintImage(qrcode);
         }
+        else
+        {
+            _synchFrame.SetPrintImage(null);
+        }
     }
 
     public Texture2D Convert(Bitmap bitmap)
