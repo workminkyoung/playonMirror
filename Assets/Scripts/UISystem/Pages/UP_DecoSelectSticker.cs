@@ -127,6 +127,8 @@ public class UP_DecoSelectSticker : UP_DecoratePageBase
             _prevBtn.interactable = true;
         }
 
+        _allCategoryToggle.pointerClickAction();
+        _allCategoryToggle.Select(true);
     }
 
     public override void OnPageEnable ()
