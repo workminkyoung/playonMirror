@@ -58,6 +58,8 @@ public class UP_SelectFrame : UP_BaseSelectContent, IPageTimeLimit
     private int[] _discountPrices;
     private FrameData.FrameData _frameData;
     private bool _isSorting = false;
+    [SerializeField]
+    private bool _isChromakeyUse = false;
 
     private readonly Color BTN_BACK_DISABLE_COLOR = new Color(0.88f, 0.88f, 0.88f);
     private readonly Color BTN_BACK_ENABLE_COLOR = new Color(0.74f, 0.74f, 0.74f);
@@ -148,24 +150,10 @@ public class UP_SelectFrame : UP_BaseSelectContent, IPageTimeLimit
         switch(UserDataManager.inst.selectedContent)
         {
             case CONTENT_TYPE.AI_CARTOON:
-                if(ConfigData.config.chromaKey.isOn)
-                {
-                    UserDataManager.inst.SetChromaKeyEnable(true);
-                }
-                else
-                {
-                    UserDataManager.inst.SetChromaKeyEnable(false);
-                }
+                UserDataManager.inst.SetChromaKeyEnable(_isChromakeyUse);
                 break;
             case CONTENT_TYPE.AI_BEAUTY:
-                if(ConfigData.config.chromaKey.isOn)
-                {
-                    UserDataManager.inst.SetChromaKeyEnable(true);
-                }
-                else
-                {
-                    UserDataManager.inst.SetChromaKeyEnable(false);
-                }
+                UserDataManager.inst.SetChromaKeyEnable(_isChromakeyUse);
                 break;
             default:
                 UserDataManager.inst.SetChromaKeyEnable(false);
@@ -386,6 +374,7 @@ public class UP_SelectFrame : UP_BaseSelectContent, IPageTimeLimit
     {
         _isSorting = AdminManager.Instance.FrameData.ServiceFrame.Sorting.ToLower() == StringCacheManager.Instance.SortingSpecified;
         _frameData = AdminManager.Instance.FrameData;
+        _isChromakeyUse = bool.Parse(AdminManager.Instance.ChromakeyFrame.Config["UsePage"].value1.ToLower());
 
         foreach (var item in _frameData.Definition)
         {

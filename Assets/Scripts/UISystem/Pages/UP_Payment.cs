@@ -222,7 +222,6 @@ public class UP_Payment : UP_BasePage
                 _content.SetTitle(AdminManager.Instance.ServiceData.ContentsDetail[UserDataManager.Instance.selectedSubContentKey].Korean_Title);
                 _content.SetDescription(AdminManager.Instance.ServiceData.ContentsDetail[UserDataManager.Instance.selectedSubContentKey].Korean_SubText);
                 _content.SetGenderActive(false);
-                _bgTheme.SetActive(true);
                 break;
             case CONTENT_TYPE.AI_PROFILE:
                 _selectedContentText.text = AdminManager.Instance.ServiceData.Contents[UserDataManager.Instance.selectedContentKey].Korean_Title;
@@ -234,7 +233,6 @@ public class UP_Payment : UP_BasePage
             case CONTENT_TYPE.AI_BEAUTY:
                 _selectedContentText.text = StringCacheManager.inst.GetContentTitle(CONTENT_TYPE.AI_BEAUTY);
                 _content.SetGenderActive(false);
-                _bgTheme.SetActive(true);
                 break;
             case CONTENT_TYPE.WHAT_IF:
                 _selectedContentText.text = AdminManager.Instance.ServiceData.Contents[UserDataManager.Instance.selectedContentKey].Korean_Title;
@@ -252,10 +250,12 @@ public class UP_Payment : UP_BasePage
 
     private void SetBGTexture()
     {
-        if (!_bgTheme.activeSelf)
-        {
-            return;
-        }
+        //if (!_bgTheme.activeSelf)
+        //{
+        //    return;
+        //}
+
+        _bgTheme.SetActive(true);
 
         foreach (var item in _bgThemeImageDict)
         {
@@ -338,7 +338,14 @@ public class UP_Payment : UP_BasePage
             return;
 
         SetContent();
-        SetBGTexture();
+        if (UserDataManager.Instance.isChromaKeyOn)
+        {
+            SetBGTexture();
+        }
+        else
+        {
+            _bgTheme.SetActive(false);
+        }
 
         _frameImg.sprite = UserDataManager.inst.selectedFrameDefinition.ThumbnailUnselect_data;
         _frameShadowImg.sprite = UserDataManager.inst.selectedFrameDefinition.FrameType == FRAME_TYPE.FRAME_8 ? _frameShadowSprites[1] : _frameShadowSprites[0];
