@@ -45,6 +45,8 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
     private int _selectedChromaKeyNum = 0;
     [SerializeField]
     private string _selectedChromaKey;
+    [SerializeField]
+    private bool _isStickerUse = false;
 
     // Result Data
     [SerializeField]
@@ -80,6 +82,7 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
     public int selectedChromaKeyNum => _selectedChromaKeyNum;
     public bool isChromaKeyOn => _isChromaKeyOn;
     public string selectedChromaKey => _selectedChromaKey;
+    public bool IsStickerUser => _isStickerUse;
 
     // Result Data
     public int selectedProfilePicNum => _selectedProfilePicNum;
@@ -221,5 +224,10 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
     public void SetChromaKey(string key)
     {
         _selectedChromaKey = key;
+    }
+
+    public void SetStickerUse(bool use)
+    {
+        _isStickerUse = use;    
     }
 }

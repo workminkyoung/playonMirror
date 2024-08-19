@@ -16,10 +16,18 @@ public abstract class UP_DecoratePageBase : UP_BasePage
     [SerializeField]
     protected TextMeshProUGUI _timeText;
 
+    [SerializeField]
+    private bool _isStickerUse = false;
+
     public override void InitPage()
     {
     }
 
+    public override void ApplyAdminData()
+    {
+        base.ApplyAdminData();
+        UserDataManager.Instance.SetStickerUse(bool.Parse(AdminManager.Instance.BubbleData.Config["UsePage"].value1.ToLower()));
+    }
     public override void BindDelegates()
     {
         (_pageController as PC_Main).OnFrameUpdateAction += UpdateFrame;

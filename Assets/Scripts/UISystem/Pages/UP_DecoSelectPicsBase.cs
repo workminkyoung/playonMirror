@@ -69,7 +69,14 @@ public class UP_DecoSelectPicsBase : UP_DecoratePageBase
         switch(UserDataManager.inst.selectedContent)
         {
             case CONTENT_TYPE.AI_CARTOON:
-                (_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_DECO_SELECT_STICKER);
+                if (UserDataManager.Instance.IsStickerUser)
+                {
+                    (_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_DECO_SELECT_STICKER);
+                }
+                else
+                {
+                    (_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_DECO_SELECT_EFFECT);
+                }
                 break;
             default:
                 (_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_DECO_SELECT_EFFECT);
