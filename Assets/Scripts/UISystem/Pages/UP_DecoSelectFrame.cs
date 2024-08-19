@@ -1,10 +1,9 @@
-using RotaryHeart.Lib.SerializableDictionary;
 using System;
 using System.Collections.Generic;
+//using System.Drawing;
 using UnityEngine;
 using UnityEngine.UI;
 using Vivestudios.UI;
-using static UnityEditor.Progress;
 
 public class UP_DecoSelectFrame : UP_DecoratePageBase
 {
@@ -103,6 +102,8 @@ public class UP_DecoSelectFrame : UP_DecoratePageBase
     private void OnClickColor(string key)
     {
         UserDataManager.inst.SetSelectedFrameColor(key);
+        Tuple<string, string> tupleKey = new Tuple<string, string>(UserDataManager.Instance.selectedContentKey, UserDataManager.Instance.selectedFrameColor);
+        UserDataManager.Instance.SetSelectedFrameDefinition(AdminManager.Instance.FrameData.DefinitionTuple[UserDataManager.inst.selectedFrameKey][tupleKey]);
 
         foreach (var color in _frameColors)
         {
@@ -178,6 +179,7 @@ public class UP_DecoSelectFrame : UP_DecoratePageBase
 
         _qrToggle.isOn = _qrDefaultUsed;
         _qrToggle.gameObject.SetActive(_isQRUse);
+        UserDataManager.Instance.SetIsQRPrint(_qrDefaultUsed);
 
         for (int i = 0; i < _frameColors.Count; i++)
         {
