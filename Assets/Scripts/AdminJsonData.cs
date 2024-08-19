@@ -316,6 +316,8 @@ namespace BasicData
         public string MachineID;
         public string StoreName;
         public string PrinterModel;
+
+        public string[] mailList_data;
     }
 
 }

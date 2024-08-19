@@ -7,6 +7,7 @@ using Unity.VectorGraphics;
 using UnityEngine;
 using System;
 using ShootingScreenData;
+using System.Linq;
 
 public class AdminManager : SingletonBehaviour<AdminManager>
 {
@@ -621,6 +622,13 @@ public class AdminManager : SingletonBehaviour<AdminManager>
         if (!string.IsNullOrEmpty(BasicSetting.Config.OtherMenu))
         {
             BasicSetting.Config.OtherMenu_data = int.Parse(BasicSetting.Config.OtherMenu);
+        }
+
+        // 메일 데이터 쪼개기
+        foreach (var item in BasicSetting.Device)
+        {
+            item.Value.MailList = item.Value.MailList.Replace(" ", string.Empty).Replace("\r", string.Empty).Replace("\t", string.Empty);
+            item.Value.mailList_data = item.Value.MailList.Split(',');
         }
     }
 
