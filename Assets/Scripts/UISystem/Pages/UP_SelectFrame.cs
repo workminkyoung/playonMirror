@@ -421,8 +421,8 @@ public class UP_SelectFrame : UP_BaseSelectContent, IPageTimeLimit
 
         _maxPrintAmount = priceConfig.priceNum;
         //_curAmount = ConfigData.config.firstPrintAmount;
-        _originalPrices = new int[_maxPrintAmount];
-        _discountPrices = new int[_maxPrintAmount];
+        _originalPrices = _allPriceDic[key].originalPrices; //new int[_maxPrintAmount];
+        _discountPrices = _allPriceDic[key].discountPrices;//new int[_maxPrintAmount];
 
         CurPriceCheck();
 
