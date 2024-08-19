@@ -691,7 +691,7 @@ public class AdminManager : SingletonBehaviour<AdminManager>
     {
         FrameRectTransform rectData = new FrameRectTransform();
 
-        string removeEmpty = data.Replace(" ", string.Empty);
+        string removeEmpty = data.Replace(" ", string.Empty).Replace("\r", string.Empty).Replace("\t", string.Empty);
         string pattern = @"Pos\.X:(?<posX>[-\d.]+)\s*Pos\.Y:(?<posY>[-\d.]+)\]\[Width:(?<width>[-\d.]+)\s*Height:(?<height>[-\d.]+)\]Anchors:Min:\[X:(?<AnchorMinX>[-\d.]+)\s*Y:(?<AnchorMinY>[-\d.]+)\]Max:\[X:(?<AnchorMaxX>[-\d.]+)\s*Y:(?<AnchorMaxY>[-\d.]+)\]Pivot:\[X:(?<pivotX>[-\d.]+)\s*Y:(?<pivotY>[-\d.]+)\]Rotation:\[X:(?<rotX>[-\d.]+)\s*Y:(?<rotY>[-\d.]+)\s*Z:(?<rotZ>[-\d.]+)\]";
 
         Regex regex = new Regex(pattern);
@@ -730,6 +730,10 @@ public class AdminManager : SingletonBehaviour<AdminManager>
                 float.Parse(match.Groups["rotY"].Value),
                 float.Parse(match.Groups["rotZ"].Value)
                 );
+        }
+        else
+        {
+            Debug.Log($"{removeEmpty} is Not match with pattern");
         }
 
         return rectData;
