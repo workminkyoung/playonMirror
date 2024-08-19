@@ -34,6 +34,11 @@ public class ProfileModule : SingletonBehaviour<ProfileModule>
     public void GetWhatIfImages(Texture2D origin, Action<List<Texture2D>> OnEnd)
     {
         string targetEncodeTexture = Convert.ToBase64String(origin.EncodeToPNG());
+        //List<int> indexes = new List<int>();
+        //for (int i = 0; i < CONVERT_IMAGE_NUM; i++)
+        //{
+        //    indexes.Add(i);
+        //}
         List<int> indexes = GetRandomIndexes(CONVERT_IMAGE_NUM);
         _profileReorderName = new List<string>();
 

@@ -243,13 +243,13 @@ MonoBehaviour:
     - "#\uB0A8\uC790\uD504\uB85C\uD544 #1\uBA85 #\uAE54\uB054 #\uAE30\uBCF8"
   _profileWhatIfName:
   - "\uBC30\uC6B0"
-  - "\uC0AC\uC721\uC0AC"
-  - "\uC18C\uBC29\uAD00"
   - "\uC694\uB9AC\uC0AC"
-  - "\uC758\uC0AC"
-  - "\uD30C\uC77C\uB7FF"
+  - "\uC18C\uBC29\uAD00"
   - "\uC2B9\uBB34\uC6D0"
   - "\uC544\uC774\uB3CC"
+  - "\uD30C\uC77C\uB7FF"
+  - "\uC0AC\uC721\uC0AC"
+  - "\uC758\uC0AC"
   _contentTitles:
     reorderableList:
       canAdd: 1
