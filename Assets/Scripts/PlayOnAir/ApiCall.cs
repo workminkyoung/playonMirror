@@ -154,7 +154,7 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
             CustomLogger.Log(www.error);
             CustomLogger.Log(www.downloadHandler.text);
 
-            if(_requestNum < _requestMaxNum)
+            if(_requestNum < 5)
             {
                 www.Dispose();
                 if(!isSequential)
