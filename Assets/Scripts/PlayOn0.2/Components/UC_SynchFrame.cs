@@ -247,7 +247,7 @@ public class UC_SynchFrame : MonoBehaviour //SingletonBehaviour<UC_SynchFrame>
             _frameAreaDic_video[FRAME_TYPE.FRAME_1].SetRatioType(ratioType);
             _frameAreaDic_video[FRAME_TYPE.FRAME_1].SetRenderTexture(setPics);
             _frameAreaDic_video[FRAME_TYPE.FRAME_1].SetFrameColor(UserDataManager.inst.selectedFrameColor);
-            _frameAreaDic_video[FRAME_TYPE.FRAME_1].UpdateFrame();
+            _frameAreaDic_video[FRAME_TYPE.FRAME_1].UpdateFrame(true);
         }
         else
         {

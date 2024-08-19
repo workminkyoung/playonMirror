@@ -157,12 +157,12 @@ public class UC_FrameArea : UC_BaseComponent
         return newTex;
     }
 
-    public void UpdateFrame()
+    public void UpdateFrame(bool _isProfileVid = false)
     {
         UpdateSkinFilter();
         UpdatePhotos();
         UpdateDateText();
-        UpdateFrameColor();
+        UpdateFrameColor(_isProfileVid);
         UpdateLutEffect();
     }
 
@@ -376,7 +376,7 @@ public class UC_FrameArea : UC_BaseComponent
         return definition;
     }
 
-    private void UpdateFrameColor()
+    private void UpdateFrameColor(bool isProfileVid = false)
     {
         // adminManager에서 파싱할때 default 컬러 정하고 업데이트
         FrameData.DefinitionEntry entry = GetFrameDefinition();
@@ -384,7 +384,18 @@ public class UC_FrameArea : UC_BaseComponent
         {
             return;
         }
-        _upperLayers.sprite = entry.LayerImage_data;
+
+        if (isProfileVid)
+        {
+            Tuple<string, string> tupleKey = new Tuple<string, string>(UserDataManager.Instance.selectedContentKey, UserDataManager.Instance.selectedFrameColor);
+            FrameData.DefinitionEntry entryCover = AdminManager.Instance.FrameData.DefinitionTuple["FR1X1001"][tupleKey];
+            _upperLayers.sprite = entryCover.LayerImage_data;
+        }
+        else
+        {
+            _upperLayers.sprite = entry.LayerImage_data;
+        }
+
         _upperLayers.color = Color.white;// ResourceCacheManager.inst.GetFrameColor(_frameColor);
         if(_splitLine != null)
         {
