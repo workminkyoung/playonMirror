@@ -11,8 +11,8 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
     private Coroutine _getCoroutine;
     //[SerializeField]
     //private List<Coroutine> _getCoroutines = new List<Coroutine>();
-    private int _requestNum = 0;
-    private const int _requestMaxNum = 3;
+    //private int _requestNum = 0;
+    private const int _requestMaxNum = 10;
     private const string _googleDownUrl = "https://drive.google.com/uc?export=download&id=";
     private string _downloadPath;
     private List<bool> _requestCompleted = new List<bool>();
@@ -26,12 +26,9 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
         };
     }
 
-    public IEnumerator PostRequest (string url, string json, Action<string> response = null, bool isReRequest = false)
+    public IEnumerator PostRequest (string url, string json, Action<string> response = null, bool isReRequest = false, int ReIndex = 0)
     {
-        if(!isReRequest)
-        {
-            _requestNum = 0;
-        }
+        int _requestNum = 0 + ReIndex;
 
         _requestNum++;
         UnityWebRequest www = new UnityWebRequest(url, UnityWebRequest.kHttpVerbPOST);
@@ -52,7 +49,7 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
             if(_requestNum < _requestMaxNum)
             {
                 www.Dispose();
-                _postCoroutine = StartCoroutine(PostRequest(url, json, response, true));
+                _postCoroutine = StartCoroutine(PostRequest(url, json, response, true, _requestNum));
                 yield break;
             }
             else
@@ -69,12 +66,9 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
         www.Dispose();
     }
 
-    public IEnumerator GetRequest<T> (string url, Action<T> response = null, bool isReRequest = false)
+    public IEnumerator GetRequest<T> (string url, Action<T> response = null, bool isReRequest = false, int ReIndex = 0)
     {
-        if(!isReRequest)
-        {
-            _requestNum = 0;
-        }
+        int _requestNum = 0 + ReIndex;
 
         _requestNum++;
         UnityWebRequest www = new UnityWebRequest(url, UnityWebRequest.kHttpVerbGET);
@@ -93,7 +87,7 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
             if(_requestNum < _requestMaxNum)
             {
                 www.Dispose();
-                _getCoroutine = StartCoroutine(GetRequest(url, response, true));
+                _getCoroutine = StartCoroutine(GetRequest(url, response, true, _requestNum));
                 yield break;
             }
             else
@@ -120,16 +114,17 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
         www.Dispose();
     }
 
-    public IEnumerator GetRequestGoogleLink<T>(string url, Action<T> response = null, bool isReRequest = false, bool isSequential = false, int? reRequestedIndex = null)
+    public IEnumerator GetRequestGoogleLink<T>(string url, Action<T> response = null, bool isReRequest = false, bool isSequential = false, int? reRequestedIndex = null, int ReIndex = 0)
     {
         string originUrl = url;
 
         if (!isReRequest)
         {
-            _requestNum = 0;
+            //_requestNum = 0;
             _requestCompleted.Add(false);
         }
 
+        int _requestNum = 0 + ReIndex;
         string key = ExtractGoogleDownKey(url);
         url = _googleDownUrl + key;
 
@@ -151,10 +146,10 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
 
         if(www.result != UnityWebRequest.Result.Success)
         {
-            CustomLogger.Log(www.error);
-            CustomLogger.Log(www.downloadHandler.text);
+            CustomLogger.Log($"RETRY NOW {_requestNum} : {www.error}");
+            //CustomLogger.Log(www.downloadHandler.text);
 
-            if(_requestNum < 5)
+            if(_requestNum < _requestMaxNum)
             {
                 www.Dispose();
                 if(!isSequential)
@@ -163,13 +158,13 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
                 }
                 else
                 {
-                    StartCoroutine(GetRequestGoogleLink(originUrl, response, true, true, requestIndex));
+                    StartCoroutine(GetRequestGoogleLink(originUrl, response, true, true, requestIndex, _requestNum));
                 }
                 yield break;
             }
             else
             {
-                Debug.LogFormat("[Get / request count {0}] Fail to Send!", _requestNum);
+                Debug.Log($"[Get / request count {_requestNum}] FAIL! : {originUrl}");
             }
         }
         else
