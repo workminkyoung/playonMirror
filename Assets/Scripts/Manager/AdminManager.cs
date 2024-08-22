@@ -749,7 +749,8 @@ public class AdminManager : SingletonBehaviour<AdminManager>
 
     public void DownloadChromaKeyData()
     {
-        foreach(var item in _chromakeyFrame.ChromakeyToneTable)
+        _chromakeyFrame.OrderedChromakeyToneTable = new ChromakeyFrameData.ChromakeyFrame.OrderedChromakeyTableEntryDic();
+        foreach (var item in _chromakeyFrame.ChromakeyToneTable)
         {
             ApiCall.Instance.GetSequently<Texture2D>(item.Value.Thumbnail, (texture) =>
             {
@@ -767,9 +768,12 @@ public class AdminManager : SingletonBehaviour<AdminManager>
             ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image6, (texture) => item.Value.orderedImage[5] = texture, true);
             ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image7, (texture) => item.Value.orderedImage[6] = texture, true);
             ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image8, (texture) => item.Value.orderedImage[7] = texture, true);
+
+            _chromakeyFrame.OrderedChromakeyToneTable[item.Value.Sequence] = item.Value;
         }
 
-        foreach(var item in _chromakeyFrame.ChromakeyFrameTable)
+        _chromakeyFrame.OrderedChromakeyFrameTable = new ChromakeyFrameData.ChromakeyFrame.OrderedChromakeyTableEntryDic();
+        foreach (var item in _chromakeyFrame.ChromakeyFrameTable)
         {
             ApiCall.Instance.GetSequently<Texture2D>(item.Value.Thumbnail, (texture) =>
             {
@@ -787,6 +791,8 @@ public class AdminManager : SingletonBehaviour<AdminManager>
             ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image6, (texture) => item.Value.orderedImage[5] = texture, true);
             ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image7, (texture) => item.Value.orderedImage[6] = texture, true);
             ApiCall.Instance.GetSequently<Texture2D>(item.Value.Image8, (texture) => item.Value.orderedImage[7] = texture, true);
+
+            _chromakeyFrame.OrderedChromakeyFrameTable[item.Value.Sequence] = item.Value;
         }
     }
 

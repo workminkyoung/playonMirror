@@ -329,15 +329,21 @@ namespace ChromakeyFrameData
     {
         public ConfigEntryDic Config;
         public List<CategoryEntry> Category;
-        public ChromakeyToneTableEntryDic ChromakeyToneTable;
-        public ChromakeyFrameTableDic ChromakeyFrameTable;
+        public ChromakeyTableEntryDic ChromakeyToneTable;
+        public ChromakeyTableEntryDic ChromakeyFrameTable;
+        public OrderedChromakeyTableEntryDic OrderedChromakeyToneTable;
+        public OrderedChromakeyTableEntryDic OrderedChromakeyFrameTable;
 
         [Serializable]
         public class ConfigEntryDic : SerializableDictionaryBase<string, ConfigEntry> { }
         [Serializable]
-        public class ChromakeyToneTableEntryDic : SerializableDictionaryBase<string, ChromakeyToneTableEntry> { }
+        public class ChromakeyTableEntryDic : SerializableDictionaryBase<string, ChromakeyToneTableEntry> { }
         [Serializable]
-        public class ChromakeyFrameTableDic : SerializableDictionaryBase<string, ChromakeyToneTableEntry> { }
+        public class OrderedChromakeyTableEntryDic : SerializableDictionaryBase<int, ChromakeyToneTableEntry> { }
+        //[Serializable]
+        //public class ChromakeyFrameTableDic : SerializableDictionaryBase<string, ChromakeyToneTableEntry> { }
+        //[Serializable]
+        //public class OrderedChromakeyFrameTableDic : SerializableDictionaryBase<int, ChromakeyToneTableEntry> { }
     }
 
     [Serializable]
@@ -389,28 +395,28 @@ namespace ChromakeyFrameData
         public ImageOrderedDic orderedImage;
     }
 
-    [Serializable]
-    public class ChromakeyFrameTableEntry
-    {
-        public string Key;
-        public int Sequence;
-        public string Category;
-        public string Korean;
-        public string English;
-        public string Chinese;
-        public string Thumbnail;
-        public string Image1;
-        public string Image2;
-        public string Image3;
-        public string Image4;
-        public string Image5;
-        public string Image6;
-        public string Image7;
-        public string Image8;
+    //[Serializable]
+    //public class ChromakeyFrameTableEntry
+    //{
+    //    public string Key;
+    //    public int Sequence;
+    //    public string Category;
+    //    public string Korean;
+    //    public string English;
+    //    public string Chinese;
+    //    public string Thumbnail;
+    //    public string Image1;
+    //    public string Image2;
+    //    public string Image3;
+    //    public string Image4;
+    //    public string Image5;
+    //    public string Image6;
+    //    public string Image7;
+    //    public string Image8;
         
-        public Sprite Thumbnail_data;
-        public List< Texture2D> Image_data = new List<Texture2D>();
-    }
+    //    public Sprite Thumbnail_data;
+    //    public List< Texture2D> Image_data = new List<Texture2D>();
+    //}
     [Serializable]
     public class ImageOrderedDic : SerializableDictionaryBase<int, Texture2D> { }
 }

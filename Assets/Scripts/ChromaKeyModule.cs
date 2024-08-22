@@ -1,3 +1,4 @@
+using Google.Protobuf.WellKnownTypes;
 using Nexweron.FragFilter;
 using System;
 using System.Collections;
@@ -203,53 +204,36 @@ public class ChromaKeyModule : SingletonBehaviour<ChromaKeyModule>
 
     public void UpdateOption (CONTENT_TYPE type)
     {
-        int i = 0;
+        //int i = 0;
+        m_options = new List<ChromaKeyOptions>();
         switch(type)
         {
             case CONTENT_TYPE.AI_CARTOON:
-                foreach (var elem in AdminManager.Instance.ChromakeyFrame.ChromakeyFrameTable)
+                for (int i = 1; i <= AdminManager.Instance.ChromakeyFrame.OrderedChromakeyFrameTable.Count; i++)
                 {
-                    if(m_options.Count > i && m_options[i] != null)
-                    {
-                        m_options[i].key = elem.Value.Key;
-                        m_options[i].category = elem.Value.Category;
-                        m_options[i].name_kor = elem.Value.Korean;
-                        m_options[i].name_eng = elem.Value.English;
-                        m_options[i].name_chn = elem.Value.Chinese;
-                        m_options[i].thumbnail = elem.Value.Thumbnail_data;
-                        m_options[i].orderedImage = elem.Value.orderedImage;
-                    }
-                    else
-                    {
-                        ChromaKeyOptions option = new ChromaKeyOptions();
-                        option.key = elem.Value.Key;
-
-                        m_options.Add(option);
-                    }
-                    i++;
+                    ChromaKeyOptions option = new ChromaKeyOptions();
+                    option.key = AdminManager.Instance.ChromakeyFrame.OrderedChromakeyFrameTable[i].Key;
+                    option.category = AdminManager.Instance.ChromakeyFrame.OrderedChromakeyFrameTable[i].Category;
+                    option.name_kor = AdminManager.Instance.ChromakeyFrame.OrderedChromakeyFrameTable[i].Korean;
+                    option.name_eng = AdminManager.Instance.ChromakeyFrame.OrderedChromakeyFrameTable[i].English;
+                    option.name_chn = AdminManager.Instance.ChromakeyFrame.OrderedChromakeyFrameTable[i].Chinese;
+                    option.thumbnail = AdminManager.Instance.ChromakeyFrame.OrderedChromakeyFrameTable[i].Thumbnail_data;
+                    option.orderedImage = AdminManager.Instance.ChromakeyFrame.OrderedChromakeyFrameTable[i].orderedImage;
+                    m_options.Add(option);
                 }
                 break;
             case CONTENT_TYPE.AI_BEAUTY:
-                foreach (var elem in AdminManager.Instance.ChromakeyFrame.ChromakeyToneTable)
+                for (int i = 1; i <= AdminManager.Instance.ChromakeyFrame.OrderedChromakeyToneTable.Count; i++)
                 {
-                    if (m_options.Count > i && m_options[i] != null)
-                    {
-                        m_options[i].key = elem.Value.Key;
-                        m_options[i].category = elem.Value.Category;
-                        m_options[i].name_kor = elem.Value.Korean;
-                        m_options[i].name_eng = elem.Value.English;
-                        m_options[i].name_chn = elem.Value.Chinese;
-                        m_options[i].thumbnail = elem.Value.Thumbnail_data;
-                        m_options[i].orderedImage = elem.Value.orderedImage;
-                    }
-                    else
-                    {
-                        ChromaKeyOptions option = new ChromaKeyOptions();
-                        option.key = elem.Value.Key;
-
-                        m_options.Add(option);
-                    }
-                    i++;
+                    ChromaKeyOptions option = new ChromaKeyOptions();
+                    option.key = AdminManager.Instance.ChromakeyFrame.OrderedChromakeyToneTable[i].Key;
+                    option.category = AdminManager.Instance.ChromakeyFrame.OrderedChromakeyToneTable[i].Category;
+                    option.name_kor = AdminManager.Instance.ChromakeyFrame.OrderedChromakeyToneTable[i].Korean;
+                    option.name_eng = AdminManager.Instance.ChromakeyFrame.OrderedChromakeyToneTable[i].English;
+                    option.name_chn = AdminManager.Instance.ChromakeyFrame.OrderedChromakeyToneTable[i].Chinese;
+                    option.thumbnail = AdminManager.Instance.ChromakeyFrame.OrderedChromakeyToneTable[i].Thumbnail_data;
+                    option.orderedImage = AdminManager.Instance.ChromakeyFrame.OrderedChromakeyToneTable[i].orderedImage;
+                    m_options.Add(option);
                 }
                 break;
             default:
