@@ -5,19 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Scenes/Temp/PlayOnAir.unity
-    guid: 1ee25ca5816f21144a2bdd33777fa533
-  - enabled: 0
-    path: Assets/Scenes/Temp/TempDiff.unity
-    guid: 4923389a660549c49995d6ec95b9428c
-  - enabled: 0
-    path: Assets/Scenes/PlayOn0.2_merged.unity
-    guid: 78d5cf30502c79246a5829b3fedde193
-  - enabled: 0
-    path: Assets/Scenes/Temp/MPImageTest.unity
-    guid: 273062dd4bf67a0489b78736781fbaa3
   - enabled: 1
-    path: Assets/Scenes/PLAY_ON.unity
-    guid: 88d70445806a9fc4c9e754428ac9e5f5
+    path: Assets/Scenes/PLAY_ON_Sticker.unity
+    guid: a14b80cd71507a04aaa309310c2859e3
   m_configObjects: {}
