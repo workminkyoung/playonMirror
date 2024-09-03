@@ -35,7 +35,7 @@ public class UP_ShootWhatIf : UP_Shoot
     {
         base.OnPageEnable();
 
-        _guideGrid.SetSize(PhotoDataManager.inst.isLandscape);
+        //_guideGrid.SetSize(PhotoDataManager.inst.isLandscape);
         //_guideGrid.SetActivate(false);
         _width = PlayOnProperties.crop3x4_width;
         _height = PlayOnProperties.crop3x4_height;

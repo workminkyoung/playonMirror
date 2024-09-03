@@ -11,7 +11,7 @@ public class UP_Shoot : UP_BasePage
 
     protected FlashEffect _flashEffect;
     protected UC_ShootState _shootState;
-    protected UC_GuideGrid _guideGrid;
+    //protected UC_GuideGrid _guideGrid;
 
     protected int _width;
     protected int _height;
@@ -23,17 +23,20 @@ public class UP_Shoot : UP_BasePage
     protected int _photoCountMax = 8;
 
     private RenderTexture _clearTexture;
+    private Tuple<string, string> _tupleKey;
 
     [SerializeField]
     protected UC_NextChromakeyBG _nextChromakeyBG;
+    [SerializeField]
+    protected Image _dimImage;
 
     public override void InitPage ()
     {
         _flashEffect = GetComponentInChildren<FlashEffect>();
         _shootState = GetComponentInChildren<UC_ShootState>();
-        _guideGrid = GetComponentInChildren<UC_GuideGrid>();
+        //_guideGrid = GetComponentInChildren<UC_GuideGrid>();
 
-        _guideGrid.Setting();
+        //_guideGrid.Setting();
         _flashEffect.Setting();
         _shootState.Setting();
         _shootState.SetParentPage(this);
@@ -77,6 +80,8 @@ public class UP_Shoot : UP_BasePage
 
         _nextChromakeyBG.SetBgImg(null);
         _flashEffect.Init();
+        _tupleKey = new Tuple<string, string>(UserDataManager.inst.selectedFrameKey, UserDataManager.inst.selectedContentKey);
+        SetDimImage(0);
 
         //TODO : RESET
 
@@ -282,12 +287,28 @@ public class UP_Shoot : UP_BasePage
             {
                 // shooting
                 SetNextChromaKeyBG();
+                SetDimImage(_shootState.photoCurrent);
                 _shootState.StartCountDown();
                 //DSLRManager.inst.CameraAutoFocusON();
             }
         });
 
         _flashEffect.StartFlashing();
+    }
+
+    private void SetDimImage(int index)
+    {
+        if(AdminManager.Instance.FrameData.CommonTuple[_tupleKey].Dim_datas.Count > index)
+        {
+            _dimImage.gameObject.SetActive(true);
+            _dimImage.sprite = AdminManager.Instance.FrameData.CommonTuple[_tupleKey].Dim_datas[index];
+            _dimImage.SetNativeSize();
+        }
+        else
+        {
+            _dimImage.sprite = null;
+            _dimImage.gameObject.SetActive(false);
+        }
     }
 
     IEnumerator WaitSecToNext ()

@@ -43,7 +43,7 @@ public class UP_ShootBeauty : UP_Shoot
         base.OnPageEnable();
 
         _shootState.duration = ConfigData.config.photoTime_beauty;
-        _guideGrid.SetSize(PhotoDataManager.inst.isLandscape);
+        //_guideGrid.SetSize(PhotoDataManager.inst.isLandscape);
         _width = PlayOnProperties.crop4x3_width;
         _height = PlayOnProperties.crop4x3_height;
         ConfigData.config.photoTime = ConfigData.config.photoTime_beauty;

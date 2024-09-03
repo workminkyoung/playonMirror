@@ -59,7 +59,7 @@ public class UP_ShootCartoon : UP_Shoot
         base.OnPageEnable();
 
         _shootState.duration = ConfigData.config.photoTime_cartoon;
-        _guideGrid.SetSize(PhotoDataManager.inst.isLandscape);
+        //_guideGrid.SetSize(PhotoDataManager.inst.isLandscape);
         _width = PlayOnProperties.crop4x3_width;
         _height = PlayOnProperties.crop4x3_height;
         ConfigData.config.photoTime = ConfigData.config.photoTime_cartoon;
