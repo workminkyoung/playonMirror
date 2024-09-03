@@ -102,77 +102,11 @@ public class LogDataManager : SingletonBehaviour<LogDataManager>
 
         logFormat.frame = UserDataManager.inst.selectedFrameKey;
         logFormat.frame_shape = null;
-        //switch (UserDataManager.inst.selectedFrame)
-        //{
-        //    case FRAME_TYPE.FRAME_1:
-        //        logFormat.frame = "FR1X1001";
-        //        logFormat.frame_shape = null;
-        //        break;
-        //    case FRAME_TYPE.FRAME_2:
-        //        logFormat.frame = "FR2X1001";
-        //        logFormat.frame_shape = "FRS_2X1_DEFAULT";
-        //        break;
-        //    case FRAME_TYPE.FRAME_2_1:
-        //        logFormat.frame = "FR2X1001";
-        //        logFormat.frame_shape = "FRS_2X1_STAIRS";
-        //        break;
-        //    case FRAME_TYPE.FRAME_2_2:
-        //        logFormat.frame = "FR2X1001";
-        //        logFormat.frame_shape = "FRS_2X1_SHIP";
-        //        break;
-        //    case FRAME_TYPE.FRAME_4:
-        //        logFormat.frame = "FR2X2001";
-        //        logFormat.frame_shape = null;
-        //        break;
-        //    case FRAME_TYPE.FRAME_8:
-        //        logFormat.frame = "FR4X2001";
-        //        logFormat.frame_shape = null;
-        //        break;
-        //}
 
         logFormat.color_filter = UserDataManager.inst.selectedLutKey;
 
         logFormat.frame_color = UserDataManager.inst.selectedFrameColor;
 
-        //switch (UserDataManager.inst.selectedFrameColor)
-        //{
-        //    case FRAME_COLOR_TYPE.FRAME_WHITE:
-        //        logFormat.frame_color = "FRC_WHITE";
-        //        break;
-        //    case FRAME_COLOR_TYPE.FRAME_BLACK:
-        //        logFormat.frame_color = "FRC_BLACK";
-        //        break;
-        //    case FRAME_COLOR_TYPE.FRAME_GREENNIT:
-        //        logFormat.frame_color = "FRC_GREENNIT";
-        //        break;
-        //    case FRAME_COLOR_TYPE.FRAME_RED:
-        //        logFormat.frame_color = "FRC_MERRYRED";
-        //        break;
-        //    case FRAME_COLOR_TYPE.FRAME_SNOW:
-        //        logFormat.frame_color = "FRC_SNOWWHITE";
-        //        break;
-        //    case FRAME_COLOR_TYPE.FRAME_INK:
-        //        logFormat.frame_color = "FRC_INK";
-        //        break;
-        //    case FRAME_COLOR_TYPE.FRAME_LIMEYELLOW:
-        //        logFormat.frame_color = "FRC_LimeY";
-        //        break;
-        //    case FRAME_COLOR_TYPE.FRAME_SKYBLUE:
-        //        logFormat.frame_color = "FRC_SkyB";
-        //        break;
-        //    case FRAME_COLOR_TYPE.FRAME_GREEN:
-        //        logFormat.frame_color = "FRC_GREEN";
-        //        break;
-        //    case FRAME_COLOR_TYPE.FRAME_JTBC_WH:
-        //        logFormat.frame_color = "FRC_JTBC_WH";
-        //        break;
-        //    case FRAME_COLOR_TYPE.FRAME_JTBC_BL:
-        //        logFormat.frame_color = "FRC_JTBC_BL";
-        //        break;
-        //    case FRAME_COLOR_TYPE.FRAME_JTBC_SI:
-        //        logFormat.frame_color = "FRC_JTBC_SI";
-        //        break;
-        //}
 
 #if UNITY_EDITOR
         url = TextData.testLog_url;
