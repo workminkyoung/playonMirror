@@ -1,3 +1,4 @@
+using FrameData;
 using RotaryHeart.Lib.SerializableDictionary;
 using System;
 using System.Collections.Generic;
@@ -5,6 +6,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Vivestudios.UI;
+using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
+using static UnityEditor.Progress;
 
 public class UP_SelectFrame : UP_BaseSelectContent, IPageTimeLimit
 {
@@ -178,64 +181,31 @@ public class UP_SelectFrame : UP_BaseSelectContent, IPageTimeLimit
         {
             item.Value.gameObject.SetActive(false);
         }
+
         for (int i = 0; i < selectableFrameKeys.Count; i++)
         {
             _allFrameDic[selectableFrameKeys[i]].transform.parent = _frameContainer;
             _allFrameDic[selectableFrameKeys[i]].gameObject.SetActive(true);
+
+            // in case frame data changes
+            Tuple<string, string> tupleKey = new Tuple<string, string>(selectableFrameKeys[i], UserDataManager.inst.selectedContentKey);
+            CommonEntry commonData = _frameData.CommonTuple[tupleKey];
+            _allFrameDic[selectableFrameKeys[i]].SetThumbnail(commonData.ThumbnailSelect_data, commonData.ThumbnailUnselect_data);
+            _allFrameDic[selectableFrameKeys[i]].SetKey(selectableFrameKeys[i]);
+
+            PriceConfig priceConfig = new PriceConfig();
+            priceConfig.originalPrices = commonData.originPrice_datas;
+            priceConfig.discountPrices = commonData.discountPrice_datas;
+            priceConfig.priceNum = priceConfig.originalPrices.Length;
+
+            _allPriceDic[selectableFrameKeys[i]] = priceConfig;
         }
 
         if (!string.IsNullOrEmpty(_defaultFramekey))
         {
             _allFrameDic[_defaultFramekey].pointerDownAction.Invoke();
         }
-
-        //switch (UserDataManager.inst.selectedContent)
-        //{
-
-        //    case CONTENT_TYPE.AI_CARTOON:
-        //        foreach (var item in _contentParents)
-        //        {
-        //            item.gameObject.SetActive(true);
-        //        }
-        //        break;
-        //    case CONTENT_TYPE.AI_PROFILE:
-        //        for (int i = 0; i < _contents.Length; i++)
-        //        {
-        //            _contents[i].transform.parent.gameObject.SetActive(i == 0 || i == 3);
-        //        }
-        //        break;
-        //    case CONTENT_TYPE.AI_BEAUTY:
-        //        foreach (var item in _contentParents)
-        //        {
-        //            item.gameObject.SetActive(true);
-        //        }
-        //        break;
-        //    case CONTENT_TYPE.WHAT_IF:
-        //        for (int i = 0; i < _contents.Length; i++)
-        //        {
-        //            _contents[i].transform.parent.gameObject.SetActive(i == 0 || i == 3);
-        //        }
-        //        break;
-        //    default:
-        //        foreach (var item in _contentParents)
-        //        {
-        //            item.gameObject.SetActive(true);
-        //        }
-        //        break;
-        //}
     }
-
-    //private void OnTouchContent(int index)
-    //{
-    //    for (int i = 0; i < _contents.Length; i++)
-    //    {
-    //        _contents[i].Select(index == i);
-    //    }
-
-    //    //UserDataManager.inst.SelectFrame((FRAME_TYPE)index);
-
-    //    CurPriceCheck();
-    //}
 
     private void OnClickPlus()
     {
@@ -330,7 +300,9 @@ public class UP_SelectFrame : UP_BaseSelectContent, IPageTimeLimit
         selectableFrameKeys = _frameData.ServiceFrame.Code[UserDataManager.Instance.selectedContentKey].SelectFrames;
         _curAmount = _frameData.ServiceFrame.Code[UserDataManager.Instance.selectedContentKey].DefaultSellAmount;
 
-        //set price
+        ResetContents();
+
+        // set price by reset content data
         PriceConfig priceConfig = _allPriceDic[selectableFrameKeys[0]];
 
         _maxPrintAmount = priceConfig.priceNum;
@@ -354,19 +326,8 @@ public class UP_SelectFrame : UP_BaseSelectContent, IPageTimeLimit
             }
         }
 
-        ResetContents();
         CurAmountCheck();
         CurPriceCheck();
-
-        //UC_SelectableContent firstSelectable = GetComponentInChildren<UC_SelectableContent>(false);
-
-        //for (int i = 0; i < _contents.Length; i++)
-        //{
-        //    if (firstSelectable == _contents[i])
-        //    {
-        //        OnTouchContent(i);
-        //    }
-        //}
     }
 
     //여기서부터 다시 진행
@@ -375,24 +336,45 @@ public class UP_SelectFrame : UP_BaseSelectContent, IPageTimeLimit
         _isSorting = AdminManager.Instance.FrameData.ServiceFrame.Sorting.ToLower() == StringCacheManager.Instance.SortingSpecified;
         _frameData = AdminManager.Instance.FrameData;
         _isChromakeyUse = bool.Parse(AdminManager.Instance.ChromakeyFrame.Config["UsePage"].value1.ToLower());
-
-        foreach (var item in _frameData.Definition)
+        
+        foreach (var item in _frameData.Common.Code)
         {
             GameObject frameObj = Instantiate(_framePrefab, _tempFrameContainer);
             UC_SelectableContent frame = frameObj.GetComponent<UC_SelectableContent>();
-            frame.SetThumbnail(item.Value[0].ThumbnailSelect_data, item.Value[0].ThumbnailUnselect_data);
-            frame.SetKey(item.Key);
-            frame.pointerDownAction += () => OnTouchContent(item.Key, item.Value[0].FrameType);
+            FRAME_TYPE type = FRAME_TYPE.FRAME_1;
+            switch (item.Key)
+            {
+                case StringCacheManager.frame1:
+                    type = FRAME_TYPE.FRAME_1;
+                    break;
+                case StringCacheManager.frame2:
+                    type = FRAME_TYPE.FRAME_2;
+                    break;
+                case StringCacheManager.frame4:
+                    type = FRAME_TYPE.FRAME_4;
+                    break;
+                case StringCacheManager.frame8:
+                    type = FRAME_TYPE.FRAME_8;
+                    break;
+                default:
+                    break;
+            }
+            frame.pointerDownAction += () => OnTouchContent(item.Key, type);
 
-            PriceConfig priceConfig = new PriceConfig();
-            priceConfig.originalPrices = item.Value[0].prices.ToArray();
-            priceConfig.discountPrices = item.Value[0].sellingPrices.ToArray();
-            priceConfig.priceNum = priceConfig.originalPrices.Length;
+            //Tuple<string, string> tupleKey = new Tuple<string, string>(item.Key, UserDataManager.inst.selectedContentKey);
+            //frame.SetThumbnail(item.Value[0].ThumbnailSelect_data, item.Value[0].ThumbnailUnselect_data);
+            //frame.SetKey(item.Key);
+            //frame.pointerDownAction += () => OnTouchContent(item.Key, item.Value[0].FrameType);
+
+            //PriceConfig priceConfig = new PriceConfig();
+            //priceConfig.originalPrices = item.Value[0].prices.ToArray();
+            //priceConfig.discountPrices = item.Value[0].sellingPrices.ToArray();
+            //priceConfig.priceNum = priceConfig.originalPrices.Length;
 
             _allFrameDic.Add(item.Key, frame);
-            _allPriceDic.Add(item.Key, priceConfig);
+            _allPriceDic.Add(item.Key, null);
+            //_allPriceDic.Add(item.Key, priceConfig);
         }
-
         _isContentCreated = true;
     }
 

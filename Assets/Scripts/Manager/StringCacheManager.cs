@@ -37,6 +37,11 @@ public class StringCacheManager : SingletonBehaviour<StringCacheManager>
     private string _sortingSpecified = "specified";
     private string _sortingRandomly = "random";
 
+    public const string frame1 = "FR1X1001";
+    public const string frame2 = "FR2X1001";
+    public const string frame4 = "FR2X2001";
+    public const string frame8 = "FR4X2001";
+
     public string[] loadingTexts => _loadingTexts;
     public string[] loadingTextsWhatIf => _loadingTextsWhatIf;
     public List<string> ProfileWhatIfName => _profileWhatIfName;

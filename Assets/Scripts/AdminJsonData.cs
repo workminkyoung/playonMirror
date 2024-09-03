@@ -395,28 +395,6 @@ namespace ChromakeyFrameData
         public ImageOrderedDic orderedImage;
     }
 
-    //[Serializable]
-    //public class ChromakeyFrameTableEntry
-    //{
-    //    public string Key;
-    //    public int Sequence;
-    //    public string Category;
-    //    public string Korean;
-    //    public string English;
-    //    public string Chinese;
-    //    public string Thumbnail;
-    //    public string Image1;
-    //    public string Image2;
-    //    public string Image3;
-    //    public string Image4;
-    //    public string Image5;
-    //    public string Image6;
-    //    public string Image7;
-    //    public string Image8;
-        
-    //    public Sprite Thumbnail_data;
-    //    public List< Texture2D> Image_data = new List<Texture2D>();
-    //}
     [Serializable]
     public class ImageOrderedDic : SerializableDictionaryBase<int, Texture2D> { }
 }
@@ -457,8 +435,11 @@ namespace FrameData
     public class FrameData
     {
         public Theme Theme;
-        public DefinitionEntryDic Definition;
+        public DefinitionCode Definition;
+        //public DefinitionEntryDic Definition;
         public FrameDefinitionEntryDic DefinitionTuple;
+        public CommonCode Common;
+        public CommonTupleEntryDic CommonTuple;
         public FrameCode ServiceFrame;
     }
 
@@ -469,7 +450,6 @@ namespace FrameData
         public ColorCodeEntryDic ColorCode;
         public OrderedColorCodeEntryDic OrderedColorCode;
     }
-
     [Serializable]
     public class ColorCodeEntry
     {
@@ -481,6 +461,46 @@ namespace FrameData
         public string Sequence;
         public string Thumbnail;
         public Sprite Thumbnail_data;
+    }
+
+    [Serializable]
+    public class CommonCode
+    {
+        public CommonEntryDic Code;
+    }
+
+    [Serializable]
+    public class CommonEntry
+    {
+        public string Code;
+        public string Service;
+        public FRAME_TYPE FrameType;
+
+        public string originPrice;
+        public string discountPrice;
+        public int[] originPrice_datas;
+        public int[] discountPrice_datas;
+
+        public string ThumbnailUnselect;
+        public Sprite ThumbnailUnselect_data;
+        public string ThumbnailSelect;
+        public Sprite ThumbnailSelect_data;
+
+        public string Dim1;
+        public string Dim2;
+        public string Dim3;
+        public string Dim4;
+        public string Dim5;
+        public string Dim6;
+        public string Dim7;
+        public string Dim8;
+        public List<Sprite> Dim_datas;
+    }
+
+    [Serializable]
+    public class DefinitionCode
+    {
+        public DefinitionEntryDic Code;
     }
 
     [Serializable]
@@ -508,9 +528,6 @@ namespace FrameData
         // Direction
         public string Direction;
 
-        // Shoot Rate
-        public string ShootRate;
-
         // Date format
         public string DateFormat;
 
@@ -533,45 +550,9 @@ namespace FrameData
         public string PicCanvas7;
         public string PicCanvas8;
 
-        // Shooting Dimension
-        public string ShootingDim;
-        public Sprite ShootingDim_data;
-
-        // Prices
-        public int Price1;
-        public int Price2;
-        public int Price3;
-        public int Price4;
-        public int Price5;
-        public int Price6;
-        public int Price7;
-        public int Price8;
-
-        // Selling Prices
-        public int sellingPrice1;
-        public int sellingPrice2;
-        public int sellingPrice3;
-        public int sellingPrice4;
-        public int sellingPrice5;
-        public int sellingPrice6;
-        public int sellingPrice7;
-        public int sellingPrice8;
-
-        // Origin Crop Rate
-        public string OriginCropRate;
-
-        // Thumbnails
-        public string ThumbnailSelect;
-        public Sprite ThumbnailSelect_data;
-        public string ThumbnailUnselect;
-        public Sprite ThumbnailUnselect_data;
-
         public List<FrameRectTransform> picRects;
         public List<FrameRectTransform> dateRects;
         public List<FrameRectTransform> qrRects;
-
-        public List<int> prices;
-        public List<int> sellingPrices;
     }
 
     [Serializable]
@@ -610,16 +591,25 @@ namespace FrameData
         public List<string> SelectFrames;
     }
 
+    // Theme
     [Serializable]
     public class FrameCodeEntryDic : SerializableDictionaryBase<string, CodeEntry> { }
-    [Serializable]
-    public class DefinitionEntryDic : SerializableDictionaryBase<string, List<DefinitionEntry>> { }
     [Serializable]
     public class ColorCodeEntryDic : SerializableDictionaryBase<string, ColorCodeEntry> { }
     [Serializable]
     public class OrderedColorCodeEntryDic : SerializableDictionaryBase<int, ColorCodeEntry> { }
+
+    // Common
+    [Serializable]
+    public class CommonEntryDic : SerializableDictionaryBase<string, List<CommonEntry>> { }
+    [Serializable]
+    public class CommonTupleEntryDic : SerializableDictionaryBase<Tuple<string, string>, CommonEntry> { }
     //[Serializable]
-    //public class FrameEntryDic : SerializableDictionaryBase<string, FrameEntry> { }
+    //public class FrameCommonEntryDic : SerializableDictionaryBase<string, CommonEntryDic> { }
+
+    // Frame
+    [Serializable]
+    public class DefinitionEntryDic : SerializableDictionaryBase<string, List<DefinitionEntry>> { }
     [Serializable]
     public class FrameDefinitionServiceColorDic : SerializableDictionaryBase<Tuple<string, string>, DefinitionEntry> { }
     [Serializable]

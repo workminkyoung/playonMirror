@@ -66,6 +66,9 @@ public class UP_Payment : UP_BasePage
     [SerializeField]
     private FrameTypeTextureDic _bgThemeImageDict;
 
+    [SerializeField]
+    private Tuple<string, string> selectedContent;
+
     protected int _maxTime;
     protected int _failTime;
     private Coroutine _timerCoroutine = null;
@@ -347,7 +350,9 @@ public class UP_Payment : UP_BasePage
             _bgTheme.SetActive(false);
         }
 
-        _frameImg.sprite = UserDataManager.inst.selectedFrameDefinition.ThumbnailUnselect_data;
+        selectedContent = new Tuple<string, string>(UserDataManager.inst.selectedFrameKey, UserDataManager.inst.selectedContentKey);
+
+        _frameImg.sprite = AdminManager.Instance.FrameData.CommonTuple[selectedContent].ThumbnailUnselect_data;
         _frameShadowImg.sprite = UserDataManager.inst.selectedFrameDefinition.FrameType == FRAME_TYPE.FRAME_8 ? _frameShadowSprites[1] : _frameShadowSprites[0];
         _frameShadowImg.SetNativeSize();
         _selectedFrameText.text = UserDataManager.inst.curPicAmount.ToString("# 장");

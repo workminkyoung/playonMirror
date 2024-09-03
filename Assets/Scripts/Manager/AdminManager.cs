@@ -8,6 +8,7 @@ using UnityEngine;
 using System;
 using ShootingScreenData;
 using System.Linq;
+using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class AdminManager : SingletonBehaviour<AdminManager>
 {
@@ -187,6 +188,7 @@ public class AdminManager : SingletonBehaviour<AdminManager>
 
     private void DownloadFrameData()
     {
+        // Theme Data
         bool isColorCodeSorting = _frameData.Theme.Sorting.ToLower() == StringCacheManager.inst.SortingSpecified.ToLower() ? true : false;
         _frameData.DefinitionTuple = new FrameDefinitionEntryDic();
         _frameData.Theme.OrderedColorCode = new OrderedColorCodeEntryDic();
@@ -209,10 +211,80 @@ public class AdminManager : SingletonBehaviour<AdminManager>
             _frameData.Theme.OrderedColorCode[int.Parse(item.Value.Sequence.ToLower())] = item.Value;
 
         }
-
         UserDataManager.Instance.SetDefaultFrameColor(_frameData.Theme.OrderedColorCode[1].key);
 
-        foreach (var item in _frameData.Definition)
+        // Common
+        _frameData.CommonTuple = new CommonTupleEntryDic();
+        
+        foreach (var item in _frameData.Common.Code)
+        {
+            for (int i = 0; i < item.Value.Count; i++)
+            {
+                int index = i;
+                item.Value[i].Dim_datas = new List<Sprite>();
+
+                item.Value[i].originPrice_datas = ParsePriceData(item.Value[i].originPrice);
+                item.Value[i].discountPrice_datas = ParsePriceData(item.Value[i].discountPrice);
+
+                if (!string.IsNullOrEmpty(item.Value[i].ThumbnailUnselect))
+                {
+                    ApiCall.Instance.GetSequently<Sprite>
+                        (item.Value[i].ThumbnailUnselect, (sprite) => { item.Value[index].ThumbnailUnselect_data = sprite; }, true);
+                }
+                if (!string.IsNullOrEmpty(item.Value[i].ThumbnailSelect))
+                {
+                    ApiCall.Instance.GetSequently<Sprite>
+                        (item.Value[i].ThumbnailSelect, (sprite) => { item.Value[index].ThumbnailSelect_data = sprite; }, true);
+                }
+
+                if (!string.IsNullOrEmpty(item.Value[i].Dim1))
+                {
+                    ApiCall.Instance.GetSequently<Sprite>
+                        (item.Value[i].Dim1, (sprite) => { item.Value[index].Dim_datas.Add(sprite); }, true);
+                }
+                if (!string.IsNullOrEmpty(item.Value[i].Dim2))
+                {
+                    ApiCall.Instance.GetSequently<Sprite>
+                        (item.Value[i].Dim2, (sprite) => { item.Value[index].Dim_datas.Add(sprite); }, true);
+                }
+                if (!string.IsNullOrEmpty(item.Value[i].Dim3))
+                {
+                    ApiCall.Instance.GetSequently<Sprite>
+                        (item.Value[i].Dim3, (sprite) => { item.Value[index].Dim_datas.Add(sprite); }, true);
+                }
+                if (!string.IsNullOrEmpty(item.Value[i].Dim4))
+                {
+                    ApiCall.Instance.GetSequently<Sprite>
+                        (item.Value[i].Dim4, (sprite) => { item.Value[index].Dim_datas.Add(sprite); }, true);
+                }
+                if (!string.IsNullOrEmpty(item.Value[i].Dim5))
+                {
+                    ApiCall.Instance.GetSequently<Sprite>
+                        (item.Value[i].Dim5, (sprite) => { item.Value[index].Dim_datas.Add(sprite); }, true);
+                }
+                if (!string.IsNullOrEmpty(item.Value[i].Dim6))
+                {
+                    ApiCall.Instance.GetSequently<Sprite>
+                        (item.Value[i].Dim6, (sprite) => { item.Value[index].Dim_datas.Add(sprite); }, true);
+                }
+                if (!string.IsNullOrEmpty(item.Value[i].Dim7))
+                {
+                    ApiCall.Instance.GetSequently<Sprite>
+                        (item.Value[i].Dim7, (sprite) => { item.Value[index].Dim_datas.Add(sprite); }, true);
+                }
+                if (!string.IsNullOrEmpty(item.Value[i].Dim8))
+                {
+                    ApiCall.Instance.GetSequently<Sprite>
+                        (item.Value[i].Dim8, (sprite) => { item.Value[index].Dim_datas.Add(sprite); }, true);
+                }
+
+                Tuple<string, string> tupleKey = new Tuple<string, string>(item.Key, item.Value[index].Service);
+                _frameData.CommonTuple[tupleKey] = item.Value[i];
+            }
+        }
+        
+        // Definition Data
+        foreach (var item in _frameData.Definition.Code)
         {
             _frameData.DefinitionTuple[item.Key] = new FrameDefinitionServiceColorDic();
             for (int i = 0; i < item.Value.Count; i++)
@@ -222,22 +294,20 @@ public class AdminManager : SingletonBehaviour<AdminManager>
                 item.Value[i].picRects = new List<FrameRectTransform>();
                 item.Value[i].dateRects = new List<FrameRectTransform>();
                 item.Value[i].qrRects = new List<FrameRectTransform>();
-                item.Value[i].prices = new List<int>();
-                item.Value[i].sellingPrices = new List<int>();
 
                 item.Value[i].key = item.Key;
                 switch (item.Key)
                 {
-                    case "FR1X1001":
+                    case StringCacheManager.frame1:
                         item.Value[i].FrameType = FRAME_TYPE.FRAME_1;
                         break;
-                    case "FR2X1001":
+                    case StringCacheManager.frame2:
                         item.Value[i].FrameType = FRAME_TYPE.FRAME_2;
                         break;
-                    case "FR2X2001":
+                    case StringCacheManager.frame4:
                         item.Value[i].FrameType = FRAME_TYPE.FRAME_4;
                         break;
-                    case "FR4X2001":
+                    case StringCacheManager.frame8:
                         item.Value[i].FrameType = FRAME_TYPE.FRAME_8;
                         break;
                     default:
@@ -297,24 +367,6 @@ public class AdminManager : SingletonBehaviour<AdminManager>
                     item.Value[i].qrRects.Add(ParseRectData(item.Value[i].QRRect_2));
                 }
 
-                item.Value[i].prices.Add(item.Value[i].Price1);
-                item.Value[i].prices.Add(item.Value[i].Price2);
-                item.Value[i].prices.Add(item.Value[i].Price3);
-                item.Value[i].prices.Add(item.Value[i].Price4);
-                item.Value[i].prices.Add(item.Value[i].Price5);
-                item.Value[i].prices.Add(item.Value[i].Price6);
-                item.Value[i].prices.Add(item.Value[i].Price7);
-                item.Value[i].prices.Add(item.Value[i].Price8);
-
-                item.Value[i].sellingPrices.Add(item.Value[i].sellingPrice1);
-                item.Value[i].sellingPrices.Add(item.Value[i].sellingPrice2);
-                item.Value[i].sellingPrices.Add(item.Value[i].sellingPrice3);
-                item.Value[i].sellingPrices.Add(item.Value[i].sellingPrice4);
-                item.Value[i].sellingPrices.Add(item.Value[i].sellingPrice5);
-                item.Value[i].sellingPrices.Add(item.Value[i].sellingPrice6);
-                item.Value[i].sellingPrices.Add(item.Value[i].sellingPrice7);
-                item.Value[i].sellingPrices.Add(item.Value[i].sellingPrice8);
-
                 // Download Texture Data
                 if (!string.IsNullOrEmpty(item.Value[i].BgImage))
                 {
@@ -326,21 +378,6 @@ public class AdminManager : SingletonBehaviour<AdminManager>
                     ApiCall.Instance.GetSequently<Sprite>
                         (item.Value[index].LayerImage, (texture) => { item.Value[index].LayerImage_data = texture; }, true);
                 }
-                if (!string.IsNullOrEmpty(item.Value[i].ShootingDim))
-                {
-                    ApiCall.Instance.GetSequently<Sprite>
-                        (item.Value[index].ShootingDim, (texture) => { item.Value[index].ShootingDim_data = texture; }, true);
-                }
-                if (!string.IsNullOrEmpty(item.Value[i].ThumbnailSelect))
-                {
-                    ApiCall.Instance.GetSequently<Sprite>
-                        (item.Value[index].ThumbnailSelect, (texture) => { item.Value[index].ThumbnailSelect_data = texture; }, true);
-                }
-                if (!string.IsNullOrEmpty(item.Value[i].ThumbnailUnselect))
-                {
-                    ApiCall.Instance.GetSequently<Sprite>
-                        (item.Value[index].ThumbnailUnselect, (texture) => { item.Value[index].ThumbnailUnselect_data = texture; }, true);
-                }
 
                 Tuple<string, string> tupleKey = new Tuple<string, string>(item.Value[index].Service, item.Value[index].ColorCode);
                 _frameData.DefinitionTuple[item.Key][tupleKey] = item.Value[index];
@@ -348,6 +385,7 @@ public class AdminManager : SingletonBehaviour<AdminManager>
 
         }
 
+        // Each Frame Service Data
         foreach (var item in _frameData.ServiceFrame.Code)
         {
             item.Value.SelectFrames = new List<string>();
@@ -745,6 +783,24 @@ public class AdminManager : SingletonBehaviour<AdminManager>
         }
 
         return rectData;
+    }
+
+    int[] ParsePriceData(string data)
+    {
+        if(string.IsNullOrEmpty(data))
+        {
+            return null;
+        }
+
+        string trimmedInput = data.Replace(" ", "");
+        string[] splitArray = trimmedInput.Split(',');
+        int[] prices = new int[splitArray.Length];
+        for (int i = 0; i < splitArray.Length; i++)
+        {
+            prices[i] = int.Parse(splitArray[i]);
+        }
+
+        return prices;
     }
 
     public void DownloadChromaKeyData()

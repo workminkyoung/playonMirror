@@ -362,11 +362,11 @@ public class UC_FrameArea : UC_BaseComponent
 
         FrameData.DefinitionEntry definition = null;
         string frameType = UserDataManager.Instance.selectedFrameKey;
-        List<FrameData.DefinitionEntry> entries = AdminManager.Instance.FrameData.Definition[frameType];
+        List<FrameData.DefinitionEntry> entries = AdminManager.Instance.FrameData.Definition.Code[frameType];
 
         foreach (var item in entries)
         {
-            if(item.ColorCode == _frameColor)
+            if (item.ColorCode == _frameColor)
             {
                 definition = item;
                 break;
