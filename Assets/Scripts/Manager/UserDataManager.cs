@@ -23,6 +23,8 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
     private string _selectedContentKey;//CA, PR, BT...
     [SerializeField]
     private string _selectedSubContentKey;//CA00001...
+    [SerializeField]
+    private int _curShootTime;
 
     // Frame Key Data
     [SerializeField]
@@ -70,6 +72,7 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
     public string selectedSubContentKey => _selectedSubContentKey;
     public string selectedContentKey => _selectedContentKey;
     public int curPrice => _curPrice;
+    public int curShootTime => _curShootTime;
 
     // Frame Key Data
     public string selectedFrameKey => _selectedFrameKey;
@@ -106,7 +109,9 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
         _selectedLutKey = _defaultLutKey;
         _selectedFrameColorKey = _defaultFrameColorKey;
         _frameRatioType = FRAME_RATIO_TYPE.HORIZONTAL;
-        _curPicAmount = Mathf.Min( ConfigData.config.firstPrintAmount, PhotoPaperCheckModule.GetRemainPhotoPaper());
+        //default 사진 개수 2장으로 설정
+        //_curPicAmount = Mathf.Min( ConfigData.config.firstPrintAmount, PhotoPaperCheckModule.GetRemainPhotoPaper());
+        _curPicAmount = Mathf.Min(2, PhotoPaperCheckModule.GetRemainPhotoPaper());
         _selectedChromaKeyNum = 0;
         _isChromaKeyOn = false;
     }
@@ -124,6 +129,11 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
         {
             SetFrameRatioType(FRAME_RATIO_TYPE.HORIZONTAL);
         }
+    }
+
+    public void SetCurrentShootTime(int time)
+    {
+        _curShootTime = time;
     }
 
     public void SelectFrameKey(string key)

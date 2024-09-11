@@ -39,7 +39,7 @@ public class UP_ShootWhatIf : UP_Shoot
         //_guideGrid.SetActivate(false);
         _width = PlayOnProperties.crop3x4_width;
         _height = PlayOnProperties.crop3x4_height;
-        ConfigData.config.photoTime = ConfigData.config.photoTime_profile;
+        UserDataManager.Instance.SetCurrentShootTime(AdminManager.Instance.BasicSetting.Config.WFShootTime);
         SaveCapturePhoto = (tex) => PhotoDataManager.Instance.AddPhotoOrigin(tex);
     }
 
@@ -47,7 +47,7 @@ public class UP_ShootWhatIf : UP_Shoot
     {
         base.StartShoot();
 
-        _shootState.duration = ConfigData.config.photoTime_profile;
+        _shootState.duration = AdminManager.Instance.BasicSetting.Config.WFShootTime;
 
         //start shooting
         if (ConfigData.config.camType == (int)CAMERA_TYPE.DSLR)

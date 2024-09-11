@@ -1096,7 +1096,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4570291030867166991, guid: 35587569804474847b16cca4730d41d2, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 50
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4570291030867166991, guid: 35587569804474847b16cca4730d41d2, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -2937,6 +2937,50 @@ PrefabInstance:
     - target: {fileID: 680794743468065718, guid: 65aec3ab02345f646b19e880d75467f7, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -121.50006
+      objectReference: {fileID: 0}
+    - target: {fileID: 1193381022913175508, guid: 65aec3ab02345f646b19e880d75467f7, type: 3}
+      propertyPath: _selectedPhotoIndexDic.reorderableList.canAdd
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1193381022913175508, guid: 65aec3ab02345f646b19e880d75467f7, type: 3}
+      propertyPath: _selectedPhotoIndexDic.reorderableList.canRemove
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1193381022913175508, guid: 65aec3ab02345f646b19e880d75467f7, type: 3}
+      propertyPath: _selectedPhotoIndexDic.reorderableList.draggable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1193381022913175508, guid: 65aec3ab02345f646b19e880d75467f7, type: 3}
+      propertyPath: _selectedPhotoIndexDic.reorderableList.expandable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1193381022913175508, guid: 65aec3ab02345f646b19e880d75467f7, type: 3}
+      propertyPath: _selectedPhotoIndexDic.reorderableList.slideEasing
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1193381022913175508, guid: 65aec3ab02345f646b19e880d75467f7, type: 3}
+      propertyPath: _selectedPhotoIndexDic.reorderableList.footerHeight
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 1193381022913175508, guid: 65aec3ab02345f646b19e880d75467f7, type: 3}
+      propertyPath: _selectedPhotoIndexDic.reorderableList.headerHeight
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 1193381022913175508, guid: 65aec3ab02345f646b19e880d75467f7, type: 3}
+      propertyPath: _selectedPhotoIndexDic.reorderableList.label.m_Text
+      value: Keys
+      objectReference: {fileID: 0}
+    - target: {fileID: 1193381022913175508, guid: 65aec3ab02345f646b19e880d75467f7, type: 3}
+      propertyPath: _selectedPhotoIndexDic.reorderableList.verticalSpacing
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1193381022913175508, guid: 65aec3ab02345f646b19e880d75467f7, type: 3}
+      propertyPath: _selectedPhotoIndexDic.reorderableList.multipleSelection
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1193381022913175508, guid: 65aec3ab02345f646b19e880d75467f7, type: 3}
+      propertyPath: _selectedPhotoIndexDic.reorderableList.showDefaultBackground
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1387127323512252288, guid: 65aec3ab02345f646b19e880d75467f7, type: 3}
       propertyPath: m_AnchorMax.y

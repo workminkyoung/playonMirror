@@ -113,7 +113,7 @@ public class UP_Print : UP_BasePage
     IEnumerator WaitVideoLoad()
     {
         yield return new WaitForSecondsRealtime(0.5f);
-        ffmpegManager.Instance.OnRecording(TextData.vidpath, ConfigData.config.photoTime - 1, () =>
+        ffmpegManager.Instance.OnRecording(TextData.vidpath, UserDataManager.Instance.curShootTime - 1, () =>
         {
             //StartCoroutine(WaitAfterPrinting());
             _synchFrame.OnEndSaveImage = null;

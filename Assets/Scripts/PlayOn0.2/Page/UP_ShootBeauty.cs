@@ -42,11 +42,11 @@ public class UP_ShootBeauty : UP_Shoot
     {
         base.OnPageEnable();
 
-        _shootState.duration = ConfigData.config.photoTime_beauty;
+        UserDataManager.Instance.SetCurrentShootTime(AdminManager.Instance.BasicSetting.Config.BTShootTime);
+        _shootState.duration = AdminManager.Instance.BasicSetting.Config.BTShootTime;
         //_guideGrid.SetSize(PhotoDataManager.inst.isLandscape);
         _width = PlayOnProperties.crop4x3_width;
         _height = PlayOnProperties.crop4x3_height;
-        ConfigData.config.photoTime = ConfigData.config.photoTime_beauty;
         SaveCapturePhoto = (tex) => PhotoDataManager.Instance.AddPhotoOrigin(tex);
     }
 

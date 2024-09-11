@@ -264,9 +264,21 @@ namespace BasicData
         public string OtherMenu;//꾸미기 화면
         public int OtherMenu_data;
 
+        // 촬영 시간
+        public int CAShootTime;
+        public int PRShootTime;
+        public int WFShootTime;
+        public int BTShootTime;
+
         // QR 인화 사용여부 데이터
         public string DefaultUsed; // 기본상태
         public string OptionalUse; // QR 인화 체크박스 사용여부
+
+        // 약관 관리
+        public bool Age14TermUse;
+        public bool Age14TermUsed;
+        public bool PaymentTermUse;
+        public bool PaymentTermUsed;
 
         public string BGImage;
         public Sprite BGImage_data;
@@ -276,15 +288,11 @@ namespace BasicData
         public string StartImage;
         public Sprite StartImage_data;
         public string VideoVolume;
-        public string Age14TermUse;
-        public string Age14TermUsed;
         public string PlayShotMovie;
         public string PromotionImage;
         public Texture2D PromotionImage_data;
         public string PromotionVideo;
         public string PromotionVideo_path;
-        public string PaymentTermUse;
-        public string PaymentTermUsed;
         public string PrintErrorImage;
         public Sprite PrintErrorImage_data;
         public string StartMediaVideo;

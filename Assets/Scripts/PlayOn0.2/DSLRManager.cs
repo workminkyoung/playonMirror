@@ -170,7 +170,7 @@ public class DSLRManager : SingletonBehaviour<DSLRManager>
         while (_loadPhotos.Count < _loadCountMax)
         {
             //완전히 생성되기 전까지 기다리기
-            yield return new WaitForSecondsRealtime(ConfigData.config.photoTime + 3);
+            yield return new WaitForSecondsRealtime(UserDataManager.Instance.curShootTime + 3);
             string[] files = Directory.EnumerateFiles(TextData.dslrPhotoPath, "*.jpg").ToArray();
 
             if (files.Count() > _curLoadCount)
@@ -194,7 +194,7 @@ public class DSLRManager : SingletonBehaviour<DSLRManager>
                 }
             }
         }
-
+        
         CustomLogger.Log("loaded all");
         PhotoDataManager.Instance.SetDslrPhotos(_listLoadPhotos);
         OnEndLoadAllTexture?.Invoke();

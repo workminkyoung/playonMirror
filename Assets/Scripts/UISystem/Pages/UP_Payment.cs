@@ -350,6 +350,9 @@ public class UP_Payment : UP_BasePage
             _bgTheme.SetActive(false);
         }
 
+        _childToggle.gameObject.SetActive(AdminManager.Instance.BasicSetting.Config.Age14TermUse);
+        _agreeToggle.gameObject.SetActive(AdminManager.Instance.BasicSetting.Config.PaymentTermUse);
+
         selectedContent = new Tuple<string, string>(UserDataManager.inst.selectedFrameKey, UserDataManager.inst.selectedContentKey);
 
         _frameImg.sprite = AdminManager.Instance.FrameData.CommonTuple[selectedContent].ThumbnailUnselect_data;
@@ -382,8 +385,14 @@ public class UP_Payment : UP_BasePage
 
     public override void OnPageDisable()
     {
-        _childToggle.isOn = ConfigData.config.childDefaultCheck;
-        _agreeToggle.isOn = ConfigData.config.policyDefaultCheck;
+        if (_childToggle.gameObject.activeSelf)
+        {
+            _childToggle.isOn = AdminManager.Instance.BasicSetting.Config.Age14TermUsed;
+        }
+        if (_agreeToggle.gameObject.activeSelf)
+        {
+            _agreeToggle.isOn = AdminManager.Instance.BasicSetting.Config.PaymentTermUsed;
+        }
 
         OnChildToggleChanged(_childToggle.isOn);
         OnAgreeToggleChanged(_agreeToggle.isOn);
@@ -391,8 +400,14 @@ public class UP_Payment : UP_BasePage
 
     protected override void OnPageReset()
     {
-        _childToggle.isOn = ConfigData.config.childDefaultCheck;
-        _agreeToggle.isOn = ConfigData.config.policyDefaultCheck;
+        if (_childToggle.gameObject.activeSelf)
+        {
+            _childToggle.isOn = AdminManager.Instance.BasicSetting.Config.Age14TermUsed;
+        }
+        if (_agreeToggle.gameObject.activeSelf)
+        {
+            _agreeToggle.isOn = AdminManager.Instance.BasicSetting.Config.PaymentTermUsed;
+        }
 
         OnChildToggleChanged(_childToggle.isOn);
         OnAgreeToggleChanged(_agreeToggle.isOn);

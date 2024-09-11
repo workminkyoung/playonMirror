@@ -46,6 +46,8 @@ public class UP_DecoSelectSticker : UP_DecoratePageBase
     private List<string> _categories;
     [SerializeField]
     private List<int> _groups;
+    [SerializeField]
+    private int _stickerMaxCount = 100;
 
     private Dictionary<int, GameObject> _stickerAreas = new Dictionary<int, GameObject>();
 
@@ -273,7 +275,7 @@ public class UP_DecoSelectSticker : UP_DecoratePageBase
             _createdStickers.RemoveAt(i);
         }
 
-        if(_createdStickers.Count >= ConfigData.config.stickerMaxCount)
+        if(_createdStickers.Count >= _stickerMaxCount)
         {
             // 스티커 최대 갯수 초과
             (pageController as PC_Main).globalPage.OpenToast("스티커 최대 갯수에 도달했습니다", 3);
