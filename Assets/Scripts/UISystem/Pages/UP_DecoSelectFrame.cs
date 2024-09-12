@@ -38,10 +38,6 @@ public class UP_DecoSelectFrame : UP_DecoratePageBase
     private Sprite _toggleOn;
     [SerializeField]
     private Sprite _toggleOff;
-    [SerializeField]
-    private bool _isQRUse = false;
-    [SerializeField]
-    private bool _qrDefaultUsed = false;
 
     private UC_SelectableContent _selectedColor = null;
 
@@ -58,9 +54,6 @@ public class UP_DecoSelectFrame : UP_DecoratePageBase
 
     private void OnChangeQRToggle(bool isOn)
     {
-        if (!_isQRUse)
-            return;
-
         _qrToggleImage.sprite = isOn ? _toggleOn : _toggleOff;
         UserDataManager.Instance.SetIsQRPrint(isOn);
     }
@@ -115,10 +108,6 @@ public class UP_DecoSelectFrame : UP_DecoratePageBase
 
     private void CreateContent()
     {
-        // Check Used
-        _isQRUse = bool.Parse(AdminManager.Instance.BasicSetting.Config.OptionalUse.ToLower());
-        _qrDefaultUsed = bool.Parse(AdminManager.Instance.BasicSetting.Config.DefaultUsed.ToLower());
-
         // Create Frame Color
         if (AdminManager.Instance.FrameData.Theme.Sorting.ToLower() == StringCacheManager.inst.SortingSpecified)
         {
@@ -177,9 +166,9 @@ public class UP_DecoSelectFrame : UP_DecoratePageBase
             _prevBtn.interactable = true;
         }
 
-        _qrToggle.isOn = _qrDefaultUsed;
-        _qrToggle.gameObject.SetActive(_isQRUse);
-        UserDataManager.Instance.SetIsQRPrint(_qrDefaultUsed);
+        _qrToggle.isOn = AdminManager.Instance.BasicSetting.Config.DefaultUsed;
+        _qrToggle.gameObject.SetActive(AdminManager.Instance.BasicSetting.Config.OptionalUse);
+        UserDataManager.Instance.SetIsQRPrint(AdminManager.Instance.BasicSetting.Config.DefaultUsed);
 
         for (int i = 0; i < _frameColors.Count; i++)
         {

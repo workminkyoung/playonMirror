@@ -271,8 +271,8 @@ namespace BasicData
         public int BTShootTime;
 
         // QR 인화 사용여부 데이터
-        public string DefaultUsed; // 기본상태
-        public string OptionalUse; // QR 인화 체크박스 사용여부
+        public bool DefaultUsed; // 기본상태
+        public bool OptionalUse; // QR 인화 체크박스 사용여부
 
         // 약관 관리
         public bool Age14TermUse;

@@ -340,6 +340,8 @@ public class UP_Payment : UP_BasePage
         if (!_pageController)
             return;
 
+        //버튼 디폴트상태 트루일때
+
         SetContent();
         if (UserDataManager.Instance.isChromaKeyOn)
         {
@@ -380,37 +382,55 @@ public class UP_Payment : UP_BasePage
             _warnBtn.gameObject.SetActive(true);
         }
 
+        if (AdminManager.Instance.isAllDownloaded)
+        {
+            if (_childToggle.gameObject.activeSelf)
+            {
+                _childToggle.isOn = AdminManager.Instance.BasicSetting.Config.Age14TermUsed;
+            }
+            if (_agreeToggle.gameObject.activeSelf)
+            {
+                _agreeToggle.isOn = AdminManager.Instance.BasicSetting.Config.PaymentTermUsed;
+            }
+        }
+
+        OnChildToggleChanged(_childToggle.isOn);
+        OnAgreeToggleChanged(_agreeToggle.isOn);
+
         _timerCoroutine = StartCoroutine(TimerRoutine());
     }
 
     public override void OnPageDisable()
     {
-        if (_childToggle.gameObject.activeSelf)
-        {
-            _childToggle.isOn = AdminManager.Instance.BasicSetting.Config.Age14TermUsed;
-        }
-        if (_agreeToggle.gameObject.activeSelf)
-        {
-            _agreeToggle.isOn = AdminManager.Instance.BasicSetting.Config.PaymentTermUsed;
-        }
+        //if (_childToggle.gameObject.activeSelf)
+        //{
+        //    _childToggle.isOn = AdminManager.Instance.BasicSetting.Config.Age14TermUsed;
+        //}
+        //if (_agreeToggle.gameObject.activeSelf)
+        //{
+        //    _agreeToggle.isOn = AdminManager.Instance.BasicSetting.Config.PaymentTermUsed;
+        //}
 
-        OnChildToggleChanged(_childToggle.isOn);
-        OnAgreeToggleChanged(_agreeToggle.isOn);
+        //OnChildToggleChanged(_childToggle.isOn);
+        //OnAgreeToggleChanged(_agreeToggle.isOn);
     }
 
     protected override void OnPageReset()
     {
-        if (_childToggle.gameObject.activeSelf)
-        {
-            _childToggle.isOn = AdminManager.Instance.BasicSetting.Config.Age14TermUsed;
-        }
-        if (_agreeToggle.gameObject.activeSelf)
-        {
-            _agreeToggle.isOn = AdminManager.Instance.BasicSetting.Config.PaymentTermUsed;
-        }
+        //if (AdminManager.Instance.isAllDownloaded)
+        //{
+        //    if (_childToggle.gameObject.activeSelf)
+        //    {
+        //        _childToggle.isOn = AdminManager.Instance.BasicSetting.Config.Age14TermUsed;
+        //    }
+        //    if (_agreeToggle.gameObject.activeSelf)
+        //    {
+        //        _agreeToggle.isOn = AdminManager.Instance.BasicSetting.Config.PaymentTermUsed;
+        //    }
+        //}
 
-        OnChildToggleChanged(_childToggle.isOn);
-        OnAgreeToggleChanged(_agreeToggle.isOn);
+        //OnChildToggleChanged(_childToggle.isOn);
+        //OnAgreeToggleChanged(_agreeToggle.isOn);
     }
 
     [Serializable]
