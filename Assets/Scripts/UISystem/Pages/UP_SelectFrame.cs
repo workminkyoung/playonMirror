@@ -6,8 +6,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Vivestudios.UI;
-using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
-using static UnityEditor.Progress;
 
 public class UP_SelectFrame : UP_BaseSelectContent, IPageTimeLimit
 {
