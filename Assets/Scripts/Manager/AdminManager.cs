@@ -737,8 +737,9 @@ public class AdminManager : SingletonBehaviour<AdminManager>
     {
         FrameRectTransform rectData = new FrameRectTransform();
 
-        string removeEmpty = data.Replace(" ", string.Empty).Replace("\r", string.Empty).Replace("\t", string.Empty);
-        string pattern = @"Pos\.X:(?<posX>[-\d.]+)\s*Pos\.Y:(?<posY>[-\d.]+)\]\[Width:(?<width>[-\d.]+)\s*Height:(?<height>[-\d.]+)\]Anchors:Min:\[X:(?<AnchorMinX>[-\d.]+)\s*Y:(?<AnchorMinY>[-\d.]+)\]Max:\[X:(?<AnchorMaxX>[-\d.]+)\s*Y:(?<AnchorMaxY>[-\d.]+)\]Pivot:\[X:(?<pivotX>[-\d.]+)\s*Y:(?<pivotY>[-\d.]+)\]Rotation:\[X:(?<rotX>[-\d.]+)\s*Y:(?<rotY>[-\d.]+)\s*Z:(?<rotZ>[-\d.]+)\]";
+        string removeEmpty = data.Replace(" ", string.Empty).Replace("\r", string.Empty).Replace("\t", string.Empty).Replace("\n", string.Empty);
+        removeEmpty = removeEmpty.ToLower();
+        string pattern = @"pos\.x:(?<posX>[-\d.]+)\s*pos\.y:(?<posY>[-\d.]+)\]\[width:(?<width>[-\d.]+)\s*height:(?<height>[-\d.]+)\]anchors:min:\[x:(?<AnchorMinX>[-\d.]+)\s*y:(?<AnchorMinY>[-\d.]+)\]max:\[x:(?<AnchorMaxX>[-\d.]+)\s*y:(?<AnchorMaxY>[-\d.]+)\]pivot:\[x:(?<pivotX>[-\d.]+)\s*y:(?<pivotY>[-\d.]+)\]rotation:\[x:(?<rotX>[-\d.]+)\s*y:(?<rotY>[-\d.]+)\s*z:(?<rotZ>[-\d.]+)\]";
 
         Regex regex = new Regex(pattern);
         Match match = regex.Match(removeEmpty);
