@@ -59,8 +59,10 @@ public class LogDataManager : SingletonBehaviour<LogDataManager>
             if (File.Exists(guidFilePath))
             {
                 string loadedGuid = File.ReadAllText(guidFilePath);
-                Debug.Log("Load GUID: " + loadedGuid);
-                return loadedGuid;
+                string cleanGuid = loadedGuid.Replace(" ", string.Empty).Replace("\r", string.Empty).Replace("\t", string.Empty);
+
+                Debug.Log("Load GUID: " + cleanGuid);
+                return cleanGuid;
             }
             else
             {
