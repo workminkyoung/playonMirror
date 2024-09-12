@@ -190,8 +190,11 @@ public class UP_SelectProfilePic : UP_BasePage
         {
             List<Texture2D> originalPics = PhotoDataManager.inst.photoOrigin;
 
+            _imageShield.SetActive(false);
+
             for (int i = 0; i < originalPics.Count; i++)
             {
+                _selectableContents[i]?.SetThumbnailClear(Color.white);
                 _selectableContents[i]?.SetThumbnail(TextureToSprite(originalPics[i]));
             }
         }
