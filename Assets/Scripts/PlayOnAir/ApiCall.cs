@@ -244,6 +244,7 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
         if(_requestCompleted.TrueForAll(x => x))
         {
             CustomLogger.Log("All Google Download completed");
+            AdminManager.Instance.SetAllDownloaded(true);
             GameManager.Instance.globalPage.CloseDownloadLoading();
         }
     }
