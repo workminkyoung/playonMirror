@@ -8,10 +8,6 @@ public class Config
 {
     public int camType;
 
-    //wait times
-    public int shootWarningTime;
-    public int paymentFailTime;
-
     //camera setting
     public int wbIdx;
     public int isoIdx;
@@ -19,10 +15,11 @@ public class Config
     public int tvIdx;
 
     //0 : KICC, 1 : KSNET
-
     public string _comment;
     public int paymentMethod;
     public string KsnetCatID;
+
+    public ChromaKeyConfig chromaKey;
 }
 public static class ConfigData
 {

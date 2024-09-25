@@ -8,5 +8,15 @@
 
     "_comment": "0 : KICC, 1 : KSNET",
     "paymentMethod": 0,
-    "KsnetCatID": "AT0357245A"
+    "KsnetCatID": "AT0357245A",
+
+    "chromaKey": {
+        "isOn": true,
+        "d": 0.5,
+        "t": 0.05000000074505806,
+        "blur": 2,
+        "alphaPow": 3.0,
+        "alphaEdge": 0.0,
+        "color": "#00FF00"
+    }
 }

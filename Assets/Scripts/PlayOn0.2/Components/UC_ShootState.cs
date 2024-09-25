@@ -150,7 +150,7 @@ public class UC_ShootState : MonoBehaviour
 
                 if (!alert)
                 {
-                    if (_duration - (int)_time <= ConfigData.config.shootWarningTime)
+                    if (_duration - (int)_time <= AdminManager.Instance.BasicSetting.Config.ShootWarningTime)
                     {
                         SoundManager.Instance.Play(AUDIO.COUNT);
                         (_parentPage.pageController as PC_Main).globalPage.OpenToast("잠시 후 촬영이 시작됩니다.");

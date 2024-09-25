@@ -269,6 +269,8 @@ namespace BasicData
         public int PRShootTime;
         public int WFShootTime;
         public int BTShootTime;
+        public int ShootWarningTime;
+        public int PaymentFailTime;
 
         // QR 인화 사용여부 데이터
         public bool DefaultUsed; // 기본상태

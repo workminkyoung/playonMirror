@@ -76,8 +76,6 @@ public class UP_Payment : UP_BasePage
 
     public override void InitPage()
     {
-        _failTime = ConfigData.config.paymentFailTime;
-
         foreach (var item in _bgThemeImageDict)
         {
             item.Value.Init();
@@ -87,7 +85,8 @@ public class UP_Payment : UP_BasePage
     public override void ApplyAdminData()
     {
         base.ApplyAdminData();
-        _maxTime = AdminManager.Instance.BasicSetting.Config.PayConfirm_data;//ConfigData.config.paymentPageTime;
+        _maxTime = AdminManager.Instance.BasicSetting.Config.PayConfirm_data;
+        _failTime = AdminManager.Instance.BasicSetting.Config.PaymentFailTime;
     }
 
     public override void BindDelegates()
