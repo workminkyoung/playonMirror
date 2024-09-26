@@ -381,7 +381,7 @@ public class UP_Payment : UP_BasePage
             _warnBtn.gameObject.SetActive(true);
         }
 
-        if (AdminManager.Instance.isAllDownloaded)
+        if (GameManager.Instance.isAdminDownloadSuccess)
         {
             if (_childToggle.gameObject.activeSelf)
             {

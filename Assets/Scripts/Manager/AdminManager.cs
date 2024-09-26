@@ -13,9 +13,6 @@ using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 public class AdminManager : SingletonBehaviour<AdminManager>
 {
     [SerializeField]
-    private bool _isAllDownloaded;
-
-    [SerializeField]
     private ConfigDefaultData _configDefaultData;
     [SerializeField]
     private BubbleData.BubbleData _bubbleData;
@@ -36,7 +33,6 @@ public class AdminManager : SingletonBehaviour<AdminManager>
     private LANGUAGE_TYPE _language = LANGUAGE_TYPE.KOR;
     private string _configDefaultAPI = "http://api.playon-vive.com/machine-admin/machine/latest?uuid=";
 
-    public bool isAllDownloaded => _isAllDownloaded;
     public ConfigDefaultData ConfigDefaultData => _configDefaultData;
     public BubbleData.BubbleData BubbleData => _bubbleData;
     public FilterData.FilterData FilterData => _filterData;
@@ -75,11 +71,6 @@ public class AdminManager : SingletonBehaviour<AdminManager>
         SetChromakeyFrameData();
         SetShootScreenData();
         SetFrameData();
-    }
-
-    public void SetAllDownloaded(bool state)
-    {
-        _isAllDownloaded = state;
     }
 
     private void SetBubbleData ()

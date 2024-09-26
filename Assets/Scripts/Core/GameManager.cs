@@ -22,6 +22,8 @@ public class GameManager : SingletonBehaviour<GameManager>
     private bool _isDiffusionSuccess = true;
     [SerializeField]
     private bool _isQRUploadSuccess = true;
+    [SerializeField]
+    private bool _isAdminDownloadSuccess = false;
 
     public UP_Global globalPage => _globalPage;
     public bool isPaymentOn => _isPaymentOn;
@@ -32,6 +34,7 @@ public class GameManager : SingletonBehaviour<GameManager>
     public bool isInternetReachable => _isInternetReachable;
     public bool isDiffusionSuccess => _isDiffusionSuccess;
     public bool isQRUploadSuccess => _isQRUploadSuccess;
+    public bool isAdminDownloadSuccess => _isAdminDownloadSuccess;
 
     public static Action OnGameLateInitAction;
     public static Action OnGameResetAction;
@@ -75,6 +78,10 @@ public class GameManager : SingletonBehaviour<GameManager>
     {
         _globalPage = page;
     }
+    public void SetAllDownloaded(bool state)
+    {
+        _isAdminDownloadSuccess = state;
+    }
 
     public void ResetGame()
     {
@@ -97,7 +104,6 @@ public class GameManager : SingletonBehaviour<GameManager>
     private static void LateInit()
     {
         OnGameLateInitAction?.Invoke();
-        OnGameResetAction?.Invoke();
     }
 
     #region Initiallize
