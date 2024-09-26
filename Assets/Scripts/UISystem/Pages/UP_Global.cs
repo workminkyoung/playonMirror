@@ -279,6 +279,11 @@ public class UP_Global : UP_BasePage
 
     private void Update()
     {
+        if (!GameManager.inst.isAdminDownloadSuccess)
+        {
+            return;
+        }
+
         if (GameManager.inst.isCameraConnected &&
             GameManager.inst.isPaymentReaderConnected && 
             GameManager.inst.isInternetReachable &&
