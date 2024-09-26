@@ -360,17 +360,25 @@ public class UC_FrameArea : UC_BaseComponent
             return null;
         }
 
-        FrameData.DefinitionEntry definition = null;
-        string frameType = UserDataManager.Instance.selectedFrameKey;
-        List<FrameData.DefinitionEntry> entries = AdminManager.Instance.FrameData.Definition.Code[frameType];
 
-        foreach (var item in entries)
+        FrameData.DefinitionEntry definition = null;
+        try
         {
-            if (item.ColorCode == _frameColor)
+            string frameType = UserDataManager.Instance.selectedFrameKey;
+            List<FrameData.DefinitionEntry> entries = AdminManager.Instance.FrameData.Definition.Code[frameType];
+
+            foreach (var item in entries)
             {
-                definition = item;
-                break;
+                if (item.ColorCode == _frameColor)
+                {
+                    definition = item;
+                    break;
+                }
             }
+        }
+        catch (Exception ex)
+        {
+            CustomLogger.LogException(ex);
         }
 
         return definition;
@@ -428,235 +436,6 @@ public class UC_FrameArea : UC_BaseComponent
             _dateTexts[i].rectTransform.anchoredPosition = entry.dateRects[i].anchoredPosition * printSize;
             _dateTexts[i].characterSpacing = 6;
         }
-
-        /*
-        switch (_frameColor)
-        {
-            case FRAME_COLOR_TYPE.FRAME_WHITE:
-                foreach (var elem in _dateTexts)
-                {
-                    elem.color = Color.black;
-                    elem.font = ResourceCacheManager.inst.GetFrameFont(_frameColor);
-                    elem.alignment = TextAlignmentOptions.MidlineLeft;
-                    elem.characterSpacing = 6;
-                }
-
-                if (_splitLine)
-                {
-                    _splitLine.color = Color.black;
-                    foreach (var elem in _dateTexts)
-                    {
-                        elem.alignment = TextAlignmentOptions.Center;
-                    }
-                }
-                break;
-            case FRAME_COLOR_TYPE.FRAME_BLACK:
-                foreach (var elem in _dateTexts)
-                {
-                    elem.color = Color.white;
-                    elem.font = ResourceCacheManager.inst.GetFrameFont(_frameColor);
-                    elem.alignment = TextAlignmentOptions.MidlineLeft;
-                    elem.characterSpacing = 6;
-                }
-                foreach (Image logo in _logoImgs)
-                {
-                    logo.color = Color.white;
-                }
-
-                if (_splitLine)
-                {
-                    _splitLine.color = Color.white;
-                    foreach (var elem in _dateTexts)
-                    {
-                        elem.alignment = TextAlignmentOptions.Center;
-                    }
-                }
-                break;
-            case FRAME_COLOR_TYPE.FRAME_GREENNIT:
-
-                foreach (var elem in _dateTexts)
-                {
-                    elem.color = Color.white;
-                    elem.font = ResourceCacheManager.inst.GetFrameFont(_frameColor);
-                    elem.alignment = TextAlignmentOptions.MidlineLeft;
-                    elem.characterSpacing = 6;
-                }
-
-                if (_splitLine)
-                {
-                    _splitLine.color = Color.white;
-                }
-                break;
-            case FRAME_COLOR_TYPE.FRAME_RED:
-                foreach (var elem in _dateTexts)
-                {
-                    elem.color = Color.white;
-                    elem.alignment = TextAlignmentOptions.Center;
-                    elem.characterSpacing = 6;
-                }
-
-                if (_splitLine)
-                {
-                    _splitLine.color = Color.white;
-                    foreach (var elem in _dateTexts)
-                    {
-                        elem.alignment = TextAlignmentOptions.MidlineLeft;
-                    }
-                }
-                break;
-            case FRAME_COLOR_TYPE.FRAME_SNOW:
-                foreach (var elem in _dateTexts)
-                {
-                    elem.color = Color.black;
-                    elem.font = ResourceCacheManager.inst.GetFrameFont(_frameColor);
-                    elem.alignment = TextAlignmentOptions.Center;
-                    elem.characterSpacing = 6;
-                }
-
-                if (_splitLine)
-                {
-                    _splitLine.color = Color.white;
-                    foreach (var elem in _dateTexts)
-                    {
-                        elem.alignment = TextAlignmentOptions.MidlineLeft;
-                    }
-                }
-                break;
-            case FRAME_COLOR_TYPE.FRAME_INK:
-                foreach (var elem in _dateTexts)
-                {
-                    elem.color = Color.black;
-                    elem.font = ResourceCacheManager.inst.GetFrameFont(_frameColor);
-                    elem.alignment = TextAlignmentOptions.MidlineRight;
-                    elem.characterSpacing = 0;
-                }
-
-                if (_splitLine)
-                {
-                    _splitLine.color = Color.black;
-                    foreach (var elem in _dateTexts)
-                    {
-                        elem.alignment = TextAlignmentOptions.Center;
-                    }
-                }
-                break;
-            case FRAME_COLOR_TYPE.FRAME_LIMEYELLOW:
-                foreach (var elem in _dateTexts)
-                {
-                    elem.color = Color.black;
-                    elem.font = ResourceCacheManager.inst.GetFrameFont(_frameColor);
-                    elem.alignment = TextAlignmentOptions.MidlineLeft;
-                    elem.characterSpacing = 6;
-                }
-
-                if (_splitLine)
-                {
-                    _splitLine.color = Color.black;
-                    foreach (var elem in _dateTexts)
-                    {
-                        elem.alignment = TextAlignmentOptions.Center;
-                    }
-                }
-                break;
-            case FRAME_COLOR_TYPE.FRAME_SKYBLUE:
-                foreach (var elem in _dateTexts)
-                {
-                    elem.color = Color.black;
-                    elem.font = ResourceCacheManager.inst.GetFrameFont(_frameColor);
-                    elem.alignment = TextAlignmentOptions.MidlineLeft;
-                    elem.characterSpacing = 6;
-                }
-
-                if (_splitLine)
-                {
-                    _splitLine.color = Color.black;
-                    foreach (var elem in _dateTexts)
-                    {
-                        elem.alignment = TextAlignmentOptions.Center;
-                    }
-                }
-                break;
-            case FRAME_COLOR_TYPE.FRAME_GREEN:
-                foreach (var elem in _dateTexts)
-                {
-                    elem.color = Color.white;
-                    elem.font = ResourceCacheManager.inst.GetFrameFont(_frameColor);
-                    elem.alignment = TextAlignmentOptions.MidlineLeft;
-                    elem.characterSpacing = 6;
-                }
-                foreach (var logo in _logoImgs)
-                {
-                    logo.color = Color.clear;
-                }
-
-                if (_splitLine)
-                {
-                    _splitLine.color = Color.black;
-                    foreach (var elem in _dateTexts)
-                    {
-                        elem.alignment = TextAlignmentOptions.Center;
-                    }
-                }
-                break;
-            case FRAME_COLOR_TYPE.FRAME_JTBC_WH:
-                foreach (var elem in _dateTexts)
-                {
-                    elem.color = Color.clear;
-                }
-                foreach (var logo in _logoImgs)
-                {
-                    logo.color = Color.clear;
-                }
-
-                if (_splitLine)
-                {
-                    _splitLine.color = Color.clear;
-                }
-                break;
-            case FRAME_COLOR_TYPE.FRAME_JTBC_BL:
-                foreach (var elem in _dateTexts)
-                {
-                    elem.color = Color.clear;
-                }
-                foreach (var logo in _logoImgs)
-                {
-                    logo.color = Color.clear;
-                }
-
-                if (_splitLine)
-                {
-                    _splitLine.color = Color.clear;
-                }
-                break;
-            case FRAME_COLOR_TYPE.FRAME_JTBC_SI:
-                foreach (var elem in _dateTexts)
-                {
-                    elem.color = Color.clear;
-                }
-                foreach (var logo in _logoImgs)
-                {
-                    logo.color = Color.clear;
-                }
-
-                if (_splitLine)
-                {
-                    _splitLine.color = Color.clear;
-                }
-                break;
-        }
-        //TODO : 프레임 하나씩 인스펙터 적용하기
-
-        foreach (var elem in _dateTexts)
-        {
-            if (_dateTextTransformDic.ContainsKey(_frameColor))
-            {
-                elem.rectTransform.anchorMin = _dateTextTransformDic[_frameColor].anchorMin;
-                elem.rectTransform.anchorMax = _dateTextTransformDic[_frameColor].anchorMax;
-
-                elem.rectTransform.offsetMin = _dateTextTransformDic[_frameColor].offsetMin;
-                elem.rectTransform.offsetMax = _dateTextTransformDic[_frameColor].offsetMax;
-            }
-        }*/
     }
 
     private void UpdateLutEffect()
