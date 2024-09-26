@@ -20,7 +20,7 @@ public static class CustomLogger
 
     private static string GetLogLevelPrefix(LogType logType)
     {
-        return LogTypeToText[LogType.Log];
+        return LogTypeToText[logType];
     }
 
 
