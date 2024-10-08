@@ -1,42 +1,53 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
+
 
 public class ButtonColorChangeTMP : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
-    [SerializeField]
-    public Color onClickColor = new Color32(206, 51, 137, 255);  // 클릭 중일 때의 색상
-    [SerializeField]
-    public int fontSize = 52;
-    //[SerializeField]
-    //public FontStyles fontStyle = FontStyles.Bold;
-
-    private Color originalColor = new Color32(0, 0, 0, 255);           // 원래 색상
+    private Color originalTextColor; 
     private int originalFontSize;
+    private Color pressedTextColor;
     private int pressedFontSize;
-    private TextMeshProUGUI buttonText;  
+    //private ColorBlock backgroundColor;
+    private TextMeshProUGUI buttonText;
+    private RawImage deleteButton;
+    private Button button;
+
     void Start()
     {
-        // 하위에 있는 TextMeshProUGUI 컴포넌트를 찾음
         buttonText = GetComponentInChildren<TextMeshProUGUI>();
-        
+        if (buttonText == null)
+        {
+            deleteButton = GetComponentInChildren<RawImage>();
+        }
+        button = GetComponentInChildren<Button>();
+    }
+    public void SetTextOptions(Color originalColor, int originalSize, Color pressedColor, int pressedSize)
+    {
+        originalTextColor = originalColor;
+        originalFontSize = originalSize;
+        pressedTextColor = pressedColor;
+        pressedFontSize = pressedSize;
+
         if (buttonText != null)
         {
-            originalColor = buttonText.color;  // 원래 색상 저장
+            buttonText.fontSize = originalSize;
+            buttonText.color = originalColor;
         }
-        buttonText.fontSize = fontSize;
-        //buttonText.fontStyle = fontStyle;
-    }
-    public void SetOriginOptions(Color color, int size)
-    {
-        originalColor = color;
-        originalFontSize = size;
+        else
+        {
+            deleteButton.color = originalColor;
+        }
     }
 
-    public void SetPressedOptions(Color color, int size)
+    public void SetBackgroundOptions(Color originalColor, Color pressedColor)
     {
-        onClickColor = color;
-        pressedFontSize = size;
+        ColorBlock colorBlock = button.colors;
+        colorBlock.normalColor = originalColor;
+        colorBlock.pressedColor = pressedColor;
+        button.colors = colorBlock;
     }
 
     // 버튼이 눌렸을 때 호출되는 함수
@@ -44,8 +55,12 @@ public class ButtonColorChangeTMP : MonoBehaviour, IPointerDownHandler, IPointer
     {
         if (buttonText != null)
         {
-            buttonText.color = onClickColor;  // 클릭 중 색상 변경
+            buttonText.color = pressedTextColor;  // 클릭 중 색상 변경
             buttonText.fontSize = pressedFontSize;
+        }
+        else
+        {
+            deleteButton.color = pressedTextColor;
         }
     }
 
@@ -54,8 +69,12 @@ public class ButtonColorChangeTMP : MonoBehaviour, IPointerDownHandler, IPointer
     {
         if (buttonText != null)
         {
-            buttonText.color = originalColor;  // 원래 색상으로 복원
+            buttonText.color = originalTextColor;  // 원래 색상으로 복원
             buttonText.fontSize = originalFontSize;
+        }
+        else
+        {
+            deleteButton.color = originalTextColor;
         }
     }
 }

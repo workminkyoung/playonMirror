@@ -21,15 +21,15 @@ public class UC_Keyboard : MonoBehaviour
 
 
     private MPImage _inputFieldMPImage;
-    public Color _buttonOriginTextColor, _buttonOriginBGColor;
-    public Color _buttonPressedTextColor, _buttonPressedBGColor;
+    public Color _buttonOriginTextColor;
+    public Color _buttonOriginBGColor;
+    public Color _buttonPressedTextColor;
+    public Color _buttonPressedBGColor;
     public TMP_FontAsset _buttonTextFont;
     public int _buttonOriginTextFont;
     public int _buttonPressedTextFont;
-    public string _displayInputField = "";
     public int _errorNotificationOutLineWidth = 6;
-    string _errorNotificationOutlineColor = "#FF4B4B";
-
+    public Color _errorNotificationOutlineColor;
 
     [SerializeField]
     private GameObject Keyboard;
@@ -42,6 +42,7 @@ public class UC_Keyboard : MonoBehaviour
     [SerializeField]
     private GameObject ExitButton;
 
+    public string _displayInputField = "";
     //, int outLineWidth = 6, string OutlineColor = "#FF4B4B"
 
     void Start()
@@ -59,10 +60,12 @@ public class UC_Keyboard : MonoBehaviour
 
         _buttonExitKeyboard = ExitButton.GetComponentInChildren<Button>();
 
+
         for (int i = 0; i < _buttonColorOptions.Count; i++)
         {
-            _buttonColorOptions[i].SetOriginOptions(_buttonOriginTextColor, _buttonOriginTextFont);
-            _buttonColorOptions[i].SetPressedOptions(_buttonPressedTextColor, _buttonPressedTextFont);
+            Debug.Log(i );//+ _buttons[i].GetComponentInChildren<TextMeshProUGUI>().text
+            _buttonColorOptions[i].SetTextOptions(_buttonOriginTextColor, _buttonOriginTextFont, _buttonPressedTextColor, _buttonPressedTextFont);
+            _buttonColorOptions[i].SetBackgroundOptions(_buttonOriginBGColor, _buttonPressedBGColor);
         }
 
         for (int i = 0; i < _buttons.Count; i++)
@@ -111,7 +114,7 @@ public class UC_Keyboard : MonoBehaviour
     void GetInputValue()
     {
         // Coupon number check 하는 코드 작성
-        Debug.Log("Get Coupong number");
+        Debug.Log(_inputField.text);
     }
 
     public void UseKeyboard()
@@ -130,7 +133,7 @@ public class UC_Keyboard : MonoBehaviour
         if (RaiseError)
         {
             _inputFieldMPImage.OutlineWidth = _errorNotificationOutLineWidth;
-            _inputFieldMPImage.OutlineColor = UtilityExtensions.HexToColor(_errorNotificationOutlineColor);
+            _inputFieldMPImage.OutlineColor = _errorNotificationOutlineColor;
         };
     }
 }
