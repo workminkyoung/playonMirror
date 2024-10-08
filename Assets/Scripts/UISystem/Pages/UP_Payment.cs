@@ -65,6 +65,8 @@ public class UP_Payment : UP_BasePage
     private GameObject _bgTheme;
     [SerializeField]
     private FrameTypeTextureDic _bgThemeImageDict;
+    [SerializeField]
+    private Button _openKeyboardBtn;
 
     protected int _maxTime;
     protected int _failTime;
@@ -95,6 +97,7 @@ public class UP_Payment : UP_BasePage
         };
 
         _prevBtn?.onClick.AddListener(OnClickPrev);
+
         _nextBtn?.onClick.AddListener(OnClickPayment);
         _warnBtn?.onClick.AddListener(OnClickWarning);
         _freeWarnBtn?.onClick.AddListener(OnClickWarning);
@@ -103,6 +106,7 @@ public class UP_Payment : UP_BasePage
         _detailBtn?.onClick.AddListener(OnClickDetail);
         _childToggle?.onValueChanged.AddListener(OnChildToggleChanged);
         _agreeToggle?.onValueChanged.AddListener(OnAgreeToggleChanged);
+        _openKeyboardBtn?.onClick.AddListener((_pageController as PC_Main).globalPage.OpenKeyboard);
     }
 
     private void OnDisable()

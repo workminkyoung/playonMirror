@@ -61,6 +61,10 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
     [SerializeField]
     private FrameData.DefinitionEntry _selectedFrameDefinition;
 
+    //coupon Data
+    [SerializeField]
+    private CouponValidataResponse _validataResponse;
+
     public CONTENT_TYPE selectedContent => _selectedContent;
     public FRAME_TYPE selectedFrameType => _selectedFrameType;
     public FRAME_RATIO_TYPE frameRatioType => _frameRatioType;
@@ -229,5 +233,10 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
     public void SetStickerUse(bool use)
     {
         _isStickerUse = use;    
+    }
+    
+    public void SetCouponValidata(CouponValidataResponse couponValidata)
+    {
+        _validataResponse = couponValidata;
     }
 }

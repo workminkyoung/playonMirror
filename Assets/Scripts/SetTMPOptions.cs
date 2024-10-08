@@ -15,7 +15,7 @@ public class ButtonColorChangeTMP : MonoBehaviour, IPointerDownHandler, IPointer
     private RawImage deleteButton;
     private Button button;
 
-    void Start()
+    public void Initsetting()
     {
         buttonText = GetComponentInChildren<TextMeshProUGUI>();
         if (buttonText == null)

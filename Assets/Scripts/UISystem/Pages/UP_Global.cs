@@ -44,6 +44,8 @@ public class UP_Global : UP_BasePage
     private UC_ChromaKeySetting _chromaKeySetting;
     [SerializeField]
     private UC_DownloadLoading _downloadLoading;
+    [SerializeField]
+    private UC_Keyboard _keyboard;
 
     private Coroutine _timerToastCoroutine = null;
     private Coroutine _showToastCoroutine = null;
@@ -72,6 +74,8 @@ public class UP_Global : UP_BasePage
         _versionTextArea.gameObject.SetActive(false);
         _aiAlertPopup.gameObject.SetActive(false);
         _chromaKeySetting.gameObject.SetActive(false);
+        _keyboard.gameObject.SetActive(false);
+        _keyboard.InitSetting();
     }
 
     public override void BindDelegates()
@@ -261,6 +265,10 @@ public class UP_Global : UP_BasePage
         _chromaKeySetting.gameObject.SetActive(true);
     }
 
+    public void OpenKeyboard()
+    {
+        _keyboard.gameObject.SetActive(true);
+    }
     public void CloseChromaKeySetting()
     {
         _chromaKeySetting.gameObject.SetActive(false);

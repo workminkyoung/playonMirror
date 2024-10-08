@@ -8,6 +8,8 @@ using DG.Tweening;
 using I18N.CJK;
 using UnityEditor;
 using Unity.VisualScripting;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 
 public class UC_Keyboard : MonoBehaviour
 {
@@ -45,9 +47,8 @@ public class UC_Keyboard : MonoBehaviour
     public string _displayInputField = "";
     //, int outLineWidth = 6, string OutlineColor = "#FF4B4B"
 
-    void Start()
+    public void InitSetting()
     {
-
         _buttonColorOptions.AddRange(GetComponentsInChildren<ButtonColorChangeTMP>());
         _buttons.AddRange(Keyboard.GetComponentsInChildren<Button>());
 
@@ -63,14 +64,13 @@ public class UC_Keyboard : MonoBehaviour
 
         for (int i = 0; i < _buttonColorOptions.Count; i++)
         {
-            Debug.Log(i );//+ _buttons[i].GetComponentInChildren<TextMeshProUGUI>().text
+            _buttonColorOptions[i].Initsetting();
             _buttonColorOptions[i].SetTextOptions(_buttonOriginTextColor, _buttonOriginTextFont, _buttonPressedTextColor, _buttonPressedTextFont);
             _buttonColorOptions[i].SetBackgroundOptions(_buttonOriginBGColor, _buttonPressedBGColor);
         }
 
         for (int i = 0; i < _buttons.Count; i++)
         {
-            //_btns[i].colors  = btnColor;
             TextMeshProUGUI keyButton = _buttons[i].GetComponentInChildren<TextMeshProUGUI>();
             if (keyButton != null)
             {
@@ -83,12 +83,10 @@ public class UC_Keyboard : MonoBehaviour
         _buttonExitKeyboard.onClick.AddListener(() => ExitKeyboard());
     }
 
-
     void OnKeyClick(string key)
     {
         _inputField.text += key;
         _displayInputField = _inputField.text;
-        Debug.Log(_inputField.text);
     }
 
     void DeleteCharBeforeCursor()
@@ -113,8 +111,9 @@ public class UC_Keyboard : MonoBehaviour
 
     void GetInputValue()
     {
-        // Coupon number check 하는 코드 작성
-        Debug.Log(_inputField.text);
+        string json = MakeJson(_inputField.text, "uuid-busan-001"); // TODO : UUID 받는거 처리 방식 논의 필요
+        string url = "http://playon-content-dev-2022148894.ap-northeast-2.elb.amazonaws.com/coupon"; // TODO : URL 어디서 받아서 처리할지 논의 필요
+        ApiCall.Instance.Post(url, json, GetResponse);
     }
 
     public void UseKeyboard()
@@ -135,5 +134,22 @@ public class UC_Keyboard : MonoBehaviour
             _inputFieldMPImage.OutlineWidth = _errorNotificationOutLineWidth;
             _inputFieldMPImage.OutlineColor = _errorNotificationOutlineColor;
         };
+    }
+
+    void GetResponse(string result)
+    {
+        Debug.Log(result);
+        CouponValidataResponse response = JsonConvert.DeserializeObject<CouponValidataResponse>(result);
+        UserDataManager.Instance.SetCouponValidata(response);
+    }
+    string MakeJson(string coupon_number, string uuid)
+    {
+        var data = new Dictionary<string, string>
+        {
+            { "coupon_number", coupon_number},
+            { "uuid", uuid }
+        };
+
+        return JsonConvert.SerializeObject(data);
     }
 }
