@@ -718,6 +718,7 @@ MonoBehaviour:
     - {fileID: 1869690773714416364}
     - {fileID: 3089847055895412019}
     - {fileID: 4237451291158746862}
+  _openKeyboardBtn: {fileID: 0}
 --- !u!1 &917362949863935311
 GameObject:
   m_ObjectHideFlags: 0
@@ -6647,7 +6648,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2656035899202043810, guid: 220f0a188e13a1d4c90b54114124d3f3, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 65.44
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2656035899202043810, guid: 220f0a188e13a1d4c90b54114124d3f3, type: 3}
       propertyPath: m_AnchoredPosition.y

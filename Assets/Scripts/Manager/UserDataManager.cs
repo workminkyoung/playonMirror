@@ -64,6 +64,10 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
     //coupon Data
     [SerializeField]
     private CouponValidataResponse _validataResponse;
+    [SerializeField]
+    private string _couponNumber;
+    [SerializeField]
+    private bool _isCouponAvailable;
 
     public CONTENT_TYPE selectedContent => _selectedContent;
     public FRAME_TYPE selectedFrameType => _selectedFrameType;
@@ -96,6 +100,8 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
 
     // Coupon Data
     public CouponValidataResponse getvalidataResponse =>_validataResponse;
+    public string getCouponNumber => _couponNumber;
+    public bool getCouponAvailable => _isCouponAvailable;
 
     protected override void Init()
     {
@@ -240,5 +246,16 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
     public void SetCouponValidata(CouponValidataResponse couponValidata)
     {
         _validataResponse = couponValidata;
+    }
+    public void SetCouponInfo(string couponNumber)
+    {
+        _isCouponAvailable = true;
+        _couponNumber = couponNumber;
+    }
+    public void InitCouponData()
+    {
+        _validataResponse?.InitData();
+        _couponNumber = "";
+        _isCouponAvailable = false;
     }
 }

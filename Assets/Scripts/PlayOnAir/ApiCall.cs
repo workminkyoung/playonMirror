@@ -9,6 +9,7 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
 {
     private Coroutine _postCoroutine;
     private Coroutine _getCoroutine;
+    private Coroutine _patchCoroutine;
     //[SerializeField]
     //private List<Coroutine> _getCoroutines = new List<Coroutine>();
     //private int _requestNum = 0;
@@ -16,6 +17,9 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
     private const string _googleDownUrl = "https://drive.google.com/uc?export=download&id=";
     private string _downloadPath;
     private List<bool> _requestCompleted = new List<bool>();
+    protected string _couponAPIUrl = "http://playon-content-dev-2022148894.ap-northeast-2.elb.amazonaws.com/coupon";
+
+    public string CouponAPIUrl => _couponAPIUrl; 
 
     protected override void Init ()
     {
@@ -24,6 +28,46 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
             _curRequestCount++;
             _requestDone = true;
         };
+    }
+
+    public IEnumerator PatchRequest(string url, string json, Action<string> response = null, bool isReRequest = false, int ReIndex = 0)
+    {
+        int _requestNum = 0 + ReIndex;
+
+        _requestNum++;
+        UnityWebRequest www = new UnityWebRequest(url, UnityWebRequest.kHttpVerbPUT);
+        www.method = "PATCH";
+        DownloadHandlerBuffer dh = new DownloadHandlerBuffer();
+
+        www.SetRequestHeader("Content-Type", "application/json");
+        byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
+        www.uploadHandler = new UploadHandlerRaw(bodyRaw);
+        www.downloadHandler = dh;
+
+        yield return www.SendWebRequest();
+
+        if (www.result != UnityWebRequest.Result.Success)
+        {
+            CustomLogger.Log(www.error);
+            CustomLogger.Log(www.downloadHandler.text);
+
+            if (_requestNum < _requestMaxNum)
+            {
+                www.Dispose();
+                _postCoroutine = StartCoroutine(PatchRequest(url, json, response, true, _requestNum));
+                yield break;
+            }
+            else
+            {
+                Debug.LogFormat("[PATCH / request count {0}] Fail to Send!", _requestNum);
+            }
+        }
+        else
+        {
+            Debug.LogFormat("[PATCH / request count {0}] Successed to Send!", _requestNum);
+            response?.Invoke(www.downloadHandler.text);
+        }
+        www.Dispose();
     }
 
     public IEnumerator PostRequest (string url, string json, Action<string> response = null, bool isReRequest = false, int ReIndex = 0)
@@ -46,13 +90,7 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
             CustomLogger.Log(www.error);
             CustomLogger.Log(www.downloadHandler.text);
 
-            if (www.responseCode != 404) // 422 error 처리 방법 논의 필요
-            {
-                Debug.LogFormat("[POST / request count {0}] Successed to Send!", _requestNum);
-                response?.Invoke(www.downloadHandler.text);
-            }
-
-            else if (_requestNum < _requestMaxNum) // 응답 자체가 안온 경우
+            if (_requestNum < _requestMaxNum) // 응답 자체가 안온 경우
             {
                 www.Dispose();
                 _postCoroutine = StartCoroutine(PostRequest(url, json, response, true, _requestNum));
@@ -61,7 +99,7 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
             else
             {
                 Debug.LogFormat("[POST / request count {0}] Fail to Send!", _requestNum);
-                GameManager.inst.SetDiffusionState(false);
+                GameManager.inst.SetDiffusionState(false); // TODO : 이미지 에러 케이스 따로 체크
             }
         }
         else
@@ -252,6 +290,21 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
             CustomLogger.Log("All Google Download completed");
             GameManager.Instance.globalPage.CloseDownloadLoading();
         }
+    }
+
+    public void Patch(string url, string json, Action<string> response = null)
+    {
+        if (string.IsNullOrEmpty(url) || url.Length <= 3)
+        {
+            return;
+        }
+
+        if (_patchCoroutine != null)
+        {
+            StopCoroutine(_patchCoroutine);
+            _patchCoroutine = null;
+        }
+        _patchCoroutine = StartCoroutine(PatchRequest(url, json, response));
     }
 
     public void Post (string url, string json, Action<string> response = null)

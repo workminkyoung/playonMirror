@@ -11,6 +11,7 @@ using Unity.VisualScripting;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using Vivestudios.UI;
+using System;
 
 public class UC_Keyboard : UC_BaseComponent
 {
@@ -31,6 +32,8 @@ public class UC_Keyboard : UC_BaseComponent
     public TMP_FontAsset _buttonTextFont;
     public int _buttonOriginTextFont;
     public int _buttonPressedTextFont;
+    public int _normalNotificationOutLineWidth = 0;
+    public Color _normalNotificationOutlineColor;
     public int _errorNotificationOutLineWidth = 6;
     public Color _errorNotificationOutlineColor;
 
@@ -97,7 +100,6 @@ public class UC_Keyboard : UC_BaseComponent
         {
             text = text.Remove(cursorPosition - 1, 1);
 
-            // 텍스트를 업데이트하고 커서 위치를 하나 앞으로 이동
             _inputField.text = text;
             _inputField.caretPosition = cursorPosition - 1;
         }
@@ -111,10 +113,15 @@ public class UC_Keyboard : UC_BaseComponent
 
     void GetInputValue()
     {
-        string json = MakeJson(_inputField.text, "uuid-busan-001"); // TODO : UUID 받는거 처리 방식 논의 필요
-        string url = "http://playon-content-dev-2022148894.ap-northeast-2.elb.amazonaws.com/coupon"; // TODO : URL 어디서 받아서 처리할지 논의 필요
+        var data = new Dictionary<string, string>
+        {
+            { "coupon_number", _inputField.text },
+            { "uuid", LogDataManager.inst.GetGuid }
+        };
+        string json = JsonConvert.SerializeObject(data);
+        string url = ApiCall.inst.CouponAPIUrl;
         ApiCall.Instance.Post(url, json, GetResponse);
-    }
+    } 
 
     public void UseKeyboard()
     {
@@ -127,36 +134,41 @@ public class UC_Keyboard : UC_BaseComponent
         gameObject.SetActive(false);
     }
 
-    void CheckError()
+    bool ValidateResponse()
     {
+        bool _isValidate = true;
         CouponValidataResponse _response = UserDataManager.Instance.getvalidataResponse;
         if (_response.is_used)
         {
             GameManager.Instance.globalPage.OpenToast("이미 사용된 쿠폰입니다", 3);
+            _isValidate = false;
         }
-        else if (_response.is_expired)
+        if (_response.is_expired)
         {
             GameManager.Instance.globalPage.OpenToast("사용 기간이 만료되었습니다", 3);
+            _isValidate = false;
         }
-        else if (_response.is_matched_uuid)
-        {
-            GameManager.Instance.globalPage.OpenToast("이미 사용된 쿠폰입니다", 3);
-        }
-        else
+        if (_response.is_matched_uuid) // TODO : || _response.is_empty
         {
             GameManager.Instance.globalPage.OpenToast("쿠폰번호를 다시 입력해주세요", 3);
+            _isValidate = false;
         }
+        return _isValidate;
     }
 
-    public void ErrorNotification(bool RaiseError) //INSPECTOR 로
+    public void ErrorNotification(bool RaiseError) //TODO : 어디에 어떻게 적용할지 논의 필요함
     {
         if (RaiseError)
         {
             _inputFieldMPImage.OutlineWidth = _errorNotificationOutLineWidth;
             _inputFieldMPImage.OutlineColor = _errorNotificationOutlineColor;
-        };
-        
-    }
+        }
+        else
+        {
+            _inputFieldMPImage.OutlineWidth = _normalNotificationOutLineWidth;
+            _inputFieldMPImage.OutlineColor = _normalNotificationOutlineColor;
+        }
+    } 
 
     void GetResponse(string result)
     {
@@ -164,24 +176,15 @@ public class UC_Keyboard : UC_BaseComponent
         {
             CouponValidataResponse response = JsonConvert.DeserializeObject<CouponValidataResponse>(result);
             UserDataManager.Instance.SetCouponValidata(response);
-            CheckError();
+            if (ValidateResponse())
+            { 
+                UserDataManager.inst.SetCouponInfo(_inputField.text);
+                ExitKeyboard();
+            }
         }
-        else // 422 error 처리 방법 논의 필요
+        else // TODO : 422 없앨 예정
         {
             GameManager.Instance.globalPage.OpenToast("쿠폰번호를 다시 입력해주세요", 3);
         }
-        
-        
-    }
-
-    string MakeJson(string coupon_number, string uuid)
-    {
-        var data = new Dictionary<string, string>
-        {
-            { "coupon_number", coupon_number},
-            { "uuid", uuid }
-        };
-
-        return JsonConvert.SerializeObject(data);
     }
 }
