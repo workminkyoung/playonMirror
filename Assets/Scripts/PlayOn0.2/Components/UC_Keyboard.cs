@@ -10,8 +10,9 @@ using UnityEditor;
 using Unity.VisualScripting;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using Vivestudios.UI;
 
-public class UC_Keyboard : MonoBehaviour
+public class UC_Keyboard : UC_BaseComponent
 {
     List<ButtonColorChangeTMP> _buttonColorOptions = new List<ButtonColorChangeTMP>();
     List<Button> _buttons = new List<Button>();
@@ -45,9 +46,8 @@ public class UC_Keyboard : MonoBehaviour
     private GameObject ExitButton;
 
     public string _displayInputField = "";
-    //, int outLineWidth = 6, string OutlineColor = "#FF4B4B"
 
-    public void InitSetting()
+    public override void InitComponent()
     {
         _buttonColorOptions.AddRange(GetComponentsInChildren<ButtonColorChangeTMP>());
         _buttons.AddRange(Keyboard.GetComponentsInChildren<Button>());
@@ -77,7 +77,7 @@ public class UC_Keyboard : MonoBehaviour
                 _buttons[i].onClick.AddListener(() => OnKeyClick(keyButton.text));
             }
         }
-        _buttonDeleteInputWord.onClick.AddListener(()=> DeleteCharBeforeCursor());
+        _buttonDeleteInputWord.onClick.AddListener(() => DeleteCharBeforeCursor());
         _buttonInitInputField.onClick.AddListener(() => InitInputField());
         _buttonGetInputValue.onClick.AddListener(() => GetInputValue());
         _buttonExitKeyboard.onClick.AddListener(() => ExitKeyboard());
@@ -127,6 +127,27 @@ public class UC_Keyboard : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+    void CheckError()
+    {
+        CouponValidataResponse _response = UserDataManager.Instance.getvalidataResponse;
+        if (_response.is_used)
+        {
+            GameManager.Instance.globalPage.OpenToast("이미 사용된 쿠폰입니다", 3);
+        }
+        else if (_response.is_expired)
+        {
+            GameManager.Instance.globalPage.OpenToast("사용 기간이 만료되었습니다", 3);
+        }
+        else if (_response.is_matched_uuid)
+        {
+            GameManager.Instance.globalPage.OpenToast("이미 사용된 쿠폰입니다", 3);
+        }
+        else
+        {
+            GameManager.Instance.globalPage.OpenToast("쿠폰번호를 다시 입력해주세요", 3);
+        }
+    }
+
     public void ErrorNotification(bool RaiseError) //INSPECTOR 로
     {
         if (RaiseError)
@@ -134,14 +155,25 @@ public class UC_Keyboard : MonoBehaviour
             _inputFieldMPImage.OutlineWidth = _errorNotificationOutLineWidth;
             _inputFieldMPImage.OutlineColor = _errorNotificationOutlineColor;
         };
+        
     }
 
     void GetResponse(string result)
     {
-        Debug.Log(result);
-        CouponValidataResponse response = JsonConvert.DeserializeObject<CouponValidataResponse>(result);
-        UserDataManager.Instance.SetCouponValidata(response);
+        if (result.Contains("is_used"))
+        {
+            CouponValidataResponse response = JsonConvert.DeserializeObject<CouponValidataResponse>(result);
+            UserDataManager.Instance.SetCouponValidata(response);
+            CheckError();
+        }
+        else // 422 error 처리 방법 논의 필요
+        {
+            GameManager.Instance.globalPage.OpenToast("쿠폰번호를 다시 입력해주세요", 3);
+        }
+        
+        
     }
+
     string MakeJson(string coupon_number, string uuid)
     {
         var data = new Dictionary<string, string>

@@ -9921,6 +9921,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5388215004701842087}
   - component: {fileID: 7044123421833611926}
+  - component: {fileID: 1679365945591323343}
   m_Layer: 5
   m_Name: UC_Keyboard
   m_TagString: Untagged
@@ -9980,6 +9981,18 @@ MonoBehaviour:
   CheckInputValueButton: {fileID: 2565029120651061189}
   ExitButton: {fileID: 5145399675430162777}
   _displayInputField: 
+--- !u!225 &1679365945591323343
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2281569015573301448}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &2365094890972925535
 GameObject:
   m_ObjectHideFlags: 0
@@ -21426,6 +21439,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 5388215004701842087}
   - {fileID: 6941105056354255589}
   - {fileID: 8101000822287169438}
   - {fileID: 9101952734815022189}
@@ -21443,7 +21457,6 @@ RectTransform:
   - {fileID: 4129896468977050740}
   - {fileID: 5263034436327258479}
   - {fileID: 5712061771731905450}
-  - {fileID: 5388215004701842087}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}

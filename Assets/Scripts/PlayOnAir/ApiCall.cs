@@ -39,14 +39,20 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
         www.uploadHandler = new UploadHandlerRaw(bodyRaw);
         www.downloadHandler = dh;
 
-        yield return www.SendWebRequest();
+        yield return www.SendWebRequest(); 
 
-        if(www.result != UnityWebRequest.Result.Success)
+        if (www.result != UnityWebRequest.Result.Success)
         {
             CustomLogger.Log(www.error);
             CustomLogger.Log(www.downloadHandler.text);
 
-            if(_requestNum < _requestMaxNum)
+            if (www.responseCode != 404) // 422 error 처리 방법 논의 필요
+            {
+                Debug.LogFormat("[POST / request count {0}] Successed to Send!", _requestNum);
+                response?.Invoke(www.downloadHandler.text);
+            }
+
+            else if (_requestNum < _requestMaxNum) // 응답 자체가 안온 경우
             {
                 www.Dispose();
                 _postCoroutine = StartCoroutine(PostRequest(url, json, response, true, _requestNum));

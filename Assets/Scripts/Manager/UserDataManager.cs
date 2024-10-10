@@ -94,6 +94,8 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
     public string selectedLutKey => _selectedLutKey;
     public bool IsQRPrint => _isQRPrint;
 
+    // Coupon Data
+    public CouponValidataResponse getvalidataResponse =>_validataResponse;
 
     protected override void Init()
     {

@@ -10,3 +10,8 @@ public class CouponValidataResponse
     public bool is_fixed_rate;
     public int amount;
 }
+
+public class CouponValidataResponse422
+{
+    public string detail;
+}

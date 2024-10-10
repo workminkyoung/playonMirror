@@ -75,7 +75,6 @@ public class UP_Global : UP_BasePage
         _aiAlertPopup.gameObject.SetActive(false);
         _chromaKeySetting.gameObject.SetActive(false);
         _keyboard.gameObject.SetActive(false);
-        _keyboard.InitSetting();
     }
 
     public override void BindDelegates()
