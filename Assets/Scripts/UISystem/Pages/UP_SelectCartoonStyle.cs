@@ -1,10 +1,6 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using Vivestudios.UI;
@@ -20,7 +16,9 @@ public class UP_SelectCartoonStyle : UP_BaseSelectContent, IPageTimeLimit
     [SerializeField]
     private GameObject _styleContent;
     [SerializeField]
-    private HorizontalLayoutGroup _contentParent;
+    private HorizontalLayoutGroup _contentParentRow1;
+    [SerializeField]
+    private HorizontalLayoutGroup _contentParentRow2;
     [SerializeField]
     private Button _prevBtn;
     private Sprite _guideImage;
@@ -66,12 +64,20 @@ public class UP_SelectCartoonStyle : UP_BaseSelectContent, IPageTimeLimit
     {
         List<UC_SelectableContent> contents = new List<UC_SelectableContent>();
         string key = StringCacheManager.Instance.GetContentKey(CONTENT_TYPE.AI_CARTOON);
-
         foreach (var item in AdminManager.Instance.ServiceData.ContentsDetail)
         {
             if (item.Key.Contains(key) && item.Value.Use.ToLower() == "true")
             {
-                GameObject content = Instantiate(_styleContent, _contentParent.transform);
+                GameObject content;
+                if (_contentParentRow1.transform.childCount < 4)
+                {
+                    content = Instantiate(_styleContent, _contentParentRow1.transform);
+                }
+                else
+                {
+                    content = Instantiate(_styleContent, _contentParentRow2.transform);
+                }
+
                 UC_StyleContent styleContent = content.GetComponentInChildren<UC_StyleContent>();
                 contents.Add(styleContent);
                 styleContent.InitComponent();
