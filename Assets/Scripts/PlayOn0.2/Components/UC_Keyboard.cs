@@ -23,6 +23,8 @@ public class UC_Keyboard : UC_BaseComponent
     Button _buttonGetInputValue;
     Button _buttonExitKeyboard;
 
+    Action exitAction;
+
 
     private MPImage _inputFieldMPImage;
     public Color _buttonOriginTextColor;
@@ -116,12 +118,13 @@ public class UC_Keyboard : UC_BaseComponent
         var data = new Dictionary<string, string>
         {
             { "coupon_number", _inputField.text },
-            { "uuid", LogDataManager.inst.GetGuid }
+            { "uuid", "vive1" } // 테스트용 쿠폰 전용 UUID 
+            //{ "uuid", LogDataManager.inst.GetGuid } // 실제 사용할 코드
         };
         string json = JsonConvert.SerializeObject(data);
         string url = ApiCall.inst.CouponAPIUrl;
         ApiCall.Instance.Post(url, json, GetResponse);
-    } 
+    }
 
     public void UseKeyboard()
     {
@@ -130,30 +133,41 @@ public class UC_Keyboard : UC_BaseComponent
 
     public void ExitKeyboard()
     {
+        //exitAction?.in
         InitInputField();
         gameObject.SetActive(false);
     }
 
     bool ValidateResponse()
     {
-        bool _isValidate = true;
         CouponValidataResponse _response = UserDataManager.Instance.getvalidataResponse;
-        if (_response.is_used)
+        if (_response.is_valid_number)
         {
-            GameManager.Instance.globalPage.OpenToast("이미 사용된 쿠폰입니다", 3);
-            _isValidate = false;
+            if (_response.is_used)
+            {
+                GameManager.Instance.globalPage.OpenToast("이미 사용된 쿠폰입니다", 3);
+                return false;
+            }
+            else if (!_response.is_active)
+            {
+                GameManager.Instance.globalPage.OpenToast("사용 기간이 만료되었습니다", 3);
+                return false;
+            }
+            else if (!_response.is_matched_uuid)
+            {
+                GameManager.Instance.globalPage.OpenToast("쿠폰번호를 다시 입력해주세요", 3);
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
-        if (_response.is_expired)
-        {
-            GameManager.Instance.globalPage.OpenToast("사용 기간이 만료되었습니다", 3);
-            _isValidate = false;
-        }
-        if (_response.is_matched_uuid) // TODO : || _response.is_empty
+        else
         {
             GameManager.Instance.globalPage.OpenToast("쿠폰번호를 다시 입력해주세요", 3);
-            _isValidate = false;
+            return false;
         }
-        return _isValidate;
     }
 
     public void ErrorNotification(bool RaiseError) //TODO : 어디에 어떻게 적용할지 논의 필요함
@@ -172,19 +186,12 @@ public class UC_Keyboard : UC_BaseComponent
 
     void GetResponse(string result)
     {
-        if (result.Contains("is_used"))
-        {
-            CouponValidataResponse response = JsonConvert.DeserializeObject<CouponValidataResponse>(result);
-            UserDataManager.Instance.SetCouponValidata(response);
-            if (ValidateResponse())
-            { 
-                UserDataManager.inst.SetCouponInfo(_inputField.text);
-                ExitKeyboard();
-            }
-        }
-        else // TODO : 422 없앨 예정
-        {
-            GameManager.Instance.globalPage.OpenToast("쿠폰번호를 다시 입력해주세요", 3);
+        CouponValidataResponse response = JsonConvert.DeserializeObject<CouponValidataResponse>(result);
+        UserDataManager.Instance.SetCouponValidata(response);
+        if (ValidateResponse())
+        { 
+            UserDataManager.inst.SetCouponInfo(_inputField.text);
+            ExitKeyboard();
         }
     }
 }

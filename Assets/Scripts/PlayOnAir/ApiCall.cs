@@ -17,7 +17,7 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
     private const string _googleDownUrl = "https://drive.google.com/uc?export=download&id=";
     private string _downloadPath;
     private List<bool> _requestCompleted = new List<bool>();
-    protected string _couponAPIUrl = "http://playon-content-dev-2022148894.ap-northeast-2.elb.amazonaws.com/coupon";
+    protected string _couponAPIUrl = "http://playon-content-dev-2022148894.ap-northeast-2.elb.amazonaws.com/v1/coupon/";
 
     public string CouponAPIUrl => _couponAPIUrl; 
 

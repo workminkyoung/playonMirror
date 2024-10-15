@@ -170,7 +170,10 @@ public class UP_Payment : UP_BasePage
         }
         else
         {
-            (_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_CAUTION);
+            //(_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_CAUTION); // 결제모듈 미사용 기존코드
+
+            OnSuccessedPayment(); // 결제모듈 미사용 임시코드
+
         }
 
         ResetTimer();
@@ -186,6 +189,8 @@ public class UP_Payment : UP_BasePage
         var data = new Dictionary<string, string>
         {
             { "coupon_number", UserDataManager.inst.getCouponNumber},
+            { "uuid", "vive1" }, // 테스트용 쿠폰 전용 UUID 
+            //{ "uuid", LogDataManager.inst.GetGuid}, // 실제 사용할 코드
             { "status", "used" } 
         };
         string json = JsonConvert.SerializeObject(data);
