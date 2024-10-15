@@ -271,7 +271,6 @@ public class UP_DecoSelectSticker : UP_DecoratePageBase
                 _createdStickers[i].GetComponent<UC_StickerController>().HideController();
                 continue;
             }
-
             _createdStickers.RemoveAt(i);
         }
 

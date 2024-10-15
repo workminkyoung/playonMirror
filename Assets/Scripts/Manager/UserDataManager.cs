@@ -66,6 +66,14 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
     [SerializeField]
     private FrameData.DefinitionEntry _selectedFrameDefinition;
 
+    //coupon Data
+    [SerializeField]
+    private CouponValidataResponse _validataResponse;
+    [SerializeField]
+    private string _couponNumber;
+    [SerializeField]
+    private bool _isCouponAvailable;
+
     public CONTENT_TYPE selectedContent => _selectedContent;
     public FRAME_TYPE selectedFrameType => _selectedFrameType;
     public FRAME_RATIO_TYPE frameRatioType => _frameRatioType;
@@ -97,6 +105,10 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
     public string selectedLutKey => _selectedLutKey;
     public bool IsQRPrint => _isQRPrint;
 
+    // Coupon Data
+    public CouponValidataResponse getvalidataResponse =>_validataResponse;
+    public string getCouponNumber => _couponNumber;
+    public bool getCouponAvailable => _isCouponAvailable;
 
     protected override void Init()
     {
@@ -248,5 +260,21 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
     public void SetSingleContent(bool state)
     {
         _isSingleContent = state;
+    }
+    
+    public void SetCouponValidata(CouponValidataResponse couponValidata)
+    {
+        _validataResponse = couponValidata;
+    }
+    public void SetCouponInfo(string couponNumber)
+    {
+        _isCouponAvailable = true;
+        _couponNumber = couponNumber;
+    }
+    public void InitCouponData()
+    {
+        _validataResponse?.InitData();
+        _couponNumber = "";
+        _isCouponAvailable = false;
     }
 }

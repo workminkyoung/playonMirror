@@ -1,5 +1,6 @@
 using ChromakeyFrameData;
 using MPUIKIT;
+using Newtonsoft.Json;
 using RotaryHeart.Lib.SerializableDictionary;
 using System;
 using System.Collections;
@@ -68,6 +69,8 @@ public class UP_Payment : UP_BasePage
 
     [SerializeField]
     private Tuple<string, string> selectedContent;
+    [SerializeField]
+    private Button _openKeyboardBtn;
 
     protected int _maxTime;
     protected int _failTime;
@@ -97,6 +100,7 @@ public class UP_Payment : UP_BasePage
         };
 
         _prevBtn?.onClick.AddListener(OnClickPrev);
+
         _nextBtn?.onClick.AddListener(OnClickPayment);
         _warnBtn?.onClick.AddListener(OnClickWarning);
         _freeWarnBtn?.onClick.AddListener(OnClickWarning);
@@ -105,6 +109,7 @@ public class UP_Payment : UP_BasePage
         _detailBtn?.onClick.AddListener(OnClickDetail);
         _childToggle?.onValueChanged.AddListener(OnChildToggleChanged);
         _agreeToggle?.onValueChanged.AddListener(OnAgreeToggleChanged);
+        _openKeyboardBtn?.onClick.AddListener((_pageController as PC_Main).globalPage.OpenKeyboard);
     }
 
     private void OnDisable()
@@ -154,6 +159,7 @@ public class UP_Payment : UP_BasePage
         {
             (_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_SELECT_FRAME);
         }
+        UserDataManager.inst.InitCouponData();
     }
 
     private void OnClickPayment()
@@ -166,7 +172,10 @@ public class UP_Payment : UP_BasePage
         }
         else
         {
-            (_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_CAUTION);
+            //(_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_CAUTION); // 결제모듈 미사용 기존코드
+
+            OnSuccessedPayment(); // 결제모듈 미사용 임시코드
+
         }
 
         ResetTimer();
@@ -177,12 +186,37 @@ public class UP_Payment : UP_BasePage
         (_pageController as PC_Main)?.globalPage?.OpenToast("필수 약관에 동의해주세요.", 5);
     }
 
+    private void OnSuccessedPayment()
+    {
+        var data = new Dictionary<string, string>
+        {
+            { "coupon_number", UserDataManager.inst.getCouponNumber},
+            { "uuid", "vive1" }, // 테스트용 쿠폰 전용 UUID 
+            //{ "uuid", LogDataManager.inst.GetGuid}, // 실제 사용할 코드
+            { "status", "used" } 
+        };
+        string json = JsonConvert.SerializeObject(data);
+        string url = ApiCall.inst.CouponAPIUrl;
+        ApiCall.inst.Patch(url, json, (string response) => 
+        {
+            (_pageController as PC_Main).globalPage.OpenDim(false);
+            (_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_CAUTION);
+        });
+    }
+
     private void OnPaycheckDone(bool isSuccessed, string failMsg, bool showErrorPage)
     {
         if (isSuccessed)
         {
-            (_pageController as PC_Main).globalPage.OpenDim(false);
-            (_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_CAUTION);
+            if (UserDataManager.inst.getCouponAvailable)
+            {
+                OnSuccessedPayment();
+            }
+            else
+            {
+                (_pageController as PC_Main).globalPage.OpenDim(false);
+                (_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_CAUTION);
+            }
         }
         else
         {
@@ -318,6 +352,7 @@ public class UP_Payment : UP_BasePage
         }
 
         (_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_AOD);
+        UserDataManager.inst.InitCouponData();
     }
 
     private IEnumerator FailTimerRoutine()
@@ -416,20 +451,7 @@ public class UP_Payment : UP_BasePage
 
     protected override void OnPageReset()
     {
-        //if (AdminManager.Instance.isAllDownloaded)
-        //{
-        //    if (_childToggle.gameObject.activeSelf)
-        //    {
-        //        _childToggle.isOn = AdminManager.Instance.BasicSetting.Config.Age14TermUsed;
-        //    }
-        //    if (_agreeToggle.gameObject.activeSelf)
-        //    {
-        //        _agreeToggle.isOn = AdminManager.Instance.BasicSetting.Config.PaymentTermUsed;
-        //    }
-        //}
-
-        //OnChildToggleChanged(_childToggle.isOn);
-        //OnAgreeToggleChanged(_agreeToggle.isOn);
+        UserDataManager.inst.InitCouponData();
     }
 
     [Serializable]
