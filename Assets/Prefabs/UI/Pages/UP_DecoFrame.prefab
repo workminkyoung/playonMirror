@@ -488,6 +488,7 @@ MonoBehaviour:
     - {fileID: 7196703213443896089}
     - {fileID: 429947144654205922}
   _timeText: {fileID: 7470953752217256658}
+  _isStickerUse: 0
   _frameColors: []
   _prevBtn: {fileID: 8879568785859618560}
   _printBtn: {fileID: 5378383262474516272}
@@ -499,8 +500,6 @@ MonoBehaviour:
   _qrToggle: {fileID: 7539719571571563555}
   _toggleOn: {fileID: 21300000, guid: 15501fa689be6fc419f267492a776585, type: 3}
   _toggleOff: {fileID: 21300000, guid: 7e7df1538d6d1504b9e6febb349f462c, type: 3}
-  _isQRUse: 0
-  _qrDefaultUsed: 0
 --- !u!1 &2779193632019176277
 GameObject:
   m_ObjectHideFlags: 0
