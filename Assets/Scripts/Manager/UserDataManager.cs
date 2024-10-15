@@ -1,4 +1,5 @@
 using Newtonsoft.Json.Bson;
+using ServiceData;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -25,6 +26,8 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
     private string _selectedSubContentKey;//CA00001...
     [SerializeField]
     private int _curShootTime;
+    [SerializeField]
+    private bool _isSingleContent = false;
 
     // Frame Key Data
     [SerializeField]
@@ -73,6 +76,7 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
     public string selectedContentKey => _selectedContentKey;
     public int curPrice => _curPrice;
     public int curShootTime => _curShootTime;
+    public bool isSingleContent => _isSingleContent;
 
     // Frame Key Data
     public string selectedFrameKey => _selectedFrameKey;
@@ -239,5 +243,10 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
     public void SetStickerUse(bool use)
     {
         _isStickerUse = use;    
+    }
+
+    public void SetSingleContent(bool state)
+    {
+        _isSingleContent = state;
     }
 }

@@ -173,7 +173,7 @@ namespace ServiceData
     {
         public string Key;
         public CONTENT_TYPE ContentType;
-        public string Use;
+        public bool Use;
         public string Sorting;
         public string Sequence;
         public string ImageThumbnail;

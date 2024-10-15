@@ -35,7 +35,7 @@ public class UP_SelectContent : UP_BaseSelectContent, IPageTimeLimit
     {
         foreach (var item in AdminManager.Instance.ServiceData.Contents)
         {
-            if (item.Value.Use.ToLower() == "true")
+            if (item.Value.Use)
             {
                 GameObject contentObj = Instantiate(_contentPrefab, _contentParent);
                 UC_StyleVideoContent content = contentObj.GetComponentInChildren<UC_StyleVideoContent>();

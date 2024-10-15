@@ -44,7 +44,14 @@ public class UP_SelectGender : UP_BaseSelectContent, IPageTimeLimit
 
         _prevBtn?.onClick.AddListener(() =>
         {
-            _pageController.ChangePage(PAGE_TYPE.PAGE_SELECT_CONTENT);
+            if (UserDataManager.inst.isSingleContent)
+            {
+                _pageController.ChangePage(PAGE_TYPE.PAGE_AOD);
+            }
+            else
+            {
+                _pageController.ChangePage(PAGE_TYPE.PAGE_SELECT_CONTENT);
+            }
         });
     }
 

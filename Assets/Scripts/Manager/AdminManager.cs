@@ -429,7 +429,10 @@ public class AdminManager : SingletonBehaviour<AdminManager>
     {
         foreach (var item in _serviceData.Contents)
         {
-            if( !string.IsNullOrEmpty(item.Value.Key))
+            if (!item.Value.Use)
+                continue;
+
+            if ( !string.IsNullOrEmpty(item.Value.Key))
             {
                 switch (item.Value.Key)
                 {

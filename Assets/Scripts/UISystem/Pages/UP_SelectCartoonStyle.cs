@@ -49,7 +49,17 @@ public class UP_SelectCartoonStyle : UP_BaseSelectContent, IPageTimeLimit
             _contents[i].pointerClickAction += () => OnClickContent(index);
         }
 
-        _prevBtn?.onClick.AddListener(() => _pageController.ChangePage(PAGE_TYPE.PAGE_SELECT_CONTENT));
+        _prevBtn?.onClick.AddListener(() =>
+        {
+            if(UserDataManager.inst.isSingleContent)
+            {
+                _pageController.ChangePage(PAGE_TYPE.PAGE_AOD);
+            }
+            else
+            {
+                _pageController.ChangePage(PAGE_TYPE.PAGE_SELECT_CONTENT);
+            }
+        });
         _descriptionBtn?.onClick.AddListener(OnClickDescription);
 
         (_pageController as PC_Main).OnShuffleAction += ShuffleContents;
