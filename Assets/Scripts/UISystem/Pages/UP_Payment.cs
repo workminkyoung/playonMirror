@@ -76,6 +76,8 @@ public class UP_Payment : UP_BasePage
     private GameObject _couponObj;
     [SerializeField]
     private TextMeshProUGUI _couponText;
+    [SerializeField]
+    private TextMeshProUGUI _couponWarnText;
 
     private int _couponUsedPrice = 0;
     protected int _maxTime;
@@ -163,6 +165,7 @@ public class UP_Payment : UP_BasePage
         UserDataManager.inst.InitCouponData();
         _openKeyboardBtn.gameObject.SetActive(true);
         _couponObj.SetActive(false);
+        _couponWarnText.gameObject.SetActive(false);
         if (UserDataManager.inst.isChromaKeyOn)
         {
             (_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_SELECT_CHROMA_KEY_BACKGROUND);
@@ -333,6 +336,7 @@ public class UP_Payment : UP_BasePage
                     ConvertContentFree();
                 }
                 _openKeyboardBtn.gameObject.SetActive(false);
+                _couponWarnText.gameObject.SetActive(true);
             }
         }
     }
@@ -393,6 +397,7 @@ public class UP_Payment : UP_BasePage
 
         while (time < _maxTime)
         {
+            if 
             yield return new WaitForSecondsRealtime(1);
             time++;
 
@@ -558,6 +563,7 @@ public class UP_Payment : UP_BasePage
         UserDataManager.inst.InitCouponData();
         _openKeyboardBtn.gameObject.SetActive(true);
         _couponObj.SetActive(false);
+        _couponWarnText.gameObject.SetActive(false);
     }
 
     [Serializable]
