@@ -4,12 +4,7 @@ using UnityEngine;
 using TMPro;
 using MPUIKIT;
 using UnityEngine.UI;
-using DG.Tweening;
-using I18N.CJK;
-using UnityEditor;
-using Unity.VisualScripting;
 using Newtonsoft.Json;
-using System.Collections.Generic;
 using Vivestudios.UI;
 using System;
 
@@ -23,9 +18,6 @@ public class UC_Keyboard : UC_BaseComponent
     Button _buttonGetInputValue;
     Button _buttonExitKeyboard;
 
-    Action exitAction;
-
-
     private MPImage _inputFieldMPImage;
     public Color _buttonOriginTextColor;
     public Color _buttonOriginBGColor;
@@ -38,6 +30,8 @@ public class UC_Keyboard : UC_BaseComponent
     public Color _normalNotificationOutlineColor;
     public int _errorNotificationOutLineWidth = 6;
     public Color _errorNotificationOutlineColor;
+
+    public Action _exitAction;
 
     [SerializeField]
     private GameObject Keyboard;
@@ -133,7 +127,7 @@ public class UC_Keyboard : UC_BaseComponent
 
     public void ExitKeyboard()
     {
-        //exitAction?.in
+        _exitAction?.Invoke();
         InitInputField();
         gameObject.SetActive(false);
     }
