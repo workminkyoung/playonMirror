@@ -56,7 +56,14 @@ public class UP_SelectProfile : UP_BaseSelectContent, IPageTimeLimit
         
         _prevBtn?.onClick.AddListener(() =>
         {
-            _pageController.ChangePage(PAGE_TYPE.PAGE_SELECT_CONTENT);
+            if (UserDataManager.inst.isSingleContent)
+            {
+                _pageController.ChangePage(PAGE_TYPE.PAGE_AOD);
+            }
+            else
+            {
+                _pageController.ChangePage(PAGE_TYPE.PAGE_SELECT_CONTENT);
+            }
             _requirePopup = false;
         });
 
