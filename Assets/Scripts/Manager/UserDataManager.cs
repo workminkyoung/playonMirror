@@ -273,7 +273,7 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
     }
     public void InitCouponData()
     {
-        _validataResponse?.InitData();
+        _validataResponse = null;
         _couponNumber = "";
         _isCouponAvailable = false;
     }

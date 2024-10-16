@@ -72,6 +72,12 @@ public class UP_Payment : UP_BasePage
     [SerializeField]
     private Button _openKeyboardBtn;
 
+    [SerializeField]
+    private GameObject _couponObj;
+    [SerializeField]
+    private TextMeshProUGUI _couponText;
+
+    private int _couponUsedPrice = 0;
     protected int _maxTime;
     protected int _failTime;
     private Coroutine _timerCoroutine = null;
@@ -110,6 +116,8 @@ public class UP_Payment : UP_BasePage
         _childToggle?.onValueChanged.AddListener(OnChildToggleChanged);
         _agreeToggle?.onValueChanged.AddListener(OnAgreeToggleChanged);
         _openKeyboardBtn?.onClick.AddListener((_pageController as PC_Main).globalPage.OpenKeyboard);
+        (_pageController as PC_Main).globalPage.SetKeyboardCloseAction(UpdateCoupon);
+
     }
 
     private void OnDisable()
@@ -131,7 +139,7 @@ public class UP_Payment : UP_BasePage
         _agreeToggle.GetComponent<MPImage>().StrokeWidth = isSelected ? 0 : 2;
         //_nextBtn.interactable = isSelected;
 
-        if(UserDataManager.inst.curPrice != 0)
+        if(UserDataManager.inst.curPrice != 0 || (UserDataManager.inst.getCouponAvailable && _couponUsedPrice != 0))
         {
             _nextBtn.gameObject.SetActive(isSelected);
             _warnBtn.gameObject.SetActive(isSelected ? false : true);
@@ -139,7 +147,7 @@ public class UP_Payment : UP_BasePage
             _freeNextBtn.gameObject.SetActive(false);
             _freeWarnBtn.gameObject.SetActive(false);
         }
-        else
+        else if(UserDataManager.inst.curPrice == 0 || (UserDataManager.inst.getCouponAvailable && _couponUsedPrice == 0))
         {
             _freeNextBtn.gameObject.SetActive(isSelected);
             _freeWarnBtn.gameObject.SetActive(isSelected ? false : true);
@@ -151,7 +159,11 @@ public class UP_Payment : UP_BasePage
 
     private void OnClickPrev()
     {
-        if(UserDataManager.inst.isChromaKeyOn)
+        // TODO : page enable로 바꿔야할 필요가 있을까? 고민해보기
+        UserDataManager.inst.InitCouponData();
+        _openKeyboardBtn.gameObject.SetActive(true);
+        _couponObj.SetActive(false);
+        if (UserDataManager.inst.isChromaKeyOn)
         {
             (_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_SELECT_CHROMA_KEY_BACKGROUND);
         }
@@ -159,23 +171,37 @@ public class UP_Payment : UP_BasePage
         {
             (_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_SELECT_FRAME);
         }
-        UserDataManager.inst.InitCouponData();
     }
 
+    //TODO : userdata에 price 할인 금액으로 바꿔주기
     private void OnClickPayment()
     {
-        if (_paymentRequired && UserDataManager.inst.curPrice != 0)
+        if (UserDataManager.inst.getCouponAvailable)
         {
-            (_pageController as PC_Main).globalPage.OpenDim(true);
+            if (_paymentRequired && _couponUsedPrice != 0)
+            {
+                (_pageController as PC_Main).globalPage.OpenDim(true);
+                StartCoroutine(PaymentModule.inst.PaymentRoutine(_couponUsedPrice, OnPaycheckDone));
+            }
+            else
+            {
+                //(_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_CAUTION); // 결제모듈 미사용 기존코드
+                OnSuccessedPayment(); // 결제모듈 미사용 임시코드
 
-            StartCoroutine(PaymentModule.inst.PaymentRoutine(UserDataManager.inst.curPrice, OnPaycheckDone));
+            }
         }
         else
         {
-            //(_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_CAUTION); // 결제모듈 미사용 기존코드
+            if (_paymentRequired && UserDataManager.inst.curPrice != 0)
+            {
+                (_pageController as PC_Main).globalPage.OpenDim(true);
+                StartCoroutine(PaymentModule.inst.PaymentRoutine(UserDataManager.inst.curPrice, OnPaycheckDone));
+            }
+            else
+            {
+                (_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_CAUTION);
 
-            OnSuccessedPayment(); // 결제모듈 미사용 임시코드
-
+            }
         }
 
         ResetTimer();
@@ -281,6 +307,33 @@ public class UP_Payment : UP_BasePage
             default:
                 _selectedContentText.text = StringCacheManager.inst.GetContentTitle(CONTENT_TYPE.AI_CARTOON);
                 break;
+        }
+    }
+
+    private void UpdateCoupon()
+    {
+        if (UserDataManager.inst.getCouponAvailable)
+        {
+            CouponValidataResponse coupon = UserDataManager.inst.getvalidataResponse;
+            if (coupon != null)
+            {
+                if (coupon.is_valid_number)
+                {
+                    _couponObj.SetActive(true);
+                    _couponText.text = UserDataManager.inst.curPrice.ToString("#,###원");
+                    if (coupon.is_fixed_rate)
+                    {
+                        _couponUsedPrice = UserDataManager.inst.curPrice - UserDataManager.inst.curPrice * coupon.amount / 100;
+                    }
+                    else
+                    {
+                        _couponUsedPrice = UserDataManager.inst.curPrice - coupon.amount;
+                    }
+
+                    ConvertContentFree();
+                }
+                _openKeyboardBtn.gameObject.SetActive(false);
+            }
         }
     }
 
@@ -395,26 +448,7 @@ public class UP_Payment : UP_BasePage
         _frameShadowImg.sprite = UserDataManager.inst.selectedFrameDefinition.FrameType == FRAME_TYPE.FRAME_8 ? _frameShadowSprites[1] : _frameShadowSprites[0];
         _frameShadowImg.SetNativeSize();
         _selectedFrameText.text = UserDataManager.inst.curPicAmount.ToString("# 장");
-        if (UserDataManager.inst.curPrice == 0)
-        {
-            _titleText.text = "선택한 내용을 확인한 후 촬영해주세요";
-            _priceText.text = UserDataManager.inst.curPrice.ToString("무료");
-
-            _freeNextBtn.gameObject.SetActive(false);
-            _freeWarnBtn.gameObject.SetActive(true);
-            _nextBtn.gameObject.SetActive(false);
-            _warnBtn.gameObject.SetActive(false);
-        }
-        else
-        {
-            _titleText.text = "선택한 내용을 확인한 후 결제해주세요";
-            _priceText.text = UserDataManager.inst.curPrice.ToString("#,###원");
-
-            _freeNextBtn.gameObject.SetActive(false);
-            _freeWarnBtn.gameObject.SetActive(false);
-            _nextBtn.gameObject.SetActive(false);
-            _warnBtn.gameObject.SetActive(true);
-        }
+        ConvertContentFree();
 
         if (GameManager.Instance.isAdminDownloadSuccess)
         {
@@ -432,6 +466,76 @@ public class UP_Payment : UP_BasePage
         OnAgreeToggleChanged(_agreeToggle.isOn);
 
         _timerCoroutine = StartCoroutine(TimerRoutine());
+    }
+    
+    private void ConvertContentFree()
+    {
+        if (UserDataManager.inst.getCouponAvailable)
+        {
+            if (_couponUsedPrice == 0)
+            {
+                _titleText.text = "선택한 내용을 확인한 후 촬영해주세요";
+                _priceText.text = "무료";
+
+                if (_agreeToggle.isOn)
+                {
+                    _freeNextBtn.gameObject.SetActive(true);
+                    _freeWarnBtn.gameObject.SetActive(false);
+                    _nextBtn.gameObject.SetActive(false);
+                    _warnBtn.gameObject.SetActive(false);
+                }
+                else
+                {
+                    _freeNextBtn.gameObject.SetActive(false);
+                    _freeWarnBtn.gameObject.SetActive(true);
+                    _nextBtn.gameObject.SetActive(false);
+                    _warnBtn.gameObject.SetActive(false);
+                }
+            }
+            else
+            {
+                _titleText.text = "선택한 내용을 확인한 후 결제해주세요";
+                _priceText.text = _couponUsedPrice.ToString("#,###원");
+
+                if (_agreeToggle.isOn)
+                {
+                    _freeNextBtn.gameObject.SetActive(false);
+                    _freeWarnBtn.gameObject.SetActive(false);
+                    _nextBtn.gameObject.SetActive(true);
+                    _warnBtn.gameObject.SetActive(false);
+                }
+                else
+                {
+                    _freeNextBtn.gameObject.SetActive(false);
+                    _freeWarnBtn.gameObject.SetActive(false);
+                    _nextBtn.gameObject.SetActive(false);
+                    _warnBtn.gameObject.SetActive(true);
+                }
+            }
+        }
+        else
+        {
+            if (UserDataManager.inst.curPrice == 0)
+            {
+                _titleText.text = "선택한 내용을 확인한 후 촬영해주세요";
+                _priceText.text = UserDataManager.inst.curPrice.ToString("무료");
+
+                _freeNextBtn.gameObject.SetActive(false);
+                _freeWarnBtn.gameObject.SetActive(true);
+                _nextBtn.gameObject.SetActive(false);
+                _warnBtn.gameObject.SetActive(false);
+            }
+            else
+            {
+                _titleText.text = "선택한 내용을 확인한 후 결제해주세요";
+                _priceText.text = UserDataManager.inst.curPrice.ToString("#,###원");
+
+                _freeNextBtn.gameObject.SetActive(false);
+                _freeWarnBtn.gameObject.SetActive(false);
+                _nextBtn.gameObject.SetActive(false);
+                _warnBtn.gameObject.SetActive(true);
+            }
+        }
     }
 
     public override void OnPageDisable()
@@ -452,6 +556,8 @@ public class UP_Payment : UP_BasePage
     protected override void OnPageReset()
     {
         UserDataManager.inst.InitCouponData();
+        _openKeyboardBtn.gameObject.SetActive(true);
+        _couponObj.SetActive(false);
     }
 
     [Serializable]

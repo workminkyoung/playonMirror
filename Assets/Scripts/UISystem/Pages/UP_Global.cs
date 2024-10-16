@@ -268,6 +268,12 @@ public class UP_Global : UP_BasePage
     {
         _keyboard.gameObject.SetActive(true);
     }
+
+    public void SetKeyboardCloseAction(Action OnCloseAction)
+    {
+        _keyboard._exitAction = OnCloseAction;
+    }
+
     public void CloseChromaKeySetting()
     {
         _chromaKeySetting.gameObject.SetActive(false);
