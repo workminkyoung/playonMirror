@@ -1,12 +1,9 @@
 using ServiceData;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Vivestudios.UI;
-using static UnityEditor.Progress;
 
 public class UP_AOD : UP_BasePage, IPointerClickHandler
 {
