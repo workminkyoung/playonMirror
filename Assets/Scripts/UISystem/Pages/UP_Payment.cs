@@ -304,6 +304,14 @@ public class UP_Payment : UP_BasePage
                 _content.SetGenderActive(false);
                 //_content.SetGender(UserDataManager.inst.selectedGender);
                 break;
+            case CONTENT_TYPE.AI_CARICATURE:
+                _selectedContentText.text = AdminManager.Instance.ServiceData.Contents[UserDataManager.Instance.selectedContentKey].Korean_Title;
+                _content.SetThumbnail(AdminManager.Instance.ServiceData.ContentsDetail[UserDataManager.Instance.selectedSubContentKey].Thumbnail_data, true);
+                _content.SetTitle("");
+                _content.SetDescription("");
+                _content.SetGenderActive(false);
+                //_content.SetGender(UserDataManager.inst.selectedGender);
+                break;
             default:
                 _selectedContentText.text = StringCacheManager.inst.GetContentTitle(CONTENT_TYPE.AI_CARTOON);
                 break;
@@ -312,6 +320,7 @@ public class UP_Payment : UP_BasePage
 
     private void UpdateCoupon()
     {
+        //가격 업데이트
         if (UserDataManager.inst.getCouponAvailable)
         {
             CouponValidataResponse coupon = UserDataManager.inst.getvalidataResponse;

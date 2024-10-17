@@ -64,6 +64,9 @@ public class UP_Caution : UP_BasePage
                 case CONTENT_TYPE.WHAT_IF:
                     (_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_SHOOT_WHAT_IF);
                     break;
+                case CONTENT_TYPE.AI_CARICATURE:
+                    (_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_SHOOT_WHAT_IF);
+                    break;
                 default:
                     break;
             }
@@ -81,10 +84,6 @@ public class UP_Caution : UP_BasePage
             return;
 
         _cautionImage.sprite = AdminManager.Instance.ServiceData.Contents[UserDataManager.inst.selectedContentKey].ShootGuideImage_data;
-        //_contentAreaDefault.gameObject.SetActive(UserDataManager.inst.selectedContent == CONTENT_TYPE.AI_CARTOON);
-        //_contentAreaProfile.gameObject.SetActive(UserDataManager.inst.selectedContent == CONTENT_TYPE.AI_PROFILE ||
-        //                                         UserDataManager.inst.selectedContent == CONTENT_TYPE.WHAT_IF);
-        //_contentAreaBeauty.gameObject.SetActive(UserDataManager.inst.selectedContent == CONTENT_TYPE.AI_BEAUTY);
         _timerCoroutine = StartCoroutine(TimerRoutine());
         _btnTextCoroutine = StartCoroutine(BtnTextRoutine());
 
@@ -156,6 +155,9 @@ public class UP_Caution : UP_BasePage
                 (_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_SHOOT_BEAUTY);
                 break;
             case CONTENT_TYPE.WHAT_IF:
+                (_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_SHOOT_WHAT_IF);
+                break;
+            case CONTENT_TYPE.AI_CARICATURE:
                 (_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_SHOOT_WHAT_IF);
                 break;
             default:

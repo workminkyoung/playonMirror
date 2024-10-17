@@ -29,7 +29,7 @@ public class UP_SelectGender : UP_BaseSelectContent, IPageTimeLimit
     public override void ApplyAdminData()
     {
         base.ApplyAdminData();
-        _maxTime = AdminManager.Instance.BasicSetting.Config.WFMenu_data;//ConfigData.config.genderSelectTime;
+        _maxTime = AdminManager.Instance.BasicSetting.Config.WFMenu_data;
     }
 
     public override void BindDelegates()
@@ -104,7 +104,7 @@ public class UP_SelectGender : UP_BaseSelectContent, IPageTimeLimit
         UserDataManager.Instance.SelectSubContent(contentDetail.Key);
 
         (_pageController as PC_Main)?.globalPage?.OpenAIProfileAlert(
-            AdminManager.Instance.ServiceData.Contents[key].GuideImage_data, 
+            AdminManager.Instance.ServiceData.Contents[UserDataManager.Instance.selectedContentKey].GuideImage_data,
             () => { _pageController.ChangePage(PAGE_TYPE.PAGE_SELECT_FRAME); });
     }
 }

@@ -82,7 +82,8 @@ public enum CONTENT_TYPE
     AI_PROFILE,
     AI_TIME_MACHINE,
     AI_BEAUTY,
-    WHAT_IF
+    WHAT_IF,
+    AI_CARICATURE
 }
 
 public enum FRAME_TYPE

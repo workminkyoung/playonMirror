@@ -114,6 +114,17 @@ public class UP_AOD : UP_BasePage, IPointerClickHandler
                         };
                         _singleNextPage();
                         break;
+                    case CONTENT_TYPE.AI_CARICATURE:
+                        _singleNextPage = () =>
+                        {
+                            UserDataManager.inst.SetSingleContent(true);
+                            UserDataManager.inst.SelectContent(CONTENT_TYPE.AI_CARICATURE);
+                            UserDataManager.inst.SelectContent(contentKey);
+                            UserDataManager.inst.SetSelectedFrameColor(UserDataManager.inst.defaultFrameColor);
+                            _pageController.ChangePage(PAGE_TYPE.PAGE_SELECT_WHAT_IF);
+                        };
+                        _singleNextPage();
+                        break;
                     default:
                         break;
                 }

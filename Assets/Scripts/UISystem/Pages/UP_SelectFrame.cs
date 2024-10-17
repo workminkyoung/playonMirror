@@ -127,6 +127,9 @@ public class UP_SelectFrame : UP_BaseSelectContent, IPageTimeLimit
             case CONTENT_TYPE.WHAT_IF:
                 _pageController.ChangePage(PAGE_TYPE.PAGE_SELECT_WHAT_IF);
                 break;
+            case CONTENT_TYPE.AI_CARICATURE:
+                _pageController.ChangePage(PAGE_TYPE.PAGE_SELECT_WHAT_IF);
+                break;
             default:
                 _pageController.ChangePage(PAGE_TYPE.PAGE_SELECT_CONTENT);
                 break;
@@ -358,20 +361,8 @@ public class UP_SelectFrame : UP_BaseSelectContent, IPageTimeLimit
                     break;
             }
             frame.pointerDownAction += () => OnTouchContent(item.Key, type);
-
-            //Tuple<string, string> tupleKey = new Tuple<string, string>(item.Key, UserDataManager.inst.selectedContentKey);
-            //frame.SetThumbnail(item.Value[0].ThumbnailSelect_data, item.Value[0].ThumbnailUnselect_data);
-            //frame.SetKey(item.Key);
-            //frame.pointerDownAction += () => OnTouchContent(item.Key, item.Value[0].FrameType);
-
-            //PriceConfig priceConfig = new PriceConfig();
-            //priceConfig.originalPrices = item.Value[0].prices.ToArray();
-            //priceConfig.discountPrices = item.Value[0].sellingPrices.ToArray();
-            //priceConfig.priceNum = priceConfig.originalPrices.Length;
-
             _allFrameDic.Add(item.Key, frame);
             _allPriceDic.Add(item.Key, null);
-            //_allPriceDic.Add(item.Key, priceConfig);
         }
         _isContentCreated = true;
     }
