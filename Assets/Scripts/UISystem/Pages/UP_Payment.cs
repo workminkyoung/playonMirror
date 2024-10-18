@@ -219,8 +219,8 @@ public class UP_Payment : UP_BasePage
         var data = new Dictionary<string, string>
         {
             { "coupon_number", UserDataManager.inst.getCouponNumber},
-            { "uuid", "vive1" }, // 테스트용 쿠폰 전용 UUID 
-            //{ "uuid", LogDataManager.inst.GetGuid}, // 실제 사용할 코드
+            //{ "uuid", "vive1" }, // 테스트용 쿠폰 전용 UUID 
+            { "uuid", LogDataManager.inst.GetGuid}, // 실제 사용할 코드
             { "status", "used" } 
         };
         string json = JsonConvert.SerializeObject(data);
