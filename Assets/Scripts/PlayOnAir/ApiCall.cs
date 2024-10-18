@@ -17,7 +17,7 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
     private const string _googleDownUrl = "https://drive.google.com/uc?export=download&id=";
     private string _downloadPath;
     private List<bool> _requestCompleted = new List<bool>();
-    protected string _couponAPIUrl = "http://playon-content-dev-2022148894.ap-northeast-2.elb.amazonaws.com/v1/coupon/";
+    protected string _couponAPIUrl = "http://playon-content-dev-2022148894.ap-northeast-2.elb.amazonaws.com/v1/coupon2/";
 
     public string CouponAPIUrl => _couponAPIUrl; 
 
@@ -70,7 +70,7 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
         www.Dispose();
     }
 
-    public IEnumerator PostRequest (string url, string json, Action<string> response = null, bool isReRequest = false, int ReIndex = 0)
+    public IEnumerator PostRequest (string url, string json, Action<string> success_response = null, Action fail_response = null, bool isReRequest = false, int ReIndex = 0)
     {
         int _requestNum = 0 + ReIndex;
 
@@ -93,19 +93,19 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
             if (_requestNum < _requestMaxNum) // 응답 자체가 안온 경우
             {
                 www.Dispose();
-                _postCoroutine = StartCoroutine(PostRequest(url, json, response, true, _requestNum));
+                _postCoroutine = StartCoroutine(PostRequest(url, json, success_response, fail_response, true, _requestNum));
                 yield break;
             }
             else
             {
                 Debug.LogFormat("[POST / request count {0}] Fail to Send!", _requestNum);
-                GameManager.inst.SetDiffusionState(false); // TODO : 이미지 에러 케이스 따로 체크
+                fail_response?.Invoke();
             }
         }
         else
         {
             Debug.LogFormat("[POST / request count {0}] Successed to Send!", _requestNum);
-            response?.Invoke(www.downloadHandler.text);
+            success_response?.Invoke(www.downloadHandler.text);
         }
         www.Dispose();
     }
@@ -309,7 +309,7 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
         _patchCoroutine = StartCoroutine(PatchRequest(url, json, response));
     }
 
-    public void Post (string url, string json, Action<string> response = null)
+    public void Post (string url, string json, Action<string> response = null, Action fail_response=null)
     {
         if (string.IsNullOrEmpty(url) || url.Length <= 3)
         {
@@ -321,7 +321,7 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
             StopCoroutine(_postCoroutine);
             _postCoroutine = null;
         }
-        _postCoroutine = StartCoroutine(PostRequest(url, json, response));
+        _postCoroutine = StartCoroutine(PostRequest(url, json, response, fail_response));
     }
 
     public void Get<T> (string url, Action<T> response = null, bool isGoogleDownload = false)

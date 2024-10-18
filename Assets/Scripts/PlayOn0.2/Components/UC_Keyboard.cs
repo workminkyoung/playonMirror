@@ -117,7 +117,7 @@ public class UC_Keyboard : UC_BaseComponent
         };
         string json = JsonConvert.SerializeObject(data);
         string url = ApiCall.inst.CouponAPIUrl;
-        ApiCall.Instance.Post(url, json, GetResponse);
+        ApiCall.Instance.Post(url, json, GetResponse, GetFailResponse);
     }
 
     public void UseKeyboard()
@@ -139,17 +139,17 @@ public class UC_Keyboard : UC_BaseComponent
         {
             if (_response.is_used)
             {
-                GameManager.Instance.globalPage.OpenToast("이미 사용된 쿠폰입니다", 3);
+                GameManager.Instance.globalPage.OpenToast("이미 사용된 쿠폰입니다.", 3);
                 return false;
             }
             else if (!_response.is_active)
             {
-                GameManager.Instance.globalPage.OpenToast("사용 기간이 만료되었습니다", 3);
+                GameManager.Instance.globalPage.OpenToast("사용 기간이 만료되었습니다.", 3);
                 return false;
             }
             else if (!_response.is_matched_uuid)
             {
-                GameManager.Instance.globalPage.OpenToast("쿠폰번호를 다시 입력해주세요", 3);
+                GameManager.Instance.globalPage.OpenToast("쿠폰번호를 다시 입력해주세요.", 3);
                 return false;
             }
             else
@@ -159,7 +159,7 @@ public class UC_Keyboard : UC_BaseComponent
         }
         else
         {
-            GameManager.Instance.globalPage.OpenToast("쿠폰번호를 다시 입력해주세요", 3);
+            GameManager.Instance.globalPage.OpenToast("쿠폰번호를 다시 입력해주세요.", 3);
             return false;
         }
     }
@@ -187,5 +187,9 @@ public class UC_Keyboard : UC_BaseComponent
             UserDataManager.inst.SetCouponInfo(_inputField.text);
             ExitKeyboard();
         }
+    }
+    void GetFailResponse()
+    {
+        GameManager.Instance.globalPage.OpenToast("현재 쿠폰 사용이 어렵습니다.", 3);
     }
 }

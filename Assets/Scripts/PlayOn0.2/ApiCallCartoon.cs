@@ -83,7 +83,7 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
         data.encoded_source_image = _targetEncodeText;
 
         string json = JsonUtility.ToJson(data);
-        Post(_cartoonAPI, json, GetResponse);
+        Post(_cartoonAPI, json, GetResponse, GetFailResponse);
     } 
 
     void GetResponse(string result)
@@ -103,6 +103,10 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
 
         SendResult(cartoonTex);
         OnEndRequest();
+    }
+    void GetFailResponse()
+    {
+        GameManager.inst.SetDiffusionState(false);
     }
 }
 

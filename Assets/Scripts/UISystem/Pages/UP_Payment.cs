@@ -190,7 +190,6 @@ public class UP_Payment : UP_BasePage
             {
                 //(_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_CAUTION); // 결제모듈 미사용 기존코드
                 OnSuccessedPayment(); // 결제모듈 미사용 임시코드
-
             }
         }
         else
@@ -397,7 +396,6 @@ public class UP_Payment : UP_BasePage
 
         while (time < _maxTime)
         {
-            if 
             yield return new WaitForSecondsRealtime(1);
             time++;
 
