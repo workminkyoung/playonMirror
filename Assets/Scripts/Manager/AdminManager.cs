@@ -451,7 +451,11 @@ public class AdminManager : SingletonBehaviour<AdminManager>
                     case "WF":
                         item.Value.ContentType = CONTENT_TYPE.WHAT_IF;
                         break;
+                    case "CC":
+                        item.Value.ContentType = CONTENT_TYPE.AI_CARICATURE;
+                        break;
                     default:
+                        CustomLogger.LogError("Cant find content type");
                         break;
                 }
             }
