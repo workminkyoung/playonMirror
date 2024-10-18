@@ -1096,7 +1096,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4570291030867166991, guid: 35587569804474847b16cca4730d41d2, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 4570291030867166991, guid: 35587569804474847b16cca4730d41d2, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -4243,17 +4243,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7950388711617778881, guid: c5ab06d7821a81646ab8a96dbea9da30, type: 3}
   m_PrefabInstance: {fileID: 764001447}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &813166325 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7042653757407165183, guid: 7736ce1813018e64589b66b58d03bef5, type: 3}
-  m_PrefabInstance: {fileID: 1084405031}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &882406324
 GameObject:
   m_ObjectHideFlags: 0
@@ -4556,10 +4545,6 @@ PrefabInstance:
       propertyPath: m_FalloffDistance
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2559808022354274669, guid: 7736ce1813018e64589b66b58d03bef5, type: 3}
-      propertyPath: _warnBtn
-      value: 
-      objectReference: {fileID: 813166325}
     - target: {fileID: 3506054102260836768, guid: 7736ce1813018e64589b66b58d03bef5, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 54.199997
