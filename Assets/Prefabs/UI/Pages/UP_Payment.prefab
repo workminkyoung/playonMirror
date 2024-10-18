@@ -814,7 +814,7 @@ MonoBehaviour:
   _paymentRequired: 0
   _titleText: {fileID: 2725547477765618082}
   _prevBtn: {fileID: 4364725449590989530}
-  _warnBtn: {fileID: 0}
+  _warnBtn: {fileID: 7042653757407165183}
   _nextBtn: {fileID: 5832677608363424001}
   _freeWarnBtn: {fileID: 4571514033815575894}
   _freeNextBtn: {fileID: 7553137555219009684}
@@ -873,7 +873,7 @@ MonoBehaviour:
   _openKeyboardBtn: {fileID: 280415921129544455}
   _couponObj: {fileID: 3939103570191994729}
   _couponText: {fileID: 6956534169623294197}
-  _couponWarnText: {fileID: 0}
+  _couponWarnText: {fileID: 5783717101512146199}
 --- !u!1 &917362949863935311
 GameObject:
   m_ObjectHideFlags: 0
@@ -7263,11 +7263,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2656035899202043810, guid: 220f0a188e13a1d4c90b54114124d3f3, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2656035899202043810, guid: 220f0a188e13a1d4c90b54114124d3f3, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2656035899202043810, guid: 220f0a188e13a1d4c90b54114124d3f3, type: 3}
       propertyPath: m_SizeDelta.x
@@ -7275,11 +7275,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2656035899202043810, guid: 220f0a188e13a1d4c90b54114124d3f3, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 36
+      value: 65.44
       objectReference: {fileID: 0}
     - target: {fileID: 2656035899202043810, guid: 220f0a188e13a1d4c90b54114124d3f3, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -16
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5046034617629451100, guid: 220f0a188e13a1d4c90b54114124d3f3, type: 3}
       propertyPath: m_SizeDelta.x
