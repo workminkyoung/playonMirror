@@ -873,7 +873,7 @@ MonoBehaviour:
   _openKeyboardBtn: {fileID: 280415921129544455}
   _couponObj: {fileID: 3939103570191994729}
   _couponText: {fileID: 6956534169623294197}
-  _couponWarnText: {fileID: 0}
+  _couponWarnText: {fileID: 5783717101512146199}
 --- !u!1 &917362949863935311
 GameObject:
   m_ObjectHideFlags: 0

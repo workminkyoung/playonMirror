@@ -397,7 +397,6 @@ public class UP_Payment : UP_BasePage
 
         while (time < _maxTime)
         {
-            if 
             yield return new WaitForSecondsRealtime(1);
             time++;
 
