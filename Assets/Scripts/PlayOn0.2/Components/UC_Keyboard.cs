@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -129,6 +128,7 @@ public class UC_Keyboard : UC_BaseComponent
     {
         _exitAction?.Invoke();
         InitInputField();
+        GameManager.Instance.globalPage.CloseToast();
         gameObject.SetActive(false);
     }
 
