@@ -2,6 +2,14 @@ using System;
 using System.Collections.Generic;
 
 [Serializable]
+public class CaricatureRequestData
+{
+    public string menu_code;
+    public string encoded_source_image;
+    public int gender_index;
+}
+
+[Serializable]
 public class CartoonRequestData
 {
     public string menu_code;
