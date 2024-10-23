@@ -225,7 +225,8 @@ public class UC_SynchFrame : MonoBehaviour //SingletonBehaviour<UC_SynchFrame>
         FRAME_RATIO_TYPE ratioType = FRAME_RATIO_TYPE.HORIZONTAL;
 
         if (UserDataManager.inst.selectedContent == CONTENT_TYPE.AI_PROFILE ||
-            UserDataManager.inst.selectedContent == CONTENT_TYPE.WHAT_IF)
+            UserDataManager.inst.selectedContent == CONTENT_TYPE.WHAT_IF ||
+            UserDataManager.inst.selectedContent == CONTENT_TYPE.AI_CARICATURE)
         {
             foreach (var elem in _frameAreaDic_video.Keys)
             {

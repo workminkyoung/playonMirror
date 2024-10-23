@@ -132,12 +132,14 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
         _isChromaKeyOn = false;
     }
 
+    //TODO : 이거 관리자로..흩어져있는거 추합해서 관리자데이터로 합치기
     public void SelectContent(CONTENT_TYPE type)
     {
         _selectedContent = type;
         if (_selectedContent == CONTENT_TYPE.AI_TIME_MACHINE ||
             _selectedContent == CONTENT_TYPE.AI_PROFILE ||
-            _selectedContent == CONTENT_TYPE.WHAT_IF)
+            _selectedContent == CONTENT_TYPE.WHAT_IF ||
+            _selectedContent == CONTENT_TYPE.AI_CARICATURE)
         {
             SetFrameRatioType(FRAME_RATIO_TYPE.VERTICAL);
         }

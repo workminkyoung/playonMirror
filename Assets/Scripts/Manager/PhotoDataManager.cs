@@ -131,6 +131,9 @@ public class PhotoDataManager : SingletonBehaviour<PhotoDataManager>
             case CONTENT_TYPE.WHAT_IF:
                 _photoCount = _photoCountWhatIf;
                 break;
+            case CONTENT_TYPE.AI_CARICATURE:
+                _photoCount = _photoCountWhatIf;
+                break;
             default:
                 _photoCount = 0;
                 break;
