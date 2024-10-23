@@ -16,12 +16,14 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
 
     protected string _cartoonAPI = "http://api.playon-vive.com/ai-cartoon?api_key=1ef5ba12-5773-4fc0-837c-9af7a926e2db";
     protected string _profileAPI = "http://api.playon-vive.com/ai-profile?api_key=1ef5ba12-5773-4fc0-837c-9af7a926e2db";
+    protected string _caricatureAPI = "http://api.playon-vive.com/ai-caricature?api_key=1ef5ba12-5773-4fc0-837c-9af7a926e2db";
 
     private string _targetEncodeText;
     private bool _requestDone = false;
     private Coroutine _requestCoroutine = null;
 
     public string profileAPI => _profileAPI;
+    public string caricatureAPI => _caricatureAPI;
 
     public void ResetRequest(int photoMax)
     {

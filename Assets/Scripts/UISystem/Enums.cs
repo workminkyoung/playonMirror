@@ -33,7 +33,8 @@ namespace Vivestudios.UI
         PAGE_SHOOT_WHAT_IF,
 
         PAGE_SELECT_CHROMA_KEY_BACKGROUND,
-        PAGE_DECO_SELECT_STICKER
+        PAGE_DECO_SELECT_STICKER,
+        PAGE_DECO_SELECT_PICS_CARICATURE
     }
 
     public enum CARTOON_TYPE

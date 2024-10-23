@@ -269,6 +269,7 @@ namespace BasicData
         public int PRShootTime;
         public int WFShootTime;
         public int BTShootTime;
+        public int CCShootTime;
         public int ShootWarningTime;
         public int PaymentFailTime;
 
