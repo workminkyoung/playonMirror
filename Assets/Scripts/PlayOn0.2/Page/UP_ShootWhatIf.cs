@@ -35,11 +35,17 @@ public class UP_ShootWhatIf : UP_Shoot
     {
         base.OnPageEnable();
 
-        //_guideGrid.SetSize(PhotoDataManager.inst.isLandscape);
-        //_guideGrid.SetActivate(false);
+        if(UserDataManager.inst.selectedContent == CONTENT_TYPE.WHAT_IF)
+        {
+            UserDataManager.Instance.SetCurrentShootTime(AdminManager.Instance.BasicSetting.Config.WFShootTime);
+        }
+        else if(UserDataManager.inst.selectedContent == CONTENT_TYPE.AI_CARICATURE)
+        {
+            UserDataManager.Instance.SetCurrentShootTime(AdminManager.Instance.BasicSetting.Config.CCShootTime);
+        }
+
         _width = PlayOnProperties.crop3x4_width;
         _height = PlayOnProperties.crop3x4_height;
-        UserDataManager.Instance.SetCurrentShootTime(AdminManager.Instance.BasicSetting.Config.WFShootTime);
         SaveCapturePhoto = (tex) => PhotoDataManager.Instance.AddPhotoOrigin(tex);
     }
 
@@ -53,7 +59,8 @@ public class UP_ShootWhatIf : UP_Shoot
         if (ConfigData.config.camType == (int)CAMERA_TYPE.DSLR)
         {
             //DSLR 사진 로드 요청
-            if (UserDataManager.inst.selectedContent == CONTENT_TYPE.WHAT_IF)
+            if (UserDataManager.inst.selectedContent == CONTENT_TYPE.WHAT_IF ||
+                UserDataManager.inst.selectedContent == CONTENT_TYPE.AI_CARICATURE)
             {
                 _shootState.ResetShootAction(() =>
                 {

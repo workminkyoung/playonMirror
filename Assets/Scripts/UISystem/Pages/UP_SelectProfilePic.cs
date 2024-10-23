@@ -99,26 +99,15 @@ public class UP_SelectProfilePic : UP_BasePage
 
     void FindCaptureSize()
     {
-        switch (UserDataManager.inst.selectedContent)
+        if(UserDataManager.inst.selectedContent == CONTENT_TYPE.AI_CARTOON)
         {
-            case CONTENT_TYPE.AI_CARTOON:
-                _width = PlayOnProperties.crop4x3_width;
-                _height = PlayOnProperties.crop4x3_height;
-                break;
-            case CONTENT_TYPE.AI_PROFILE:
-                _width = PlayOnProperties.crop3x4_width;
-                _height = PlayOnProperties.crop3x4_height;
-                break;
-            case CONTENT_TYPE.AI_TIME_MACHINE:
-                _width = PlayOnProperties.crop3x4_width;
-                _height = PlayOnProperties.crop3x4_height;
-                break;
-            case CONTENT_TYPE.WHAT_IF:
-                _width = PlayOnProperties.crop3x4_width;
-                _height = PlayOnProperties.crop3x4_height;
-                break;
-            default:
-                break;
+            _width = PlayOnProperties.crop4x3_width;
+            _height = PlayOnProperties.crop4x3_height;
+        }
+        else
+        {
+            _width = PlayOnProperties.crop3x4_width;
+            _height = PlayOnProperties.crop3x4_height;
         }
     }
 

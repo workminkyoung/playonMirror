@@ -14,7 +14,7 @@ public class UP_DecoSelectWhatIfPics : UP_DecoSelectPicsBase
             //UC_SelectablePicWhatIf whatif_as = _contents[i] as UC_SelectablePicWhatIf;
 
             //whatif_as.SetJobName(ProfileModule.inst.ProfileReorderName[i]);
-            (_contents[i] as UC_SelectablePicWhatIf).SetJobName(ProfileModule.inst.ProfileReorderName[i]);
+            (_contents[i] as UC_SelectablePicWhatIf).SetJobName(ProfileModule.inst.caricatureDetail[i+1].Korean_Title);
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using TMPro;
+using Unity.Properties;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
@@ -68,29 +69,40 @@ public class UP_Load : UP_BasePage
         _shootEntry = AdminManager.inst.ShootScreen[UserDataManager.inst.selectedContentKey];
     }
 
-    void RequestAIProfile()
+    private void RequestAIProfile()
     {
         ProfileModule.inst.GetProfileImages(PhotoDataManager.inst.selectedAIProfile,
                                             (value) =>
                                             {
-                                                CustomLogger.Log("complet ai");
+                                                CustomLogger.Log("All AIProfile Image Received");
                                                 PhotoDataManager.inst.SetPhotoConverted(value);
                                                 _isReady = true;
                                             });
     }
 
-    void RequestWhatIf()
+    private void RequestWhatIf()
     {
         ProfileModule.inst.GetWhatIfImages(PhotoDataManager.inst.selectedAIProfile,
                                             (value) =>
                                             {
-                                                CustomLogger.Log("complet ai");
+                                                CustomLogger.Log("All WhatIf Image Received");
                                                 PhotoDataManager.inst.SetPhotoConverted(value);
                                                 _isReady = true;
                                             });
     }
 
-    void LoadBeautyPhotos()
+    private void RequestCaricature()
+    {
+        ProfileModule.inst.GetCaricatureImages(PhotoDataManager.inst.selectedAIProfile,
+                                            (value) =>
+                                            {
+                                                CustomLogger.Log("All Caricature Image Received");
+                                                PhotoDataManager.inst.SetPhotoConverted(value);
+                                                _isReady = true;
+                                            });
+    }
+
+    private void LoadBeautyPhotos()
     {
         int _width, _height;
         _width = PlayOnProperties.crop4x3_width;
@@ -241,6 +253,12 @@ public class UP_Load : UP_BasePage
             case CONTENT_TYPE.WHAT_IF:
                 (_pageController as PC_Main)?.ChangePage(PAGE_TYPE.PAGE_DECO_SELECT_PICS_WHAT_IF);
                 break;
+            case CONTENT_TYPE.AI_CARICATURE:
+                (_pageController as PC_Main)?.ChangePage(PAGE_TYPE.PAGE_DECO_SELECT_PICS_CARICATURE);
+                break;
+            default:
+                CustomLogger.LogError(UserDataManager.inst.selectedContent + " Wrong content");
+                break;
         }
 
     }
@@ -291,6 +309,12 @@ public class UP_Load : UP_BasePage
                 break;
             case CONTENT_TYPE.WHAT_IF:
                 (_pageController as PC_Main)?.ChangePage(PAGE_TYPE.PAGE_DECO_SELECT_PICS_WHAT_IF);
+                break;
+            case CONTENT_TYPE.AI_CARICATURE:
+                (_pageController as PC_Main)?.ChangePage(PAGE_TYPE.PAGE_DECO_SELECT_PICS_CARICATURE);
+                break;
+            default:
+                CustomLogger.LogError(UserDataManager.inst.selectedContent + " Wrong content");
                 break;
         }
 
@@ -351,6 +375,9 @@ public class UP_Load : UP_BasePage
             case CONTENT_TYPE.WHAT_IF:
                 RequestWhatIf();
                 break;
+            case CONTENT_TYPE.AI_CARICATURE:
+                RequestCaricature();
+                break;
             default:
                 break;
         }
@@ -366,27 +393,6 @@ public class UP_Load : UP_BasePage
         _loadingFill.sizeDelta = new Vector2(0, _loadingFill.sizeDelta.y);
         _interval = _loadingTime / _shootEntry.url_datas.Count;
         _isReady = false;
-        //switch (UserDataManager.inst.selectedContent)
-        //{
-        //    case CONTENT_TYPE.AI_CARTOON:
-        //        StartCoroutine(CheckReady());
-        //        break;
-        //    case CONTENT_TYPE.AI_PROFILE:
-        //        RequestAIProfile();
-        //        break;
-        //    case CONTENT_TYPE.AI_TIME_MACHINE:
-        //        _isReady = true;
-        //        break;
-        //    case CONTENT_TYPE.AI_BEAUTY:
-        //        _loadingTime = ConfigData.config.loadingTimeBeauty;
-        //        LoadBeautyPhotos();
-        //        break;
-        //    case CONTENT_TYPE.WHAT_IF:
-        //        RequestWhatIf();
-        //        break;
-        //    default:
-        //        break;
-        //}
 
         _curStep = 0;
         _curInterval = _interval;

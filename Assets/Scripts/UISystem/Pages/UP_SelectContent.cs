@@ -89,6 +89,12 @@ public class UP_SelectContent : UP_BaseSelectContent, IPageTimeLimit
                 UserDataManager.inst.SetSelectedFrameColor(UserDataManager.inst.defaultFrameColor);
                 _pageController.ChangePage(PAGE_TYPE.PAGE_SELECT_WHAT_IF);
                 break;
+            case CONTENT_TYPE.AI_CARICATURE:
+                UserDataManager.inst.SelectContent(CONTENT_TYPE.AI_CARICATURE);
+                UserDataManager.inst.SelectContent(contentKey);
+                UserDataManager.inst.SetSelectedFrameColor(UserDataManager.inst.defaultFrameColor);
+                _pageController.ChangePage(PAGE_TYPE.PAGE_SELECT_WHAT_IF);
+                break;
         }
     }
 

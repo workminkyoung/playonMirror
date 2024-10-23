@@ -102,6 +102,14 @@ public class UP_SelectGender : UP_BaseSelectContent, IPageTimeLimit
     private void OnClickContent(ServiceData.ContentsDetailEntry contentDetail)
     {
         UserDataManager.Instance.SelectSubContent(contentDetail.Key);
+        if(contentDetail.Property == "PR00011")
+        {
+            UserDataManager.Instance.SetGender(GENDER_TYPE.FEMALE);
+        }
+        else
+        {
+            UserDataManager.Instance.SetGender(GENDER_TYPE.MALE);
+        }
 
         (_pageController as PC_Main)?.globalPage?.OpenAIProfileAlert(
             AdminManager.Instance.ServiceData.Contents[UserDataManager.Instance.selectedContentKey].GuideImage_data,
