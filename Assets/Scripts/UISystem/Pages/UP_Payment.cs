@@ -76,6 +76,8 @@ public class UP_Payment : UP_BasePage
     private GameObject _couponObj;
     [SerializeField]
     private TextMeshProUGUI _couponText;
+    [SerializeField]
+    private TextMeshProUGUI _couponWarnText;
 
     private int _couponUsedPrice = 0;
     protected int _maxTime;
@@ -163,6 +165,7 @@ public class UP_Payment : UP_BasePage
         UserDataManager.inst.InitCouponData();
         _openKeyboardBtn.gameObject.SetActive(true);
         _couponObj.SetActive(false);
+        _couponWarnText.gameObject.SetActive(false);
         if (UserDataManager.inst.isChromaKeyOn)
         {
             (_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_SELECT_CHROMA_KEY_BACKGROUND);
@@ -187,7 +190,6 @@ public class UP_Payment : UP_BasePage
             {
                 //(_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_CAUTION); // 결제모듈 미사용 기존코드
                 OnSuccessedPayment(); // 결제모듈 미사용 임시코드
-
             }
         }
         else
@@ -217,8 +219,8 @@ public class UP_Payment : UP_BasePage
         var data = new Dictionary<string, string>
         {
             { "coupon_number", UserDataManager.inst.getCouponNumber},
-            { "uuid", "vive1" }, // 테스트용 쿠폰 전용 UUID 
-            //{ "uuid", LogDataManager.inst.GetGuid}, // 실제 사용할 코드
+            //{ "uuid", "vive1" }, // 테스트용 쿠폰 전용 UUID 
+            { "uuid", LogDataManager.inst.GetGuid}, // 실제 사용할 코드
             { "status", "used" } 
         };
         string json = JsonConvert.SerializeObject(data);
@@ -342,6 +344,7 @@ public class UP_Payment : UP_BasePage
                     ConvertContentFree();
                 }
                 _openKeyboardBtn.gameObject.SetActive(false);
+                _couponWarnText.gameObject.SetActive(true);
             }
         }
     }
@@ -567,6 +570,7 @@ public class UP_Payment : UP_BasePage
         UserDataManager.inst.InitCouponData();
         _openKeyboardBtn.gameObject.SetActive(true);
         _couponObj.SetActive(false);
+        _couponWarnText.gameObject.SetActive(false);
     }
 
     [Serializable]
