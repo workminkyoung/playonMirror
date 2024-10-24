@@ -119,15 +119,6 @@ public class UP_Payment : UP_BasePage
         _agreeToggle?.onValueChanged.AddListener(OnAgreeToggleChanged);
         _openKeyboardBtn?.onClick.AddListener((_pageController as PC_Main).globalPage.OpenKeyboard);
         (_pageController as PC_Main).globalPage.SetKeyboardCloseAction(UpdateCoupon);
-
-    }
-
-    private void OnDisable()
-    {
-        (_pageController as PC_Main).globalPage.OpenDim(false);
-        (_pageController as PC_Main).globalPage.CloseAlertPopup();
-        (_pageController as PC_Main)?.globalPage?.CloseToast();
-        (_pageController as PC_Main).globalPage.ClosePrivacyPopup();
     }
 
     private void OnChildToggleChanged(bool isSelected)
@@ -415,7 +406,7 @@ public class UP_Payment : UP_BasePage
                 (_pageController as PC_Main)?.globalPage?.OpenTimerToast(5);
             }
         }
-
+        
         (_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_AOD);
         UserDataManager.inst.InitCouponData();
     }
@@ -563,6 +554,21 @@ public class UP_Payment : UP_BasePage
 
         //OnChildToggleChanged(_childToggle.isOn);
         //OnAgreeToggleChanged(_agreeToggle.isOn);
+    }
+
+    private void OnDisable()
+    {
+        (_pageController as PC_Main).globalPage.OpenDim(false);
+        (_pageController as PC_Main).globalPage.CloseAlertPopup();
+        (_pageController as PC_Main)?.globalPage?.CloseToast();
+        (_pageController as PC_Main).globalPage.ClosePrivacyPopup();
+        (_pageController as PC_Main).globalPage.CloseKeyboard();
+
+        // TODO : 리펙토링 대상, 타이머 0이 되어 첫페이지로 초기화될때 onreset함수 등록해주는 부분 구현필요
+        UserDataManager.inst.InitCouponData();
+        _openKeyboardBtn.gameObject.SetActive(true);
+        _couponObj.SetActive(false);
+        _couponWarnText.gameObject.SetActive(false);
     }
 
     protected override void OnPageReset()

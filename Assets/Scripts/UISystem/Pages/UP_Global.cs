@@ -46,7 +46,7 @@ public class UP_Global : UP_BasePage
     private UC_Keyboard _keyboard;
     
     [SerializeField]
-    private int _popupTime = 10;
+    private int _popupTime = 180;
 
 
 
@@ -274,17 +274,6 @@ public class UP_Global : UP_BasePage
         _chromaKeySetting.gameObject.SetActive(true);
     }
 
-    public void OpenKeyboard()
-    {
-        OpenPopupPage(_keyboard, _popupTime);
-        //_keyboard.gameObject.SetActive(true);
-    }
-
-    public void SetKeyboardCloseAction(Action OnCloseAction)
-    {
-        _keyboard._exitAction = OnCloseAction;
-    }
-
     public void CloseChromaKeySetting()
     {
         _chromaKeySetting.gameObject.SetActive(false);
@@ -299,6 +288,19 @@ public class UP_Global : UP_BasePage
     {
         _downloadLoading.SetActivate(false);
         GameManager.OnGoogleDownloadEnd?.Invoke();
+    }
+    public void OpenKeyboard()
+    {
+        OpenPopupPage(_keyboard, _popupTime, CloseKeyboard);
+    }
+    public void CloseKeyboard()
+    {
+        _keyboard.ExitKeyboard();
+    }
+
+    public void SetKeyboardCloseAction(Action OnCloseAction)
+    {
+        _keyboard._exitAction = OnCloseAction;
     }
 
     private void Update()
