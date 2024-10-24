@@ -7,6 +7,7 @@ using UnityEngine;
 public class Config
 {
     public int camType;
+    public int popupTime;
 
     //camera setting
     public int wbIdx;

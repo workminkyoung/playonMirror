@@ -9973,6 +9973,8 @@ MonoBehaviour:
   _buttonTextFont: {fileID: 11400000, guid: 57b51942188d446c99a08c182c5560fb, type: 2}
   _buttonOriginTextFont: 52
   _buttonPressedTextFont: 52
+  _normalNotificationOutLineWidth: 0
+  _normalNotificationOutlineColor: {r: 0, g: 0, b: 0, a: 0}
   _errorNotificationOutLineWidth: 6
   _errorNotificationOutlineColor: {r: 1, g: 0.29411766, b: 0.29411766, a: 0}
   Keyboard: {fileID: 287038264763243768}
@@ -21496,6 +21498,7 @@ MonoBehaviour:
   _chromaKeySetting: {fileID: 6071726112708207963}
   _downloadLoading: {fileID: 1353205794038568813}
   _keyboard: {fileID: 7044123421833611926}
+  _popupTime: 10
 --- !u!225 &5465835117325078339
 CanvasGroup:
   m_ObjectHideFlags: 0

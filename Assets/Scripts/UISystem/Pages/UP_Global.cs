@@ -98,6 +98,7 @@ public class UP_Global : UP_BasePage
         {
             ResetPhotopaperPopupOn(false);
         };
+        _popupTime = ConfigData.config.popupTime;
     }
 
     public void OpenConfirmPopup(string title, string description, Sprite sprite)

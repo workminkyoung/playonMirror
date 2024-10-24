@@ -1,6 +1,8 @@
 {
     "camType": 0,
 
+    "popupTime" : 180,
+
     "wbIdx": 1,
     "isoIdx": 6,
     "avIdx": 3,
