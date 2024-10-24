@@ -68,9 +68,6 @@ public class PC_Main : PC_BasePageController
 
     public Action OnFrameUpdateAction;
 
-    [SerializeField]
-    private CanvasGroup dropGroup;
-
     //private bool _isPaymentOn = true;
     public Action<bool> OnPaymentChangeAction;
 
@@ -375,10 +372,6 @@ public class PC_Main : PC_BasePageController
                 {
                     GameManager.inst.ResetGame();
                 }
-            }
-            else if (Input.GetKeyDown(KeyCode.N))
-            {
-                dropGroup.alpha = (dropGroup.alpha == 1) ? 0 : 1;
             }
 #if UNITY_EDITOR
             else if (Input.GetKeyDown(KeyCode.R))
