@@ -1,20 +1,16 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Drawing;
 using UnityEngine;
 using Vivestudios.UI;
-using ZXing.QrCode;
-using ZXing;
-using System.IO;
-using sdimage = System.Drawing.Imaging;
 using UnityEngine.UI;
-using ZXing.QrCode.Internal;
+using Image = UnityEngine.UI.Image;
 using System;
 
 public class UP_Complete : UP_BasePage
 {
     [SerializeField]
     Button _nextBtn;
+    [SerializeField]
+    Image _bgImage;
 
     private const int WAIT_TIME = 10;
     private Coroutine TimeLimitCoroutine = null;
@@ -32,6 +28,12 @@ public class UP_Complete : UP_BasePage
     {
         //throw new System.NotImplementedException();
         //_rawimage.texture = MakeQRCode("https://forms.gle/gHHdb82HmsAsGB5R8");
+    }
+
+    public override void ApplyAdminData()
+    {
+        base.ApplyAdminData();
+        _bgImage.sprite = AdminManager.Instance.BasicSetting.Config.EndImage_data;
     }
 
     private void GameOver()

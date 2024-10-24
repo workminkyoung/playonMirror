@@ -501,10 +501,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e758565b14fe2974ebbf4675f910f78b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _key: 
   _touchFeedback: {fileID: 0}
   _stroke: {fileID: 4428114717695593316}
   isViewOnly: 0
   _thumbnailImg: {fileID: 2750083611650703428}
+  _thumbnailUnselectImg: {fileID: 0}
+  _thumbnailSelectImg: {fileID: 0}
+  _nameText: {fileID: 0}
 --- !u!1 &1181565902876404805
 GameObject:
   m_ObjectHideFlags: 0
@@ -1211,10 +1215,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e758565b14fe2974ebbf4675f910f78b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _key: 
   _touchFeedback: {fileID: 0}
   _stroke: {fileID: 7261048397597829889}
   isViewOnly: 0
   _thumbnailImg: {fileID: 7917863341928661734}
+  _thumbnailUnselectImg: {fileID: 0}
+  _thumbnailSelectImg: {fileID: 0}
+  _nameText: {fileID: 0}
 --- !u!1 &3906968826691416645
 GameObject:
   m_ObjectHideFlags: 0
@@ -2448,6 +2456,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pageType: 11
   _timeText: {fileID: 4820510845003630027}
+  _titleText: {fileID: 1987224614902169559}
   _selectableContents: []
   _nextBtn: {fileID: 1588477564656488970}
   _imageShield: {fileID: 5136916753614661408}
@@ -2667,10 +2676,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e758565b14fe2974ebbf4675f910f78b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _key: 
   _touchFeedback: {fileID: 0}
   _stroke: {fileID: 3050002784279383498}
   isViewOnly: 0
   _thumbnailImg: {fileID: 6222999688627222815}
+  _thumbnailUnselectImg: {fileID: 0}
+  _thumbnailSelectImg: {fileID: 0}
+  _nameText: {fileID: 0}
 --- !u!1 &9188786246390144163
 GameObject:
   m_ObjectHideFlags: 0

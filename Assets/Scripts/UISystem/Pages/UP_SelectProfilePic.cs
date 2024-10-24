@@ -11,6 +11,8 @@ public class UP_SelectProfilePic : UP_BasePage
     private int _maxTime;
     [SerializeField]
     protected TextMeshProUGUI _timeText;
+    [SerializeField]
+    protected TextMeshProUGUI _titleText;
 
     [SerializeField]
     private UC_SelectableContent[] _selectableContents;
@@ -89,6 +91,7 @@ public class UP_SelectProfilePic : UP_BasePage
         _nextBtn.interactable = false;
         _delayCoroutine = StartCoroutine(DelayOnLoad());// SetContents();
         _timerCoroutine = StartCoroutine(TimerRoutine());
+        _titleText.text = StringCacheManager.inst.GetSelectPicTitle(UserDataManager.inst.selectedContent);
 
         for (int i = 0; i < _selectableContents.Length; i++)
         {

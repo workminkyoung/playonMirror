@@ -31,6 +31,8 @@ public class StringCacheManager : SingletonBehaviour<StringCacheManager>
     [SerializeField]
     private ContentStringDicBase _contentPlayerNums;
     [SerializeField]
+    private ContentStringDicBase _selectPicTitle;
+    [SerializeField]
     private FilterStringDicBase _filterDescriptions;
     private string _dividerLine = "-----------------------------------------";
     private string _pointLine = "##### ";
@@ -121,6 +123,18 @@ public class StringCacheManager : SingletonBehaviour<StringCacheManager>
     public string GetFilterDescription(CONTENT_TYPE type)
     {
         return _filterDescriptions[type];
+    }
+
+    public string GetSelectPicTitle(CONTENT_TYPE type)
+    {
+        if (_selectPicTitle.ContainsKey(type))
+        {
+            return _selectPicTitle[type];
+        }
+        else
+        {
+            return string.Empty;
+        }
     }
 
     protected override void Init()

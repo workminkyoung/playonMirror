@@ -122,7 +122,14 @@ public class UP_SelectFrame : UP_BaseSelectContent, IPageTimeLimit
                 _pageController.ChangePage(PAGE_TYPE.PAGE_SELECT_CONTENT);
                 break;
             case CONTENT_TYPE.AI_BEAUTY:
-                _pageController.ChangePage(PAGE_TYPE.PAGE_SELECT_CONTENT);
+                if (UserDataManager.inst.isSingleContent)
+                {
+                    _pageController.ChangePage(PAGE_TYPE.PAGE_AOD);
+                }
+                else
+                {
+                    _pageController.ChangePage(PAGE_TYPE.PAGE_SELECT_CONTENT);
+                }
                 break;
             case CONTENT_TYPE.WHAT_IF:
                 _pageController.ChangePage(PAGE_TYPE.PAGE_SELECT_WHAT_IF);

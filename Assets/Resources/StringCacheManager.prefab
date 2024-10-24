@@ -343,6 +343,36 @@ MonoBehaviour:
     - "\uCD5C\uB300 4\uBA85"
     - "\uCD5C\uB300 1\uBA85"
     - "\uCD5C\uB300 4\uBA85"
+  _selectPicTitle:
+    reorderableList:
+      canAdd: 1
+      canRemove: 1
+      draggable: 1
+      expandable: 1
+      multipleSelection: 1
+      isExpanded: 1
+      label:
+        m_Text: Keys
+        m_Image: {fileID: 0}
+        m_Tooltip: 
+      headerHeight: 18
+      footerHeight: 13
+      slideEasing: 0.15
+      verticalSpacing: 2
+      showDefaultBackground: 1
+      elementDisplayType: 0
+      elementNameProperty: 
+      elementNameOverride: 
+      elementIcon: {fileID: 0}
+    reqReferences: {fileID: 0}
+    isExpanded: 1
+    _keyValues: 0100000005000000
+    _keys: 0100000005000000
+    _values:
+    - "AI \uD504\uB85C\uD544\uC744 \uB9CC\uB4E4\uAE30 \uC704\uD574 \uB9C8\uC74C\uC5D0
+      \uB4DC\uB294 \uC0AC\uC9C4 1\uC7A5\uC744 \uC120\uD0DD\uD558\uC138\uC694"
+    - "\uCE90\uB9AC\uCEE4\uCCD0\uB97C \uB9CC\uB4E4\uAE30 \uC704\uD574 \uB9C8\uC74C\uC5D0
+      \uB4DC\uB294 \uC0AC\uC9C4 1\uC7A5\uC744 \uC120\uD0DD\uD558\uC138\uC694"
   _filterDescriptions:
     reorderableList:
       canAdd: 1

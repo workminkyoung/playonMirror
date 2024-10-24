@@ -107,6 +107,9 @@ public class UP_DecoSelectEffects : UP_DecoratePageBase
             case CONTENT_TYPE.WHAT_IF:
                 _pageController.ChangePage(PAGE_TYPE.PAGE_DECO_SELECT_PICS_WHAT_IF);
                 break;
+            case CONTENT_TYPE.AI_CARICATURE:
+                _pageController.ChangePage(PAGE_TYPE.PAGE_DECO_SELECT_PICS_CARICATURE);
+                break;
         }
     }
 
