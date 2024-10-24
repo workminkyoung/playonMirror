@@ -126,7 +126,6 @@ public class UC_Keyboard : UC_BaseComponent
 
     public void ExitKeyboard()
     {
-        _exitAction?.Invoke();
         InitInputField();
         gameObject.SetActive(false);
     }
@@ -184,6 +183,7 @@ public class UC_Keyboard : UC_BaseComponent
         if (ValidateResponse())
         { 
             UserDataManager.inst.SetCouponInfo(_inputField.text);
+            _exitAction?.Invoke();
             ExitKeyboard();
         }
     }
