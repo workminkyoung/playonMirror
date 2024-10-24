@@ -1,9 +1,6 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Drawing;
 using TMPro;
-using UnityEditor.VersionControl;
 using UnityEngine;
 using Vivestudios.UI;
 
@@ -66,7 +63,7 @@ public class UP_Global : UP_BasePage
 
     public bool isToastOn { get { return _toast.isOn; } }
 
-    private const string TOAST_MSG = "{0}초 뒤 첫 화면으로 이동합니다. 화면을 터치해주세요.";
+    private const string TOAST_MSG = "{0}초 뒤 첫 화면으로 이동합니다.";
     private const string POPUP_MSG = "{0}초 뒤 창이 닫힙니다.";
 
     public override void InitPage()
@@ -114,7 +111,6 @@ public class UP_Global : UP_BasePage
     public void CloseConfirmPopup()
     {
         _confirmPopup.OpenPopup(false);
-        CloseToast();
     }
     public void OpenConfirmPopupWide(string title, string description, Sprite sprite)
     {
@@ -127,7 +123,6 @@ public class UP_Global : UP_BasePage
     public void CloseConfirmPopupWide()
     {
         _confirmPopupWide.OpenPopup(false);
-        CloseToast();
     }
 
     public void OpenPolicyPopup(POLICY_TYPE type)
@@ -141,7 +136,6 @@ public class UP_Global : UP_BasePage
     {
         _PolicyPopup.gameObject.SetActive(false);
         _dimImg.gameObject.SetActive(false);
-        CloseToast();
     }
 
     public void OpenPrivacyPopup()
@@ -154,7 +148,6 @@ public class UP_Global : UP_BasePage
     {
         _privacyPopup.gameObject.SetActive(false);
         _privacyPopup.OpenPopup(false);
-        CloseToast();
     }
 
     public void OpenTimerToast(int num)
@@ -289,7 +282,6 @@ public class UP_Global : UP_BasePage
     public void SetKeyboardCloseAction(Action OnCloseAction)
     {
         _keyboard._exitAction = OnCloseAction;
-        CloseToast();
     }
 
     public void CloseChromaKeySetting()
@@ -362,11 +354,6 @@ public class UP_Global : UP_BasePage
         popupComponent.SetActivate(true);
         while (time < num)
         {
-            if (num - time <= 5) 
-            {
-                _toast.SetText(string.Format(POPUP_MSG, num - time));
-                _toast.OpenToast(true);
-            }
             yield return new WaitForSecondsRealtime(1);
             time++;
             if (!popupComponent.gameObject.activeSelf)
@@ -374,8 +361,6 @@ public class UP_Global : UP_BasePage
                 break;
             }
         }
-        _toast.OpenToast(false);
-        _toast.SetText("");
         popupComponent.SetActivate(false);
         closeActionEmpty?.Invoke();
     }

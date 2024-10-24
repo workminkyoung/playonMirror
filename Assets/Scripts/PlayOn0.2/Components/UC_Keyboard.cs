@@ -128,7 +128,6 @@ public class UC_Keyboard : UC_BaseComponent
     {
         _exitAction?.Invoke();
         InitInputField();
-        GameManager.Instance.globalPage.CloseToast();
         gameObject.SetActive(false);
     }
 
