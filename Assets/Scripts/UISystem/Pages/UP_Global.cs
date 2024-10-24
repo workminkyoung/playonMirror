@@ -1,7 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Drawing;
 using TMPro;
 using UnityEngine;
 using Vivestudios.UI;
@@ -46,9 +44,15 @@ public class UP_Global : UP_BasePage
     private UC_DownloadLoading _downloadLoading;
     [SerializeField]
     private UC_Keyboard _keyboard;
+    
+    [SerializeField]
+    private int _popupTime = 10;
+
+
 
     private Coroutine _timerToastCoroutine = null;
     private Coroutine _showToastCoroutine = null;
+    private Coroutine _popupToastCoroutine = null;
 
     public Action ErrorOpenAction;
     public Action ErrorClossAction;
@@ -59,7 +63,8 @@ public class UP_Global : UP_BasePage
 
     public bool isToastOn { get { return _toast.isOn; } }
 
-    private const string TOAST_MSG = "{0}초 뒤 첫 화면으로 이동합니다. 화면을 터치해주세요.";
+    private const string TOAST_MSG = "{0}초 뒤 첫 화면으로 이동합니다.";
+    private const string POPUP_MSG = "{0}초 뒤 창이 닫힙니다.";
 
     public override void InitPage()
     {
@@ -79,9 +84,9 @@ public class UP_Global : UP_BasePage
 
     public override void BindDelegates()
     {
-        //_confirmPopup.OnConfirmAction += CloseConfirmPopup;
+        _confirmPopup.OnConfirmAction += CloseConfirmPopup;
+        _confirmPopupWide.OnConfirmAction += CloseConfirmPopupWide;
         _PolicyPopup.OnConfirmAction += ClosePolicyPopup;
-
         _resetPhotoPaperPopup.OnConfirmAction += () =>
         {
             ResetPhotopaperPopupOn(false);
@@ -95,25 +100,36 @@ public class UP_Global : UP_BasePage
         };
     }
 
-    public void OpenConfirmPopup(string title, string description, Sprite sprite, bool isWide = false)
+    public void OpenConfirmPopup(string title, string description, Sprite sprite)
     {
-        UC_ConfirmPopup popup = _confirmPopup;
-        if (isWide)
-        {
-            popup = _confirmPopupWide;
-        }
-        popup.gameObject.SetActive(true);
-        popup.SetTitle(title);
-        popup.SetDescription(description);
-        popup.SetImage(sprite);
-        popup.OpenPopup(true);
+        OpenPopupPage(_confirmPopup, _popupTime, CloseConfirmPopup);
+        _confirmPopup.SetTitle(title);
+        _confirmPopup.SetDescription(description);
+        _confirmPopup.SetImage(sprite);
+        _confirmPopup.OpenPopup(true);
+    }
+    public void CloseConfirmPopup()
+    {
+        _confirmPopup.OpenPopup(false);
+    }
+    public void OpenConfirmPopupWide(string title, string description, Sprite sprite)
+    {
+        OpenPopupPage(_confirmPopupWide, _popupTime, CloseConfirmPopupWide);
+        _confirmPopupWide.SetTitle(title);
+        _confirmPopupWide.SetDescription(description);
+        _confirmPopupWide.SetImage(sprite);
+        _confirmPopupWide.OpenPopup(true);
+    }
+    public void CloseConfirmPopupWide()
+    {
+        _confirmPopupWide.OpenPopup(false);
     }
 
     public void OpenPolicyPopup(POLICY_TYPE type)
     {
         _PolicyPopup.SetContent(type);
         _dimImg.gameObject.SetActive(true);
-        _PolicyPopup.gameObject.SetActive(true);
+        OpenPopupPage(_PolicyPopup, _popupTime, ClosePolicyPopup);
     }
 
     public void ClosePolicyPopup()
@@ -124,7 +140,7 @@ public class UP_Global : UP_BasePage
 
     public void OpenPrivacyPopup()
     {
-        _privacyPopup.gameObject.SetActive(true);
+        OpenPopupPage(_privacyPopup, _popupTime, ClosePrivacyPopup);
         _privacyPopup.OpenPopup(true);
     }
 
@@ -132,18 +148,6 @@ public class UP_Global : UP_BasePage
     {
         _privacyPopup.gameObject.SetActive(false);
         _privacyPopup.OpenPopup(false);
-    }
-
-    public void CloseConfirmPopup(bool isWide = false)
-    {
-        if (isWide)
-        {
-            _confirmPopupWide.OpenPopup(false);
-        }
-        else
-        {
-            _confirmPopup.OpenPopup(false);
-        }
     }
 
     public void OpenTimerToast(int num)
@@ -185,6 +189,11 @@ public class UP_Global : UP_BasePage
     {
         _toast.SetText(message);
         _toast.OpenToast(true);
+    }
+    public void ClosePopupPage()
+    {
+        if (_showToastCoroutine != null)
+            StopCoroutine(_showToastCoroutine);
     }
 
     public void OpenToast(string message, int time)
@@ -266,7 +275,8 @@ public class UP_Global : UP_BasePage
 
     public void OpenKeyboard()
     {
-        _keyboard.gameObject.SetActive(true);
+        OpenPopupPage(_keyboard, _popupTime);
+        //_keyboard.gameObject.SetActive(true);
     }
 
     public void SetKeyboardCloseAction(Action OnCloseAction)
@@ -319,7 +329,6 @@ public class UP_Global : UP_BasePage
             OpenServiceErrorPageTemp(true);
         }
     }
-
     public void ToggleVersionText()
     {
         if (_versionTextArea.gameObject.activeInHierarchy)
@@ -332,6 +341,29 @@ public class UP_Global : UP_BasePage
             _versionTextArea.gameObject.SetActive(true);
         }
     }
+    public void OpenPopupPage(UC_BaseComponent popupComponent, int durationTime, Action closeActionEmpty = null)
+    {
+        if (_popupToastCoroutine != null)
+            StopCoroutine(_popupToastCoroutine);
+
+        _popupToastCoroutine = StartCoroutine(TimerPopupToastRoutine(popupComponent, durationTime, closeActionEmpty));
+    }
+    private IEnumerator TimerPopupToastRoutine(UC_BaseComponent popupComponent, int num, Action closeActionEmpty = null)
+    {
+        int time = 0;
+        popupComponent.SetActivate(true);
+        while (time < num)
+        {
+            yield return new WaitForSecondsRealtime(1);
+            time++;
+            if (!popupComponent.gameObject.activeSelf)
+            {
+                break;
+            }
+        }
+        popupComponent.SetActivate(false);
+        closeActionEmpty?.Invoke();
+    }
 
     private IEnumerator TimerToastRoutine(int num)
     {
@@ -343,6 +375,8 @@ public class UP_Global : UP_BasePage
             _toast.OpenToast(true);
             yield return new WaitForSecondsRealtime(1);
             time++;
+            _toast.OpenToast(false);
+            _toast.SetText("");
         }
         _toast.OpenToast(false);
         _toast.SetText("");

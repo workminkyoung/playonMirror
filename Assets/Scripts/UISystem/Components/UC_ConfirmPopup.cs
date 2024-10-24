@@ -19,10 +19,12 @@ public class UC_ConfirmPopup : UC_BaseComponent
 
     private delegate void OnConfirmDelegate();
     private OnConfirmDelegate onConfirmDelegate;
+    public Action OnConfirmAction = null;
 
     public override void InitComponent()
     {
         canvasGroup.alpha = 0;
+        _confirmBtn.onClick.AddListener(() => OnConfirmAction?.Invoke());
 
         _confirmBtn.onClick.AddListener(() =>
         {
