@@ -416,7 +416,7 @@ public class PC_Main : PC_BasePageController
                 {
                     using (var proc = new System.Diagnostics.Process())
                     {
-                        proc.StartInfo.FileName = Path.Combine(Application.dataPath, @"../", "playon.exe");
+                        proc.StartInfo.FileName = Path.Combine(Application.dataPath, @"../", "snapai.exe");
                         proc.Start();
                     }
                     Application.Quit();
