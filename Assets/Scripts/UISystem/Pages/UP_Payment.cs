@@ -286,7 +286,9 @@ public class UP_Payment : UP_BasePage
                 _content.SetGenderActive(false);
                 break;
             case CONTENT_TYPE.AI_BEAUTY:
-                _selectedContentText.text = StringCacheManager.inst.GetContentTitle(CONTENT_TYPE.AI_BEAUTY);
+                _selectedContentText.text = AdminManager.Instance.ServiceData.Contents[UserDataManager.Instance.selectedContentKey].Korean_Title;
+                // TODO : 하드코딩된 부분 나중에 수정하기
+                _timeMachineImg.sprite = AdminManager.Instance.ServiceData.ContentsDetail["BT0000"].Thumbnail_data;
                 _content.SetGenderActive(false);
                 break;
             case CONTENT_TYPE.WHAT_IF:
