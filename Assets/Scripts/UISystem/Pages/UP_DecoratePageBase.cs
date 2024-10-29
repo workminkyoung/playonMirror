@@ -39,14 +39,15 @@ public abstract class UP_DecoratePageBase : UP_BasePage
     {
         //_timeText.text = string.Format("{0}분 {1:D2}초", time / 60, time % 60);
 
-        if (time / 60 <= 0)
-        {
-            _timeText.text = string.Format("{0}초", time);
-        }
-        else
-        {
-            _timeText.text = string.Format("{0}분{1}초", time / 60, time % 60);
-        }
+        _timeText.text = string.Format("{0}", time);
+        //if (time / 60 <= 0)
+        //{
+        //    _timeText.text = string.Format("{0}초", time);
+        //}
+        //else
+        //{
+        //    _timeText.text = string.Format("{0}분{1}초", time / 60, time % 60);
+        //}
     }
 
     protected virtual void OnTimeLimitDone()

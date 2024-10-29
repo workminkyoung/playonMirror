@@ -128,14 +128,16 @@ public class UP_Caution : UP_BasePage
         int time = 0;
         while (time < LIMIT_TIME)
         {
-            if ((LIMIT_TIME - time) / 60 < 0)
-            {
-                _timerText.text = string.Format("{0}초", LIMIT_TIME - time);
-            }
-            else
-            {
-                _timerText.text = string.Format("{0}분{1}초", (int)((LIMIT_TIME - time) / 60), (LIMIT_TIME - time) % 60);
-            }
+
+            _timerText.text = string.Format("{0}", LIMIT_TIME - time);
+            //if ((LIMIT_TIME - time) / 60 < 0)
+            //{
+            //    _timerText.text = string.Format("{0}초", LIMIT_TIME - time);
+            //}
+            //else
+            //{
+            //    _timerText.text = string.Format("{0}분{1}초", (int)((LIMIT_TIME - time) / 60), (LIMIT_TIME - time) % 60);
+            //}
 
             yield return new WaitForSecondsRealtime(1);
             time++;

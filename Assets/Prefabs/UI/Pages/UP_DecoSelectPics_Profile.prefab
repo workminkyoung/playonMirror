@@ -89,6 +89,7 @@ MonoBehaviour:
     - {fileID: 458641508892038099}
     - {fileID: 6950679107976868648}
   _timeText: {fileID: 8871125114479265143}
+  _isStickerUse: 0
   _nextBtn: {fileID: 76625658667158046}
   _countText: {fileID: 5216441014683172338}
   _contents:
@@ -103,6 +104,32 @@ MonoBehaviour:
   _maxSelectNum: 0
   _curSelectNum: 0
   _touchIgnoreArea: {fileID: 1346856355264505062}
+  _selectedPhotoIndexDic:
+    reorderableList:
+      canAdd: 1
+      canRemove: 1
+      draggable: 1
+      expandable: 1
+      multipleSelection: 1
+      isExpanded: 0
+      label:
+        m_Text: Keys
+        m_Image: {fileID: 0}
+        m_Tooltip: 
+      headerHeight: 18
+      footerHeight: 13
+      slideEasing: 0.15
+      verticalSpacing: 2
+      showDefaultBackground: 1
+      elementDisplayType: 0
+      elementNameProperty: 
+      elementNameOverride: 
+      elementIcon: {fileID: 0}
+    reqReferences: {fileID: 0}
+    isExpanded: 0
+    _keyValues: 
+    _keys: 
+    _values: 
 --- !u!225 &4938068077429508994
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -281,11 +308,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 4272373817824356676}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 102, y: 60}
-  m_Pivot: {x: 1, y: 0.5}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 56, y: -30}
+  m_SizeDelta: {x: 58, y: 60}
+  m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &7898647257708720060
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -314,7 +341,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "1\uBD84 40\uCD08"
+  m_text: 999
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1df67da11e533b14d9f13b9a37709d3a, type: 2}
   m_sharedMaterial: {fileID: 5231772860707312245, guid: 1df67da11e533b14d9f13b9a37709d3a, type: 2}
@@ -348,7 +375,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 4
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -799,10 +826,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82955a11f8396ea4ebd76393858f5896, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _key: 
   _touchFeedback: {fileID: 8934900042910799993}
   _stroke: {fileID: 0}
   isViewOnly: 0
   _thumbnailImg: {fileID: 9157142833539044615}
+  _thumbnailUnselectImg: {fileID: 0}
+  _thumbnailSelectImg: {fileID: 0}
+  _nameText: {fileID: 0}
   _picNum: {fileID: 2220641334420748255}
 --- !u!1 &1872360714246567106
 GameObject:
@@ -827,7 +858,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1872360714246567106}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -838,9 +869,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1860, y: -60}
-  m_SizeDelta: {x: 241, y: 65}
-  m_Pivot: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 1803, y: -92}
+  m_SizeDelta: {x: 114, y: 60}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1932467084054933451
 GameObject:
   m_ObjectHideFlags: 0
@@ -1946,10 +1977,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82955a11f8396ea4ebd76393858f5896, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _key: 
   _touchFeedback: {fileID: 1275561072643793586}
   _stroke: {fileID: 0}
   isViewOnly: 0
   _thumbnailImg: {fileID: 10581624986363396}
+  _thumbnailUnselectImg: {fileID: 0}
+  _thumbnailSelectImg: {fileID: 0}
+  _nameText: {fileID: 0}
   _picNum: {fileID: 6961467451113765508}
 --- !u!1 &4468042113991632916
 GameObject:
@@ -2582,10 +2617,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82955a11f8396ea4ebd76393858f5896, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _key: 
   _touchFeedback: {fileID: 7203804224409861806}
   _stroke: {fileID: 0}
   isViewOnly: 0
   _thumbnailImg: {fileID: 2807423514270942560}
+  _thumbnailUnselectImg: {fileID: 0}
+  _thumbnailSelectImg: {fileID: 0}
+  _nameText: {fileID: 0}
   _picNum: {fileID: 6941630461671980242}
 --- !u!1 &5367451291017575251
 GameObject:
@@ -2651,10 +2690,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82955a11f8396ea4ebd76393858f5896, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _key: 
   _touchFeedback: {fileID: 2154270209948275808}
   _stroke: {fileID: 0}
   isViewOnly: 0
   _thumbnailImg: {fileID: 7101378424556781200}
+  _thumbnailUnselectImg: {fileID: 0}
+  _thumbnailSelectImg: {fileID: 0}
+  _nameText: {fileID: 0}
   _picNum: {fileID: 9130230029902994991}
 --- !u!1 &5455074208733972437
 GameObject:
@@ -3020,10 +3063,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82955a11f8396ea4ebd76393858f5896, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _key: 
   _touchFeedback: {fileID: 5969578448102574639}
   _stroke: {fileID: 0}
   isViewOnly: 0
   _thumbnailImg: {fileID: 6600839599094201005}
+  _thumbnailUnselectImg: {fileID: 0}
+  _thumbnailSelectImg: {fileID: 0}
+  _nameText: {fileID: 0}
   _picNum: {fileID: 3343500432507823183}
 --- !u!1 &6234905451630619290
 GameObject:
@@ -3134,10 +3181,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82955a11f8396ea4ebd76393858f5896, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _key: 
   _touchFeedback: {fileID: 8651682445254619785}
   _stroke: {fileID: 0}
   isViewOnly: 0
   _thumbnailImg: {fileID: 5162075694472849779}
+  _thumbnailUnselectImg: {fileID: 0}
+  _thumbnailSelectImg: {fileID: 0}
+  _nameText: {fileID: 0}
   _picNum: {fileID: 687003043243579018}
 --- !u!1 &6368626843534571306
 GameObject:
@@ -3658,10 +3709,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82955a11f8396ea4ebd76393858f5896, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _key: 
   _touchFeedback: {fileID: 1076153855598755130}
   _stroke: {fileID: 0}
   isViewOnly: 0
   _thumbnailImg: {fileID: 7898072339146112413}
+  _thumbnailUnselectImg: {fileID: 0}
+  _thumbnailSelectImg: {fileID: 0}
+  _nameText: {fileID: 0}
   _picNum: {fileID: 1218154222922349083}
 --- !u!1 &7434238526196608589
 GameObject:
@@ -4491,10 +4546,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82955a11f8396ea4ebd76393858f5896, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _key: 
   _touchFeedback: {fileID: 6931049058148239853}
   _stroke: {fileID: 0}
   isViewOnly: 0
   _thumbnailImg: {fileID: 1615209883002395954}
+  _thumbnailUnselectImg: {fileID: 0}
+  _thumbnailSelectImg: {fileID: 0}
+  _nameText: {fileID: 0}
   _picNum: {fileID: 1426058967808441472}
 --- !u!1 &8904015254892067470
 GameObject:
