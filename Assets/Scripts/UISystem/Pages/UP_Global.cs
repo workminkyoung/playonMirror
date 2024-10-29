@@ -142,6 +142,7 @@ public class UP_Global : UP_BasePage
     public void OpenPrivacyPopup()
     {
         OpenPopupPage(_privacyPopup, _popupTime, ClosePrivacyPopup);
+        _privacyPopup.SetImage(AdminManager.Instance.BasicSetting.Config.PaymentTermImage_data);
         _privacyPopup.OpenPopup(true);
     }
 

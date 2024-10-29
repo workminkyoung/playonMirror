@@ -50,7 +50,9 @@ public class UC_PolicyPopup : UC_BaseComponent
     public void SetContent(POLICY_TYPE type)
     {
         SetTitle(_titleTextDic[type]);
-        SetContent(_policySpriteDic[type]);
+        SetContent(type == POLICY_TYPE.PRIVACY_POLICY ? 
+            AdminManager.Instance.BasicSetting.Config.PersonalPolicyImage_data :
+            AdminManager.Instance.BasicSetting.Config.ServiceTermImage_data);
     }
 
     [Serializable]

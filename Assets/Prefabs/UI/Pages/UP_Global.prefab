@@ -22559,7 +22559,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _titleText: {fileID: 0}
   _descriptionText: {fileID: 0}
-  _img: {fileID: 0}
+  _img: {fileID: 7668321177024708803}
   _confirmBtn: {fileID: 8210567914700795948}
 --- !u!1 &5791752723652733802
 GameObject:
