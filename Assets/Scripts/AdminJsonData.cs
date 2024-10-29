@@ -126,7 +126,7 @@ namespace FilterData
         public string SigmaB;
         public string SigmaS;
         public string Sorting;
-        public string UsePage;
+        public string UseBilateral;
         public string BilateralDefaultCheck;
     }
 

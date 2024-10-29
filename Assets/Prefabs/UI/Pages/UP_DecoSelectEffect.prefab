@@ -1398,6 +1398,7 @@ MonoBehaviour:
     - {fileID: 1329061712124457366}
     - {fileID: 8383854514103570797}
   _timeText: {fileID: 5358133510665505060}
+  _isStickerUse: 0
   _contents: []
   _skinTransform: {fileID: 4757430516325560206}
   _skinToggleImage: {fileID: 2025420204801966195}

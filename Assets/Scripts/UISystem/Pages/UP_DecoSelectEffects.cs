@@ -227,7 +227,6 @@ public class UP_DecoSelectEffects : UP_DecoratePageBase
                 if (originalContains)
                 {
                     _skinTransform.gameObject.SetActive(true);
-                    _skinToggle.isOn = (_pageController as PC_Main).isSkinFilterOn;
                     _skinDescription.text = StringCacheManager.inst.GetFilterDescription(CONTENT_TYPE.AI_CARTOON);
                 }
                 else
@@ -236,8 +235,6 @@ public class UP_DecoSelectEffects : UP_DecoratePageBase
                 }
                 break;
             case CONTENT_TYPE.AI_PROFILE:
-                (_pageController as PC_Main).SkinFilterOn(false);
-                _skinToggle.isOn = (_pageController as PC_Main).isSkinFilterOn;
                 _skinTransform.gameObject.SetActive(false);
                 break;
             case CONTENT_TYPE.AI_TIME_MACHINE:
@@ -253,7 +250,6 @@ public class UP_DecoSelectEffects : UP_DecoratePageBase
                 if (originalContains)
                 {
                     _skinTransform.gameObject.SetActive(true);
-                    _skinToggle.isOn = (_pageController as PC_Main).isSkinFilterOn;
                     _skinDescription.text = StringCacheManager.inst.GetFilterDescription(CONTENT_TYPE.AI_BEAUTY);
                 }
                 else
@@ -263,6 +259,16 @@ public class UP_DecoSelectEffects : UP_DecoratePageBase
                 break;
             default:
                 break;
+        }
+
+        if (_skinTransform.gameObject.activeSelf)
+        {
+            _skinTransform.gameObject.SetActive(bool.Parse(AdminManager.inst.FilterData.Config.UseBilateral));
+            if (bool.Parse(AdminManager.inst.FilterData.Config.UseBilateral))
+            {
+                (_pageController as PC_Main).SkinFilterOn(bool.Parse(AdminManager.inst.FilterData.Config.BilateralDefaultCheck));
+                _skinToggle.isOn = (_pageController as PC_Main).isSkinFilterOn;
+            }
         }
 
         if ((_pageController as PC_Main).timeLimitDone == true)
