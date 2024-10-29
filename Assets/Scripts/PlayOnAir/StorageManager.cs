@@ -8,8 +8,8 @@ using Vivestudios.UI;
 
 public class StorageManager : SingletonBehaviour<StorageManager>
 {
-    string url = "http://playon-vive.com:1996/upload/";
-    string url_qr = "http://playon-vive.com:1996/download-file/";
+    string url_qr_upload = "http://qr.snapai-vive.com/upload/";
+    string url_qr_download = "http://qr.snapai-vive.com/download-file/";
     string url_log = "http://43.200.46.181:1996/logs";
 
     //Temp save
@@ -64,7 +64,7 @@ public class StorageManager : SingletonBehaviour<StorageManager>
             form.AddBinaryData("files", datas[i], names[i]+ DateTime.Now.ToString("MM-dd-HH-mm"));
         }
 
-        UnityWebRequest request = UnityWebRequest.Post(url, form);
+        UnityWebRequest request = UnityWebRequest.Post(url_qr_upload, form);
         request.timeout = 10;
         yield return request.SendWebRequest();
 
@@ -78,8 +78,8 @@ public class StorageManager : SingletonBehaviour<StorageManager>
 
             // Get the desired value
             string message = responseData.message;
-            SendLink(url_qr + message);
-            CustomLogger.Log("Form upload complete! : " + url_qr + message);
+            SendLink(url_qr_download + message);
+            CustomLogger.Log("Form upload complete! : " + url_qr_download + message);
         }
 
         request.Dispose();
@@ -93,7 +93,7 @@ public class StorageManager : SingletonBehaviour<StorageManager>
             form.AddBinaryData("files", datas[i], TextData.filePaths[i]);
         }
 
-        UnityWebRequest request = UnityWebRequest.Post(url, form);
+        UnityWebRequest request = UnityWebRequest.Post(url_qr_upload, form);
         request.timeout = 600;
         yield return request.SendWebRequest();
 
@@ -109,8 +109,8 @@ public class StorageManager : SingletonBehaviour<StorageManager>
 
             // Get the desired value
             string message = responseData.message;
-            SendLink(url_qr + message);
-            CustomLogger.Log("Form upload complete! : " + url_qr + message);
+            SendLink(url_qr_download + message);
+            CustomLogger.Log("Form upload complete! : " + url_qr_download + message);
         }
 
         request.Dispose();
@@ -135,7 +135,7 @@ public class StorageManager : SingletonBehaviour<StorageManager>
 
             // Get the desired value
             string message = responseData.message;
-            CustomLogger.Log("Form upload complete! : " + url_qr + message);
+            CustomLogger.Log("Form upload complete! : " + url_qr_download + message);
             OnEnd?.Invoke();
         }
 

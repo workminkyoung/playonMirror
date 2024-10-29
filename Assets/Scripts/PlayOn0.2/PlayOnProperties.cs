@@ -43,7 +43,7 @@ namespace Vivestudios.UI
         public static string imagePath = Path.Combine(storageFolderPath, "image.jpg");
         public static string printPath = Path.Combine(storageFolderPath, "print.png");
         public static string vidpath = Path.Combine(storageFolderPath, "video.mp4");
-        public static string[] filePaths = { "PlayOn.jpg", "PlayOn.mp4" };
+        public static string[] filePaths = { "SNAPAI.jpg", "SNAPAI.mp4" };
         public static string jsonpath = Directory.GetParent(Application.dataPath) + "/json.json";
         public static string recordName = "recordPart";
 
