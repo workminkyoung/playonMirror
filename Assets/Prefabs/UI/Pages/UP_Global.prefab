@@ -21491,8 +21491,8 @@ MonoBehaviour:
   _paymentOnText: {fileID: 5106644248350466740}
   _cameraOnText: {fileID: 7993811991593650440}
   _emptyPhotoPaperAlert: {fileID: 348083532136634983}
-  _serviceErrorPage: {fileID: 1697123719053397373}
-  _serviceTempErrorPage: {fileID: 3455142150981689459}
+  _serviceErrorPage: {fileID: 8998230397343953563}
+  _serviceTempErrorPage: {fileID: 439312555680843129}
   _versionTextArea: {fileID: 8910666965939894999}
   _versionText: {fileID: 5851403121071726934}
   _chromaKeySetting: {fileID: 6071726112708207963}
@@ -23405,7 +23405,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 75699cfa7dcc48f4ea47579d2e33a771, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -28057,7 +28057,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 75699cfa7dcc48f4ea47579d2e33a771, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

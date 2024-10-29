@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using Vivestudios.UI;
 
 public class UP_Global : UP_BasePage
@@ -31,9 +32,9 @@ public class UP_Global : UP_BasePage
     [SerializeField]
     private RectTransform _emptyPhotoPaperAlert;
     [SerializeField]
-    private RectTransform _serviceErrorPage;
+    private Image _serviceErrorPage;
     [SerializeField]
-    private RectTransform _serviceTempErrorPage;
+    private Image _serviceTempErrorPage;
     [SerializeField]
     private RectTransform _versionTextArea;
     [SerializeField]
@@ -99,6 +100,13 @@ public class UP_Global : UP_BasePage
             ResetPhotopaperPopupOn(false);
         };
         _popupTime = ConfigData.config.popupTime;
+    }
+
+    public override void ApplyAdminData()
+    {
+        base.ApplyAdminData();
+        _serviceErrorPage.sprite = AdminManager.inst.BasicSetting.Config.ServieErrorImage_data;
+        _serviceTempErrorPage.sprite = AdminManager.inst.BasicSetting.Config.ServieErrorImage_data;
     }
 
     public void OpenConfirmPopup(string title, string description, Sprite sprite)
