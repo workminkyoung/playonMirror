@@ -54,6 +54,7 @@ public class UP_SelectFrame : UP_BaseSelectContent, IPageTimeLimit
 
     private Vector2 _priceAreaOriginPos;
     private int _curAmount = 1;
+    private int _defaultAmount = 1;
     private int _maxPrintAmount;
     private int[] _originalPrices;
     private int[] _discountPrices;
@@ -217,14 +218,14 @@ public class UP_SelectFrame : UP_BaseSelectContent, IPageTimeLimit
 
     private void OnClickPlus()
     {
-        _curAmount = Mathf.Clamp(_curAmount + 1, 1, Mathf.Min(_maxPrintAmount, PhotoPaperCheckModule.GetRemainPhotoPaper()));
+        _curAmount = Mathf.Clamp(_curAmount + _defaultAmount, _defaultAmount, Mathf.Min(_maxPrintAmount, PhotoPaperCheckModule.GetRemainPhotoPaper()));
         CurAmountCheck();
         CurPriceCheck();
     }
 
     private void OnClickMinus()
     {
-        _curAmount = Mathf.Clamp(_curAmount - 1, 1, Mathf.Min(_maxPrintAmount, PhotoPaperCheckModule.GetRemainPhotoPaper()));
+        _curAmount = Mathf.Clamp(_curAmount - _defaultAmount, _defaultAmount, Mathf.Min(_maxPrintAmount, PhotoPaperCheckModule.GetRemainPhotoPaper()));
         CurAmountCheck();
         CurPriceCheck();
     }
@@ -233,7 +234,7 @@ public class UP_SelectFrame : UP_BaseSelectContent, IPageTimeLimit
     {
         _amountText.text = _curAmount.ToString();
 
-        if (_curAmount == 1)
+        if (_curAmount == _defaultAmount)
         {
             _minusBtn.targetGraphic.color = BTN_BACK_DISABLE_COLOR;
             _minusIcon.color = BTN_ICON_DISABLE_COLOR;
@@ -307,6 +308,7 @@ public class UP_SelectFrame : UP_BaseSelectContent, IPageTimeLimit
         _defaultFramekey = _frameData.ServiceFrame.Code[UserDataManager.Instance.selectedContentKey].SelectFrame1;
         selectableFrameKeys = _frameData.ServiceFrame.Code[UserDataManager.Instance.selectedContentKey].SelectFrames;
         _curAmount = _frameData.ServiceFrame.Code[UserDataManager.Instance.selectedContentKey].DefaultSellAmount;
+        _defaultAmount = _frameData.ServiceFrame.Code[UserDataManager.Instance.selectedContentKey].DefaultSellAmount;
 
         ResetContents();
 

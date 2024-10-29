@@ -79,7 +79,7 @@ public class LogDataManager : SingletonBehaviour<LogDataManager>
 
     public void SendLog()
     {
-        logFormat.print_count = UserDataManager.inst.curPicAmount;
+        logFormat.print_count = UserDataManager.inst.selectedFrameType == FRAME_TYPE.FRAME_8 ? UserDataManager.inst.curPicAmount / 2 : UserDataManager.inst.curPicAmount;
         logFormat.payment_amount = UserDataManager.inst.curPrice;
 
         switch (UserDataManager.inst.selectedContent)

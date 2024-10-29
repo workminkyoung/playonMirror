@@ -136,7 +136,7 @@ public class UP_Print : UP_BasePage
 
     public void Print()
     {
-        int copy = UserDataManager.inst.curPicAmount;
+        int copy = UserDataManager.inst.selectedFrameType == FRAME_TYPE.FRAME_8 ? UserDataManager.inst.curPicAmount/2 : UserDataManager.inst.curPicAmount;
         bool cut = false;
         string argument = "";
 
