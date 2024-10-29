@@ -199,7 +199,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "AI \uD504\uB85C\uD544 \uCD2C\uC601 \uD301!"
+  m_text: "\uCE90\uB9AC\uCEE4\uCCD0 \uCD2C\uC601 \uD301!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1df67da11e533b14d9f13b9a37709d3a, type: 2}
   m_sharedMaterial: {fileID: 5231772860707312245, guid: 1df67da11e533b14d9f13b9a37709d3a, type: 2}
@@ -1012,6 +1012,7 @@ MonoBehaviour:
   _preview: {fileID: 943249844582790197}
   _nextChromakeyBG: {fileID: 3783167741003431903}
   _dimImage: {fileID: 7451970828318762364}
+  _tipImage: {fileID: 2803992778592827484}
 --- !u!1 &3145377365215945835
 GameObject:
   m_ObjectHideFlags: 0

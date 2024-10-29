@@ -881,7 +881,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &5037431980047711654
 RectTransform:
   m_ObjectHideFlags: 0
@@ -937,6 +937,7 @@ MonoBehaviour:
   _preview: {fileID: 943249844582790197}
   _nextChromakeyBG: {fileID: 7412231167657609055}
   _dimImage: {fileID: 4563492288512712700}
+  _tipImage: {fileID: 2803992778592827484}
 --- !u!1 &3145377365215945835
 GameObject:
   m_ObjectHideFlags: 0

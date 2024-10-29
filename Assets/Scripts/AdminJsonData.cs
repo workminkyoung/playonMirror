@@ -198,6 +198,8 @@ namespace ServiceData
         public string English_SubText;
         public string ShootGuideImage;
         public Sprite ShootGuideImage_data;
+        public string TipGuideImage;
+        public Sprite TipGuideImage_data;
     }
 
     [Serializable]

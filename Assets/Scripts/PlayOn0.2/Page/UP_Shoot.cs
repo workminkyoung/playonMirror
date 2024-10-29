@@ -29,6 +29,8 @@ public class UP_Shoot : UP_BasePage
     protected UC_NextChromakeyBG _nextChromakeyBG;
     [SerializeField]
     protected Image _dimImage;
+    [SerializeField]
+    protected Image _tipImage;
 
     public override void InitPage ()
     {
@@ -101,6 +103,11 @@ public class UP_Shoot : UP_BasePage
         if(_nextChromakeyBG != null)
         {
             _nextChromakeyBG.gameObject.SetActive(UserDataManager.inst.isChromaKeyOn);
+        }
+        
+        if(_tipImage != null)
+        {
+            _tipImage.sprite = AdminManager.Instance.ServiceData.Contents[UserDataManager.inst.selectedContentKey].TipGuideImage_data ?? null;
         }
     }
 

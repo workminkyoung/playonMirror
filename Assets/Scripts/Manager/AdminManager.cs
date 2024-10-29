@@ -495,6 +495,12 @@ public class AdminManager : SingletonBehaviour<AdminManager>
                 ApiCall.Instance.GetSequently<Sprite>
                     (item.Value.ShootGuideImage, (texture) => { item.Value.ShootGuideImage_data = texture; }, true);
             }
+
+            if (!string.IsNullOrEmpty(item.Value.TipGuideImage))
+            {
+                ApiCall.Instance.GetSequently<Sprite>
+                    (item.Value.TipGuideImage, (texture) => { item.Value.TipGuideImage_data = texture; }, true);
+            }
         }
 
         foreach (var item in _serviceData.ContentsDetail)
