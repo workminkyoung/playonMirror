@@ -218,16 +218,28 @@ public class UP_SelectFrame : UP_BaseSelectContent, IPageTimeLimit
 
     private void OnClickPlus()
     {
-        _curAmount = Mathf.Clamp(_curAmount + _defaultAmount, _defaultAmount, Mathf.Min(_maxPrintAmount, PhotoPaperCheckModule.GetRemainPhotoPaper()));
-        CurAmountCheck();
-        CurPriceCheck();
+        //TODO : refactoring
+        int temp = _curAmount + _defaultAmount;
+        if(temp <= PhotoPaperCheckModule.GetRemainPhotoPaper() && temp >= _defaultAmount && temp <= _maxPrintAmount)
+        {
+            _curAmount = temp;
+            CurAmountCheck();
+            CurPriceCheck();
+        }
+        //_curAmount = Mathf.Clamp(_curAmount + _defaultAmount, _defaultAmount, Mathf.Min(_maxPrintAmount, PhotoPaperCheckModule.GetRemainPhotoPaper()));
     }
 
     private void OnClickMinus()
     {
-        _curAmount = Mathf.Clamp(_curAmount - _defaultAmount, _defaultAmount, Mathf.Min(_maxPrintAmount, PhotoPaperCheckModule.GetRemainPhotoPaper()));
-        CurAmountCheck();
-        CurPriceCheck();
+        //TODO : refactoring
+        int temp = _curAmount - _defaultAmount;
+        if (temp <= PhotoPaperCheckModule.GetRemainPhotoPaper() && temp >= _defaultAmount && temp <= _maxPrintAmount)
+        {
+            _curAmount = temp;
+            CurAmountCheck();
+            CurPriceCheck();
+        }
+        //_curAmount = Mathf.Clamp(_curAmount - _defaultAmount, _defaultAmount, Mathf.Min(_maxPrintAmount, PhotoPaperCheckModule.GetRemainPhotoPaper()));
     }
 
     private void CurAmountCheck()
@@ -245,7 +257,9 @@ public class UP_SelectFrame : UP_BaseSelectContent, IPageTimeLimit
             _minusIcon.color = BTN_ICON_ENABLE_COLOR;
         }
 
-        if (_curAmount == Mathf.Min(_maxPrintAmount, PhotoPaperCheckModule.GetRemainPhotoPaper()))
+        //TODO : refactoring
+        //if (_curAmount == Mathf.Min(_maxPrintAmount, PhotoPaperCheckModule.GetRemainPhotoPaper()))
+        if (_curAmount == _maxPrintAmount || _curAmount+_defaultAmount > PhotoPaperCheckModule.GetRemainPhotoPaper())
         {
             _plusBtn.targetGraphic.color = BTN_BACK_DISABLE_COLOR;
             _plusIcon.color = BTN_ICON_DISABLE_COLOR;

@@ -223,7 +223,7 @@ public class PC_Main : PC_BasePageController
 
         OnPaymentChangeAction?.Invoke(GameManager.inst.isPaymentOn);
 
-        if (PhotoPaperCheckModule.GetRemainPhotoPaper() <= 0)
+        if (PhotoPaperCheckModule.GetRemainPhotoPaper() <= 1)
         {
             globalPage.EmptyPhotoPaperAlertOn(true);
             MailingModule.inst.SendMail(MAIL_TYPE.REMAIN_PAPER);
