@@ -8,6 +8,7 @@ public class Config
 {
     public int camType;
     public int popupTime;
+    public int priceStep;
 
     //camera setting
     public int wbIdx;

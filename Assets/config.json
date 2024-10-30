@@ -1,7 +1,8 @@
 {
     "camType": 2,
 
-    "popupTime" : 180,
+    "popupTime": 180,
+    "priceStep" : 1,
 
     "wbIdx": 1,
     "isoIdx": 6,
@@ -9,7 +10,7 @@
     "tvIdx": 39,
 
     "_comment": "0 : KICC, 1 : KSNET",
-    "paymentMethod": 0,
+    "paymentMethod": 1,
     "KsnetCatID": "AT0357245A",
 
     "chromaKey": {

@@ -54,7 +54,7 @@ public class UP_SelectFrame : UP_BaseSelectContent, IPageTimeLimit
 
     private Vector2 _priceAreaOriginPos;
     private int _curAmount = 1;
-    private int _defaultAmount = 1;
+    //private int _defaultAmount = 1;
     private int _maxPrintAmount;
     private int[] _originalPrices;
     private int[] _discountPrices;
@@ -219,8 +219,8 @@ public class UP_SelectFrame : UP_BaseSelectContent, IPageTimeLimit
     private void OnClickPlus()
     {
         //TODO : refactoring
-        int temp = _curAmount + _defaultAmount;
-        if(temp <= PhotoPaperCheckModule.GetRemainPhotoPaper() && temp >= _defaultAmount && temp <= _maxPrintAmount)
+        int temp = _curAmount + ConfigData.config.priceStep;
+        if(temp <= PhotoPaperCheckModule.GetRemainPhotoPaper() && temp >= 1 && temp <= _maxPrintAmount)
         {
             _curAmount = temp;
             CurAmountCheck();
@@ -232,8 +232,8 @@ public class UP_SelectFrame : UP_BaseSelectContent, IPageTimeLimit
     private void OnClickMinus()
     {
         //TODO : refactoring
-        int temp = _curAmount - _defaultAmount;
-        if (temp <= PhotoPaperCheckModule.GetRemainPhotoPaper() && temp >= _defaultAmount && temp <= _maxPrintAmount)
+        int temp = _curAmount - ConfigData.config.priceStep;
+        if (temp <= PhotoPaperCheckModule.GetRemainPhotoPaper() && temp >= 1 && temp <= _maxPrintAmount)
         {
             _curAmount = temp;
             CurAmountCheck();
@@ -246,7 +246,7 @@ public class UP_SelectFrame : UP_BaseSelectContent, IPageTimeLimit
     {
         _amountText.text = _curAmount.ToString();
 
-        if (_curAmount == _defaultAmount)
+        if (_curAmount == ConfigData.config.priceStep)
         {
             _minusBtn.targetGraphic.color = BTN_BACK_DISABLE_COLOR;
             _minusIcon.color = BTN_ICON_DISABLE_COLOR;
@@ -259,7 +259,7 @@ public class UP_SelectFrame : UP_BaseSelectContent, IPageTimeLimit
 
         //TODO : refactoring
         //if (_curAmount == Mathf.Min(_maxPrintAmount, PhotoPaperCheckModule.GetRemainPhotoPaper()))
-        if (_curAmount == _maxPrintAmount || _curAmount+_defaultAmount > PhotoPaperCheckModule.GetRemainPhotoPaper())
+        if (_curAmount == _maxPrintAmount || _curAmount+ConfigData.config.priceStep > PhotoPaperCheckModule.GetRemainPhotoPaper())
         {
             _plusBtn.targetGraphic.color = BTN_BACK_DISABLE_COLOR;
             _plusIcon.color = BTN_ICON_DISABLE_COLOR;
@@ -322,7 +322,7 @@ public class UP_SelectFrame : UP_BaseSelectContent, IPageTimeLimit
         _defaultFramekey = _frameData.ServiceFrame.Code[UserDataManager.Instance.selectedContentKey].SelectFrame1;
         selectableFrameKeys = _frameData.ServiceFrame.Code[UserDataManager.Instance.selectedContentKey].SelectFrames;
         _curAmount = _frameData.ServiceFrame.Code[UserDataManager.Instance.selectedContentKey].DefaultSellAmount;
-        _defaultAmount = _frameData.ServiceFrame.Code[UserDataManager.Instance.selectedContentKey].DefaultSellAmount;
+        //_defaultAmount = _frameData.ServiceFrame.Code[UserDataManager.Instance.selectedContentKey].DefaultSellAmount;
 
         ResetContents();
 
