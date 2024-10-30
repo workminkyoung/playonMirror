@@ -30,7 +30,7 @@ public class UP_Global : UP_BasePage
     [SerializeField]
     private TextMeshProUGUI _cameraOnText;
     [SerializeField]
-    private RectTransform _emptyPhotoPaperAlert;
+    private Image _emptyPhotoPaperAlert;
     [SerializeField]
     private Image _serviceErrorPage;
     [SerializeField]
@@ -107,6 +107,7 @@ public class UP_Global : UP_BasePage
         base.ApplyAdminData();
         _serviceErrorPage.sprite = AdminManager.inst.BasicSetting.Config.ServieErrorImage_data;
         _serviceTempErrorPage.sprite = AdminManager.inst.BasicSetting.Config.ServieErrorImage_data;
+        _emptyPhotoPaperAlert.sprite = AdminManager.inst.BasicSetting.Config.PrintErrorImage_data;
     }
 
     public void OpenConfirmPopup(string title, string description, Sprite sprite)

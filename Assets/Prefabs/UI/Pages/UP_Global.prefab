@@ -21490,7 +21490,7 @@ MonoBehaviour:
   _aiAlertPopup: {fileID: 894984690070690766}
   _paymentOnText: {fileID: 5106644248350466740}
   _cameraOnText: {fileID: 7993811991593650440}
-  _emptyPhotoPaperAlert: {fileID: 348083532136634983}
+  _emptyPhotoPaperAlert: {fileID: 3922915821445898860}
   _serviceErrorPage: {fileID: 8998230397343953563}
   _serviceTempErrorPage: {fileID: 439312555680843129}
   _versionTextArea: {fileID: 8910666965939894999}
