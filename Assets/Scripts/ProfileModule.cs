@@ -72,20 +72,6 @@ public class ProfileModule : SingletonBehaviour<ProfileModule>
         }
 
         StartCoroutine(PostInSequence(ApiCall.inst.profileAPI, convertedJsons, OnEnd));
-
-        for (int i = 0; i < indexes.Count; i++)
-        {
-            ProfileRequestData requestData = new ProfileRequestData();
-            requestData.menu_code = UserDataManager.inst.selectedSubContentKey;
-            requestData.encoded_source_image = targetEncodeTexture;
-            requestData.image_index = indexes[i];
-
-            convertedJsons.Add(JsonUtility.ToJson(requestData));
-            //convertedJsons.Add(_profileJson.Replace(SOURCE_IMAGE_REPLACE_STRING, targetEncodeTexture).Replace(TARGET_IMAGE_REPLACE_STRING, _profileSampleImagesDic[type][indexes[i]]));
-            _profileReorderName.Add(StringCacheManager.inst.ProfileWhatIfName[indexes[i]]);
-        }
-
-        StartCoroutine(PostInSequence(ApiCall.inst.profileAPI, convertedJsons, OnEnd));
     }
 
     public void GetCaricatureImages(Texture2D origin, Action<List<Texture2D>> OnEnd)

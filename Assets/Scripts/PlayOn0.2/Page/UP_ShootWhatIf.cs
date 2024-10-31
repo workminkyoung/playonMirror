@@ -38,10 +38,18 @@ public class UP_ShootWhatIf : UP_Shoot
         if(UserDataManager.inst.selectedContent == CONTENT_TYPE.WHAT_IF)
         {
             UserDataManager.Instance.SetCurrentShootTime(AdminManager.Instance.BasicSetting.Config.WFShootTime);
+            if(_tipTitle != null)
+            {
+                _tipTitle.text = "WhatIF 촬영 팁!";
+            }
         }
         else if(UserDataManager.inst.selectedContent == CONTENT_TYPE.AI_CARICATURE)
         {
             UserDataManager.Instance.SetCurrentShootTime(AdminManager.Instance.BasicSetting.Config.CCShootTime);
+            if (_tipTitle != null)
+            {
+                _tipTitle.text = "캐리커쳐 촬영 팁!";
+            }
         }
 
         _width = PlayOnProperties.crop3x4_width;

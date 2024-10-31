@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Vivestudios.UI;
@@ -31,6 +32,8 @@ public class UP_Shoot : UP_BasePage
     protected Image _dimImage;
     [SerializeField]
     protected Image _tipImage;
+    [SerializeField]
+    protected TextMeshProUGUI _tipTitle;
 
     public override void InitPage ()
     {

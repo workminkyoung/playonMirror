@@ -213,6 +213,8 @@ public class UP_DecoSelectEffects : UP_DecoratePageBase
         }
 
         //bilateral 필터 사용여부 정리되면 다시 진행하기
+        _skinTransform.gameObject.SetActive(false);
+
         bool originalContains = false;
         switch (UserDataManager.inst.selectedContent)
         {
@@ -235,7 +237,6 @@ public class UP_DecoSelectEffects : UP_DecoratePageBase
                 }
                 break;
             case CONTENT_TYPE.AI_PROFILE:
-                _skinTransform.gameObject.SetActive(false);
                 break;
             case CONTENT_TYPE.AI_TIME_MACHINE:
                 break;
@@ -256,6 +257,10 @@ public class UP_DecoSelectEffects : UP_DecoratePageBase
                 {
                     _skinTransform.gameObject.SetActive(false);
                 }
+                break;
+            case CONTENT_TYPE.AI_CARICATURE:
+                break;
+            case CONTENT_TYPE.WHAT_IF:
                 break;
             default:
                 break;

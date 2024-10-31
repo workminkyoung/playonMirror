@@ -1013,6 +1013,7 @@ MonoBehaviour:
   _nextChromakeyBG: {fileID: 3783167741003431903}
   _dimImage: {fileID: 7451970828318762364}
   _tipImage: {fileID: 2803992778592827484}
+  _tipTitle: {fileID: 8095321053894440012}
 --- !u!1 &3145377365215945835
 GameObject:
   m_ObjectHideFlags: 0
@@ -1237,7 +1238,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6508571562760516680
 RectTransform:
   m_ObjectHideFlags: 0
