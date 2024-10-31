@@ -24,8 +24,8 @@ public class LogDataManager : SingletonBehaviour<LogDataManager>
 
         if (Debug.isDebugBuild)
         {
-            url = "http://3.35.3.44:1996/logs";
-            fileUrl = "http://3.35.3.44:1996/data";
+            url = "http://3.35.8.52:1996/logs";
+            fileUrl = "http://3.35.8.52:1996/data";
         }
         else
         {
@@ -34,8 +34,8 @@ public class LogDataManager : SingletonBehaviour<LogDataManager>
         }
 
 #if UNITY_EDITOR
-        url = "http://3.35.3.44:1996/logs";
-        fileUrl = "http://3.35.3.44:1996/data";
+        url = "http://3.35.8.52:1996/logs";
+        fileUrl = "http://3.35.8.52:1996/data";
 #endif
     }
 
