@@ -81,6 +81,7 @@ public class LogDataManager : SingletonBehaviour<LogDataManager>
     {
         logFormat.print_count = UserDataManager.inst.selectedFrameType == FRAME_TYPE.FRAME_8 ? UserDataManager.inst.curPicAmount / 2 : UserDataManager.inst.curPicAmount;
         logFormat.payment_amount = UserDataManager.inst.curPrice;
+        logFormat.played_menu_categories = UserDataManager.inst.selectedContentKey;
 
         switch (UserDataManager.inst.selectedContent)
         {
@@ -93,11 +94,13 @@ public class LogDataManager : SingletonBehaviour<LogDataManager>
                 logFormat.profile_index = UserDataManager.inst.selectedProfilePicNum;
                 break;
             case CONTENT_TYPE.AI_BEAUTY:
-                logFormat.played_menu_categories = "BT";
                 logFormat.profile_index = -1;
                 break;
             case CONTENT_TYPE.WHAT_IF:
                 logFormat.played_menu_categories = UserDataManager.inst.selectedSubContentKey;
+                logFormat.profile_index = UserDataManager.inst.selectedProfilePicNum;
+                break;
+            case CONTENT_TYPE.AI_CARICATURE:
                 logFormat.profile_index = UserDataManager.inst.selectedProfilePicNum;
                 break;
         }
@@ -108,7 +111,6 @@ public class LogDataManager : SingletonBehaviour<LogDataManager>
         logFormat.color_filter = UserDataManager.inst.selectedLutKey;
 
         logFormat.frame_color = UserDataManager.inst.selectedFrameColor;
-
 
 #if UNITY_EDITOR
         url = TextData.testLog_url;
