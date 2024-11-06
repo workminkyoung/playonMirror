@@ -9,7 +9,6 @@ using RotaryHeart.Lib.SerializableDictionary;
 using System.IO;
 using System.Net.Mail;
 using System.Net;
-using UnityEditor.Build.Reporting;
 
 public class PC_Main : PC_BasePageController
 {
@@ -443,7 +442,13 @@ public class PC_Main : PC_BasePageController
     public void UpdatePhotoPaper()
     {
         bool mailSended = false;
-        for (int i = 0; i < UserDataManager.inst.curPicAmount; i++)
+
+        int _defaultAmount = AdminManager.inst.FrameData.ServiceFrame.Code[UserDataManager.Instance.selectedContentKey].DefaultSellAmount;
+
+        float paperDivisionFactor = UserDataManager.inst.selectedFrameType == FRAME_TYPE.FRAME_8 ? _defaultAmount : 1;
+
+        // for문으로 처리 => 100, 50, 정확한 숫자에 Mailing 목적 (부등호로 처리시 지속적으로 메일 발송)
+        for (int i = 0; i < UserDataManager.inst.curPicAmount/paperDivisionFactor; i++)
         {
             PhotoPaperCheckModule.SetRemainPhotoPaper(PhotoPaperCheckModule.GetRemainPhotoPaper() - 1);
 
@@ -457,7 +462,6 @@ public class PC_Main : PC_BasePageController
                     mailSended = true;
                 }
             }
-
             if (PhotoPaperCheckModule.GetRemainPhotoPaper() <= 0)
             {
                 globalPage.EmptyPhotoPaperAlertOn(true);

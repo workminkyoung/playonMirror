@@ -1,3 +1,4 @@
+using FrameData;
 using FFmpegOut;
 using System.Collections;
 using System.Collections.Generic;
@@ -136,7 +137,8 @@ public class UP_Print : UP_BasePage
 
     public void Print()
     {
-        int copy = UserDataManager.inst.selectedFrameType == FRAME_TYPE.FRAME_8 ? UserDataManager.inst.curPicAmount/2 : UserDataManager.inst.curPicAmount;
+        int _defaultAmount = AdminManager.inst.FrameData.ServiceFrame.Code[UserDataManager.Instance.selectedContentKey].DefaultSellAmount;
+        int copy = UserDataManager.inst.selectedFrameType == FRAME_TYPE.FRAME_8 ? UserDataManager.inst.curPicAmount/_defaultAmount : UserDataManager.inst.curPicAmount;
         bool cut = false;
         string argument = "";
 
