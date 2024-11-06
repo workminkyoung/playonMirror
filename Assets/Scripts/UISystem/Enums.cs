@@ -89,10 +89,10 @@ public enum CONTENT_TYPE
 
 public enum FRAME_TYPE
 {
-    FRAME_4,
-    FRAME_8,
-    FRAME_2,
-    FRAME_1,
+    FRAME_4,//FR2X2001
+    FRAME_8,//FR4X2001
+    FRAME_2,//FR2X1001
+    FRAME_1,//FR1X1001
 
     FRAME_2_1,
     FRAME_2_2,
