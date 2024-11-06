@@ -218,6 +218,8 @@ public class UP_Payment : UP_BasePage
         string url = ApiCall.inst.CouponAPIUrl;
         ApiCall.inst.Patch(url, json, (string response) => 
         {
+            //쿠폰 적용시 적용 이후 가격으로 업데이트
+            UserDataManager.inst.SetPrice(_couponUsedPrice);
             (_pageController as PC_Main).globalPage.OpenDim(false);
             (_pageController as PC_Main).ChangePage(PAGE_TYPE.PAGE_CAUTION);
         });
@@ -523,7 +525,7 @@ public class UP_Payment : UP_BasePage
             if (UserDataManager.inst.curPrice == 0)
             {
                 _titleText.text = "선택한 내용을 확인한 후 촬영해주세요";
-                _priceText.text = UserDataManager.inst.curPrice.ToString("무료");
+                _priceText.text = "무료";
 
                 _freeNextBtn.gameObject.SetActive(false);
                 _freeWarnBtn.gameObject.SetActive(true);

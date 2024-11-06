@@ -125,6 +125,7 @@ public class UserDataManager : SingletonBehaviour<UserDataManager>
         _selectedLutKey = _defaultLutKey;
         _selectedFrameColorKey = _defaultFrameColorKey;
         _frameRatioType = FRAME_RATIO_TYPE.HORIZONTAL;
+
         //default 사진 개수 2장으로 설정
         //_curPicAmount = Mathf.Min( ConfigData.config.firstPrintAmount, PhotoPaperCheckModule.GetRemainPhotoPaper());
         _curPicAmount = Mathf.Min(2, PhotoPaperCheckModule.GetRemainPhotoPaper());
