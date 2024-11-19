@@ -24,18 +24,18 @@ public class LogDataManager : SingletonBehaviour<LogDataManager>
 
         if (Debug.isDebugBuild)
         {
-            url = "http://3.35.8.52:1996/logs";
-            fileUrl = "http://3.35.8.52:1996/data";
+            url = TextData.testLog_url;
+            fileUrl = TextData.testLog_fileUrl;
         }
         else
         {
-            url = "http://43.200.46.181:1996/logs";
-            fileUrl = "http://43.200.46.181:1996/data";
+            url = TextData.releaseLog_url;
+            fileUrl = TextData.releaseLog_fileUrl;
         }
 
 #if UNITY_EDITOR
-        url = "http://3.35.8.52:1996/logs";
-        fileUrl = "http://3.35.8.52:1996/data";
+        url = TextData.testLog_url;
+        fileUrl = TextData.testLog_fileUrl;
 #endif
     }
 

@@ -53,8 +53,8 @@ namespace Vivestudios.UI
         public static string replace_width = "TextReplace_width";
         public static string replace_height = "TextReplace_height";
 
-        public static string testLog_url = "http://3.35.3.44:1996/logs";
-        public static string testLog_fileUrl = "http://3.35.3.44:1996/data";
+        public static string testLog_url = "http://3.35.8.52:1996/logs";
+        public static string testLog_fileUrl = "http://3.35.8.52:1996/data";
         public static string releaseLog_url = "http://43.200.46.181:1996/logs";
         public static string releaseLog_fileUrl = "http://43.200.46.181:1996/data";
 
