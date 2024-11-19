@@ -94,7 +94,7 @@ public class KsnetModule : PaymentModule
             {
                 //Send Response
                 JToken failToken = root.GetValue(MSG_KEY);
-                //CustomLogger.Log("결제실패 : " + failToken.ToString().Replace("오류", "").Trim());
+                CustomLogger.Log("결제실패 : " + failToken.ToString().Replace("오류", "").Trim());
                 OnResponse?.Invoke(false, failToken.ToString().Replace("오류", "").Trim(), false);
 
                 //Send Error Code Mail
@@ -105,7 +105,7 @@ public class KsnetModule : PaymentModule
                     JToken errorContent = errorJobject.GetValue("content");
                     _errorContent = errorContent.ToString();
                     MailingModule.inst.SendMail(MAIL_TYPE.PAYMENT_ERROR);
-                    //CustomLogger.Log("SendMail : " + errorContent.ToString());
+                    CustomLogger.Log("SendMail : " + errorContent.ToString());
                 }
             }
         }
