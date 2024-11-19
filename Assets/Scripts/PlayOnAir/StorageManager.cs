@@ -10,7 +10,6 @@ public class StorageManager : SingletonBehaviour<StorageManager>
 {
     string url_qr_upload = "http://qr.snapai-vive.com/upload/";
     string url_qr_download = "http://qr.snapai-vive.com/download-file/";
-    string url_log = "http://43.200.46.181:1996/logs";
 
     //Temp save
     string folderName = "savePic";
@@ -49,11 +48,6 @@ public class StorageManager : SingletonBehaviour<StorageManager>
     public void StartUploadCloud(List<byte[]> datas, Action<string> SendLink)
     {
         StartCoroutine(UploadCloud(datas, SendLink));
-    }
-
-    public void SendLog(string log, Action OnEnd = null)
-    {
-        StartCoroutine(UploadLog(log, OnEnd));
     }
 
     IEnumerator UploadCloud(List<string> names, List<byte[]> datas, Action<string> SendLink)
@@ -111,32 +105,6 @@ public class StorageManager : SingletonBehaviour<StorageManager>
             string message = responseData.message;
             SendLink(url_qr_download + message);
             CustomLogger.Log("Form upload complete! : " + url_qr_download + message);
-        }
-
-        request.Dispose();
-    }
-
-    IEnumerator UploadLog(string logs, Action OnEnd = null)
-    {
-        WWWForm form = new WWWForm();
-        form.AddField("logs", logs);
-
-        UnityWebRequest request = UnityWebRequest.Post(url_log, form);
-        yield return request.SendWebRequest();
-
-        if (request.result != UnityWebRequest.Result.Success)
-        {
-            CustomLogger.LogError(request.error);
-        }
-        else
-        {
-            CustomLogger.Log(request.downloadHandler.text);
-            ResponseData responseData = JsonUtility.FromJson<ResponseData>(request.downloadHandler.text);
-
-            // Get the desired value
-            string message = responseData.message;
-            CustomLogger.Log("Form upload complete! : " + url_qr_download + message);
-            OnEnd?.Invoke();
         }
 
         request.Dispose();
