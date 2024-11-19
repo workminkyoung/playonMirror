@@ -15,7 +15,7 @@ public partial class ApiCall : SingletonBehaviour<ApiCall>
     public int _curRequestCount = 0;
 
     protected string _cartoonAPI = "http://api.playon-vive.com/ai-cartoon?api_key=1ef5ba12-5773-4fc0-837c-9af7a926e2db";
-    protected string _profileAPI = "http://api.playon-vive.com/ai-profile?api_key=1ef5ba12-5773-4fc0-837c-9af7a926e2db";
+    protected string _profileAPI = "http://api.playon-vive.com/ai-profile_v2?api_key=1ef5ba12-5773-4fc0-837c-9af7a926e2db";
     protected string _caricatureAPI = "http://api.playon-vive.com/ai-caricature?api_key=1ef5ba12-5773-4fc0-837c-9af7a926e2db";
 
     private string _targetEncodeText;
