@@ -1,12 +1,4 @@
-using Newtonsoft.Json.Bson;
-using ServiceData;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Drawing.Printing;
-using System.Security.AccessControl;
 using UnityEngine;
-using Vivestudios.UI;
 
 public class UserDataManager : SingletonBehaviour<UserDataManager>
 {

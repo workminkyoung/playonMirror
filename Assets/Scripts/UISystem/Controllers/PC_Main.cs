@@ -7,8 +7,6 @@ using UnityEngine.UI;
 using FFmpegOut;
 using RotaryHeart.Lib.SerializableDictionary;
 using System.IO;
-using System.Net.Mail;
-using System.Net;
 
 public class PC_Main : PC_BasePageController
 {
