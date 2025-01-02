@@ -93,6 +93,11 @@ public class PC_Main : PC_BasePageController
     public GameObject stickerContainerPrefab;
     public Action StickerUpdateAction;
 
+    #region LogFile
+    private static string logDirectoryPath;
+    private static string logFilePath;
+    #endregion
+
     public void SkinFilterOn(bool isOn)
     {
         _isSkinFilterOn = isOn;
@@ -237,6 +242,8 @@ public class PC_Main : PC_BasePageController
     {
         base.Awake();
 
+        InitializeLogHandler();
+        InitializeGlobalExceptionHandling();
         GameManager.OnGameResetAction += ResetGame;
 
         for (int i = 0; i < _cartoonReferences.Length; i++)
@@ -348,6 +355,10 @@ public class PC_Main : PC_BasePageController
 
     private void Update()
     {
+        // Check Abnormal Quit
+        MonitorMemoryUsage();
+        MonitorFPS();
+
         if (Input.GetKey(KeyCode.LeftControl))
         {
             if (Input.GetKeyDown(KeyCode.Q))
@@ -427,6 +438,11 @@ public class PC_Main : PC_BasePageController
         }
     }
 
+    #region Monoitoring
+
+    /// <summary>
+    /// 메모리 사용량 초과 감지
+    /// </summary>
     void MonitorMemoryUsage()
     {
         long totalMemory = System.GC.GetTotalMemory(false);
@@ -460,6 +476,40 @@ public class PC_Main : PC_BasePageController
             }
         };
     }
+
+    void InitializeLogHandler()
+    {
+        // 로그 디렉토리 설정
+        logDirectoryPath = Path.Combine(Application.persistentDataPath, "Logs");
+        if (!Directory.Exists(logDirectoryPath))
+        {
+            Directory.CreateDirectory(logDirectoryPath);
+        }
+
+        // 날짜별 파일 이름 설정
+        string date = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
+        logFilePath = Path.Combine(logDirectoryPath, $"Log_{date}.txt");
+
+        // 기존 로그 파일 초기화
+        File.WriteAllText(logFilePath, "=== Unity Log Start ===\n");
+
+        // 로그 메시지 수신 핸들러 등록
+        Application.logMessageReceived += HandleLog;
+    }
+
+    private void HandleLog(string condition, string stackTrace, LogType type)
+    {
+        string logEntry = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} [{type}] {condition}\n";
+        if (type == LogType.Exception || type == LogType.Error)
+        {
+            logEntry += $"StackTrace:\n{stackTrace}\n";
+        }
+
+        // 로그를 파일에 추가
+        File.AppendAllText(logFilePath, logEntry);
+    }
+
+    #endregion
 
     private void ResetPhotoPaper()
     {
@@ -499,6 +549,11 @@ public class PC_Main : PC_BasePageController
                 globalPage.EmptyPhotoPaperAlertOn(true);
             }
         }
+    }
+    private void OnDestroy()
+    {
+        // 핸들러 해제
+        Application.logMessageReceived -= HandleLog;
     }
 
     [Serializable]
