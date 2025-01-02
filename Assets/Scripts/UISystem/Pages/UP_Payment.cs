@@ -170,6 +170,7 @@ public class UP_Payment : UP_BasePage
     //TODO : userdata에 price 할인 금액으로 바꿔주기
     private void OnClickPayment()
     {
+        CustomLogger.Log("Payment Process Start");
         if (UserDataManager.inst.getCouponAvailable)
         {
             if (_paymentRequired && _couponUsedPrice != 0)
@@ -198,6 +199,7 @@ public class UP_Payment : UP_BasePage
         }
 
         ResetTimer();
+        CustomLogger.Log("Payment Process End");
     }
 
     private void OnClickWarning()
