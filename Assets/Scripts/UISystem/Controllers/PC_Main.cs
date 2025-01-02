@@ -445,6 +445,22 @@ public class PC_Main : PC_BasePageController
         }
     }
 
+    void InitializeGlobalExceptionHandling()
+    {
+        AppDomain.CurrentDomain.UnhandledException += (sender, args) =>
+        {
+            CustomLogger.LogError($"Unhandled Exception: {args.ExceptionObject}");
+        };
+
+        Application.logMessageReceived += (condition, stackTrace, type) =>
+        {
+            if (type == LogType.Exception || type == LogType.Error)
+            {
+                CustomLogger.LogError($"Critical Log: {condition}, {stackTrace}");
+            }
+        };
+    }
+
     private void ResetPhotoPaper()
     {
         globalPage.ResetPhotopaperPopupOn(true);
