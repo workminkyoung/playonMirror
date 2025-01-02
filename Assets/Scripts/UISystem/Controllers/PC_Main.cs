@@ -427,6 +427,14 @@ public class PC_Main : PC_BasePageController
         }
     }
 
+    void MonitorMemoryUsage()
+    {
+        long totalMemory = System.GC.GetTotalMemory(false);
+        if (totalMemory > 25L * 1024 * 1024) // 25GB 이상 사용 시 경고
+        {
+            CustomLogger.LogWarning($"메모리 사용량이 위험 수준입니다: {totalMemory / (1024 * 1024)} MB");
+        }
+    }
     private void ResetPhotoPaper()
     {
         globalPage.ResetPhotopaperPopupOn(true);
