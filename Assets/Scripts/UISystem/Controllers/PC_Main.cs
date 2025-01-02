@@ -435,6 +435,16 @@ public class PC_Main : PC_BasePageController
             CustomLogger.LogWarning($"메모리 사용량이 위험 수준입니다: {totalMemory / (1024 * 1024)} MB");
         }
     }
+
+    void MonitorFPS()
+    {
+        float currentFPS = 1.0f / Time.deltaTime;
+        if (currentFPS < 10) // FPS가 10 이하로 떨어질 경우 경고
+        {
+            CustomLogger.LogWarning($"FPS 저하 감지: {currentFPS}");
+        }
+    }
+
     private void ResetPhotoPaper()
     {
         globalPage.ResetPhotopaperPopupOn(true);
