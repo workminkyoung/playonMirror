@@ -45,6 +45,7 @@ public class ProfileModule : SingletonBehaviour<ProfileModule>
 
         StartCoroutine(PostInSequence(ApiCall.inst.profileAPI, convertedJsons, OnEnd));
     }
+
     public void GetProfileImages_tirtir(Texture2D origin, Action<List<Texture2D>> OnEnd)
     {
         string targetEncodeTexture = Convert.ToBase64String(origin.EncodeToPNG());
@@ -55,7 +56,7 @@ public class ProfileModule : SingletonBehaviour<ProfileModule>
         ProfileRequestData requestData = new ProfileRequestData();
         requestData.menu_code = UserDataManager.inst.selectedSubContentKey;
         requestData.encoded_source_image = targetEncodeTexture;
-        requestData.image_index = indexes[0];
+        requestData.image_index = 0;
         convertedJsons.Add(JsonUtility.ToJson(requestData));
 
         StartCoroutine(PostInSequence(ApiCall.inst.profileAPI, convertedJsons, OnEnd));
@@ -193,7 +194,7 @@ public class ProfileModule : SingletonBehaviour<ProfileModule>
 
         for (int i = 0; i < jsons.Count; i++)
         {
-            //CustomLogger.Log(jsons[i]);
+            CustomLogger.Log("Request : " + jsons[i]);
 
             using (UnityWebRequest www = new UnityWebRequest(url))
             {
