@@ -45,6 +45,21 @@ public class ProfileModule : SingletonBehaviour<ProfileModule>
 
         StartCoroutine(PostInSequence(ApiCall.inst.profileAPI, convertedJsons, OnEnd));
     }
+    public void GetProfileImages_tirtir(Texture2D origin, Action<List<Texture2D>> OnEnd)
+    {
+        string targetEncodeTexture = Convert.ToBase64String(origin.EncodeToPNG());
+        List<int> indexes = GetRandomIndexes(CONVERT_IMAGE_NUM);
+
+        List<string> convertedJsons = new List<string>();
+
+        ProfileRequestData requestData = new ProfileRequestData();
+        requestData.menu_code = UserDataManager.inst.selectedSubContentKey;
+        requestData.encoded_source_image = targetEncodeTexture;
+        requestData.image_index = indexes[0];
+        convertedJsons.Add(JsonUtility.ToJson(requestData));
+
+        StartCoroutine(PostInSequence(ApiCall.inst.profileAPI, convertedJsons, OnEnd));
+    }
 
     public void GetWhatIfImages(Texture2D origin, Action<List<Texture2D>> OnEnd)
     {

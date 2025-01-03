@@ -71,7 +71,7 @@ public class UP_Load : UP_BasePage
 
     private void RequestAIProfile()
     {
-        ProfileModule.inst.GetProfileImages(PhotoDataManager.inst.selectedAIProfile,
+        ProfileModule.inst.GetProfileImages_tirtir(PhotoDataManager.inst.selectedAIProfile,
                                             (value) =>
                                             {
                                                 CustomLogger.Log("All AIProfile Image Received");
