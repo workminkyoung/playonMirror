@@ -94,17 +94,6 @@ public abstract class PaymentModule : SingletonBehaviour<PaymentModule>
     protected abstract void SetErrorCodePath();
     protected abstract string SetPriceForm(int price);
 
-    //private void Update()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.P))
-    //    {
-    //        StartCoroutine(PaymentRoutine(100, (isSuccess, msg) =>
-    //        {
-    //            CustomLogger.Log($"[결제테스트] : \n    결제성공 : [{isSuccess}]\n  메시지 : {msg}");
-    //        }));
-    //    }
-    //}
-
     private void GetErrorCodeDict()
     {
         string path = Application.streamingAssetsPath + "/Mailing/" + _errorCodeFileName;

@@ -43,12 +43,13 @@ public class KsnetModule : PaymentModule
     {
         if(string.IsNullOrEmpty(_response))
         {
+            CustomLogger.Log("Payment Error: response is null");
             return;
         }
 
         if (_response.Contains("Error: ConnectFailure"))
         {
-            //CustomLogger.Log("프로그램 없음");
+            CustomLogger.Log("Payment Error: ConnectFailure");
             OnResponse?.Invoke(false, "프로그램 미실행\n서비스 시작 확인", true);
             return;
         }
@@ -67,12 +68,12 @@ public class KsnetModule : PaymentModule
 
             if (token.ToString() == SUCCEED_VALUE)
             {
-                //CustomLogger.Log("결제성공 -> 승인확인");
+                CustomLogger.Log("Payment: 결제성공 -> 승인확인");
 
                 JToken approveToken = root.GetValue(APPROVE_CHECK_KEY);
                 if (approveToken.ToString() == APPROVE_SUCCEED_VALUE)
                 {
-                    //CustomLogger.Log("승인성공");
+                    CustomLogger.Log("Payment: 승인성공");
                     OnResponse?.Invoke(true, null, false);
                 }
                 else
@@ -86,7 +87,7 @@ public class KsnetModule : PaymentModule
                         failMsg += "\n" + approveFailToken2.ToString().Trim();
                     }
 
-                    //CustomLogger.Log("승인실패 : " + failMsg);
+                    CustomLogger.Log("Payment Error(승인실패): " + failMsg);
                     OnResponse?.Invoke(false, failMsg, false);
                 }
             }
@@ -94,7 +95,8 @@ public class KsnetModule : PaymentModule
             {
                 //Send Response
                 JToken failToken = root.GetValue(MSG_KEY);
-                //CustomLogger.Log("결제실패 : " + failToken.ToString().Replace("오류", "").Trim());
+                
+                CustomLogger.Log("Payment Error(결제실패): " + failToken.ToString().Replace("오류", "").Trim());
                 OnResponse?.Invoke(false, failToken.ToString().Replace("오류", "").Trim(), false);
 
                 //Send Error Code Mail
@@ -105,13 +107,13 @@ public class KsnetModule : PaymentModule
                     JToken errorContent = errorJobject.GetValue("content");
                     _errorContent = errorContent.ToString();
                     MailingModule.inst.SendMail(MAIL_TYPE.PAYMENT_ERROR);
-                    //CustomLogger.Log("SendMail : " + errorContent.ToString());
+                    CustomLogger.Log("Payment SendMail : " + errorContent.ToString());
                 }
             }
         }
         catch (Exception e)
         {
-            CustomLogger.Log(e);
+            CustomLogger.Log("Payment Error: "+ e);
             OnResponse?.Invoke(false, "통신 실패", true);
             return;
         }
