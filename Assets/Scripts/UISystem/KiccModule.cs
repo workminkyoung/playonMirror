@@ -48,12 +48,13 @@ public class KiccModule : PaymentModule
     {
         if (string.IsNullOrEmpty(_response))
         {
+            CustomLogger.Log("Payment Error: response is null");
             return;
         }
 
         if (_response.Contains("Error: ConnectFailure"))
         {
-            //CustomLogger.Log("프로그램 없음");
+            CustomLogger.Log("Payment Error: ConnectFailure");
             OnResponse?.Invoke(false, "프로그램 미실행", true);
             return;
         }
@@ -72,17 +73,18 @@ public class KiccModule : PaymentModule
 
             if (token.ToString() == SUCCEED_VALUE)
             {
-                //CustomLogger.Log("결제성공 -> 승인확인");
+                CustomLogger.Log("Payment: 결제성공 -> 승인확인");
 
                 JToken approveToken = root.GetValue(APPROVE_CHECK_KEY);
                 if (approveToken.ToString() == APPROVE_SUCCEED_VALUE)
                 {
-                    //CustomLogger.Log("승인성공");
+                    CustomLogger.Log("Payment: 승인성공");
                     OnResponse?.Invoke(true, null, false);
                 }
                 else
                 {
                     JToken approveFailToken = root.GetValue(APPROVE_FAIL_KEY);
+                    CustomLogger.Log("Payment Error(승인실패): " + approveFailToken.ToString());
                     //CustomLogger.Log("승인실패 : " + approveFailToken.ToString());
                     OnResponse?.Invoke(false, approveFailToken.ToString(), false);
                 }
@@ -90,13 +92,14 @@ public class KiccModule : PaymentModule
             else
             {
                 JToken failToken = root.GetValue(MSG_KEY);
+                CustomLogger.Log("Payment Error(결제실패): " + failToken.ToString().Replace("오류", "").Trim());
                 //CustomLogger.Log("결제실패 : " + failToken.ToString());
                 OnResponse?.Invoke(false, failToken.ToString(), false);
             }
         }
         catch (Exception e)
         {
-            CustomLogger.Log(e);
+            CustomLogger.Log("Payment Error: " + e);
             OnResponse?.Invoke(false, "통신 실패", true);
             return;
         }

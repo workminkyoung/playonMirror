@@ -170,6 +170,7 @@ public class UP_Payment : UP_BasePage
     //TODO : userdata에 price 할인 금액으로 바꿔주기
     private void OnClickPayment()
     {
+        CustomLogger.Log("--Payment Process Start--");
         if (UserDataManager.inst.getCouponAvailable)
         {
             if (_paymentRequired && _couponUsedPrice != 0)
@@ -256,6 +257,8 @@ public class UP_Payment : UP_BasePage
             });
             (_pageController as PC_Main).globalPage.OpenDim(false);
         }
+
+        CustomLogger.Log("--Payment Process End--");
     }
 
     private void OnClickDetail()
@@ -471,6 +474,10 @@ public class UP_Payment : UP_BasePage
         OnAgreeToggleChanged(_agreeToggle.isOn);
 
         _timerCoroutine = StartCoroutine(TimerRoutine());
+
+        // Logging user's choice
+        CustomLogger.Log($"FINAL SELECTION \n{UserDataManager.inst.selectedContentKey} : {UserDataManager.inst.selectedSubContentKey} " +
+            $"\n{UserDataManager.inst.selectedFrameKey} : {UserDataManager.inst.curPicAmount}");
     }
     
     private void ConvertContentFree()
