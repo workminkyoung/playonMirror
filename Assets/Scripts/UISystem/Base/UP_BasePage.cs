@@ -57,6 +57,7 @@ namespace Vivestudios.UI
 
             if (isEnable)
             {
+                CustomLogger.Log($"==Enter {_pageType}==");
                 OnPageEnable();
             }
         }
