@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/PLAY_ON_Sticker.unity
+    path: Assets/Scenes/PLAY_ON.unity
     guid: a14b80cd71507a04aaa309310c2859e3
   m_configObjects: {}
