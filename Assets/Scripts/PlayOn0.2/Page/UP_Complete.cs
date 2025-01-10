@@ -44,7 +44,7 @@ public class UP_Complete : UP_BasePage
             TimeLimitCoroutine = null;
         }
 
-        CustomLogger.Log(StringCacheManager.inst.DividerLine + DateTime.Now.ToString("HH:mm:ss.fff") + " Session Closing " + StringCacheManager.inst.DividerLine);
+        CustomLogger.Log(StringCacheManager.inst.DividerLine + " Session Closing " + StringCacheManager.inst.DividerLine);
         (_pageController as PC_Main).UpdatePhotoPaper();
         GameManager.inst.ResetGame();
     }

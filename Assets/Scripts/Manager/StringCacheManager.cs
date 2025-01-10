@@ -34,7 +34,7 @@ public class StringCacheManager : SingletonBehaviour<StringCacheManager>
     private ContentStringDicBase _selectPicTitle;
     [SerializeField]
     private FilterStringDicBase _filterDescriptions;
-    private string _dividerLine = "-----------------------------------------";
+    private string _dividerLine = "==========";
     private string _pointLine = "##### ";
     private string _sortingSpecified = "specified";
     private string _sortingRandomly = "random";

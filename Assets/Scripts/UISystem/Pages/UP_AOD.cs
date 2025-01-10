@@ -158,7 +158,7 @@ public class UP_AOD : UP_BasePage, IPointerClickHandler
 
     public override void OnPageEnable()
     {
-        CustomLogger.Log(StringCacheManager.inst.DividerLine + " Session Starting " + StringCacheManager.inst.DividerLine);
+        Debug.Log(StringCacheManager.inst.DividerLine + " Session Starting " + StringCacheManager.inst.DividerLine);
     }
 
     public override void ApplyAdminData()
